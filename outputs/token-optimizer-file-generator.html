@@ -1,0 +1,1868 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Token Optimizer File Generator</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f7f8fb;
+      --panel: #ffffff;
+      --text: #18202f;
+      --muted: #677084;
+      --line: #dfe4ee;
+      --brand: #2557d6;
+      --brand-soft: #eaf0ff;
+      --good: #0b7a4b;
+      --warn: #9b5a00;
+      --risk: #b42318;
+      --shadow: 0 10px 30px rgba(24, 32, 47, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.4;
+      padding-bottom: 64px;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: 360px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      background: #ffffff;
+      border-right: 1px solid var(--line);
+      padding: 24px;
+      overflow: auto;
+    }
+
+    .main {
+      padding: 28px;
+      overflow: auto;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .intro {
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--brand-soft);
+      color: #1d3f99;
+    }
+
+    .intro strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .intro p {
+      color: #3152a3;
+      font-size: 13px;
+    }
+
+    .quick-examples {
+      display: grid;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .quick-example {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 9px 10px;
+      background: #ffffff;
+      color: var(--text);
+      cursor: pointer;
+      text-align: left;
+      font-size: 13px;
+    }
+
+    details {
+      margin-top: 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+      padding: 12px;
+    }
+
+    summary {
+      cursor: pointer;
+      color: var(--text);
+      font-weight: 800;
+    }
+
+    .full-width {
+      width: 100%;
+      margin-top: 12px;
+    }
+
+    .recommendation {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 14px;
+      padding: 13px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcff;
+    }
+
+    .recommendation strong {
+      color: var(--text);
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .logo {
+      display: grid;
+      width: 36px;
+      height: 36px;
+      place-items: center;
+      border-radius: 8px;
+      background: var(--brand);
+      color: white;
+      font-weight: 800;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      letter-spacing: 0;
+    }
+
+    h1 {
+      font-size: 20px;
+    }
+
+    h2 {
+      font-size: 18px;
+    }
+
+    h3 {
+      font-size: 14px;
+    }
+
+    p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    label {
+      display: block;
+      margin: 18px 0 7px;
+      color: #2c3444;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+      color: var(--text);
+      padding: 10px 11px;
+      outline: none;
+    }
+
+    textarea {
+      min-height: 122px;
+      resize: vertical;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px rgba(37, 87, 214, 0.12);
+    }
+
+    .segmented {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .segment {
+      border: 1px solid var(--line);
+      background: #ffffff;
+      color: var(--text);
+      border-radius: 8px;
+      padding: 9px 8px;
+      cursor: pointer;
+    }
+
+    .segment[aria-pressed="true"] {
+      border-color: var(--brand);
+      background: var(--brand-soft);
+      color: var(--brand);
+      font-weight: 700;
+    }
+
+    .primary {
+      width: 100%;
+      margin-top: 20px;
+      border: 0;
+      border-radius: 8px;
+      padding: 12px 14px;
+      background: var(--brand);
+      color: white;
+      cursor: pointer;
+      font-weight: 800;
+    }
+
+    .secondary {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 9px 11px;
+      background: #ffffff;
+      color: var(--text);
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .secondary:hover,
+    .primary:hover {
+      filter: brightness(0.98);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 320px;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      padding: 16px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .panel-body {
+      padding: 16px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .stat {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+    }
+
+    .stat span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .stat strong {
+      display: block;
+      margin-top: 7px;
+      font-size: 24px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .tab {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 7px 11px;
+      background: #ffffff;
+      cursor: pointer;
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .tab[aria-selected="true"] {
+      background: var(--brand);
+      border-color: var(--brand);
+      color: white;
+    }
+
+    pre {
+      margin: 0;
+      overflow: auto;
+      min-height: 360px;
+      max-height: 62vh;
+      border-radius: 8px;
+      background: #111827;
+      color: #e5e7eb;
+      padding: 16px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .structure-view {
+      overflow: auto;
+      min-height: 360px;
+      max-height: 62vh;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcff;
+      padding: 16px;
+    }
+
+    .structure-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .structure-title strong {
+      font-size: 16px;
+    }
+
+    .structure-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(150px, 1fr));
+      gap: 12px;
+      min-width: 740px;
+    }
+
+    .graph-node {
+      position: relative;
+      min-height: 118px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+      padding: 12px;
+    }
+
+    .graph-node::after {
+      content: "→";
+      position: absolute;
+      right: -14px;
+      top: 42px;
+      color: var(--brand);
+      font-weight: 900;
+      z-index: 1;
+    }
+
+    .graph-node:nth-child(4)::after,
+    .graph-node:nth-child(8)::after {
+      content: "";
+    }
+
+    .graph-node.contract {
+      border-color: #8fa8ff;
+      background: var(--brand-soft);
+    }
+
+    .graph-node.block {
+      border-color: #ffd596;
+      background: #fffaf0;
+    }
+
+    .graph-node.output {
+      border-color: #9ad7b8;
+      background: #f0fbf5;
+    }
+
+    .graph-kicker {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 4px 7px;
+      background: #eef1f7;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .graph-node h3 {
+      margin-top: 9px;
+      font-size: 14px;
+    }
+
+    .graph-node p,
+    .graph-node li {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .graph-node ul {
+      margin: 8px 0 0;
+      padding-left: 16px;
+    }
+
+    .flow-note {
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 8px;
+      background: #ffffff;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .live-status-bar {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 20;
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 14px;
+      align-items: center;
+      min-height: 56px;
+      padding: 10px 24px;
+      background: rgba(255, 255, 255, 0.96);
+      border-top: 1px solid var(--line);
+      box-shadow: 0 -8px 24px rgba(24, 32, 47, 0.08);
+      backdrop-filter: blur(12px);
+    }
+
+    .status-left,
+    .status-right {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-width: 0;
+    }
+
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--good);
+      box-shadow: 0 0 0 4px rgba(11, 122, 75, 0.12);
+    }
+
+    .status-dot.running {
+      background: var(--warn);
+      box-shadow: 0 0 0 4px rgba(155, 90, 0, 0.14);
+    }
+
+    .status-main {
+      min-width: 0;
+    }
+
+    .status-main strong {
+      display: block;
+      overflow: hidden;
+      color: var(--text);
+      font-size: 13px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .status-main span,
+    .status-right span {
+      display: block;
+      overflow: hidden;
+      color: var(--muted);
+      font-size: 12px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .status-phase {
+      border-radius: 999px;
+      padding: 5px 9px;
+      background: var(--brand-soft);
+      color: var(--brand);
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 10px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 24px minmax(0, 1fr);
+      gap: 10px;
+      align-items: start;
+      color: var(--muted);
+    }
+
+    .dot {
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: #eef1f7;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .step.done .dot {
+      background: #e8f7ef;
+      color: var(--good);
+    }
+
+    .step.active .dot {
+      background: var(--brand-soft);
+      color: var(--brand);
+    }
+
+    .step strong {
+      display: block;
+      color: var(--text);
+      font-size: 13px;
+    }
+
+    .step small {
+      display: block;
+      margin-top: 2px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 5px 9px;
+      background: #eef1f7;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .pill.good {
+      background: #e8f7ef;
+      color: var(--good);
+    }
+
+    .pill.warn {
+      background: #fff4df;
+      color: var(--warn);
+    }
+
+    .notice {
+      margin-top: 16px;
+      padding: 12px;
+      border-radius: 8px;
+      background: #fff4df;
+      color: #5c3900;
+      font-size: 13px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 980px) {
+      .app,
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .live-status-bar {
+        grid-template-columns: 1fr;
+        gap: 5px;
+        padding: 9px 16px;
+      }
+
+      .status-right {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo">T</div>
+        <div>
+          <h1>Token Optimizer</h1>
+          <p>One-shot workflow coach</p>
+        </div>
+      </div>
+
+      <div class="intro">
+        <strong>Paste anything. Get a handoff contract.</strong>
+        <p>The app turns messy multi-agent context into a small contract: what one agent may pass, what must be preserved, and what gets rejected.</p>
+      </div>
+
+      <label for="goal">Paste prompt, workflow, transcript, or idea</label>
+      <textarea id="goal" placeholder="Example: My researcher agent sends full logs to my writer. Create a handoff contract so the writer only receives findings, sources, constraints, open questions, and next action."></textarea>
+
+      <div class="quick-examples" aria-label="Quick examples">
+        <button class="quick-example" data-example="Create a handoff contract so planner, researcher, writer, and reviewer pass compact state instead of full transcripts.">Handoff contract</button>
+        <button class="quick-example" data-example="Create a browser extension that shows live token waste and one-click prompt compression for ChatGPT, Claude, and Grok.">Browser extension plan</button>
+        <button class="quick-example" data-example="Generate an API contract for a token optimizer that validates handoff contracts and supports offline templates, OpenRouter, xAI Grok, and LiteLLM.">API integration contract</button>
+      </div>
+
+      <button class="primary" id="generate">One-Shot Optimize</button>
+
+      <details>
+        <summary>Advanced controls</summary>
+
+        <label for="fileType">Force file type</label>
+        <select id="fileType">
+          <option value="contract">Handoff contract (.json)</option>
+          <option value="instructions">Instructions file (.md)</option>
+          <option value="workflow">Agent workflow (.yaml)</option>
+          <option value="api">API schema/config (.json)</option>
+          <option value="state">Agent state handoff (.json)</option>
+          <option value="env">Provider env template (.env)</option>
+          <option value="prompt">Paid LLM prompt (.md)</option>
+        </select>
+
+        <label for="platform">Force destination</label>
+        <select id="platform">
+          <option value="codex">Codex or coding agent repo</option>
+          <option value="webapp">Web app backend</option>
+          <option value="extension">Browser extension</option>
+          <option value="desktop">Desktop app</option>
+          <option value="sdk">SDK / API middleware</option>
+          <option value="team">Team dashboard</option>
+        </select>
+
+        <label>Optimization depth</label>
+        <div class="segmented" id="depth">
+          <button class="segment" data-value="light" aria-pressed="false">Light</button>
+          <button class="segment" data-value="medium" aria-pressed="true">Medium</button>
+          <button class="segment" data-value="aggressive" aria-pressed="false">Aggressive</button>
+        </div>
+
+        <label for="provider">Optional model route</label>
+        <select id="provider">
+          <option value="groq-openai-fallback">Groq primary + OpenAI backup</option>
+          <option value="groq">Groq only</option>
+          <option value="openai">OpenAI only</option>
+          <option value="offline">Free offline template generator</option>
+          <option value="openrouter">OpenRouter free router</option>
+          <option value="xai">xAI / Grok API</option>
+          <option value="litellm">LiteLLM proxy</option>
+        </select>
+
+        <div id="providerFields" class="hidden">
+          <label for="apiKey">API key</label>
+          <input id="apiKey" type="password" placeholder="Only for local testing">
+
+          <label for="baseUrl">Base URL</label>
+          <input id="baseUrl" placeholder="Provider endpoint">
+
+          <label for="model">Model</label>
+          <input id="model" placeholder="Model name">
+        </div>
+
+        <button class="secondary full-width" id="generateAdvanced">Generate With These Settings</button>
+      </details>
+
+      <div class="notice">
+        One-shot mode tries the local backend provider route first, then falls back offline. Put rotated keys in .env.local as GROQ_API_KEY and OPENAI_API_KEY.
+      </div>
+    </aside>
+
+    <main class="main">
+      <section class="stats">
+        <div class="stat">
+          <span>Token Score</span>
+          <strong id="score">84</strong>
+        </div>
+        <div class="stat">
+          <span>Est. Tokens</span>
+          <strong id="tokens">1.2k</strong>
+        </div>
+        <div class="stat">
+          <span>Savings Pattern</span>
+          <strong id="savings">State</strong>
+        </div>
+        <div class="stat">
+          <span>Risk</span>
+          <strong id="risk">Low</strong>
+        </div>
+      </section>
+
+      <div class="grid">
+        <section class="panel">
+          <div class="panel-header">
+            <div>
+              <h2>Generated Output</h2>
+              <p id="fileName">agent-handoff-contract.json</p>
+            </div>
+            <div class="actions">
+              <button class="secondary" id="copyOutput">Copy</button>
+              <button class="secondary" id="downloadOutput">Download</button>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="tabs" role="tablist" aria-label="Output sections">
+              <button class="tab" data-tab="use" aria-selected="true">Use This</button>
+              <button class="tab" data-tab="structure" aria-selected="false">Structure</button>
+              <button class="tab" data-tab="file" aria-selected="false">File</button>
+              <button class="tab" data-tab="directions" aria-selected="false">Directions</button>
+              <button class="tab" data-tab="llm" aria-selected="false">Paid LLM Prompt</button>
+            </div>
+            <div style="height: 12px"></div>
+            <pre id="output"></pre>
+            <div id="structureGraph" class="structure-view hidden" aria-label="Agent structure graph"></div>
+          </div>
+        </section>
+
+        <aside class="panel">
+          <div class="panel-header">
+            <div>
+              <h2>Live Updates</h2>
+              <p>Contract generation trace</p>
+            </div>
+            <span class="pill good" id="status">Ready</span>
+          </div>
+          <div class="panel-body">
+            <div class="timeline" id="timeline"></div>
+            <div style="height: 16px"></div>
+            <h3>Best Placement</h3>
+            <p id="placement">Put this at schemas/agent-handoff-contract.json and require agents to validate handoffs against it before passing context.</p>
+            <div style="height: 16px"></div>
+            <h3>Coach Note</h3>
+            <p id="coach">Use handoff contracts to decide what each agent may pass, what must be preserved, and what gets rejected.</p>
+          </div>
+        </aside>
+      </div>
+    </main>
+  </div>
+
+  <div class="live-status-bar" role="status" aria-live="polite">
+    <div class="status-left">
+      <span class="status-dot" id="liveStatusDot"></span>
+      <span class="status-phase" id="liveStatusPhase">Ready</span>
+    </div>
+    <div class="status-main">
+      <strong id="liveStatusTitle">Waiting for input</strong>
+      <span id="liveStatusDetail">Paste anything, then click One-Shot Optimize to generate a handoff contract.</span>
+    </div>
+    <div class="status-right">
+      <span>Current artifact:</span>
+      <strong id="liveStatusArtifact">agent-handoff-contract.json</strong>
+    </div>
+  </div>
+
+  <script>
+    const state = {
+      activeTab: "use",
+      depth: "medium",
+      sections: {
+        use: "",
+        structure: "",
+        file: "",
+        directions: "",
+        llm: ""
+      },
+      fileName: "agent-handoff-contract.json",
+      currentInput: null
+    };
+
+    const templates = {
+      contract: {
+        ext: "json",
+        name: "agent-handoff-contract.json",
+        placement: {
+          codex: "Put this at schemas/agent-handoff-contract.json and require agents to validate handoffs against it before passing context.",
+          webapp: "Put this at server/schemas/agent-handoff-contract.json and validate every agent-to-agent payload before the next model call.",
+          extension: "Put this at extension/schemas/agent-handoff-contract.json and use it to compress page/chat context before sending it to an optimizer.",
+          desktop: "Put this at app/schemas/agent-handoff-contract.json and apply it to clipboard, local logs, and terminal-agent handoffs.",
+          sdk: "Put this at packages/token-optimizer/schemas/handoff-contract.json and export a validateHandoffContract helper.",
+          team: "Put this at platform/schemas/handoff-contract.json and make it the shared policy for multi-agent workflows."
+        }
+      },
+      instructions: {
+        ext: "md",
+        name: "token-optimizer-instructions.md",
+        placement: {
+          codex: "Put this at docs/agent-instructions/token-optimizer.md, then reference it from your coding agent's project instructions.",
+          webapp: "Put this at docs/token-optimizer.md and use it as the policy source for backend prompt assembly.",
+          extension: "Put this at extension/docs/token-optimizer.md and keep runtime prompts shorter by referencing named rules.",
+          desktop: "Put this at resources/token-optimizer.md and load it as the stable instruction layer.",
+          sdk: "Put this at packages/token-optimizer/docs/instructions.md and expose it in your SDK docs.",
+          team: "Put this at docs/team-token-policy.md and link it from onboarding."
+        }
+      },
+      workflow: {
+        ext: "yaml",
+        name: "token-optimizer-workflow.yaml",
+        placement: {
+          codex: "Put this at .codex/workflows/token-optimizer.yaml or docs/workflows/token-optimizer.yaml.",
+          webapp: "Put this at config/agent-workflows/token-optimizer.yaml and load it on the server.",
+          extension: "Put this at extension/config/workflows/token-optimizer.yaml for side-panel routing behavior.",
+          desktop: "Put this at app/config/workflows/token-optimizer.yaml.",
+          sdk: "Put this at examples/workflows/token-optimizer.yaml.",
+          team: "Put this at ops/agent-workflows/token-optimizer.yaml."
+        }
+      },
+      api: {
+        ext: "json",
+        name: "token-optimizer-api.json",
+        placement: {
+          codex: "Put this at schemas/token-optimizer-api.json and use it as the contract for generated outputs.",
+          webapp: "Put this at app/api/token-optimizer/schema.json or server/schemas/token-optimizer-api.json.",
+          extension: "Put this at extension/schemas/token-optimizer-api.json.",
+          desktop: "Put this at app/schemas/token-optimizer-api.json.",
+          sdk: "Put this at packages/token-optimizer/schemas/api.json.",
+          team: "Put this at platform/schemas/token-optimizer-api.json."
+        }
+      },
+      state: {
+        ext: "json",
+        name: "agent-state-handoff.json",
+        placement: {
+          codex: "Put this at schemas/agent-state-handoff.json and use it whenever one agent passes work to another.",
+          webapp: "Put this at server/schemas/agent-state-handoff.json.",
+          extension: "Put this at extension/schemas/agent-state-handoff.json.",
+          desktop: "Put this at app/schemas/agent-state-handoff.json.",
+          sdk: "Put this at packages/token-optimizer/schemas/state-handoff.json.",
+          team: "Put this at platform/schemas/state-handoff.json."
+        }
+      },
+      env: {
+        ext: "env",
+        name: ".env.token-optimizer.example",
+        placement: {
+          codex: "Put this at .env.example or docs/env/token-optimizer.env.example. Never commit real secrets.",
+          webapp: "Put this at .env.example and mirror values into your deployment secret store.",
+          extension: "Use this only for local development. Production extensions should call your backend, not store model keys.",
+          desktop: "Put this at .env.example and store real keys in the OS keychain.",
+          sdk: "Put this at examples/.env.example.",
+          team: "Put this in your secret-management docs, not in a public repo."
+        }
+      },
+      prompt: {
+        ext: "md",
+        name: "paid-llm-implementation-prompt.md",
+        placement: {
+          codex: "Paste this into Codex, ChatGPT, Claude, Grok, or another paid LLM to generate implementation code.",
+          webapp: "Paste this into your paid LLM with your repo structure attached.",
+          extension: "Paste this into your paid LLM with your manifest, content script, and side panel files attached.",
+          desktop: "Paste this into your paid LLM with your desktop stack and app shell files attached.",
+          sdk: "Paste this into your paid LLM with your package structure and target frameworks attached.",
+          team: "Paste this into your paid LLM with your team policies and observability requirements attached."
+        }
+      }
+    };
+
+    const platformNames = {
+      codex: "Codex or coding agent repo",
+      webapp: "web app backend",
+      extension: "browser extension",
+      desktop: "desktop app",
+      sdk: "SDK / API middleware",
+      team: "team dashboard"
+    };
+
+    const providerDefaults = {
+      "groq-openai-fallback": { baseUrl: "", model: "" },
+      groq: { baseUrl: "", model: "" },
+      openai: { baseUrl: "", model: "" },
+      offline: { baseUrl: "", model: "" },
+      openrouter: {
+        baseUrl: "https://openrouter.ai/api/v1/chat/completions",
+        model: "openrouter/free"
+      },
+      xai: {
+        baseUrl: "https://api.x.ai/v1/chat/completions",
+        model: "grok-4.3"
+      },
+      litellm: {
+        baseUrl: "http://localhost:4000/v1/chat/completions",
+        model: "openrouter/openrouter/free"
+      }
+    };
+
+    const timelineItems = [
+      ["Intent Agent", "Classifies the file goal and destination."],
+      ["Contract Agent", "Defines the source, target, allowed payload, and token budget."],
+      ["Validation Agent", "Adds required fields, rejection rules, and risk checks."],
+      ["Placement Agent", "Maps the contract to an insertion path."],
+      ["Provider Agent", "Selects offline, Grok, OpenRouter, or LiteLLM routing."],
+      ["Coach Agent", "Adds the lesson and paid LLM prompt."]
+    ];
+
+    const statusMessages = {
+      use: "Showing the one-shot recommendation and next action.",
+      structure: "Showing how data moves through the handoff contract graph.",
+      file: "Showing the generated artifact content.",
+      directions: "Showing insertion and verification steps.",
+      llm: "Showing the prompt to paste into a paid LLM for implementation."
+    };
+
+    const el = (id) => document.getElementById(id);
+
+    function setLiveStatus(phase, title, detail, running = false) {
+      el("liveStatusPhase").textContent = phase;
+      el("liveStatusTitle").textContent = title;
+      el("liveStatusDetail").textContent = detail;
+      el("liveStatusArtifact").textContent = el("fileName").textContent || state.fileName;
+      el("liveStatusDot").classList.toggle("running", running);
+    }
+
+    function providerLabel(provider) {
+      const labels = {
+        "groq-openai-fallback": "Groq primary + OpenAI backup",
+        groq: "Groq only",
+        openai: "OpenAI only",
+        offline: "free offline generator",
+        openrouter: "OpenRouter direct",
+        xai: "xAI/Grok direct",
+        litellm: "LiteLLM direct"
+      };
+      return labels[provider] || provider;
+    }
+
+    function estimateTokens(text) {
+      return Math.max(80, Math.round(text.length / 4));
+    }
+
+    function prettyTokens(count) {
+      return count >= 1000 ? (count / 1000).toFixed(1) + "k" : String(count);
+    }
+
+    function inferFileType(goal) {
+      const text = goal.toLowerCase();
+      if (/(api|schema|endpoint|request|response|json)/.test(text)) return "api";
+      if (/(handoff contract|multi-agent|multi agent|a2a|agent pass|pass compact|full transcript|full history|research log|planner|researcher|writer|reviewer)/.test(text)) return "contract";
+      if (/(yaml|nested|workflow|a2a|route|orchestrat|multi-agent|multi agent)/.test(text)) return "workflow";
+      if (/(handoff|state|memory|transcript|context|research log|agent pass|pass compact)/.test(text)) return "state";
+      if (/(env|secret|api key|credentials|provider route|provider config)/.test(text)) return "env";
+      if (/(paid llm|implement|implementation prompt|paste into)/.test(text)) return "prompt";
+      return "instructions";
+    }
+
+    function inferPlatform(goal) {
+      const text = goal.toLowerCase();
+      if (/(sdk|middleware|package|library|langchain|crewai|autogen|llamaindex)/.test(text)) return "sdk";
+      if (/(api contract|api schema|backend|server|api route|web app|next.js|nextjs|endpoint)/.test(text)) return "webapp";
+      if (/(extension|chrome|browser|chatgpt|claude|gemini)/.test(text)) return "extension";
+      if (/(desktop|local app|clipboard|hotkey|tray)/.test(text)) return "desktop";
+      if (/(dashboard|team|company|org|analytics|report)/.test(text)) return "team";
+      return "codex";
+    }
+
+    function inferDepth(goal) {
+      const tokenGuess = estimateTokens(goal);
+      if (tokenGuess > 1400 || /(long|transcript|full history|logs|research)/i.test(goal)) return "aggressive";
+      if (tokenGuess < 180) return "light";
+      return "medium";
+    }
+
+    function syncControls(input) {
+      el("fileType").value = input.fileType;
+      el("platform").value = input.platform;
+      el("provider").value = input.provider;
+      state.depth = input.depth;
+      document.querySelectorAll(".segment").forEach((button) => {
+        button.setAttribute("aria-pressed", String(button.dataset.value === state.depth));
+      });
+      setProviderFields();
+    }
+
+    function selected(autopilot = true) {
+      const goal = el("goal").value.trim() || "Create a handoff contract for a token optimizer so agents pass compact state instead of full transcripts.";
+      const inferred = {
+        fileType: inferFileType(goal),
+        platform: inferPlatform(goal),
+        provider: "groq-openai-fallback",
+        goal,
+        depth: inferDepth(goal)
+      };
+      if (autopilot) {
+        syncControls(inferred);
+        return inferred;
+      }
+      const fileType = el("fileType").value;
+      const platform = el("platform").value;
+      const provider = el("provider").value;
+      return { fileType, platform, provider, goal, depth: state.depth };
+    }
+
+    function generateInstructions(input) {
+      return `# Token Optimizer Instructions
+
+## Purpose
+Build and operate a token optimizer that helps users reduce prompt, context, and agent-workflow token waste while preserving task quality.
+
+## User Goal
+${input.goal}
+
+## Core Rules
+- Separate stable instructions from task-specific instructions.
+- Use handoff contracts for every agent-to-agent transfer.
+- Convert long chat history into compact state: goal, known facts, constraints, decisions, open questions, next action, and source references.
+- Route each agent only the context it needs.
+- Prefer named context files over repeated pasted blocks.
+- Preserve safety constraints, user intent, acceptance criteria, source references, and output contracts.
+- Reject handoffs that include raw transcripts when a contract asks for summaries.
+- Show users the reason for each optimization so they learn the habit.
+
+## A2A Agents
+- Intent Agent: identify the user's actual outcome.
+- Token Accounting Agent: estimate input, output, and avoidable tokens.
+- Contract Agent: define allowed fields, token budget, and rejection rules for handoffs.
+- Format Agent: choose .md, .yaml, .json, .env, or another file format.
+- Placement Agent: tell the user exactly where the file belongs.
+- Risk Agent: detect whether compression removes important nuance.
+- Coach Agent: explain one reusable lesson per optimization.
+
+## Output Contract
+Return:
+1. generated_file_name
+2. generated_file_content
+3. where_to_insert_it
+4. how_to_use_it
+5. paid_llm_prompt
+6. token_savings_lesson
+
+## Optimization Depth
+${input.depth}
+`;
+    }
+
+    function generateWorkflow(input) {
+      return `version: "1.0"
+name: token-optimizer-a2a
+description: "Generate handoff contracts, insertion directions, and paid-LLM implementation prompts."
+default_depth: ${input.depth}
+destination: "${platformNames[input.platform]}"
+agents:
+  orchestrator:
+    role: "Route the request and merge agent outputs."
+    receives:
+      - user_goal
+      - target_platform
+      - requested_file_type
+  intent_agent:
+    role: "Extract actual user goal, constraints, and required output."
+    output:
+      goal: string
+      constraints: array
+      missing_info: array
+  contract_agent:
+    role: "Create a handoff contract for each agent-to-agent transfer."
+    output:
+      source_agent: string
+      target_agent: string
+      allowed_fields: array
+      token_budget: number
+      rejection_rules: array
+  format_agent:
+    role: "Choose file format and filename."
+    formats:
+      handoff_contract: ".json"
+      instructions: ".md"
+      nested_data: ".yaml"
+      api_contract: ".json"
+      provider_secrets: ".env"
+      handoff_state: ".json"
+  placement_agent:
+    role: "Give exact insertion path and usage directions."
+  provider_agent:
+    role: "Select offline template, OpenRouter free router, xAI/Grok, or LiteLLM proxy."
+    routes:
+      offline:
+        cost: "free"
+        best_for: "basic file generation"
+      openrouter:
+        model: "openrouter/free"
+        best_for: "free hosted experimentation"
+      xai:
+        model: "grok-4.3"
+        best_for: "Grok implementation passes when API credits are available"
+      litellm:
+        model: "openrouter/openrouter/free"
+        best_for: "local gateway, audit logging, and provider switching"
+  validation_agent:
+    role: "Reject payloads that violate required fields, token budgets, or raw-transcript rules."
+  risk_agent:
+    role: "Flag removed constraints, missing acceptance criteria, unsafe compression, or invalid handoffs."
+  coach_agent:
+    role: "Teach one reusable token-saving pattern."
+handoff_contract_shape:
+  contract_id: string
+  source_agent: string
+  target_agent: string
+  purpose: string
+  max_input_tokens: number
+  required_fields: array
+  optional_fields: array
+  forbidden_fields: array
+  validation_rules: array
+  on_violation: reject | compress | ask_for_clarification
+handoff_payload_shape:
+  goal: string
+  facts: array
+  constraints: array
+  decisions: array
+  sources: array
+  open_questions: array
+  next_action: string
+`;
+    }
+
+    function generateApi(input) {
+      return JSON.stringify({
+        name: "token_optimizer_file_generation",
+        version: "1.0.0",
+        purpose: "Generate implementation-ready handoff contracts plus insertion directions for token-optimized agent workflows.",
+        request: {
+          user_goal: input.goal,
+          file_type: input.fileType,
+          target_platform: input.platform,
+          optimization_depth: input.depth,
+          provider_route: input.provider
+        },
+        response_schema: {
+          generated_file_name: "string",
+          generated_file_content: "string",
+          insertion: {
+            recommended_path: "string",
+            steps: ["string"],
+            verification: ["string"]
+          },
+          handoff_contract: {
+            contract_id: "string",
+            source_agent: "string",
+            target_agent: "string",
+            max_input_tokens: "number",
+            required_fields: ["string"],
+            forbidden_fields: ["string"],
+            validation_rules: ["string"]
+          },
+          paid_llm_prompt: "string",
+          token_lesson: "string",
+          risk: "low | medium | high"
+        },
+        provider_routes: {
+          offline: {
+            type: "deterministic_template",
+            cost: "free",
+            use_when: "The user needs a basic file without paid inference."
+          },
+          openrouter: {
+            type: "openai_compatible",
+            base_url: "https://openrouter.ai/api/v1",
+            suggested_model: "openrouter/free"
+          },
+          xai: {
+            type: "openai_compatible",
+            base_url: "https://api.x.ai/v1",
+            suggested_model: "grok-4.3"
+          },
+          litellm: {
+            type: "openai_compatible_proxy",
+            base_url: "http://localhost:4000/v1",
+            suggested_model: "openrouter/openrouter/free"
+          }
+        }
+      }, null, 2);
+    }
+
+    function generateContract(input) {
+      return JSON.stringify({
+        contract_id: "token_optimizer.agent_handoff.v1",
+        name: "Token Optimizer Agent Handoff Contract",
+        purpose: "Prevent multi-agent workflows from passing full transcripts, raw logs, or unrelated context between agents.",
+        user_goal: input.goal,
+        applies_to: {
+          source_agents: ["planner", "researcher", "tool_runner", "critic"],
+          target_agents: ["researcher", "writer", "reviewer", "executor"],
+          platform: input.platform
+        },
+        token_budget: {
+          max_input_tokens: input.depth === "aggressive" ? 450 : input.depth === "light" ? 900 : 650,
+          max_field_tokens: {
+            goal: 80,
+            facts: 220,
+            constraints: 160,
+            decisions: 140,
+            sources: 180,
+            open_questions: 120,
+            next_action: 80
+          },
+          overflow_behavior: "compress_then_validate"
+        },
+        required_payload: {
+          goal: "The current objective in one sentence.",
+          facts: ["Only facts needed by the target agent."],
+          constraints: ["User constraints, safety constraints, acceptance criteria, and non-negotiables."],
+          decisions: ["Decisions already made so the target agent does not revisit them."],
+          sources: ["Source names, URLs, file paths, or tool result IDs. Do not paste full source text unless required."],
+          open_questions: ["Questions that block or materially change the next step."],
+          next_action: "The single next action expected from the target agent."
+        },
+        optional_payload: {
+          confidence: "low | medium | high",
+          risk_notes: ["Compression risks or context that may need recovery."],
+          excluded_context_summary: "One sentence describing what was intentionally left out."
+        },
+        forbidden_payload: [
+          "full raw transcript",
+          "unfiltered tool logs",
+          "entire source documents",
+          "duplicate system instructions",
+          "provider API keys or secrets",
+          "context unrelated to the target agent's next action"
+        ],
+        validation_rules: [
+          "Reject if required_payload.goal or required_payload.next_action is missing.",
+          "Reject if forbidden payload appears in the handoff.",
+          "Compress if estimated tokens exceed token_budget.max_input_tokens.",
+          "Ask for clarification if constraints conflict or the next action is ambiguous.",
+          "Preserve source references when compressing source content.",
+          "Do not remove safety, legal, financial, medical, or user-defined constraints."
+        ],
+        handoff_example: {
+          goal: "Write the final implementation plan for a token optimizer.",
+          facts: [
+            "The product uses a one-shot interface.",
+            "The default generation path is offline and free.",
+            "Optional provider routes include OpenRouter, xAI/Grok, and LiteLLM."
+          ],
+          constraints: [
+            "Do not expose API keys in browser client code.",
+            "Each generated file must include placement directions."
+          ],
+          decisions: [
+            "Use handoff contracts as the core multi-agent primitive.",
+            "Use JSON for validation-friendly contracts."
+          ],
+          sources: [
+            "outputs/token-optimizer-file-generator.html"
+          ],
+          open_questions: [
+            "Which production surface should be built first after the prototype?"
+          ],
+          next_action: "Generate the implementation-ready file and insertion directions."
+        },
+        on_violation: {
+          missing_required_field: "ask_for_clarification",
+          over_token_budget: "compress_then_validate",
+          forbidden_payload_detected: "reject",
+          conflicting_constraints: "ask_for_clarification"
+        }
+      }, null, 2);
+    }
+
+    function generateState(input) {
+      return JSON.stringify({
+        goal: input.goal,
+        current_task: "Generate a file and tell the user exactly where to insert it.",
+        file_request: {
+          type: input.fileType,
+          platform: input.platform,
+          optimization_depth: input.depth
+        },
+        essential_context: [
+          "The product teaches token reduction by creating handoff contracts for multi-agent systems.",
+          "The default path must work without paid APIs.",
+          "Optional model routes may use OpenRouter, xAI/Grok, or LiteLLM."
+        ],
+        constraints: [
+          "Do not remove user intent.",
+          "Do not expose API keys in browser production code.",
+          "Give exact placement directions."
+        ],
+        decisions: [
+          "Use offline deterministic templates as the free baseline.",
+          "Use OpenAI-compatible adapters for provider optionality.",
+          "Use handoff contracts instead of raw transcript passing."
+        ],
+        open_questions: [
+          "Which paid LLM will the user prefer for implementation passes?",
+          "Will production run through a backend, desktop app, or extension?"
+        ],
+        next_action: "Insert the generated file at the recommended path, then run the paid LLM prompt if deeper implementation is needed."
+      }, null, 2);
+    }
+
+    function generateEnv(input) {
+      return `# Token Optimizer provider routes
+# Keep real secrets out of source control.
+
+TOKEN_OPTIMIZER_PROVIDER=${input.provider}
+TOKEN_OPTIMIZER_DEPTH=${input.depth}
+
+# OpenRouter free router
+OPENROUTER_API_KEY=
+OPENROUTER_BASE_URL=https://openrouter.ai/api/v1
+OPENROUTER_MODEL=openrouter/free
+
+# xAI / Grok
+XAI_API_KEY=
+XAI_BASE_URL=https://api.x.ai/v1
+XAI_MODEL=grok-4.3
+
+# LiteLLM local proxy
+LITELLM_BASE_URL=http://localhost:4000/v1
+LITELLM_API_KEY=
+LITELLM_MODEL=openrouter/openrouter/free
+
+# Production recommendation
+# Browser extensions should call your backend. Do not ship provider API keys in client code.
+`;
+    }
+
+    function generatePaidPrompt(input) {
+      return `# Paid LLM Implementation Prompt
+
+You are helping implement a token optimizer product with A2A architecture.
+
+## Goal
+${input.goal}
+
+## Target Surface
+${platformNames[input.platform]}
+
+## File To Create
+${templates[input.fileType].name}
+
+## Required Behavior
+Create a production-ready implementation that:
+- uses Handoff Contracts as the core multi-agent optimization primitive;
+- lets users generate .md, .yaml, .json, .env, and prompt files;
+- tells users exactly where to insert each file;
+- validates agent-to-agent payloads against allowed fields, forbidden fields, and token budgets;
+- blocks full raw transcripts unless the contract explicitly allows them;
+- includes a free offline template path for basic generation;
+- optionally supports OpenRouter free router, xAI/Grok, and LiteLLM proxy routes;
+- teaches the user why the generated file reduces token use;
+- provides live updates from Intent, Format, Placement, Provider, Risk, and Coach agents;
+- avoids storing paid provider keys in browser client code for production.
+
+## Architecture
+Use an orchestrator that calls specialized agents:
+- Intent Agent
+- Contract Agent
+- Format Agent
+- Placement Agent
+- Validation Agent
+- Provider Agent
+- Risk Agent
+- Coach Agent
+
+## Output
+Return:
+1. files to create
+2. code for each file
+3. insertion paths
+4. handoff contract validation logic
+5. environment variables
+6. verification steps
+7. security notes
+8. recommended next iteration
+
+Keep the implementation focused and avoid broad rewrites.`;
+    }
+
+    function generateDirections(input, fileContent) {
+      const meta = templates[input.fileType];
+      const targetPath = meta.placement[input.platform];
+      const estimated = estimateTokens(fileContent);
+      return `# Where To Insert This
+
+Recommended placement:
+${targetPath}
+
+## Steps
+1. Create the file named ${meta.name}.
+2. Insert the generated content exactly as the starting version.
+3. Reference the file by name instead of pasting its full content into every agent turn.
+4. For agent handoffs, validate the payload before sending it to the next agent.
+5. If you need a deeper implementation, use the Paid LLM Prompt tab.
+
+## Verification
+- The file has one clear purpose.
+- The file can be referenced by path.
+- The contract defines required fields, forbidden fields, and token budget.
+- The file does not contain real API secrets.
+- The file blocks full transcript handoffs unless explicitly allowed.
+- The user can explain why this file exists.
+
+## Token Lesson
+This file is estimated at about ${estimated} tokens. The saving comes from turning agent-to-agent context into a validated handoff contract. Agents should pass only the fields the next agent needs.`;
+    }
+
+    function generateUsePlan(input, fileContent) {
+      const meta = templates[input.fileType];
+      const targetPath = meta.placement[input.platform];
+      const estimated = estimateTokens(fileContent);
+      const savingPattern = input.fileType === "state"
+        ? "compact agent handoff"
+        : input.fileType === "contract"
+          ? "validated handoff contract"
+        : input.fileType === "workflow"
+          ? "smarter routing"
+          : input.fileType === "api"
+            ? "structured output contract"
+            : "reusable named context";
+      return `# One-Shot Recommendation
+
+Best next file:
+${meta.name}
+
+Where it goes:
+${targetPath}
+
+Why this is the right move:
+The user should not have to choose a token strategy. This creates a ${savingPattern} that decides what each agent may pass to the next agent.
+
+Do this now:
+1. Download or copy the generated file.
+2. Put it in the recommended location above.
+3. Tell your agent: "Validate every agent handoff against ${meta.name} before calling the next model."
+
+What the app chose for you:
+- Format: .${meta.ext}
+- Destination: ${platformNames[input.platform]}
+- Optimization depth: ${input.depth}
+- Provider path: ${providerLabel(input.provider)}
+- Estimated file size: about ${estimated} tokens
+- Risk: ${input.depth === "aggressive" ? "medium" : "low"}
+
+When to use the other tabs:
+- File: copy the actual file content.
+- Directions: get step-by-step insertion and verification.
+- Paid LLM Prompt: paste into ChatGPT, Claude, Grok, OpenRouter, or another paid LLM when you want a deeper implementation pass.
+
+Token habit to learn:
+Do not make every agent read everything. Give each agent a contract-shaped payload: goal, facts, constraints, decisions, sources, open questions, and next action.`;
+    }
+
+    function generateStructureText(input) {
+      const meta = templates[input.fileType];
+      const targetPath = meta.placement[input.platform];
+      return `# Agent Structure: Handoff Contract Flow
+
+1. User Input
+   Raw prompt, transcript, workflow, or idea enters the optimizer.
+
+2. Intent Agent
+   Extracts the user's goal, constraints, and target surface.
+
+3. Contract Agent
+   Creates ${meta.name} with required fields, forbidden fields, and token budgets.
+
+4. Validation Agent
+   Rejects missing required fields, full raw transcripts, duplicated instructions, secrets, and over-budget payloads.
+
+5. Compression Gate
+   Compresses oversized context into contract-shaped state.
+
+6. Source Agent
+   Sends only the allowed payload fields.
+
+7. Target Agent
+   Receives goal, facts, constraints, decisions, sources, open questions, and next action.
+
+8. Output
+   Produces an optimized file, directions, or paid-LLM prompt without rereading unrelated context.
+
+Contract location:
+${targetPath}
+
+Core rule:
+Every model call after the first should receive the smallest contract-valid payload, not the full conversation history.`;
+    }
+
+    function renderStructureGraph(input) {
+      const meta = templates[input.fileType];
+      const targetPath = meta.placement[input.platform];
+      el("structureGraph").innerHTML = `
+        <div class="structure-title">
+          <div>
+            <strong>Handoff Contract Data Flow</strong>
+            <p>How context becomes a small, validated payload before the next agent runs.</p>
+          </div>
+          <span class="pill good">${meta.name}</span>
+        </div>
+        <div class="structure-grid">
+          <div class="graph-node">
+            <span class="graph-kicker">Input</span>
+            <h3>User Context</h3>
+            <p>Prompt, transcript, workflow idea, tool logs, or repo context.</p>
+          </div>
+          <div class="graph-node">
+            <span class="graph-kicker">Agent 1</span>
+            <h3>Intent Agent</h3>
+            <ul>
+              <li>goal</li>
+              <li>constraints</li>
+              <li>target surface</li>
+            </ul>
+          </div>
+          <div class="graph-node contract">
+            <span class="graph-kicker">Contract</span>
+            <h3>Handoff Contract</h3>
+            <ul>
+              <li>required fields</li>
+              <li>forbidden fields</li>
+              <li>token budget</li>
+            </ul>
+          </div>
+          <div class="graph-node block">
+            <span class="graph-kicker">Gate</span>
+            <h3>Validation Agent</h3>
+            <ul>
+              <li>reject raw transcripts</li>
+              <li>block secrets</li>
+              <li>check missing fields</li>
+            </ul>
+          </div>
+          <div class="graph-node">
+            <span class="graph-kicker">Compress</span>
+            <h3>Context Filter</h3>
+            <p>Oversized context becomes a compact state object.</p>
+          </div>
+          <div class="graph-node">
+            <span class="graph-kicker">Agent 2</span>
+            <h3>Source Agent</h3>
+            <p>Sends only fields allowed by the contract.</p>
+          </div>
+          <div class="graph-node contract">
+            <span class="graph-kicker">Payload</span>
+            <h3>Contract-Shaped State</h3>
+            <ul>
+              <li>facts</li>
+              <li>decisions</li>
+              <li>next_action</li>
+            </ul>
+          </div>
+          <div class="graph-node output">
+            <span class="graph-kicker">Agent 3</span>
+            <h3>Target Agent</h3>
+            <p>Runs with the smallest useful context and produces the next artifact.</p>
+          </div>
+        </div>
+        <div class="flow-note">
+          <strong>Where this lives:</strong> ${targetPath}
+          <br>
+          <strong>Data rule:</strong> user input can be messy; every agent-to-agent transfer must be validated, token-bounded, and contract-shaped.
+        </div>
+      `;
+    }
+
+    function generateFile(input) {
+      switch (input.fileType) {
+        case "contract":
+          return generateContract(input);
+        case "instructions":
+          return generateInstructions(input);
+        case "workflow":
+          return generateWorkflow(input);
+        case "api":
+          return generateApi(input);
+        case "state":
+          return generateState(input);
+        case "env":
+          return generateEnv(input);
+        case "prompt":
+          return generatePaidPrompt(input);
+        default:
+          return generateInstructions(input);
+      }
+    }
+
+    async function callProvider(input) {
+      const prompt = generatePaidPrompt(input) + "\n\nReturn only the requested file content.";
+      if (["groq-openai-fallback", "groq", "openai"].includes(input.provider)) {
+        const response = await fetch("/api/generate", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json"
+          },
+          body: JSON.stringify({
+            provider: input.provider,
+            prompt
+          })
+        });
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.error || "Local provider route failed");
+        }
+        setLiveStatus("Provider", "Generated with " + providerLabel(data.provider || input.provider), "Model route: " + (data.model || "configured backend model") + ".", false);
+        return data.content;
+      }
+
+      const apiKey = el("apiKey").value.trim();
+      const baseUrl = el("baseUrl").value.trim();
+      const model = el("model").value.trim();
+      if (!apiKey || !baseUrl || !model) {
+        throw new Error("Provider route selected, but API key, base URL, or model is missing.");
+      }
+      const response = await fetch(baseUrl, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          "authorization": "Bearer " + apiKey,
+          "HTTP-Referer": window.location.href,
+          "X-Title": "Token Optimizer File Generator"
+        },
+        body: JSON.stringify({
+          model,
+          messages: [
+            {
+              role: "system",
+              content: "Generate concise, correct project files. Preserve user intent and include no secrets."
+            },
+            {
+              role: "user",
+              content: prompt
+            }
+          ],
+          temperature: 0.2
+        })
+      });
+      if (!response.ok) {
+        throw new Error("Provider call failed with HTTP " + response.status);
+      }
+      const data = await response.json();
+      return data.choices && data.choices[0] && data.choices[0].message
+        ? data.choices[0].message.content
+        : JSON.stringify(data, null, 2);
+    }
+
+    function renderTimeline(activeIndex) {
+      el("timeline").innerHTML = timelineItems.map((item, index) => {
+        const cls = index < activeIndex ? "done" : index === activeIndex ? "active" : "";
+        return `<div class="step ${cls}">
+          <div class="dot">${index < activeIndex ? "✓" : index + 1}</div>
+          <div><strong>${item[0]}</strong><small>${item[1]}</small></div>
+        </div>`;
+      }).join("");
+    }
+
+    function renderOutput() {
+      const isStructure = state.activeTab === "structure";
+      el("output").classList.toggle("hidden", isStructure);
+      el("structureGraph").classList.toggle("hidden", !isStructure);
+      if (isStructure && state.currentInput) {
+        renderStructureGraph(state.currentInput);
+      }
+      el("output").textContent = state.sections[state.activeTab] || "";
+      el("fileName").textContent = state.activeTab === "use"
+        ? "one-shot-action-plan.md"
+        : state.activeTab === "structure"
+          ? "agent-structure-flow.md"
+          : state.activeTab === "file"
+            ? state.fileName
+            : state.activeTab === "directions"
+              ? "insertion-directions.md"
+              : "paid-llm-implementation-prompt.md";
+      el("liveStatusArtifact").textContent = el("fileName").textContent;
+    }
+
+    async function runGeneration(autopilot = true) {
+      const input = selected(autopilot);
+      const meta = templates[input.fileType];
+      state.fileName = meta.name;
+      state.currentInput = input;
+      el("status").textContent = autopilot ? "Choosing" : "Running";
+      el("status").className = "pill warn";
+      for (let i = 0; i < timelineItems.length; i += 1) {
+        setLiveStatus(
+          "Running",
+          timelineItems[i][0],
+          timelineItems[i][1],
+          true
+        );
+        renderTimeline(i);
+        await new Promise((resolve) => setTimeout(resolve, 130));
+      }
+
+      let fileContent = generateFile(input);
+      if (input.provider !== "offline") {
+        try {
+          setLiveStatus("Provider", "Calling model route", "Generating content through the selected provider.", true);
+          fileContent = await callProvider(input);
+        } catch (error) {
+          setLiveStatus("Fallback", "Provider call failed", "Using the free offline template instead.", true);
+          fileContent = generateFile(input) + "\n\n# Provider Note\n" + error.message + "\nThe offline template above was generated instead.";
+        }
+      }
+
+      state.sections.use = generateUsePlan(input, fileContent);
+      state.sections.structure = generateStructureText(input);
+      state.sections.file = fileContent;
+      state.sections.directions = generateDirections(input, fileContent);
+      state.sections.llm = generatePaidPrompt(input);
+      state.activeTab = "use";
+      document.querySelectorAll(".tab").forEach((button) => {
+        button.setAttribute("aria-selected", String(button.dataset.tab === state.activeTab));
+      });
+      renderTimeline(timelineItems.length);
+      renderOutput();
+
+      const tokens = estimateTokens(fileContent);
+      const score = Math.max(62, Math.min(96, 100 - Math.round(tokens / 180)));
+      el("score").textContent = score;
+      el("tokens").textContent = prettyTokens(tokens);
+      el("savings").textContent = input.fileType === "state"
+        ? "Handoff"
+        : input.fileType === "contract"
+          ? "Contract"
+          : input.fileType === "workflow"
+            ? "Routing"
+            : input.fileType === "api"
+              ? "Schema"
+              : input.fileType === "env"
+                ? "Config"
+                : "Reuse";
+      el("risk").textContent = input.depth === "aggressive" ? "Med" : "Low";
+      el("placement").textContent = meta.placement[input.platform];
+      el("coach").textContent = "Best habit: every agent handoff should be contract-shaped, token-bounded, and validated before the next model call.";
+      el("status").textContent = "Done";
+      el("status").className = "pill good";
+      setLiveStatus("Done", "Handoff contract ready", "Review the recommendation, then use Structure to inspect the data flow.", false);
+    }
+
+    function setProviderFields() {
+      const provider = el("provider").value;
+      const fields = el("providerFields");
+      const usesBackendProxy = ["groq-openai-fallback", "groq", "openai", "offline"].includes(provider);
+      fields.classList.toggle("hidden", usesBackendProxy);
+      el("baseUrl").value = providerDefaults[provider].baseUrl;
+      el("model").value = providerDefaults[provider].model;
+    }
+
+    async function checkProviderStatus() {
+      try {
+        const response = await fetch("/api/provider-status");
+        if (!response.ok) return;
+        const status = await response.json();
+        const groq = status.groqConfigured ? "Groq ready" : "Groq key missing";
+        const openai = status.openaiConfigured ? "OpenAI backup ready" : "OpenAI key missing";
+        setLiveStatus("Provider", "Backend provider status", groq + "; " + openai + ".", false);
+      } catch {
+        setLiveStatus("Provider", "Backend provider status unavailable", "Start the Node server to use Groq/OpenAI routes.", false);
+      }
+    }
+
+    document.querySelectorAll(".segment").forEach((button) => {
+      button.addEventListener("click", () => {
+        state.depth = button.dataset.value;
+        document.querySelectorAll(".segment").forEach((other) => {
+          other.setAttribute("aria-pressed", String(other === button));
+        });
+        setLiveStatus("Setting", "Optimization depth changed", "Next generation will use " + state.depth + " mode.", false);
+      });
+    });
+
+    document.querySelectorAll(".tab").forEach((button) => {
+      button.addEventListener("click", () => {
+        state.activeTab = button.dataset.tab;
+        document.querySelectorAll(".tab").forEach((other) => {
+          other.setAttribute("aria-selected", String(other === button));
+        });
+        renderOutput();
+        setLiveStatus("Viewing", button.textContent, statusMessages[state.activeTab] || "Showing the selected output.", false);
+      });
+    });
+
+    document.querySelectorAll(".quick-example").forEach((button) => {
+      button.addEventListener("click", () => {
+        el("goal").value = button.dataset.example;
+        setLiveStatus("Example", button.textContent, "Loaded example input and generating the best handoff artifact.", true);
+        runGeneration(true);
+      });
+    });
+
+    el("provider").addEventListener("change", () => {
+      setProviderFields();
+      setLiveStatus("Provider", "Provider route changed", "Next advanced generation will use " + providerLabel(el("provider").value) + ".", false);
+    });
+    el("generate").addEventListener("click", () => runGeneration(true));
+    el("generateAdvanced").addEventListener("click", () => runGeneration(false));
+    el("copyOutput").addEventListener("click", async () => {
+      await navigator.clipboard.writeText(state.sections[state.activeTab] || "");
+      el("copyOutput").textContent = "Copied";
+      setLiveStatus("Copied", "Output copied", el("fileName").textContent + " is on the clipboard.", false);
+      setTimeout(() => {
+        el("copyOutput").textContent = "Copy";
+      }, 1000);
+    });
+    el("downloadOutput").addEventListener("click", () => {
+      const blob = new Blob([state.sections[state.activeTab] || ""], { type: "text/plain" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = el("fileName").textContent;
+      link.click();
+      URL.revokeObjectURL(url);
+      setLiveStatus("Downloaded", "File downloaded", el("fileName").textContent + " was prepared for download.", false);
+    });
+
+    setProviderFields();
+    renderTimeline(0);
+    checkProviderStatus();
+    runGeneration();
+  </script>
+</body>
+</html>
