@@ -649,12 +649,12 @@
       </div>
 
       <div class="intro">
-        <strong>Paste anything. Get a handoff contract.</strong>
-        <p>The app turns messy multi-agent context into a small contract: what one agent may pass, what must be preserved, and what gets rejected.</p>
+        <strong>Paste once. Let the optimizer run it.</strong>
+        <p>The app converts long prompts into a compact handoff contract, creates staged prompts, runs them, and returns the final result.</p>
       </div>
 
       <label for="goal">Paste prompt, workflow, transcript, or idea</label>
-      <textarea id="goal" placeholder="Example: My researcher agent sends full logs to my writer. Create a handoff contract so the writer only receives findings, sources, constraints, open questions, and next action."></textarea>
+      <textarea id="goal" placeholder="Example: Instead of pasting this into Claude as one long prompt, optimize it, create the smaller staged prompts, run them, and return the final answer."></textarea>
 
       <div class="quick-examples" aria-label="Quick examples">
         <button class="quick-example" data-example="Create a handoff contract so planner, researcher, writer, and reviewer pass compact state instead of full transcripts.">Handoff contract</button>
@@ -662,7 +662,8 @@
         <button class="quick-example" data-example="Generate an API contract for a token optimizer that validates handoff contracts and supports offline templates, OpenRouter, xAI Grok, and LiteLLM.">API integration contract</button>
       </div>
 
-      <button class="primary" id="generate">One-Shot Optimize</button>
+      <button class="primary" id="runSystem">Optimize & Run</button>
+      <button class="secondary full-width" id="generate">Generate Contract Only</button>
 
       <details>
         <summary>Advanced controls</summary>
@@ -760,9 +761,11 @@
           <div class="panel-body">
             <div class="tabs" role="tablist" aria-label="Output sections">
               <button class="tab" data-tab="use" aria-selected="true">Use This</button>
+              <button class="tab" data-tab="run" aria-selected="false">Run Result</button>
               <button class="tab" data-tab="structure" aria-selected="false">Structure</button>
               <button class="tab" data-tab="file" aria-selected="false">File</button>
               <button class="tab" data-tab="directions" aria-selected="false">Directions</button>
+              <button class="tab" data-tab="prompts" aria-selected="false">Prompts</button>
               <button class="tab" data-tab="llm" aria-selected="false">Paid LLM Prompt</button>
             </div>
             <div style="height: 12px"></div>
@@ -814,9 +817,11 @@
       depth: "medium",
       sections: {
         use: "",
+        run: "",
         structure: "",
         file: "",
         directions: "",
+        prompts: "",
         llm: ""
       },
       fileName: "agent-handoff-contract.json",
@@ -949,9 +954,11 @@
 
     const statusMessages = {
       use: "Showing the one-shot recommendation and next action.",
+      run: "Showing the final result from the optimized staged run.",
       structure: "Showing how data moves through the handoff contract graph.",
       file: "Showing the generated artifact content.",
       directions: "Showing insertion and verification steps.",
+      prompts: "Showing the optimized prompts the system created and ran.",
       llm: "Showing the prompt to paste into a paid LLM for implementation."
     };
 
@@ -1532,6 +1539,58 @@ Core rule:
 Every model call after the first should receive the smallest contract-valid payload, not the full conversation history.`;
     }
 
+    function formatRunResult(result) {
+      const report = result.tokenReport || {};
+      const trace = (result.trace || [])
+        .map((item) => `- ${item.agent}: ${item.detail}`)
+        .join("\n");
+      return `# Optimized Run Result
+
+## Final Answer
+${result.finalAnswer || "No final answer returned."}
+
+## Token Report
+- Raw input tokens: ${report.rawInputTokens || 0}
+- Optimized prompt tokens used across stages: ${report.optimizedPromptTokens || 0}
+- Estimated naive 3-step tokens: ${report.estimatedNaiveThreeStepTokens || 0}
+- Estimated saved tokens: ${report.estimatedSavingsTokens || 0}
+- Estimated savings: ${report.estimatedSavingsPercent || 0}%
+
+## Provider
+- Provider: ${result.provider || "offline"}
+- Model: ${result.model || "offline-template"}
+- Fallback note: ${result.providerError || "None"}
+- Runtime: ${result.elapsedMs || 0} ms
+
+## Trace
+${trace}
+
+## How It Used Itself Optimally
+1. The raw input was used once by the Optimizer Agent.
+2. The Optimizer Agent created a compact handoff contract.
+3. The Executor Agent received only the compact contract, not the raw prompt.
+4. The Verifier Agent checked the output against the compact contract and compressed the final answer.`;
+    }
+
+    function formatRunPrompts(result) {
+      const prompts = result.optimizedPrompts || [];
+      if (!prompts.length) return "# Optimized Prompts\n\nNo staged prompts were returned.";
+      return `# Optimized Prompts Used
+
+${prompts.map((item, index) => `## ${index + 1}. ${item.agent}
+
+Purpose:
+${item.purpose}
+
+Estimated tokens:
+${item.tokens}
+
+Prompt:
+\`\`\`text
+${item.prompt}
+\`\`\``).join("\n\n")}`;
+    }
+
     function renderStructureGraph(input) {
       const meta = templates[input.fileType];
       const targetPath = meta.placement[input.platform];
@@ -1709,14 +1768,80 @@ Every model call after the first should receive the smallest contract-valid payl
       el("output").textContent = state.sections[state.activeTab] || "";
       el("fileName").textContent = state.activeTab === "use"
         ? "one-shot-action-plan.md"
+        : state.activeTab === "run"
+          ? "optimized-run-result.md"
         : state.activeTab === "structure"
           ? "agent-structure-flow.md"
           : state.activeTab === "file"
             ? state.fileName
             : state.activeTab === "directions"
               ? "insertion-directions.md"
-              : "paid-llm-implementation-prompt.md";
+              : state.activeTab === "prompts"
+                ? "optimized-prompts-used.md"
+                : "paid-llm-implementation-prompt.md";
       el("liveStatusArtifact").textContent = el("fileName").textContent;
+    }
+
+    async function runOptimizedWorkflow(autopilot = true) {
+      const input = selected(autopilot);
+      state.currentInput = input;
+      el("status").textContent = "Running";
+      el("status").className = "pill warn";
+      renderTimeline(0);
+      setLiveStatus("Running", "Intake Agent", "Reading the raw prompt and estimating token waste.", true);
+
+      try {
+        await new Promise((resolve) => setTimeout(resolve, 160));
+        renderTimeline(1);
+        setLiveStatus("Running", "Contract Agent", "Building a compact handoff contract for later stages.", true);
+
+        const response = await fetch("/api/optimize-run", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json"
+          },
+          body: JSON.stringify({
+            input: input.goal,
+            provider: input.provider
+          })
+        });
+        const result = await response.json();
+        if (!response.ok) {
+          throw new Error(result.error || "Optimized run failed");
+        }
+
+        renderTimeline(timelineItems.length);
+        const fileContent = JSON.stringify(result.handoffContract, null, 2);
+        state.fileName = "self-optimizing-handoff-contract.json";
+        state.sections.run = formatRunResult(result);
+        state.sections.prompts = formatRunPrompts(result);
+        state.sections.file = fileContent;
+        state.sections.use = generateUsePlan(input, fileContent);
+        state.sections.structure = generateStructureText(input);
+        state.sections.directions = generateDirections(input, fileContent);
+        state.sections.llm = generatePaidPrompt(input);
+        state.activeTab = "run";
+        document.querySelectorAll(".tab").forEach((button) => {
+          button.setAttribute("aria-selected", String(button.dataset.tab === state.activeTab));
+        });
+        renderOutput();
+
+        const report = result.tokenReport || {};
+        el("score").textContent = Math.max(65, Math.min(99, 75 + Math.round((report.estimatedSavingsPercent || 0) / 4)));
+        el("tokens").textContent = prettyTokens(report.optimizedPromptTokens || estimateTokens(fileContent));
+        el("savings").textContent = "Run";
+        el("risk").textContent = result.providerError ? "Med" : "Low";
+        el("placement").textContent = "The optimized run used a handoff contract internally; inspect Run Result and Prompts for the full execution path.";
+        el("coach").textContent = "Best habit: send the raw prompt once, then let later stages use compact handoff contracts.";
+        el("status").textContent = "Done";
+        el("status").className = "pill good";
+        setLiveStatus("Done", "Optimized run complete", "Final answer is ready; inspect Prompts to see what the optimizer generated.", false);
+      } catch (error) {
+        el("status").textContent = "Fallback";
+        el("status").className = "pill warn";
+        setLiveStatus("Fallback", "Optimized run failed", error.message + ". Generated the contract-only fallback.", false);
+        await runGeneration(autopilot);
+      }
     }
 
     async function runGeneration(autopilot = true) {
@@ -1829,8 +1954,8 @@ Every model call after the first should receive the smallest contract-valid payl
     document.querySelectorAll(".quick-example").forEach((button) => {
       button.addEventListener("click", () => {
         el("goal").value = button.dataset.example;
-        setLiveStatus("Example", button.textContent, "Loaded example input and generating the best handoff artifact.", true);
-        runGeneration(true);
+        setLiveStatus("Example", button.textContent, "Loaded example input and running the optimized workflow.", true);
+        runOptimizedWorkflow(true);
       });
     });
 
@@ -1838,6 +1963,7 @@ Every model call after the first should receive the smallest contract-valid payl
       setProviderFields();
       setLiveStatus("Provider", "Provider route changed", "Next advanced generation will use " + providerLabel(el("provider").value) + ".", false);
     });
+    el("runSystem").addEventListener("click", () => runOptimizedWorkflow(true));
     el("generate").addEventListener("click", () => runGeneration(true));
     el("generateAdvanced").addEventListener("click", () => runGeneration(false));
     el("copyOutput").addEventListener("click", async () => {
