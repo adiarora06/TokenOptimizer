@@ -95,7 +95,7 @@
 
     .prompt-actions {
       display: grid;
-      grid-template-columns: minmax(180px, 260px) minmax(160px, 220px) minmax(0, 1fr);
+      grid-template-columns: minmax(170px, 240px) minmax(140px, 190px) minmax(120px, 170px) minmax(140px, 190px);
       gap: 10px;
       align-items: center;
       margin-top: 12px;
@@ -1110,6 +1110,7 @@
           <button class="primary" id="runSystem">Optimize & Run</button>
           <button class="secondary" id="generate">Contract Only</button>
           <button class="secondary" id="openHistory">History</button>
+          <button class="secondary" id="openA2AKit">A2A Kit IDE</button>
           <div class="quick-examples" aria-label="Quick examples">
             <button class="quick-example" data-example="Create a handoff contract so planner, researcher, writer, and reviewer pass compact state instead of full transcripts.">Try handoff workflow</button>
             <button class="quick-example" data-example="I have a long prompt I would normally paste into Claude. Optimize it into smaller staged prompts, run the workflow, and return the final answer plus the prompts used.">Try staged run</button>
@@ -1527,6 +1528,20 @@
         params.set("goal", input.goal);
       }
       window.location.href = `/agent-structure?${params.toString()}`;
+    }
+
+    function openA2AKitPage() {
+      const input = selected(false);
+      try {
+        localStorage.setItem("tokenOptimizerA2AInput", JSON.stringify({ prompt: input.goal, goal: input.goal }));
+      } catch {
+        // Continue with query params if local storage is unavailable.
+      }
+      const params = new URLSearchParams();
+      if (input.goal.length < 1200) {
+        params.set("prompt", input.goal);
+      }
+      window.location.href = `/a2a-kit${params.toString() ? "?" + params.toString() : ""}`;
     }
 
     const promptHistoryKey = "tokenOptimizerPromptHistory";
@@ -2982,6 +2997,7 @@ ${item.prompt}
       renderOutput();
       setLiveStatus("History", "Past prompts", "Showing prompts saved in this browser.", false);
     });
+    el("openA2AKit").addEventListener("click", openA2AKitPage);
     el("historyView").addEventListener("click", (event) => {
       const button = event.target.closest("[data-history-action]");
       if (!button) return;

@@ -5,6 +5,7 @@ const path = require("node:path");
 const rootDir = __dirname;
 const outputDir = path.join(rootDir, "outputs");
 const port = Number(process.env.PORT || 8787);
+const { runBlankA2AKit } = require("./optimizer-core.cjs");
 
 loadEnvFile(path.join(rootDir, ".env.local"));
 
@@ -450,6 +451,26 @@ async function handleApi(req, res) {
     return;
   }
 
+  if (req.method === "POST" && req.url === "/api/a2a-run") {
+    try {
+      const body = await readJson(req);
+      const rawInput = String(body.input || "");
+      if (!rawInput.trim()) {
+        sendJson(res, 400, { error: "Missing input" });
+        return;
+      }
+      const result = await runBlankA2AKit({
+        rawInput,
+        providerConfig: body.providerConfig || {},
+        options: body.options || {}
+      });
+      sendJson(res, 200, result);
+    } catch (error) {
+      sendJson(res, 500, { error: error.message });
+    }
+    return;
+  }
+
   sendJson(res, 404, { error: "Not found" });
 }
 
@@ -457,7 +478,8 @@ function serveStatic(req, res) {
   const requestUrl = new URL(req.url, `http://127.0.0.1:${port}`);
   const routeMap = {
     "/": "/token-optimizer-file-generator.html",
-    "/agent-structure": "/agent-structure.html"
+    "/agent-structure": "/agent-structure.html",
+    "/a2a-kit": "/a2a-kit.html"
   };
   const pathname = routeMap[requestUrl.pathname] || requestUrl.pathname;
   const filePath = path.normalize(path.join(outputDir, pathname));
