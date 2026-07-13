@@ -529,6 +529,123 @@
       font-size: 13px;
     }
 
+    .node-flow-graph {
+      overflow: auto;
+      min-height: 360px;
+      max-height: 62vh;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcff;
+      padding: 16px;
+    }
+
+    .node-svg {
+      display: block;
+      width: 100%;
+      min-width: 1040px;
+      height: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+    }
+
+    .node-box {
+      fill: #ffffff;
+      stroke: #cdd6e7;
+      stroke-width: 1.4;
+    }
+
+    .node-box.primary {
+      fill: #eaf0ff;
+      stroke: #8fa8ff;
+    }
+
+    .node-box.guard {
+      fill: #fffaf0;
+      stroke: #ffd596;
+    }
+
+    .node-box.output {
+      fill: #f0fbf5;
+      stroke: #9ad7b8;
+    }
+
+    .node-box.route {
+      fill: #f8fafc;
+      stroke: #b9c4d8;
+      stroke-dasharray: 5 4;
+    }
+
+    .edge {
+      fill: none;
+      stroke: var(--brand);
+      stroke-width: 2;
+      marker-end: url(#agentArrow);
+    }
+
+    .edge.guard-edge {
+      stroke: #9b5a00;
+    }
+
+    .edge.route-edge {
+      stroke: #677084;
+      stroke-dasharray: 6 5;
+    }
+
+    .edge-label {
+      fill: #445066;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .node-kicker {
+      fill: var(--brand);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .node-title {
+      fill: var(--text);
+      font-size: 15px;
+      font-weight: 900;
+    }
+
+    .node-subtitle,
+    .node-line {
+      fill: #677084;
+      font-size: 11px;
+      font-weight: 650;
+    }
+
+    .graph-summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .graph-summary-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+      padding: 11px;
+    }
+
+    .graph-summary-card strong {
+      display: block;
+      color: var(--text);
+      font-size: 13px;
+    }
+
+    .graph-summary-card span {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
     .live-status-bar {
       position: sticky;
       left: 0;
@@ -839,6 +956,10 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
+      .graph-summary-grid {
+        grid-template-columns: 1fr;
+      }
+
       .hero h1 {
         font-size: 32px;
       }
@@ -1006,6 +1127,7 @@
         <div class="tabs" role="tablist" aria-label="Output sections">
           <button class="tab" data-tab="use" aria-selected="true">Overview</button>
           <button class="tab" data-tab="run" aria-selected="false">Run Result</button>
+          <button class="tab" data-tab="graph" aria-selected="false">Agent Graph</button>
           <button class="tab" data-tab="agents" aria-selected="false">Agents</button>
           <button class="tab" data-tab="structure" aria-selected="false">Flow</button>
           <button class="tab" data-tab="prompts" aria-selected="false">Prompts</button>
@@ -1015,6 +1137,7 @@
         </div>
         <div style="height: 12px"></div>
         <pre id="output"></pre>
+        <div id="agentFlowGraph" class="node-flow-graph hidden" aria-label="Node graph of agent information flow and responsibilities"></div>
         <div id="structureGraph" class="structure-view hidden" aria-label="Agent structure graph"></div>
         <div id="agentsGraph" class="agents-map hidden" aria-label="Agent node relation map"></div>
         <div id="runResultView" class="run-result-view hidden" aria-label="Optimized run result preview"></div>
@@ -1060,6 +1183,7 @@
       sections: {
         use: "",
         run: "",
+        graph: "",
         agents: "",
         structure: "",
         file: "",
@@ -1200,6 +1324,7 @@
     const statusMessages = {
       use: "Showing the one-shot recommendation and next action.",
       run: "Showing the final result from the optimized staged run.",
+      graph: "Showing the node graph of agent responsibilities and information flow.",
       agents: "Showing the active agents, their responsibilities, and handoff relations.",
       structure: "Showing how data moves through the handoff contract graph.",
       file: "Showing the generated artifact content.",
@@ -1785,6 +1910,42 @@ Core rule:
 Every model call after the first should receive the smallest contract-valid payload, not the full conversation history.`;
     }
 
+    function generateGraphText(input) {
+      return `# Agent Flow Node Graph
+
+## Purpose
+Show the exact route from one raw prompt to optimized, contract-shaped agent handoffs.
+
+## Nodes And Responsibilities
+- User Input: the only stage allowed to contain the full raw prompt.
+- Intake Agent: extracts goal, constraints, source type, and token pressure.
+- Optimizer Agent: compresses the raw prompt into a small execution plan.
+- Contract Agent: creates required fields, forbidden fields, budget, and success checks.
+- Validation Agent: blocks missing fields, secrets, raw transcript replay, and over-budget handoffs.
+- Executor Agent: runs the task using only the contract-valid payload.
+- Verifier Agent: compares the candidate answer with constraints and compresses the response.
+- Output Agent: returns the final answer, token report, generated file, prompts, and directions.
+- Provider Route: selects ${providerLabel(input.provider)} and falls back to offline templates if needed.
+
+## Directed Edges
+- User Input -> Intake Agent: raw prompt.
+- Intake Agent -> Optimizer Agent: goal, context, constraints, source label.
+- Optimizer Agent -> Contract Agent: compact plan.
+- Contract Agent -> Validation Agent: required fields, forbidden fields, token budget.
+- Validation Agent -> Executor Agent: contract-valid payload.
+- Executor Agent -> Verifier Agent: candidate answer and contract.
+- Verifier Agent -> Output Agent: final answer, trace, token report.
+- Provider Route -> Optimizer/Executor/Verifier: model call route, fallback mode, model name.
+
+## Core Rule
+Only the first node sees everything. Every later node receives the smallest contract-valid payload needed for its responsibility.
+
+Active route:
+- Provider: ${providerLabel(input.provider)}
+- Depth: ${input.depth}
+- Destination: ${platformNames[input.platform]}`;
+    }
+
     function generateAgentsText(input) {
       return `# Agent Node Structure
 
@@ -1808,6 +1969,133 @@ Every model call after the first should receive the smallest contract-valid payl
 Provider: ${providerLabel(input.provider)}
 Depth: ${input.depth}
 Destination: ${platformNames[input.platform]}`;
+    }
+
+    function renderAgentFlowGraph(input) {
+      const routeLabel = escapeHtml(providerLabel(input.provider));
+      const routeShortLabels = {
+        "groq-openai-fallback": "Groq + OpenAI",
+        groq: "Groq",
+        openai: "OpenAI",
+        offline: "Offline",
+        openrouter: "OpenRouter",
+        xai: "xAI/Grok",
+        litellm: "LiteLLM"
+      };
+      const routeShortLabel = escapeHtml(routeShortLabels[input.provider] || input.provider);
+      const destination = escapeHtml(platformNames[input.platform]);
+      const depth = escapeHtml(input.depth);
+      el("agentFlowGraph").innerHTML = `
+        <div class="structure-title">
+          <div>
+            <strong>Agent Information Flow Graph</strong>
+            <p>A node-based view of what each agent owns, what it passes, and where provider calls happen.</p>
+          </div>
+          <span class="pill good">${routeLabel}</span>
+        </div>
+        <svg class="node-svg" viewBox="0 0 1120 580" role="img" aria-label="Agent node graph showing information flow and responsibilities">
+          <defs>
+            <marker id="agentArrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+              <path d="M0,0 L0,6 L9,3 z" fill="#2557d6"></path>
+            </marker>
+          </defs>
+
+          <path class="edge" d="M155 285 C190 285, 195 285, 230 285"></path>
+          <path class="edge" d="M355 260 C385 210, 390 165, 430 150"></path>
+          <path class="edge" d="M555 150 C590 150, 595 150, 630 150"></path>
+          <path class="edge guard-edge" d="M755 150 C790 150, 795 150, 830 150"></path>
+          <path class="edge guard-edge" d="M900 205 C900 250, 560 250, 500 355"></path>
+          <path class="edge" d="M555 405 C590 405, 595 405, 630 405"></path>
+          <path class="edge" d="M755 405 C790 405, 795 405, 830 405"></path>
+          <path class="edge route-edge" d="M1000 255 C960 225, 910 205, 900 205"></path>
+          <path class="edge route-edge" d="M1000 315 C875 330, 715 340, 690 355"></path>
+          <path class="edge route-edge" d="M1000 345 C850 485, 520 475, 500 455"></path>
+
+          <text class="edge-label" x="177" y="276">raw prompt</text>
+          <text class="edge-label" x="360" y="206">goal + constraints</text>
+          <text class="edge-label" x="568" y="140">compact plan</text>
+          <text class="edge-label" x="760" y="140">contract rules</text>
+          <text class="edge-label" x="650" y="238">validated payload</text>
+          <text class="edge-label" x="570" y="395">candidate</text>
+          <text class="edge-label" x="762" y="395">final + report</text>
+          <text class="edge-label" x="933" y="214">model calls</text>
+
+          <rect class="node-box" x="30" y="235" width="125" height="100" rx="8"></rect>
+          <text class="node-kicker" x="48" y="261">ENTRY</text>
+          <text class="node-title" x="48" y="284">User Input</text>
+          <text class="node-line" x="48" y="306">Full prompt allowed</text>
+          <text class="node-line" x="48" y="323">once only</text>
+
+          <rect class="node-box" x="230" y="235" width="125" height="100" rx="8"></rect>
+          <text class="node-kicker" x="248" y="261">INTAKE</text>
+          <text class="node-title" x="248" y="284">Intake Agent</text>
+          <text class="node-line" x="248" y="306">Extracts goal,</text>
+          <text class="node-line" x="248" y="323">constraints, risk</text>
+
+          <rect class="node-box primary" x="430" y="100" width="125" height="100" rx="8"></rect>
+          <text class="node-kicker" x="448" y="126">COMPRESS</text>
+          <text class="node-title" x="448" y="149">Optimizer</text>
+          <text class="node-line" x="448" y="171">Creates smallest</text>
+          <text class="node-line" x="448" y="188">useful plan</text>
+
+          <rect class="node-box primary" x="630" y="100" width="125" height="100" rx="8"></rect>
+          <text class="node-kicker" x="648" y="126">CONTRACT</text>
+          <text class="node-title" x="648" y="149">Contract Agent</text>
+          <text class="node-line" x="648" y="171">Fields, budget,</text>
+          <text class="node-line" x="648" y="188">success checks</text>
+
+          <rect class="node-box guard" x="830" y="100" width="125" height="105" rx="8"></rect>
+          <text class="node-kicker" x="848" y="126">GATE</text>
+          <text class="node-title" x="848" y="149">Validation</text>
+          <text class="node-line" x="848" y="171">Blocks secrets,</text>
+          <text class="node-line" x="848" y="188">raw replay, bloat</text>
+
+          <rect class="node-box" x="430" y="355" width="125" height="100" rx="8"></rect>
+          <text class="node-kicker" x="448" y="381">RUN</text>
+          <text class="node-title" x="448" y="404">Executor</text>
+          <text class="node-line" x="448" y="426">Runs contract-</text>
+          <text class="node-line" x="448" y="443">valid task only</text>
+
+          <rect class="node-box guard" x="630" y="355" width="125" height="100" rx="8"></rect>
+          <text class="node-kicker" x="648" y="381">CHECK</text>
+          <text class="node-title" x="648" y="404">Verifier</text>
+          <text class="node-line" x="648" y="426">Checks output and</text>
+          <text class="node-line" x="648" y="443">compresses result</text>
+
+          <rect class="node-box output" x="830" y="355" width="125" height="100" rx="8"></rect>
+          <text class="node-kicker" x="848" y="381">DELIVER</text>
+          <text class="node-title" x="848" y="404">Output Agent</text>
+          <text class="node-line" x="848" y="426">Answer, prompts,</text>
+          <text class="node-line" x="848" y="443">files, token report</text>
+
+          <rect class="node-box route" x="985" y="245" width="110" height="115" rx="8"></rect>
+          <text class="node-kicker" x="1002" y="272">ROUTE</text>
+          <text class="node-title" x="1002" y="295">Provider</text>
+          <text class="node-line" x="1002" y="317">${routeShortLabel}</text>
+          <text class="node-line" x="1002" y="334">Fallback: offline</text>
+
+          <text class="node-subtitle" x="30" y="535">Destination: ${destination}</text>
+          <text class="node-subtitle" x="30" y="555">Optimization depth: ${depth}. Only User Input sees the raw prompt; every edge after Intake is contract-shaped.</text>
+        </svg>
+        <div class="graph-summary-grid">
+          <div class="graph-summary-card">
+            <strong>Compression Owner</strong>
+            <span>Optimizer Agent removes repeated instructions and preserves only goal, facts, constraints, decisions, sources, questions, and next action.</span>
+          </div>
+          <div class="graph-summary-card">
+            <strong>Contract Owner</strong>
+            <span>Contract Agent defines what every downstream handoff must contain, forbid, and stay under.</span>
+          </div>
+          <div class="graph-summary-card">
+            <strong>Guard Owner</strong>
+            <span>Validation and Verifier Agents block secrets, raw transcripts, missing fields, and outputs that drift from the goal.</span>
+          </div>
+          <div class="graph-summary-card">
+            <strong>Execution Owner</strong>
+            <span>Executor Agent receives the smallest valid payload, then Output Agent packages the result without expanding it by default.</span>
+          </div>
+        </div>
+      `;
     }
 
     function renderAgentsGraph(input) {
@@ -2179,10 +2467,15 @@ ${item.prompt}
       const isStructure = state.activeTab === "structure";
       const isAgents = state.activeTab === "agents";
       const isRun = state.activeTab === "run";
-      el("output").classList.toggle("hidden", isStructure || isAgents || isRun);
+      const isGraph = state.activeTab === "graph";
+      el("output").classList.toggle("hidden", isStructure || isAgents || isRun || isGraph);
+      el("agentFlowGraph").classList.toggle("hidden", !isGraph);
       el("structureGraph").classList.toggle("hidden", !isStructure);
       el("agentsGraph").classList.toggle("hidden", !isAgents);
       el("runResultView").classList.toggle("hidden", !isRun);
+      if (isGraph && state.currentInput) {
+        renderAgentFlowGraph(state.currentInput);
+      }
       if (isStructure && state.currentInput) {
         renderStructureGraph(state.currentInput);
       }
@@ -2196,6 +2489,7 @@ ${item.prompt}
       const fileNames = {
         use: "one-shot-action-plan.md",
         run: "optimized-run-result.md",
+        graph: "agent-flow-node-graph.md",
         agents: "agent-node-relations.md",
         structure: "agent-structure-flow.md",
         file: state.fileName,
@@ -2242,6 +2536,7 @@ ${item.prompt}
         state.runExpanded = false;
         state.sections.run = formatRunResult(result);
         state.sections.prompts = formatRunPrompts(result);
+        state.sections.graph = generateGraphText(input);
         state.sections.agents = generateAgentsText(input);
         state.sections.file = fileContent;
         state.sections.use = generateUsePlan(input, fileContent);
@@ -2302,6 +2597,7 @@ ${item.prompt}
       }
 
       state.sections.use = generateUsePlan(input, fileContent);
+      state.sections.graph = generateGraphText(input);
       state.sections.agents = generateAgentsText(input);
       state.sections.structure = generateStructureText(input);
       state.sections.file = fileContent;
