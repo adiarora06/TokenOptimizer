@@ -15,6 +15,10 @@
     {
       "source": "/prompt-history",
       "destination": "/outputs/prompt-history.html"
+    },
+    {
+      "source": "/settings",
+      "destination": "/outputs/settings.html"
     }
   ]
 }

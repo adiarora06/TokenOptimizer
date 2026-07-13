@@ -480,7 +480,8 @@ function serveStatic(req, res) {
     "/": "/token-optimizer-file-generator.html",
     "/agent-structure": "/agent-structure.html",
     "/a2a-kit": "/a2a-kit.html",
-    "/prompt-history": "/prompt-history.html"
+    "/prompt-history": "/prompt-history.html",
+    "/settings": "/settings.html"
   };
   const pathname = routeMap[requestUrl.pathname] || requestUrl.pathname;
   const filePath = path.normalize(path.join(outputDir, pathname));

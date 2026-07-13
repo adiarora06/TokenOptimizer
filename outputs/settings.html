@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Token Optimizer Settings</title>
+  <script>
+    document.documentElement.dataset.theme = localStorage.getItem("tokenOptimizerTheme") || "light";
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f7f8fb;
+      --panel: #ffffff;
+      --text: #18202f;
+      --muted: #677084;
+      --line: #dfe4ee;
+      --brand: #2557d6;
+      --brand-soft: #eaf0ff;
+      --shadow: 0 10px 30px rgba(24, 32, 47, 0.08);
+    }
+
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #0f131d;
+      --panel: #161b26;
+      --text: #eef2ff;
+      --muted: #9aa4b8;
+      --line: #293244;
+      --brand: #8fb0ff;
+      --brand-soft: #1f2c4d;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding-top: 45px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.4;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .page-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 20;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      padding: 10px 24px;
+      background: rgba(247, 248, 251, 0.96);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(12px);
+    }
+
+    :root[data-theme="dark"] .page-nav {
+      background: rgba(15, 19, 29, 0.96);
+    }
+
+    .page-nav a,
+    button {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #ffffff;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 7px 11px;
+    }
+
+    :root[data-theme="dark"] .page-nav a,
+    :root[data-theme="dark"] button,
+    :root[data-theme="dark"] .panel,
+    :root[data-theme="dark"] .choice {
+      background: var(--panel);
+      border-color: var(--line);
+      color: var(--text);
+    }
+
+    .page-nav a[aria-current="page"],
+    button.active {
+      border-color: var(--brand);
+      background: var(--brand);
+      color: #ffffff;
+    }
+
+    .page {
+      width: min(920px, calc(100% - 36px));
+      margin: 0 auto;
+      padding: 30px 0 48px;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+
+    h1,
+    h2,
+    p {
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 28px;
+    }
+
+    h2 {
+      margin-top: 20px;
+      font-size: 17px;
+    }
+
+    p {
+      color: var(--muted);
+    }
+
+    .choices {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .choice {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+      padding: 14px;
+    }
+
+    .choice strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    @media (max-width: 760px) {
+      .choices {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="page-nav" aria-label="Token optimizer pages">
+    <a href="/">Optimizer</a>
+    <a href="/a2a-kit">Optimized IDE</a>
+    <a href="/agent-structure">Agent Structure</a>
+    <a href="/prompt-history">Prompt History</a>
+    <a href="/settings" aria-current="page">Settings</a>
+  </nav>
+
+  <main class="page">
+    <section class="panel">
+      <h1>Settings</h1>
+      <p>Choose how the Token Optimizer interface should feel. Settings are stored locally in this browser.</p>
+
+      <h2>Theme</h2>
+      <div class="choices">
+        <div class="choice">
+          <strong>Light</strong>
+          <p>Bright interface for normal workspace lighting.</p>
+          <div class="actions">
+            <button id="lightMode">Use Light</button>
+          </div>
+        </div>
+        <div class="choice">
+          <strong>Dark</strong>
+          <p>Lower-glare interface for longer prompt and agent sessions.</p>
+          <div class="actions">
+            <button id="darkMode">Use Dark</button>
+          </div>
+        </div>
+      </div>
+
+      <h2>Navigation</h2>
+      <p>The top navigation stays fixed across Optimizer, Optimized IDE, Agent Structure, Prompt History, and Settings.</p>
+    </section>
+  </main>
+
+  <script>
+    function setTheme(theme) {
+      localStorage.setItem("tokenOptimizerTheme", theme);
+      document.documentElement.dataset.theme = theme;
+      document.getElementById("lightMode").classList.toggle("active", theme === "light");
+      document.getElementById("darkMode").classList.toggle("active", theme === "dark");
+    }
+
+    document.getElementById("lightMode").addEventListener("click", () => setTheme("light"));
+    document.getElementById("darkMode").addEventListener("click", () => setTheme("dark"));
+    setTheme(localStorage.getItem("tokenOptimizerTheme") || "light");
+  </script>
+</body>
+</html>

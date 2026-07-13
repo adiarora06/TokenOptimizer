@@ -3,7 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Blank A2A Kit</title>
+  <title>Optimized IDE</title>
+  <script>
+    document.documentElement.dataset.theme = localStorage.getItem("tokenOptimizerTheme") || "light";
+  </script>
   <style>
     :root {
       color-scheme: light;
@@ -20,6 +23,21 @@
       --shadow: 0 10px 30px rgba(24, 32, 47, 0.08);
     }
 
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #0f131d;
+      --panel: #161b26;
+      --text: #eef2ff;
+      --muted: #9aa4b8;
+      --line: #293244;
+      --brand: #8fb0ff;
+      --brand-soft: #1f2c4d;
+      --good: #4ade80;
+      --warn: #fbbf24;
+      --risk: #fb7185;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
+    }
+
     * {
       box-sizing: border-box;
     }
@@ -31,6 +49,7 @@
       color: var(--text);
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       line-height: 1.4;
+      padding-top: 45px;
     }
 
     button,
@@ -47,7 +66,7 @@
 
     .topbar {
       position: sticky;
-      top: 0;
+      top: 45px;
       z-index: 10;
       display: grid;
       grid-template-columns: auto minmax(0, 1fr) auto;
@@ -59,6 +78,59 @@
       border-bottom: 1px solid var(--line);
       box-shadow: 0 8px 24px rgba(24, 32, 47, 0.08);
       backdrop-filter: blur(12px);
+    }
+
+    .page-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 20;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      padding: 10px 24px;
+      background: rgba(247, 248, 251, 0.96);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(12px);
+    }
+
+    .page-nav a {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #ffffff;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+      padding: 7px 11px;
+      text-decoration: none;
+    }
+
+    .page-nav a[aria-current="page"] {
+      border-color: var(--brand);
+      background: var(--brand);
+      color: #ffffff;
+    }
+
+    :root[data-theme="dark"] .page-nav,
+    :root[data-theme="dark"] .topbar {
+      background: rgba(15, 19, 29, 0.96);
+    }
+
+    :root[data-theme="dark"] .panel,
+    :root[data-theme="dark"] button,
+    :root[data-theme="dark"] .button,
+    :root[data-theme="dark"] input,
+    :root[data-theme="dark"] select,
+    :root[data-theme="dark"] textarea,
+    :root[data-theme="dark"] .result-view,
+    :root[data-theme="dark"] .trace-view,
+    :root[data-theme="dark"] .summary-card,
+    :root[data-theme="dark"] .trace-item {
+      background: var(--panel);
+      border-color: var(--line);
+      color: var(--text);
     }
 
     .brand {
@@ -386,11 +458,19 @@
   </style>
 </head>
 <body>
+  <nav class="page-nav" aria-label="Token optimizer pages">
+    <a href="/">Optimizer</a>
+    <a href="/a2a-kit" aria-current="page">Optimized IDE</a>
+    <a href="/agent-structure">Agent Structure</a>
+    <a href="/prompt-history">Prompt History</a>
+    <a href="/settings">Settings</a>
+  </nav>
+
   <header class="topbar">
     <a class="brand" href="/">
       <span class="logo">A2A</span>
       <span>
-        <strong>Blank A2A Kit</strong>
+        <strong>Optimized IDE</strong>
         <span>One messy prompt to optimized end result</span>
       </span>
     </a>
@@ -399,10 +479,6 @@
       <span id="statusDetail">Paste any prompt, choose a provider, and run the blank agent kit.</span>
     </div>
     <div class="actions">
-      <a class="button" href="/">Optimizer</a>
-      <a class="button primary" href="/a2a-kit">A2A Kit</a>
-      <a class="button" href="/agent-structure">Agent Structure</a>
-      <a class="button" href="/prompt-history">Prompt History</a>
       <button id="copyOutput">Copy Current</button>
     </div>
   </header>
@@ -412,7 +488,7 @@
       <div class="panel">
         <div class="panel-header">
           <div>
-            <h1>A2A Kit IDE</h1>
+            <h1>Optimized IDE</h1>
             <p>Blank agent architecture: Intake -> Contract -> Executor -> Verifier -> Final.</p>
           </div>
           <span class="pill" id="modePill">one-shot</span>
@@ -421,7 +497,7 @@
           <label for="prompt">Messy prompt entrance</label>
           <textarea id="prompt" placeholder="Paste any task, transcript, idea, coding request, research question, or messy prompt. The blank A2A kit will turn it into a compact handoff contract and run the optimized workflow."></textarea>
           <div class="run-actions">
-            <button class="primary" id="runKit">Run Blank A2A Kit</button>
+            <button class="primary" id="runKit">Run Optimized IDE</button>
             <button id="contractOnly">Contract Only</button>
             <span class="pill good" id="runState">Ready</span>
           </div>
@@ -603,7 +679,7 @@ Fallback: ${result.providerError || "None"}`;
 
     function formatResult(result) {
       const report = result.tokenReport || {};
-      return `# Blank A2A Kit Result
+      return `# Optimized IDE Result
 
 ## Final Answer
 ${result.finalAnswer || "No final answer returned."}
@@ -625,7 +701,7 @@ ${result.finalAnswer || "No final answer returned."}
       const result = state.lastResult;
       if (!result) {
         el("resultView").innerHTML = `
-          <p>No run yet. Paste a messy prompt and click Run Blank A2A Kit.</p>
+          <p>No run yet. Paste a messy prompt and click Run Optimized IDE.</p>
         `;
         return;
       }
