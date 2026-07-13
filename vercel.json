@@ -11,6 +11,10 @@
     {
       "source": "/a2a-kit",
       "destination": "/outputs/a2a-kit.html"
+    },
+    {
+      "source": "/prompt-history",
+      "destination": "/outputs/prompt-history.html"
     }
   ]
 }
