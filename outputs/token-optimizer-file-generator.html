@@ -106,6 +106,10 @@
       margin-top: 0;
     }
 
+    .prompt-actions .quick-examples {
+      grid-column: 1 / -1;
+    }
+
     .support-panel {
       background: var(--panel);
       border: 1px solid var(--line);
@@ -176,6 +180,75 @@
       cursor: pointer;
       text-align: left;
       font-size: 13px;
+    }
+
+    .history-view {
+      overflow: auto;
+      min-height: 360px;
+      max-height: 62vh;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcff;
+      padding: 16px;
+    }
+
+    .history-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .history-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+      padding: 12px;
+    }
+
+    .history-card strong {
+      display: block;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .history-card p {
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .history-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 9px;
+    }
+
+    .history-meta span {
+      border-radius: 999px;
+      padding: 4px 7px;
+      background: #eef1f7;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .history-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 7px;
+      align-content: start;
+    }
+
+    .history-empty {
+      display: grid;
+      min-height: 250px;
+      place-items: center;
+      text-align: center;
+      color: var(--muted);
     }
 
     details {
@@ -956,6 +1029,14 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
+      .history-card {
+        grid-template-columns: 1fr;
+      }
+
+      .history-actions {
+        justify-content: flex-start;
+      }
+
       .graph-summary-grid {
         grid-template-columns: 1fr;
       }
@@ -1028,6 +1109,7 @@
         <div class="prompt-actions">
           <button class="primary" id="runSystem">Optimize & Run</button>
           <button class="secondary" id="generate">Contract Only</button>
+          <button class="secondary" id="openHistory">History</button>
           <div class="quick-examples" aria-label="Quick examples">
             <button class="quick-example" data-example="Create a handoff contract so planner, researcher, writer, and reviewer pass compact state instead of full transcripts.">Try handoff workflow</button>
             <button class="quick-example" data-example="I have a long prompt I would normally paste into Claude. Optimize it into smaller staged prompts, run the workflow, and return the final answer plus the prompts used.">Try staged run</button>
@@ -1131,6 +1213,7 @@
           <button class="tab" data-tab="agents" aria-selected="false">Agents</button>
           <button class="tab" data-tab="structure" aria-selected="false">Flow</button>
           <button class="tab" data-tab="prompts" aria-selected="false">Prompts</button>
+          <button class="tab" data-tab="history" aria-selected="false">Past Prompts</button>
           <button class="tab" data-tab="file" aria-selected="false">Contract</button>
           <button class="tab" data-tab="directions" aria-selected="false">Directions</button>
           <button class="tab" data-tab="llm" aria-selected="false">Paid LLM Prompt</button>
@@ -1141,6 +1224,7 @@
         <div id="structureGraph" class="structure-view hidden" aria-label="Agent structure graph"></div>
         <div id="agentsGraph" class="agents-map hidden" aria-label="Agent node relation map"></div>
         <div id="runResultView" class="run-result-view hidden" aria-label="Optimized run result preview"></div>
+        <div id="historyView" class="history-view hidden" aria-label="Past prompt history"></div>
       </div>
     </section>
 
@@ -1189,6 +1273,7 @@
         file: "",
         directions: "",
         prompts: "",
+        history: "",
         llm: ""
       },
       fileName: "agent-handoff-contract.json",
@@ -1327,6 +1412,7 @@
       graph: "Showing the node graph of agent responsibilities and information flow.",
       agents: "Showing the active agents, their responsibilities, and handoff relations.",
       structure: "Showing how data moves through the handoff contract graph.",
+      history: "Showing past prompts saved in this browser.",
       file: "Showing the generated artifact content.",
       directions: "Showing insertion and verification steps.",
       prompts: "Showing the optimized prompts the system created and ran.",
@@ -1441,6 +1527,171 @@
         params.set("goal", input.goal);
       }
       window.location.href = `/agent-structure?${params.toString()}`;
+    }
+
+    const promptHistoryKey = "tokenOptimizerPromptHistory";
+
+    function loadPromptHistory() {
+      try {
+        const parsed = JSON.parse(localStorage.getItem(promptHistoryKey) || "[]");
+        return Array.isArray(parsed) ? parsed : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function savePromptHistory(items) {
+      try {
+        localStorage.setItem(promptHistoryKey, JSON.stringify(items.slice(0, 25)));
+      } catch {
+        // History is a convenience feature; generation should still work without storage.
+      }
+      state.sections.history = formatPromptHistoryText();
+      if (state.activeTab === "history") {
+        renderPromptHistory();
+      }
+    }
+
+    function promptTitle(goal) {
+      const compact = String(goal || "")
+        .replace(/\s+/g, " ")
+        .trim();
+      if (!compact) return "Untitled prompt";
+      return compact.length > 82 ? compact.slice(0, 79) + "..." : compact;
+    }
+
+    function rememberPrompt(input, mode) {
+      if (!input.goal || !input.goal.trim()) return;
+      const history = loadPromptHistory();
+      const normalizedGoal = input.goal.replace(/\s+/g, " ").trim();
+      const existingIndex = history.findIndex((item) => item.normalizedGoal === normalizedGoal);
+      const item = {
+        id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
+        goal: input.goal,
+        normalizedGoal,
+        mode,
+        provider: input.provider,
+        platform: input.platform,
+        fileType: input.fileType,
+        depth: input.depth,
+        tokens: estimateTokens(input.goal),
+        createdAt: new Date().toISOString()
+      };
+      if (existingIndex !== -1) {
+        history.splice(existingIndex, 1);
+      }
+      history.unshift(item);
+      savePromptHistory(history);
+    }
+
+    function formatPromptHistoryText() {
+      const history = loadPromptHistory();
+      if (!history.length) {
+        return "# Past Prompts\n\nNo saved prompts yet. Run the optimizer to start building history.";
+      }
+      return `# Past Prompts
+
+${history.map((item, index) => `## ${index + 1}. ${promptTitle(item.goal)}
+
+- Mode: ${item.mode || "optimizer"}
+- Provider: ${providerLabel(item.provider)}
+- Destination: ${platformNames[item.platform] || item.platform}
+- Depth: ${item.depth}
+- Estimated tokens: ${item.tokens}
+- Saved: ${new Date(item.createdAt).toLocaleString()}
+
+\`\`\`text
+${item.goal}
+\`\`\``).join("\n\n")}`;
+    }
+
+    function renderPromptHistory() {
+      const history = loadPromptHistory();
+      state.sections.history = formatPromptHistoryText();
+      if (!history.length) {
+        el("historyView").innerHTML = `
+          <div class="history-empty">
+            <div>
+              <strong>No past prompts yet.</strong>
+              <p>Run Optimize & Run or Contract Only, and prompts will appear here automatically.</p>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      el("historyView").innerHTML = `
+        <div class="structure-title">
+          <div>
+            <strong>Past Prompts</strong>
+            <p>Saved locally in this browser. Load, rerun, inspect agents, or remove old prompts.</p>
+          </div>
+          <span class="pill good">${history.length} saved</span>
+        </div>
+        <div class="history-list">
+          ${history.map((item) => `
+            <article class="history-card">
+              <div>
+                <strong>${escapeHtml(promptTitle(item.goal))}</strong>
+                <p>${escapeHtml(item.goal)}</p>
+                <div class="history-meta">
+                  <span>${escapeHtml(item.mode || "optimizer")}</span>
+                  <span>${escapeHtml(providerLabel(item.provider))}</span>
+                  <span>${escapeHtml(platformNames[item.platform] || item.platform)}</span>
+                  <span>${escapeHtml(item.depth || "medium")}</span>
+                  <span>${item.tokens || estimateTokens(item.goal)} tokens</span>
+                  <span>${escapeHtml(new Date(item.createdAt).toLocaleString())}</span>
+                </div>
+              </div>
+              <div class="history-actions">
+                <button class="secondary" data-history-action="load" data-history-id="${item.id}">Load</button>
+                <button class="secondary" data-history-action="run" data-history-id="${item.id}">Run</button>
+                <button class="secondary" data-history-action="structure" data-history-id="${item.id}">Agents</button>
+                <button class="secondary" data-history-action="delete" data-history-id="${item.id}">Delete</button>
+              </div>
+            </article>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    function applyHistoryItem(item) {
+      el("goal").value = item.goal;
+      syncControls({
+        fileType: item.fileType || inferFileType(item.goal),
+        platform: item.platform || inferPlatform(item.goal),
+        provider: item.provider || "groq-openai-fallback",
+        goal: item.goal,
+        depth: item.depth || inferDepth(item.goal)
+      });
+    }
+
+    function handleHistoryAction(action, id) {
+      const history = loadPromptHistory();
+      const item = history.find((entry) => entry.id === id);
+      if (!item) return;
+      if (action === "delete") {
+        savePromptHistory(history.filter((entry) => entry.id !== id));
+        setLiveStatus("History", "Prompt removed", "Deleted one saved prompt from this browser.", false);
+        return;
+      }
+      applyHistoryItem(item);
+      if (action === "load") {
+        state.activeTab = "use";
+        document.querySelectorAll(".tab").forEach((button) => {
+          button.setAttribute("aria-selected", String(button.dataset.tab === state.activeTab));
+        });
+        renderOutput();
+        setLiveStatus("History", "Prompt loaded", "The saved prompt is back in the main input.", false);
+        return;
+      }
+      if (action === "structure") {
+        openAgentStructurePage("agents");
+        return;
+      }
+      if (action === "run") {
+        runOptimizedWorkflow(false);
+      }
     }
 
     function generateInstructions(input) {
@@ -2489,11 +2740,13 @@ ${item.prompt}
       const isAgents = state.activeTab === "agents";
       const isRun = state.activeTab === "run";
       const isGraph = state.activeTab === "graph";
-      el("output").classList.toggle("hidden", isStructure || isAgents || isRun || isGraph);
+      const isHistory = state.activeTab === "history";
+      el("output").classList.toggle("hidden", isStructure || isAgents || isRun || isGraph || isHistory);
       el("agentFlowGraph").classList.toggle("hidden", !isGraph);
       el("structureGraph").classList.toggle("hidden", !isStructure);
       el("agentsGraph").classList.toggle("hidden", !isAgents);
       el("runResultView").classList.toggle("hidden", !isRun);
+      el("historyView").classList.toggle("hidden", !isHistory);
       if (isGraph && state.currentInput) {
         renderAgentFlowGraph(state.currentInput);
       }
@@ -2506,6 +2759,9 @@ ${item.prompt}
       if (isRun) {
         renderRunResultView();
       }
+      if (isHistory) {
+        renderPromptHistory();
+      }
       el("output").textContent = state.sections[state.activeTab] || "";
       const fileNames = {
         use: "one-shot-action-plan.md",
@@ -2513,6 +2769,7 @@ ${item.prompt}
         graph: "agent-flow-node-graph.md",
         agents: "agent-node-relations.md",
         structure: "agent-structure-flow.md",
+        history: "past-prompts.md",
         file: state.fileName,
         directions: "insertion-directions.md",
         prompts: "optimized-prompts-used.md",
@@ -2524,6 +2781,7 @@ ${item.prompt}
 
     async function runOptimizedWorkflow(autopilot = true) {
       const input = selected(autopilot);
+      rememberPrompt(input, "optimized run");
       state.currentInput = input;
       el("status").textContent = "Running";
       el("status").className = "pill warn";
@@ -2584,12 +2842,15 @@ ${item.prompt}
         el("status").textContent = "Fallback";
         el("status").className = "pill warn";
         setLiveStatus("Fallback", "Optimized run failed", error.message + ". Generated the contract-only fallback.", false);
-        await runGeneration(autopilot);
+        await runGeneration(autopilot, false);
       }
     }
 
-    async function runGeneration(autopilot = true) {
+    async function runGeneration(autopilot = true, saveHistory = true) {
       const input = selected(autopilot);
+      if (saveHistory) {
+        rememberPrompt(input, "contract only");
+      }
       const meta = templates[input.fileType];
       state.fileName = meta.name;
       state.currentInput = input;
@@ -2713,6 +2974,19 @@ ${item.prompt}
       setProviderFields();
       setLiveStatus("Provider", "Provider route changed", "Next advanced generation will use " + providerLabel(el("provider").value) + ".", false);
     });
+    el("openHistory").addEventListener("click", () => {
+      state.activeTab = "history";
+      document.querySelectorAll(".tab").forEach((button) => {
+        button.setAttribute("aria-selected", String(button.dataset.tab === state.activeTab));
+      });
+      renderOutput();
+      setLiveStatus("History", "Past prompts", "Showing prompts saved in this browser.", false);
+    });
+    el("historyView").addEventListener("click", (event) => {
+      const button = event.target.closest("[data-history-action]");
+      if (!button) return;
+      handleHistoryAction(button.dataset.historyAction, button.dataset.historyId);
+    });
     el("runSystem").addEventListener("click", () => runOptimizedWorkflow(true));
     el("generate").addEventListener("click", () => runGeneration(true));
     el("generateAdvanced").addEventListener("click", () => runGeneration(false));
@@ -2737,8 +3011,9 @@ ${item.prompt}
 
     setProviderFields();
     renderTimeline(0);
+    state.sections.history = formatPromptHistoryText();
     checkProviderStatus();
-    runGeneration();
+    runGeneration(true, false);
   </script>
 </body>
 </html>
