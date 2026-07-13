@@ -3,6 +3,10 @@
     {
       "source": "/",
       "destination": "/outputs/token-optimizer-file-generator.html"
+    },
+    {
+      "source": "/agent-structure",
+      "destination": "/outputs/agent-structure.html"
     }
   ]
 }
