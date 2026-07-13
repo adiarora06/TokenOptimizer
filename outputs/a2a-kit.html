@@ -1,0 +1,760 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Blank A2A Kit</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f7f8fb;
+      --panel: #ffffff;
+      --text: #18202f;
+      --muted: #677084;
+      --line: #dfe4ee;
+      --brand: #2557d6;
+      --brand-soft: #eaf0ff;
+      --good: #0b7a4b;
+      --warn: #9b5a00;
+      --risk: #b42318;
+      --shadow: 0 10px 30px rgba(24, 32, 47, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.4;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 14px;
+      align-items: center;
+      min-height: 58px;
+      padding: 10px 24px;
+      background: rgba(255, 255, 255, 0.96);
+      border-bottom: 1px solid var(--line);
+      box-shadow: 0 8px 24px rgba(24, 32, 47, 0.08);
+      backdrop-filter: blur(12px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      min-width: 0;
+      gap: 10px;
+    }
+
+    .logo {
+      display: grid;
+      width: 36px;
+      height: 36px;
+      place-items: center;
+      border-radius: 8px;
+      background: var(--brand);
+      color: #ffffff;
+      font-weight: 900;
+    }
+
+    .brand strong,
+    .status strong {
+      display: block;
+      overflow: hidden;
+      color: var(--text);
+      font-size: 13px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .brand span,
+    .status span {
+      display: block;
+      overflow: hidden;
+      color: var(--muted);
+      font-size: 12px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .page {
+      width: min(1280px, calc(100% - 36px));
+      margin: 0 auto;
+      padding: 22px 0 44px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 340px;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .panel-body {
+      padding: 16px;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 24px;
+    }
+
+    h2 {
+      font-size: 18px;
+    }
+
+    h3 {
+      font-size: 14px;
+    }
+
+    p {
+      color: var(--muted);
+    }
+
+    label {
+      display: block;
+      margin: 14px 0 6px;
+      color: #2c3444;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    textarea,
+    input,
+    select {
+      width: 100%;
+      border: 1px solid #cdd6e7;
+      border-radius: 8px;
+      background: #ffffff;
+      color: var(--text);
+      padding: 10px;
+    }
+
+    textarea {
+      min-height: 280px;
+      resize: vertical;
+    }
+
+    .provider-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    button,
+    .button {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 36px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+      color: var(--text);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 8px 11px;
+    }
+
+    button.primary {
+      border-color: var(--brand);
+      background: var(--brand);
+      color: #ffffff;
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+      opacity: 0.62;
+    }
+
+    .run-actions {
+      display: grid;
+      grid-template-columns: minmax(180px, 260px) minmax(160px, 220px) minmax(0, 1fr);
+      gap: 10px;
+      align-items: center;
+      margin-top: 12px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 5px 9px;
+      background: var(--brand-soft);
+      color: var(--brand);
+      font-size: 12px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .pill.good {
+      background: #eaf8f0;
+      color: var(--good);
+    }
+
+    .pill.warn {
+      background: #fff4df;
+      color: var(--warn);
+    }
+
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 16px 16px 0;
+    }
+
+    .tab[aria-selected="true"] {
+      border-color: var(--brand);
+      background: var(--brand);
+      color: #ffffff;
+    }
+
+    .output {
+      padding: 16px;
+    }
+
+    pre {
+      overflow: auto;
+      max-height: 62vh;
+      min-height: 380px;
+      margin: 0;
+      border-radius: 8px;
+      background: #111827;
+      color: #e5e7eb;
+      padding: 16px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .result-view,
+    .trace-view {
+      min-height: 380px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcff;
+      padding: 16px;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .summary-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+      padding: 12px;
+    }
+
+    .summary-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .summary-card strong {
+      display: block;
+      margin-top: 6px;
+      color: var(--text);
+      font-size: 18px;
+    }
+
+    .trace-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .trace-item {
+      display: grid;
+      grid-template-columns: 28px minmax(0, 1fr);
+      gap: 10px;
+      align-items: start;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+      padding: 10px;
+    }
+
+    .dot {
+      display: grid;
+      width: 26px;
+      height: 26px;
+      place-items: center;
+      border-radius: 999px;
+      background: var(--brand-soft);
+      color: var(--brand);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .trace-item strong {
+      display: block;
+      font-size: 13px;
+    }
+
+    .trace-item span {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .notice {
+      margin-top: 12px;
+      border-radius: 8px;
+      background: #fff4df;
+      color: #5c3900;
+      padding: 11px;
+      font-size: 12px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 980px) {
+      .topbar,
+      .grid,
+      .provider-grid,
+      .run-actions,
+      .summary-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .actions {
+        justify-content: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/">
+      <span class="logo">A2A</span>
+      <span>
+        <strong>Blank A2A Kit</strong>
+        <span>One messy prompt to optimized end result</span>
+      </span>
+    </a>
+    <div class="status" role="status" aria-live="polite">
+      <strong id="statusTitle">Ready</strong>
+      <span id="statusDetail">Paste any prompt, choose a provider, and run the blank agent kit.</span>
+    </div>
+    <div class="actions">
+      <a class="button" href="/">Back to Optimizer</a>
+      <button id="copyOutput">Copy Current</button>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="grid">
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <h1>A2A Kit IDE</h1>
+            <p>Blank agent architecture: Intake -> Contract -> Executor -> Verifier -> Final.</p>
+          </div>
+          <span class="pill" id="modePill">one-shot</span>
+        </div>
+        <div class="panel-body">
+          <label for="prompt">Messy prompt entrance</label>
+          <textarea id="prompt" placeholder="Paste any task, transcript, idea, coding request, research question, or messy prompt. The blank A2A kit will turn it into a compact handoff contract and run the optimized workflow."></textarea>
+          <div class="run-actions">
+            <button class="primary" id="runKit">Run Blank A2A Kit</button>
+            <button id="contractOnly">Contract Only</button>
+            <span class="pill good" id="runState">Ready</span>
+          </div>
+        </div>
+      </div>
+
+      <aside class="panel">
+        <div class="panel-header">
+          <div>
+            <h2>Provider</h2>
+            <p>Any OpenAI-compatible endpoint</p>
+          </div>
+        </div>
+        <div class="panel-body">
+          <label for="provider">Route</label>
+          <select id="provider">
+            <option value="offline">Offline A2A kit</option>
+            <option value="groq">Groq</option>
+            <option value="openai">OpenAI</option>
+            <option value="openrouter">OpenRouter</option>
+            <option value="xai">xAI/Grok</option>
+            <option value="litellm">LiteLLM proxy</option>
+            <option value="custom">Custom OpenAI-compatible</option>
+          </select>
+
+          <div class="provider-grid">
+            <div>
+              <label for="model">Model</label>
+              <input id="model" placeholder="e.g. gpt-4.1-mini">
+            </div>
+            <div>
+              <label for="apiKey">API key</label>
+              <input id="apiKey" type="password" placeholder="Used for this request only">
+            </div>
+          </div>
+
+          <label for="baseUrl">Base URL</label>
+          <input id="baseUrl" placeholder="https://api.openai.com/v1">
+
+          <div class="notice">
+            Keys are sent only with the run request and are not saved by this page. For production, prefer Vercel environment variables or your own backend proxy.
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="panel" style="margin-top: 18px">
+      <div class="tabs" role="tablist" aria-label="A2A kit output views">
+        <button class="tab" data-view="result" aria-selected="true">Result</button>
+        <button class="tab" data-view="trace" aria-selected="false">Trace</button>
+        <button class="tab" data-view="contract" aria-selected="false">Contract</button>
+        <button class="tab" data-view="prompts" aria-selected="false">Prompts</button>
+        <button class="tab" data-view="kit" aria-selected="false">Kit JSON</button>
+      </div>
+      <div class="output">
+        <div id="resultView" class="result-view"></div>
+        <div id="traceView" class="trace-view hidden"></div>
+        <pre id="textView" class="hidden"></pre>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const state = {
+      activeView: "result",
+      resultExpanded: false,
+      lastResult: null,
+      sections: {
+        result: "",
+        trace: "",
+        contract: "",
+        prompts: "",
+        kit: ""
+      }
+    };
+
+    const providerDefaults = {
+      offline: { baseUrl: "", model: "" },
+      groq: { baseUrl: "https://api.groq.com/openai/v1", model: "llama-3.3-70b-versatile" },
+      openai: { baseUrl: "https://api.openai.com/v1", model: "gpt-4.1-mini" },
+      openrouter: { baseUrl: "https://openrouter.ai/api/v1", model: "openai/gpt-4.1-mini" },
+      xai: { baseUrl: "https://api.x.ai/v1", model: "grok-4.3" },
+      litellm: { baseUrl: "http://localhost:4000/v1", model: "gpt-4.1-mini" },
+      custom: { baseUrl: "", model: "" }
+    };
+
+    const providerLabels = {
+      offline: "Offline A2A kit",
+      groq: "Groq",
+      openai: "OpenAI",
+      openrouter: "OpenRouter",
+      xai: "xAI/Grok",
+      litellm: "LiteLLM",
+      custom: "Custom provider"
+    };
+
+    const el = (id) => document.getElementById(id);
+
+    function escapeHtml(value) {
+      return String(value || "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function estimateTokens(text) {
+      return Math.max(1, Math.ceil(String(text || "").length / 4));
+    }
+
+    function setStatus(title, detail, running = false) {
+      el("statusTitle").textContent = title;
+      el("statusDetail").textContent = detail;
+      el("runState").textContent = running ? "Running" : title;
+      el("runState").className = running ? "pill warn" : "pill good";
+    }
+
+    function loadInitialPrompt() {
+      const params = new URLSearchParams(window.location.search);
+      let prompt = params.get("prompt") || "";
+      if (!prompt) {
+        try {
+          const saved = JSON.parse(localStorage.getItem("tokenOptimizerA2AInput") || "{}");
+          prompt = saved.goal || saved.prompt || "";
+        } catch {
+          prompt = "";
+        }
+      }
+      el("prompt").value = prompt || "Take this messy prompt and produce the optimized end result using a blank A2A kit.";
+    }
+
+    function selectedProviderConfig() {
+      return {
+        provider: el("provider").value,
+        baseUrl: el("baseUrl").value.trim(),
+        model: el("model").value.trim(),
+        apiKey: el("apiKey").value.trim()
+      };
+    }
+
+    function setProviderDefaults() {
+      const provider = el("provider").value;
+      const defaults = providerDefaults[provider] || providerDefaults.custom;
+      el("baseUrl").value = defaults.baseUrl;
+      el("model").value = defaults.model;
+      el("apiKey").value = "";
+      el("modePill").textContent = providerLabels[provider] || provider;
+    }
+
+    function formatPrompts(result) {
+      const prompts = result.optimizedPrompts || [];
+      if (!prompts.length) return "# A2A Prompts\n\nNo staged prompts returned.";
+      return `# A2A Prompts
+
+${prompts.map((item, index) => `## ${index + 1}. ${item.agent}
+
+Purpose:
+${item.purpose}
+
+Estimated tokens:
+${item.tokens}
+
+\`\`\`text
+${item.prompt}
+\`\`\``).join("\n\n")}`;
+    }
+
+    function formatTrace(result) {
+      const trace = result.trace || [];
+      return `# A2A Trace
+
+${trace.map((item) => `- ${item.agent} (${item.status}): ${item.detail}`).join("\n")}
+
+Provider: ${result.providerLabel || result.provider}
+Model: ${result.model}
+Fallback: ${result.providerError || "None"}`;
+    }
+
+    function formatResult(result) {
+      const report = result.tokenReport || {};
+      return `# Blank A2A Kit Result
+
+## Final Answer
+${result.finalAnswer || "No final answer returned."}
+
+## Token Report
+- Raw input tokens: ${report.rawInputTokens || 0}
+- A2A prompt tokens: ${report.optimizedPromptTokens || 0}
+- Estimated naive three-step tokens: ${report.estimatedNaiveThreeStepTokens || 0}
+- Estimated saved tokens: ${report.estimatedSavingsTokens || 0}
+- Estimated savings: ${report.estimatedSavingsPercent || 0}%
+
+## Provider
+- Provider: ${result.providerLabel || result.provider}
+- Model: ${result.model}
+- Fallback: ${result.providerError || "None"}`;
+    }
+
+    function renderResult() {
+      const result = state.lastResult;
+      if (!result) {
+        el("resultView").innerHTML = `
+          <p>No run yet. Paste a messy prompt and click Run Blank A2A Kit.</p>
+        `;
+        return;
+      }
+      const report = result.tokenReport || {};
+      const finalAnswer = result.finalAnswer || "No final answer returned.";
+      const visibleAnswer = state.resultExpanded
+        ? finalAnswer
+        : "Final answer is ready and hidden by default. Click \"Show full result\" to view it here.";
+      el("resultView").innerHTML = `
+        <div class="summary-grid">
+          <div class="summary-card"><span>Raw Tokens</span><strong>${report.rawInputTokens || 0}</strong></div>
+          <div class="summary-card"><span>A2A Tokens</span><strong>${report.optimizedPromptTokens || 0}</strong></div>
+          <div class="summary-card"><span>Saved</span><strong>${report.estimatedSavingsPercent || 0}%</strong></div>
+          <div class="summary-card"><span>Model</span><strong>${escapeHtml(result.model || "offline")}</strong></div>
+        </div>
+        <pre style="min-height: 220px; max-height: 360px">${escapeHtml(visibleAnswer)}</pre>
+        <div class="actions" style="margin-top: 12px; justify-content: flex-start">
+          <button id="toggleResult">${state.resultExpanded ? "Hide full result" : "Show full result"}</button>
+        </div>
+      `;
+      el("toggleResult").addEventListener("click", () => {
+        state.resultExpanded = !state.resultExpanded;
+        renderResult();
+      });
+    }
+
+    function renderTrace() {
+      const result = state.lastResult;
+      if (!result) {
+        el("traceView").innerHTML = "<p>No trace yet.</p>";
+        return;
+      }
+      el("traceView").innerHTML = `
+        <div class="trace-list">
+          ${(result.trace || []).map((item, index) => `
+            <div class="trace-item">
+              <div class="dot">${index + 1}</div>
+              <div>
+                <strong>${escapeHtml(item.agent)} (${escapeHtml(item.status)})</strong>
+                <span>${escapeHtml(item.detail)}</span>
+              </div>
+            </div>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    function renderView() {
+      const isResult = state.activeView === "result";
+      const isTrace = state.activeView === "trace";
+      el("resultView").classList.toggle("hidden", !isResult);
+      el("traceView").classList.toggle("hidden", !isTrace);
+      el("textView").classList.toggle("hidden", isResult || isTrace);
+      document.querySelectorAll(".tab").forEach((button) => {
+        button.setAttribute("aria-selected", String(button.dataset.view === state.activeView));
+      });
+      if (isResult) {
+        renderResult();
+      } else if (isTrace) {
+        renderTrace();
+      } else {
+        el("textView").textContent = state.sections[state.activeView] || "";
+      }
+    }
+
+    async function runKit(contractOnly = false) {
+      const input = el("prompt").value.trim();
+      if (!input) {
+        setStatus("Missing prompt", "Paste a messy prompt first.", false);
+        return;
+      }
+      try {
+        localStorage.setItem("tokenOptimizerA2AInput", JSON.stringify({ prompt: input }));
+      } catch {
+        // Continue without persistence.
+      }
+      setStatus("Running", contractOnly ? "Building the blank A2A contract." : "Running Contract, Executor, and Verifier agents.", true);
+      el("runKit").disabled = true;
+      el("contractOnly").disabled = true;
+      try {
+        const providerConfig = contractOnly
+          ? { provider: "offline" }
+          : selectedProviderConfig();
+        const response = await fetch("/api/a2a-run", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            input,
+            providerConfig,
+            options: { mode: contractOnly ? "contract-only" : "one-shot" }
+          })
+        });
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error || "A2A run failed");
+        state.lastResult = result;
+        state.resultExpanded = false;
+        state.sections.result = formatResult(result);
+        state.sections.trace = formatTrace(result);
+        state.sections.contract = result.contractOutput || "";
+        state.sections.prompts = formatPrompts(result);
+        state.sections.kit = JSON.stringify(result.kit || {}, null, 2);
+        state.activeView = contractOnly ? "contract" : "result";
+        renderView();
+        setStatus("Done", result.providerError ? "Provider failed; offline A2A fallback returned a result." : "Blank A2A kit completed the one-shot run.", false);
+      } catch (error) {
+        setStatus("Error", error.message, false);
+      } finally {
+        el("runKit").disabled = false;
+        el("contractOnly").disabled = false;
+      }
+    }
+
+    document.querySelectorAll(".tab").forEach((button) => {
+      button.addEventListener("click", () => {
+        state.activeView = button.dataset.view;
+        renderView();
+      });
+    });
+    el("provider").addEventListener("change", setProviderDefaults);
+    el("runKit").addEventListener("click", () => runKit(false));
+    el("contractOnly").addEventListener("click", () => runKit(true));
+    el("copyOutput").addEventListener("click", async () => {
+      const text = state.sections[state.activeView] || "";
+      await navigator.clipboard.writeText(text);
+      el("copyOutput").textContent = "Copied";
+      setTimeout(() => {
+        el("copyOutput").textContent = "Copy Current";
+      }, 1000);
+    });
+
+    loadInitialPrompt();
+    setProviderDefaults();
+    renderView();
+  </script>
+</body>
+</html>
