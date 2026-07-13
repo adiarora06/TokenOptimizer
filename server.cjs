@@ -455,7 +455,11 @@ async function handleApi(req, res) {
 
 function serveStatic(req, res) {
   const requestUrl = new URL(req.url, `http://127.0.0.1:${port}`);
-  const pathname = requestUrl.pathname === "/" ? "/token-optimizer-file-generator.html" : requestUrl.pathname;
+  const routeMap = {
+    "/": "/token-optimizer-file-generator.html",
+    "/agent-structure": "/agent-structure.html"
+  };
+  const pathname = routeMap[requestUrl.pathname] || requestUrl.pathname;
   const filePath = path.normalize(path.join(outputDir, pathname));
   if (!filePath.startsWith(outputDir)) {
     res.writeHead(403);

@@ -1,0 +1,899 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Token Optimizer Agent Structure</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f7f8fb;
+      --panel: #ffffff;
+      --text: #18202f;
+      --muted: #677084;
+      --line: #dfe4ee;
+      --brand: #2557d6;
+      --brand-soft: #eaf0ff;
+      --good: #0b7a4b;
+      --warn: #9b5a00;
+      --shadow: 0 10px 30px rgba(24, 32, 47, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.4;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 14px;
+      align-items: center;
+      min-height: 58px;
+      padding: 10px 24px;
+      background: rgba(255, 255, 255, 0.96);
+      border-bottom: 1px solid var(--line);
+      box-shadow: 0 8px 24px rgba(24, 32, 47, 0.08);
+      backdrop-filter: blur(12px);
+    }
+
+    .brand {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      min-width: 0;
+    }
+
+    .logo {
+      display: grid;
+      width: 36px;
+      height: 36px;
+      place-items: center;
+      border-radius: 8px;
+      background: var(--brand);
+      color: #ffffff;
+      font-weight: 900;
+    }
+
+    .brand strong,
+    .status strong {
+      display: block;
+      overflow: hidden;
+      color: var(--text);
+      font-size: 13px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .brand span,
+    .status span {
+      display: block;
+      overflow: hidden;
+      color: var(--muted);
+      font-size: 12px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .status {
+      min-width: 0;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    .page {
+      width: min(1280px, calc(100% - 36px));
+      margin: 0 auto;
+      padding: 22px 0 42px;
+    }
+
+    .panel {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: center;
+      padding: 16px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 22px;
+    }
+
+    h2 {
+      font-size: 18px;
+    }
+
+    h3 {
+      font-size: 14px;
+    }
+
+    p {
+      color: var(--muted);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 5px 9px;
+      background: var(--brand-soft);
+      color: var(--brand);
+      font-size: 12px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .button,
+    button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 36px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+      color: var(--text);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 8px 11px;
+    }
+
+    .button.primary,
+    button.primary {
+      border-color: var(--brand);
+      background: var(--brand);
+      color: #ffffff;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 310px;
+      gap: 18px;
+      align-items: start;
+      margin-top: 18px;
+    }
+
+    .controls {
+      display: grid;
+      gap: 12px;
+      padding: 16px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      color: #2c3444;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    textarea,
+    select {
+      width: 100%;
+      border: 1px solid #cdd6e7;
+      border-radius: 8px;
+      background: #ffffff;
+      color: var(--text);
+      padding: 10px;
+    }
+
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    .control-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 16px 16px 0;
+    }
+
+    .tab[aria-selected="true"] {
+      border-color: var(--brand);
+      background: var(--brand);
+      color: #ffffff;
+    }
+
+    .canvas {
+      padding: 16px;
+    }
+
+    .node-flow-graph,
+    .agents-view {
+      overflow: auto;
+      min-height: 560px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcff;
+      padding: 16px;
+    }
+
+    .structure-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .structure-title strong {
+      font-size: 16px;
+    }
+
+    .node-svg {
+      display: block;
+      width: 100%;
+      min-width: 1060px;
+      height: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+    }
+
+    .node-box {
+      fill: #ffffff;
+      stroke: #cdd6e7;
+      stroke-width: 1.4;
+    }
+
+    .node-box.primary {
+      fill: #eaf0ff;
+      stroke: #8fa8ff;
+    }
+
+    .node-box.guard {
+      fill: #fffaf0;
+      stroke: #ffd596;
+    }
+
+    .node-box.output {
+      fill: #f0fbf5;
+      stroke: #9ad7b8;
+    }
+
+    .node-box.route {
+      fill: #f8fafc;
+      stroke: #b9c4d8;
+      stroke-dasharray: 5 4;
+    }
+
+    .edge {
+      fill: none;
+      stroke: var(--brand);
+      stroke-width: 2;
+      marker-end: url(#agentArrow);
+    }
+
+    .edge.guard-edge {
+      stroke: #9b5a00;
+    }
+
+    .edge.route-edge {
+      stroke: #677084;
+      stroke-dasharray: 6 5;
+    }
+
+    .edge-label {
+      fill: #445066;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .node-kicker {
+      fill: var(--brand);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .node-title {
+      fill: var(--text);
+      font-size: 15px;
+      font-weight: 900;
+    }
+
+    .node-subtitle,
+    .node-line {
+      fill: #677084;
+      font-size: 11px;
+      font-weight: 650;
+    }
+
+    .agent-grid,
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .agent-grid {
+      grid-template-columns: repeat(3, minmax(180px, 1fr));
+      min-width: 760px;
+      margin-top: 0;
+    }
+
+    .card {
+      min-height: 128px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+      padding: 12px;
+    }
+
+    .card.primary {
+      border-color: #8fa8ff;
+      background: var(--brand-soft);
+    }
+
+    .card.guard {
+      border-color: #ffd596;
+      background: #fffaf0;
+    }
+
+    .card.output {
+      border-color: #9ad7b8;
+      background: #f0fbf5;
+    }
+
+    .card span {
+      display: inline-flex;
+      border-radius: 999px;
+      padding: 4px 7px;
+      background: #eef1f7;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .card h3 {
+      margin-top: 9px;
+    }
+
+    .card p,
+    .card li {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .card ul {
+      margin: 8px 0 0;
+      padding-left: 16px;
+    }
+
+    .relations {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .relation {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+      color: var(--muted);
+      font-size: 13px;
+      padding: 10px;
+    }
+
+    .relation strong {
+      color: var(--text);
+    }
+
+    .side-list {
+      display: grid;
+      gap: 10px;
+      padding: 16px;
+    }
+
+    .side-item {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcff;
+      padding: 11px;
+    }
+
+    .side-item strong {
+      display: block;
+      font-size: 13px;
+    }
+
+    .side-item span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 980px) {
+      .topbar,
+      .grid,
+      .control-row {
+        grid-template-columns: 1fr;
+      }
+
+      .actions {
+        justify-content: flex-start;
+      }
+
+      .agent-grid,
+      .summary-grid,
+      .relations {
+        grid-template-columns: 1fr;
+        min-width: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/">
+      <span class="logo">TO</span>
+      <span>
+        <strong>Agent Structure</strong>
+        <span>Connected visualization page</span>
+      </span>
+    </a>
+    <div class="status" role="status" aria-live="polite">
+      <strong id="statusTitle">Showing agent graph</strong>
+      <span id="statusDetail">Direct page for information flow, responsibilities, and agent handoff contracts.</span>
+    </div>
+    <div class="actions">
+      <a class="button" href="/">Back to Optimizer</a>
+      <button class="primary" id="copyLink">Copy Page Link</button>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="panel">
+      <div class="panel-header">
+        <div>
+          <h1>Agent Graph And Responsibilities</h1>
+          <p>This is the full-page view of how data moves through the token optimizer's agents.</p>
+        </div>
+        <span class="pill" id="routePill">Offline</span>
+      </div>
+
+      <div class="controls">
+        <div>
+          <label for="goal">Current user goal</label>
+          <textarea id="goal"></textarea>
+        </div>
+        <div class="control-row">
+          <div>
+            <label for="provider">Provider route</label>
+            <select id="provider">
+              <option value="groq-openai-fallback">Groq primary + OpenAI backup</option>
+              <option value="groq">Groq only</option>
+              <option value="openai">OpenAI only</option>
+              <option value="offline">free offline generator</option>
+              <option value="openrouter">OpenRouter direct</option>
+              <option value="xai">xAI/Grok direct</option>
+              <option value="litellm">LiteLLM local proxy</option>
+            </select>
+          </div>
+          <div>
+            <label for="platform">Destination</label>
+            <select id="platform">
+              <option value="codex">Codex or coding agent repo</option>
+              <option value="webapp">web app backend</option>
+              <option value="extension">browser extension</option>
+              <option value="desktop">desktop app</option>
+              <option value="sdk">SDK / API middleware</option>
+              <option value="team">team dashboard</option>
+            </select>
+          </div>
+          <div>
+            <label for="depth">Depth</label>
+            <select id="depth">
+              <option value="light">light</option>
+              <option value="medium">medium</option>
+              <option value="aggressive">aggressive</option>
+            </select>
+          </div>
+        </div>
+        <div class="actions">
+          <button class="primary" id="refresh">Refresh Structure</button>
+          <button id="copySummary">Copy Summary</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="panel">
+        <div class="tabs" role="tablist" aria-label="Agent structure views">
+          <button class="tab" data-view="graph" aria-selected="true">Agent Graph</button>
+          <button class="tab" data-view="agents" aria-selected="false">Agents</button>
+        </div>
+        <div class="canvas">
+          <div id="graphView" class="node-flow-graph"></div>
+          <div id="agentsView" class="agents-view hidden"></div>
+        </div>
+      </div>
+
+      <aside class="panel">
+        <div class="panel-header">
+          <div>
+            <h2>Contract Rules</h2>
+            <p>What the graph enforces</p>
+          </div>
+        </div>
+        <div class="side-list" id="rules"></div>
+      </aside>
+    </section>
+  </main>
+
+  <script>
+    const platformNames = {
+      codex: "Codex or coding agent repo",
+      webapp: "web app backend",
+      extension: "browser extension",
+      desktop: "desktop app",
+      sdk: "SDK / API middleware",
+      team: "team dashboard"
+    };
+
+    const providerLabels = {
+      "groq-openai-fallback": "Groq primary + OpenAI backup",
+      groq: "Groq only",
+      openai: "OpenAI only",
+      offline: "free offline generator",
+      openrouter: "OpenRouter direct",
+      xai: "xAI/Grok direct",
+      litellm: "LiteLLM local proxy"
+    };
+
+    const providerShortLabels = {
+      "groq-openai-fallback": "Groq + OpenAI",
+      groq: "Groq",
+      openai: "OpenAI",
+      offline: "Offline",
+      openrouter: "OpenRouter",
+      xai: "xAI/Grok",
+      litellm: "LiteLLM"
+    };
+
+    const defaultGoal = "Create a handoff contract for a token optimizer so agents pass compact state instead of full transcripts.";
+    const state = {
+      view: "graph",
+      goal: defaultGoal,
+      provider: "groq-openai-fallback",
+      platform: "codex",
+      depth: "medium"
+    };
+
+    const el = (id) => document.getElementById(id);
+
+    function escapeHtml(value) {
+      return String(value || "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function loadInitialState() {
+      const params = new URLSearchParams(window.location.search);
+      try {
+        const saved = JSON.parse(localStorage.getItem("tokenOptimizerStructureInput") || "{}");
+        Object.assign(state, saved);
+      } catch {
+        // Ignore corrupt local storage and use defaults.
+      }
+      ["view", "goal", "provider", "platform", "depth"].forEach((key) => {
+        const value = params.get(key);
+        if (value) state[key] = value;
+      });
+      if (!["graph", "agents"].includes(state.view)) state.view = "graph";
+      if (!providerLabels[state.provider]) state.provider = "groq-openai-fallback";
+      if (!platformNames[state.platform]) state.platform = "codex";
+      if (!["light", "medium", "aggressive"].includes(state.depth)) state.depth = "medium";
+    }
+
+    function syncControls() {
+      el("goal").value = state.goal || defaultGoal;
+      el("provider").value = state.provider;
+      el("platform").value = state.platform;
+      el("depth").value = state.depth;
+      el("routePill").textContent = providerLabels[state.provider];
+      document.querySelectorAll(".tab").forEach((button) => {
+        button.setAttribute("aria-selected", String(button.dataset.view === state.view));
+      });
+      el("graphView").classList.toggle("hidden", state.view !== "graph");
+      el("agentsView").classList.toggle("hidden", state.view !== "agents");
+      el("statusTitle").textContent = state.view === "graph"
+        ? "Showing agent graph"
+        : "Showing agent responsibilities";
+      el("statusDetail").textContent = `${providerLabels[state.provider]} -> ${platformNames[state.platform]} -> ${state.depth} depth`;
+    }
+
+    function readControls() {
+      state.goal = el("goal").value.trim() || defaultGoal;
+      state.provider = el("provider").value;
+      state.platform = el("platform").value;
+      state.depth = el("depth").value;
+      localStorage.setItem("tokenOptimizerStructureInput", JSON.stringify(state));
+    }
+
+    function renderGraph() {
+      const routeLabel = escapeHtml(providerLabels[state.provider]);
+      const routeShortLabel = escapeHtml(providerShortLabels[state.provider] || state.provider);
+      const destination = escapeHtml(platformNames[state.platform]);
+      const depth = escapeHtml(state.depth);
+      el("graphView").innerHTML = `
+        <div class="structure-title">
+          <div>
+            <strong>Agent Information Flow Graph</strong>
+            <p>A node-based view of what each agent owns, what it passes, and where provider calls happen.</p>
+          </div>
+          <span class="pill">${routeLabel}</span>
+        </div>
+        <svg class="node-svg" viewBox="0 0 1120 580" role="img" aria-label="Agent node graph showing information flow and responsibilities">
+          <defs>
+            <marker id="agentArrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+              <path d="M0,0 L0,6 L9,3 z" fill="#2557d6"></path>
+            </marker>
+          </defs>
+          <path class="edge" d="M155 285 C190 285, 195 285, 230 285"></path>
+          <path class="edge" d="M355 260 C385 210, 390 165, 430 150"></path>
+          <path class="edge" d="M555 150 C590 150, 595 150, 630 150"></path>
+          <path class="edge guard-edge" d="M755 150 C790 150, 795 150, 830 150"></path>
+          <path class="edge guard-edge" d="M900 205 C900 250, 560 250, 500 355"></path>
+          <path class="edge" d="M555 405 C590 405, 595 405, 630 405"></path>
+          <path class="edge" d="M755 405 C790 405, 795 405, 830 405"></path>
+          <path class="edge route-edge" d="M1000 255 C960 225, 910 205, 900 205"></path>
+          <path class="edge route-edge" d="M1000 315 C875 330, 715 340, 690 355"></path>
+          <path class="edge route-edge" d="M1000 345 C850 485, 520 475, 500 455"></path>
+
+          <text class="edge-label" x="177" y="276">raw prompt</text>
+          <text class="edge-label" x="360" y="206">goal + constraints</text>
+          <text class="edge-label" x="568" y="140">compact plan</text>
+          <text class="edge-label" x="760" y="140">contract rules</text>
+          <text class="edge-label" x="650" y="238">validated payload</text>
+          <text class="edge-label" x="570" y="395">candidate</text>
+          <text class="edge-label" x="762" y="395">final + report</text>
+          <text class="edge-label" x="933" y="214">model calls</text>
+
+          <rect class="node-box" x="30" y="235" width="125" height="100" rx="8"></rect>
+          <text class="node-kicker" x="48" y="261">ENTRY</text>
+          <text class="node-title" x="48" y="284">User Input</text>
+          <text class="node-line" x="48" y="306">Full prompt allowed</text>
+          <text class="node-line" x="48" y="323">once only</text>
+
+          <rect class="node-box" x="230" y="235" width="125" height="100" rx="8"></rect>
+          <text class="node-kicker" x="248" y="261">INTAKE</text>
+          <text class="node-title" x="248" y="284">Intake Agent</text>
+          <text class="node-line" x="248" y="306">Extracts goal,</text>
+          <text class="node-line" x="248" y="323">constraints, risk</text>
+
+          <rect class="node-box primary" x="430" y="100" width="125" height="100" rx="8"></rect>
+          <text class="node-kicker" x="448" y="126">COMPRESS</text>
+          <text class="node-title" x="448" y="149">Optimizer</text>
+          <text class="node-line" x="448" y="171">Creates smallest</text>
+          <text class="node-line" x="448" y="188">useful plan</text>
+
+          <rect class="node-box primary" x="630" y="100" width="125" height="100" rx="8"></rect>
+          <text class="node-kicker" x="648" y="126">CONTRACT</text>
+          <text class="node-title" x="648" y="149">Contract Agent</text>
+          <text class="node-line" x="648" y="171">Fields, budget,</text>
+          <text class="node-line" x="648" y="188">success checks</text>
+
+          <rect class="node-box guard" x="830" y="100" width="125" height="105" rx="8"></rect>
+          <text class="node-kicker" x="848" y="126">GATE</text>
+          <text class="node-title" x="848" y="149">Validation</text>
+          <text class="node-line" x="848" y="171">Blocks secrets,</text>
+          <text class="node-line" x="848" y="188">raw replay, bloat</text>
+
+          <rect class="node-box" x="430" y="355" width="125" height="100" rx="8"></rect>
+          <text class="node-kicker" x="448" y="381">RUN</text>
+          <text class="node-title" x="448" y="404">Executor</text>
+          <text class="node-line" x="448" y="426">Runs contract-</text>
+          <text class="node-line" x="448" y="443">valid task only</text>
+
+          <rect class="node-box guard" x="630" y="355" width="125" height="100" rx="8"></rect>
+          <text class="node-kicker" x="648" y="381">CHECK</text>
+          <text class="node-title" x="648" y="404">Verifier</text>
+          <text class="node-line" x="648" y="426">Checks output and</text>
+          <text class="node-line" x="648" y="443">compresses result</text>
+
+          <rect class="node-box output" x="830" y="355" width="125" height="100" rx="8"></rect>
+          <text class="node-kicker" x="848" y="381">DELIVER</text>
+          <text class="node-title" x="848" y="404">Output Agent</text>
+          <text class="node-line" x="848" y="426">Answer, prompts,</text>
+          <text class="node-line" x="848" y="443">files, token report</text>
+
+          <rect class="node-box route" x="985" y="245" width="110" height="115" rx="8"></rect>
+          <text class="node-kicker" x="1002" y="272">ROUTE</text>
+          <text class="node-title" x="1002" y="295">Provider</text>
+          <text class="node-line" x="1002" y="317">${routeShortLabel}</text>
+          <text class="node-line" x="1002" y="334">Fallback: offline</text>
+
+          <text class="node-subtitle" x="30" y="535">Destination: ${destination}</text>
+          <text class="node-subtitle" x="30" y="555">Optimization depth: ${depth}. Only User Input sees the raw prompt; every edge after Intake is contract-shaped.</text>
+        </svg>
+        <div class="summary-grid">
+          <div class="card"><h3>Compression Owner</h3><p>Optimizer Agent removes repeated instructions and preserves only useful state.</p></div>
+          <div class="card primary"><h3>Contract Owner</h3><p>Contract Agent defines required fields, forbidden payloads, and budgets.</p></div>
+          <div class="card guard"><h3>Guard Owner</h3><p>Validation and Verifier Agents block missing fields, secrets, replay, and drift.</p></div>
+          <div class="card output"><h3>Execution Owner</h3><p>Executor runs the smallest valid payload; Output packages the final report.</p></div>
+        </div>
+      `;
+    }
+
+    function renderAgents() {
+      el("agentsView").innerHTML = `
+        <div class="structure-title">
+          <div>
+            <strong>Agent Nodes And Responsibilities</strong>
+            <p>The optimizer uses these agents so later stages do not reread the full original prompt.</p>
+          </div>
+          <span class="pill">${escapeHtml(providerLabels[state.provider])}</span>
+        </div>
+        <div class="agent-grid">
+          <div class="card"><span>Entry</span><h3>Intake Agent</h3><p>Reads raw input once, estimates token pressure, and extracts the user goal.</p></div>
+          <div class="card primary"><span>Optimize</span><h3>Optimizer Agent</h3><p>Turns messy context into a compact execution plan with facts and constraints.</p></div>
+          <div class="card primary"><span>Contract</span><h3>Contract Agent</h3><ul><li>required fields</li><li>forbidden payloads</li><li>token budgets</li></ul></div>
+          <div class="card guard"><span>Guard</span><h3>Validation Agent</h3><p>Blocks missing fields, raw transcripts, duplicated instructions, and secrets.</p></div>
+          <div class="card"><span>Run</span><h3>Executor Agent</h3><p>Receives only the contract-shaped prompt and performs the task.</p></div>
+          <div class="card guard"><span>Check</span><h3>Verifier Agent</h3><p>Checks constraints, removes unnecessary output, and returns the best final answer.</p></div>
+          <div class="card output"><span>Output</span><h3>Output Agent</h3><p>Returns answer, prompts used, token report, contract, and directions.</p></div>
+          <div class="card"><span>Route</span><h3>Provider Route</h3><p>${escapeHtml(providerLabels[state.provider])} with offline fallback when provider keys are missing.</p></div>
+          <div class="card"><span>Memory</span><h3>Handoff State</h3><p>Goal, facts, constraints, decisions, sources, open questions, and next action.</p></div>
+        </div>
+        <div class="relations">
+          <div class="relation"><strong>User Input -> Intake:</strong> raw prompt enters once.</div>
+          <div class="relation"><strong>Intake -> Optimizer:</strong> goal and constraints are extracted.</div>
+          <div class="relation"><strong>Optimizer -> Contract:</strong> compact handoff contract is created.</div>
+          <div class="relation"><strong>Contract -> Executor:</strong> only allowed fields continue.</div>
+          <div class="relation"><strong>Executor -> Verifier:</strong> candidate answer is checked.</div>
+          <div class="relation"><strong>Verifier -> Output:</strong> final answer and report are returned.</div>
+        </div>
+      `;
+    }
+
+    function renderRules() {
+      const rules = [
+        ["Raw prompt boundary", "Only User Input and Intake may see the full raw prompt."],
+        ["Handoff payload", "Every downstream transfer uses goal, facts, constraints, decisions, sources, questions, and next action."],
+        ["Validation", "Secrets, raw transcript replay, missing required fields, and over-budget context are blocked."],
+        ["Connected route", `This page is callable directly and connected back to the optimizer with ${platformNames[state.platform]} settings.`]
+      ];
+      el("rules").innerHTML = rules.map((item) => `
+        <div class="side-item">
+          <strong>${item[0]}</strong>
+          <span>${item[1]}</span>
+        </div>
+      `).join("");
+    }
+
+    function renderAll() {
+      readControls();
+      syncControls();
+      renderGraph();
+      renderAgents();
+      renderRules();
+      const params = new URLSearchParams({
+        view: state.view,
+        provider: state.provider,
+        platform: state.platform,
+        depth: state.depth
+      });
+      if (state.goal.length < 1200) params.set("goal", state.goal);
+      history.replaceState(null, "", `/agent-structure?${params.toString()}`);
+    }
+
+    function summaryText() {
+      return `# Agent Structure
+
+Goal:
+${state.goal}
+
+Provider:
+${providerLabels[state.provider]}
+
+Destination:
+${platformNames[state.platform]}
+
+Depth:
+${state.depth}
+
+Core flow:
+User Input -> Intake Agent -> Optimizer Agent -> Contract Agent -> Validation Agent -> Executor Agent -> Verifier Agent -> Output Agent
+
+Rule:
+Only the first stage sees the raw prompt. Every later handoff must be contract-shaped, validated, and token-bounded.`;
+    }
+
+    loadInitialState();
+    syncControls();
+    renderGraph();
+    renderAgents();
+    renderRules();
+
+    document.querySelectorAll(".tab").forEach((button) => {
+      button.addEventListener("click", () => {
+        state.view = button.dataset.view;
+        renderAll();
+      });
+    });
+
+    ["goal", "provider", "platform", "depth"].forEach((id) => {
+      el(id).addEventListener("change", renderAll);
+    });
+    el("refresh").addEventListener("click", renderAll);
+    el("copySummary").addEventListener("click", async () => {
+      await navigator.clipboard.writeText(summaryText());
+      el("copySummary").textContent = "Copied";
+      setTimeout(() => {
+        el("copySummary").textContent = "Copy Summary";
+      }, 1000);
+    });
+    el("copyLink").addEventListener("click", async () => {
+      await navigator.clipboard.writeText(window.location.href);
+      el("copyLink").textContent = "Link Copied";
+      setTimeout(() => {
+        el("copyLink").textContent = "Copy Page Link";
+      }, 1000);
+    });
+  </script>
+</body>
+</html>

@@ -1422,6 +1422,27 @@
       return { fileType, platform, provider, goal, depth: state.depth };
     }
 
+    function openAgentStructurePage(view) {
+      const input = selected(false);
+      const payload = { ...input, view };
+      try {
+        localStorage.setItem("tokenOptimizerStructureInput", JSON.stringify(payload));
+      } catch {
+        // Continue with query params if local storage is unavailable.
+      }
+      const params = new URLSearchParams({
+        view,
+        provider: input.provider,
+        platform: input.platform,
+        depth: input.depth,
+        fileType: input.fileType
+      });
+      if (input.goal.length < 1200) {
+        params.set("goal", input.goal);
+      }
+      window.location.href = `/agent-structure?${params.toString()}`;
+    }
+
     function generateInstructions(input) {
       return `# Token Optimizer Instructions
 
@@ -2667,6 +2688,10 @@ ${item.prompt}
 
     document.querySelectorAll(".tab").forEach((button) => {
       button.addEventListener("click", () => {
+        if (button.dataset.tab === "graph" || button.dataset.tab === "agents") {
+          openAgentStructurePage(button.dataset.tab);
+          return;
+        }
         state.activeTab = button.dataset.tab;
         document.querySelectorAll(".tab").forEach((other) => {
           other.setAttribute("aria-selected", String(other === button));
