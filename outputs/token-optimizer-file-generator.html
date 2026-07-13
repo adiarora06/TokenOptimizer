@@ -558,6 +558,65 @@
       padding: 16px;
     }
 
+    .run-result-view {
+      min-height: 360px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcff;
+      padding: 16px;
+    }
+
+    .run-summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .run-summary-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+      padding: 12px;
+    }
+
+    .run-summary-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .run-summary-card strong {
+      display: block;
+      margin-top: 6px;
+      color: var(--text);
+      font-size: 18px;
+    }
+
+    .result-preview {
+      overflow: auto;
+      max-height: 320px;
+      margin: 12px 0;
+      border-radius: 8px;
+      background: #111827;
+      color: #e5e7eb;
+      padding: 14px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .result-preview.collapsed {
+      max-height: 180px;
+    }
+
+    .run-meta {
+      display: grid;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
     .agent-map-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(170px, 1fr));
@@ -776,6 +835,10 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
+      .run-summary-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
       .hero h1 {
         font-size: 32px;
       }
@@ -954,6 +1017,7 @@
         <pre id="output"></pre>
         <div id="structureGraph" class="structure-view hidden" aria-label="Agent structure graph"></div>
         <div id="agentsGraph" class="agents-map hidden" aria-label="Agent node relation map"></div>
+        <div id="runResultView" class="run-result-view hidden" aria-label="Optimized run result preview"></div>
       </div>
     </section>
 
@@ -1004,7 +1068,9 @@
         llm: ""
       },
       fileName: "agent-handoff-contract.json",
-      currentInput: null
+      currentInput: null,
+      lastRunResult: null,
+      runExpanded: false
     };
 
     const templates = {
@@ -1867,6 +1933,81 @@ ${item.prompt}
 \`\`\``).join("\n\n")}`;
     }
 
+    function escapeHtml(value) {
+      return String(value || "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function renderRunResultView() {
+      const result = state.lastRunResult;
+      if (!result) {
+        el("runResultView").innerHTML = `
+          <div class="run-meta">
+            <strong>No run yet.</strong>
+            <span>Paste a prompt and click Optimize & Run to generate the final result.</span>
+          </div>
+        `;
+        return;
+      }
+
+      const report = result.tokenReport || {};
+      const finalAnswer = result.finalAnswer || "No final answer returned.";
+      const visibleAnswer = state.runExpanded
+        ? finalAnswer
+        : "Final answer is ready and hidden by default.\n\nClick \"Show full result\" to expand it here, or use Copy/Download to export the full run result.";
+      const toggleLabel = state.runExpanded ? "Hide full result" : "Show full result";
+
+      el("runResultView").innerHTML = `
+        <div class="structure-title">
+          <div>
+            <strong>Optimized Run Result</strong>
+            <p>Showing a compact preview by default. Expand only when you want the full generated answer.</p>
+          </div>
+          <span class="pill ${result.providerError ? "warn" : "good"}">${escapeHtml(result.provider || "offline")}</span>
+        </div>
+        <div class="run-summary-grid">
+          <div class="run-summary-card">
+            <span>Raw Tokens</span>
+            <strong>${report.rawInputTokens || 0}</strong>
+          </div>
+          <div class="run-summary-card">
+            <span>Staged Tokens</span>
+            <strong>${report.optimizedPromptTokens || 0}</strong>
+          </div>
+          <div class="run-summary-card">
+            <span>Saved</span>
+            <strong>${report.estimatedSavingsPercent || 0}%</strong>
+          </div>
+          <div class="run-summary-card">
+            <span>Model</span>
+            <strong>${escapeHtml(result.model || "offline")}</strong>
+          </div>
+        </div>
+        <div class="run-meta">
+          <span><strong>Trace:</strong> ${(result.trace || []).map((item) => escapeHtml(item.agent)).join(" -> ")}</span>
+          <span><strong>Fallback:</strong> ${escapeHtml(result.providerError || "None")}</span>
+        </div>
+        <pre class="result-preview ${state.runExpanded ? "" : "collapsed"}">${escapeHtml(visibleAnswer)}</pre>
+        <button class="secondary" id="toggleRunResult">${toggleLabel}</button>
+      `;
+
+      const toggle = document.getElementById("toggleRunResult");
+      toggle.addEventListener("click", () => {
+        state.runExpanded = !state.runExpanded;
+        renderRunResultView();
+        setLiveStatus(
+          "Viewing",
+          state.runExpanded ? "Full result expanded" : "Result hidden",
+          state.runExpanded ? "Showing the complete generated answer." : "Final answer is hidden until you expand it.",
+          false
+        );
+      });
+    }
+
     function renderStructureGraph(input) {
       const meta = templates[input.fileType];
       const targetPath = meta.placement[input.platform];
@@ -2037,14 +2178,19 @@ ${item.prompt}
     function renderOutput() {
       const isStructure = state.activeTab === "structure";
       const isAgents = state.activeTab === "agents";
-      el("output").classList.toggle("hidden", isStructure || isAgents);
+      const isRun = state.activeTab === "run";
+      el("output").classList.toggle("hidden", isStructure || isAgents || isRun);
       el("structureGraph").classList.toggle("hidden", !isStructure);
       el("agentsGraph").classList.toggle("hidden", !isAgents);
+      el("runResultView").classList.toggle("hidden", !isRun);
       if (isStructure && state.currentInput) {
         renderStructureGraph(state.currentInput);
       }
       if (isAgents && state.currentInput) {
         renderAgentsGraph(state.currentInput);
+      }
+      if (isRun) {
+        renderRunResultView();
       }
       el("output").textContent = state.sections[state.activeTab] || "";
       const fileNames = {
@@ -2092,6 +2238,8 @@ ${item.prompt}
         renderTimeline(timelineItems.length);
         const fileContent = JSON.stringify(result.handoffContract, null, 2);
         state.fileName = "self-optimizing-handoff-contract.json";
+        state.lastRunResult = result;
+        state.runExpanded = false;
         state.sections.run = formatRunResult(result);
         state.sections.prompts = formatRunPrompts(result);
         state.sections.agents = generateAgentsText(input);
