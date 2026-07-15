@@ -49,6 +49,8 @@ From this folder:
 zip -r ../../gemini-token-optimizer-mvp.zip .
 ```
 
+See `PUBLISHING.md` for the Chrome Web Store readiness checklist.
+
 ## Privacy Shape
 
 The extension does not store provider API keys. Prompt text is sent to the configured optimizer endpoint only after the user clicks **Optimize**.
