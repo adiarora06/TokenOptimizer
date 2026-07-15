@@ -7,7 +7,7 @@ This is a local unpacked Chrome extension MVP for using Token Optimizer beside G
 - Opens a Chrome side panel on `https://gemini.google.com/*`.
 - Captures selected text or the focused Gemini prompt box.
 - Sends the prompt to the configured Token Optimizer backend only when you click **Optimize**.
-- Builds a concise Gemini-ready prompt while keeping the internal handoff contract out of the Gemini box.
+- Builds a concise Gemini-ready prompt while keeping internal optimizer details out of the Gemini box.
 - Inserts the optimized prompt into Gemini only when you click **Insert into Gemini**.
 - Does not auto-send the Gemini message.
 
@@ -27,30 +27,25 @@ extensions/gemini-token-optimizer
 
 ## Backend
 
-Default endpoint:
+The extension calls the deployed optimizer endpoint:
 
 ```text
 https://tok-pi-gilt.vercel.app/api/optimize-run
 ```
-
-For local testing, run the app from the repo root:
-
-```bash
-npm start
-```
-
-Then select **Local** in extension settings.
 
 ## Package For Upload Later
 
 From this folder:
 
 ```bash
-zip -r ../../gemini-token-optimizer-mvp.zip .
+zip -r ../../gemini-token-optimizer-mvp.zip \
+  manifest.json service-worker.js content-gemini.js \
+  sidepanel.html sidepanel.css sidepanel.js icons \
+  README.md PUBLISHING.md
 ```
 
 See `PUBLISHING.md` for the Chrome Web Store readiness checklist.
 
 ## Privacy Shape
 
-The extension does not store provider API keys. Prompt text is sent to the configured optimizer endpoint only after the user clicks **Optimize**.
+The extension does not store provider API keys. Prompt text is sent to Token Optimizer only after the user clicks **Optimize**.

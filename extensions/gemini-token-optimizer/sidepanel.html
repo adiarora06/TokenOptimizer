@@ -26,7 +26,7 @@
       <div class="rail" aria-label="Workflow stages">
         <button class="rail-step" type="button" data-stage="capture" aria-current="step">Capture</button>
         <button class="rail-step" type="button" data-stage="compress">Compress</button>
-        <button class="rail-step" type="button" data-stage="handoff">Handoff</button>
+        <button class="rail-step" type="button" data-stage="handoff">Ready</button>
         <button class="rail-step" type="button" data-stage="paste">Paste</button>
         <button class="rail-step" type="button" data-stage="review">Review</button>
       </div>
@@ -51,7 +51,7 @@
       <div class="panel-head">
         <div>
           <h2>Gemini-ready prompt</h2>
-          <p>Clean prompt only. Contracts stay inside Token Optimizer.</p>
+          <p>Review, copy, or insert when ready.</p>
         </div>
         <span class="pill" id="tokenPill">0 tokens</span>
       </div>
@@ -62,20 +62,9 @@
       </div>
     </section>
 
-    <details class="panel details">
-      <summary>Settings</summary>
-      <label for="backendUrl">Optimizer endpoint</label>
-      <input id="backendUrl" type="url" spellcheck="false">
-      <p>Default uses the deployed Token Optimizer backend. Use local only when `npm start` is running.</p>
-      <div class="actions">
-        <button id="useProduction">Production</button>
-        <button id="useLocal">Local</button>
-      </div>
-    </details>
-
     <section class="panel compact">
       <strong>Privacy shape</strong>
-      <p>Prompts are sent to the configured optimizer endpoint only when you click Optimize. Nothing is sent when you capture or insert.</p>
+      <p>Prompts are sent to Token Optimizer only when you click Optimize. Nothing is sent when you capture or insert.</p>
     </section>
   </main>
 
