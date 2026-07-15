@@ -28,6 +28,7 @@ http://127.0.0.1:8787
 - `outputs/open-source.html`: readable workings page for architecture and contribution context.
 - `outputs/agent-structure.html`: agent roles plus hub-and-spoke information graph.
 - `extensions/gemini-token-optimizer`: local unpacked Chrome extension MVP for Gemini.
+- `extensions/gemini-token-optimizer/PUBLISHING.md`: Chrome Web Store readiness checklist.
 - `optimizer-core.cjs`: blank A2A kit, handoff shaping, staged prompts, token estimates, and fallback behavior.
 - `server.cjs`: local server, static routes, API routes, and provider routing.
 - `api/*.js`: Vercel function entrypoints.
