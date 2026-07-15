@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "start": "node server.cjs"
+    "start": "node server.cjs",
+    "test:extension": "node extensions/gemini-token-optimizer/tests/sidepanel-logic.test.cjs && node extensions/gemini-token-optimizer/tests/content-gemini.test.cjs"
   },
   "dependencies": {}
 }

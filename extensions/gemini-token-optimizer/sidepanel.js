@@ -1,6 +1,4 @@
 const PRODUCTION_ENDPOINT = "https://tok-pi-gilt.vercel.app/api/optimize-run";
-const LOCAL_ENDPOINT = "http://127.0.0.1:8787/api/optimize-run";
-const storageKey = "tokenOptimizerGeminiSettings";
 const recentPromptKey = "tokenOptimizerGeminiLastRawPrompt";
 
 const state = {
@@ -192,15 +190,6 @@ function stripListPrefix(line) {
   return String(line || "").replace(/^(\s*[-*]\s*)+/, "").trim();
 }
 
-async function getSettings() {
-  const data = await chrome.storage.sync.get(storageKey);
-  return data[storageKey] || { endpoint: PRODUCTION_ENDPOINT };
-}
-
-async function saveSettings(settings) {
-  await chrome.storage.sync.set({ [storageKey]: settings });
-}
-
 async function getRecentRawPrompt() {
   const data = await chrome.storage.local.get(recentPromptKey);
   return String(data[recentPromptKey] || "").trim();
@@ -250,7 +239,7 @@ function buildSidecarPrompt(result, rawPrompt) {
     return [
       cleanDirectRequest(rawClean),
       "",
-      "Return the answer directly. Include every deliverable the request asks for, and do not mention token optimization or internal workflow."
+      "Return the answer directly. Include every deliverable the request asks for."
     ].join("\n");
   }
 
@@ -276,7 +265,7 @@ function buildSidecarPrompt(result, rawPrompt) {
       "Output:",
       "- Give the final answer directly.",
       "- Include code, steps, diagrams, or tables only when the task asks for them.",
-      "- Do not mention token optimization, handoff contracts, or internal agent workflow.",
+      "- Do not add process commentary unless the task asks for it.",
       outputStyle ? `- Style: ${outputStyle}` : ""
     ].filter(Boolean).join("\n")
   ].filter(Boolean);
@@ -295,7 +284,7 @@ async function capturePrompt() {
     if (!response?.ok) throw new Error(response?.message || "No prompt text found.");
     el("rawPrompt").value = response.prompt;
     updateTokenPill();
-    setStatus("Captured", "Prompt captured", "Now click Optimize to compress it into a Gemini-ready handoff.", false, "capture");
+    setStatus("Captured", "Prompt captured", "Now click Optimize to build a Gemini-ready prompt.", false, "capture");
     toast("Prompt captured");
   } catch (error) {
     setStatus("Error", "Capture failed", error.message, false, "capture");
@@ -313,26 +302,24 @@ async function optimizePrompt() {
     return;
   }
 
-  const endpoint = el("backendUrl").value.trim() || PRODUCTION_ENDPOINT;
   el("rawPrompt").value = rawPrompt;
   updateTokenPill();
   await saveRecentRawPrompt(rawPrompt);
-  await saveSettings({ endpoint });
-  setStatus("Optimizing", "Compressing prompt", "Calling Token Optimizer and building a clean Gemini-ready prompt.", true, "compress");
+  setStatus("Optimizing", "Compressing prompt", "Building a clean Gemini-ready prompt.", true, "compress");
   el("optimizePrompt").disabled = true;
 
   try {
-    const response = await fetch(endpoint, {
+    const response = await fetch(PRODUCTION_ENDPOINT, {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ input: rawPrompt, provider: "groq-openai-fallback" })
+      body: JSON.stringify({ input: rawPrompt })
     });
     const data = await response.json();
     if (!response.ok) throw new Error(data.error || "Optimizer request failed.");
     state.lastResult = data;
     el("optimizedPrompt").value = buildSidecarPrompt(data, rawPrompt);
     updateTokenPill();
-    setStatus("Handoff", "Gemini prompt ready", "Copy it or insert it into Gemini. Nothing is auto-sent.", false, "handoff");
+    setStatus("Ready", "Gemini prompt ready", "Copy it or insert it into Gemini. Nothing is auto-sent.", false, "handoff");
     toast("Optimized prompt ready");
   } catch (error) {
     setStatus("Error", "Optimization failed", error.message, false, "review");
@@ -344,7 +331,7 @@ async function optimizePrompt() {
 async function insertIntoGemini() {
   const prompt = el("optimizedPrompt").value.trim();
   if (!prompt) {
-    setStatus("Handoff", "Optimize first", "There is no optimized prompt to insert yet.", false, "handoff");
+    setStatus("Ready", "Optimize first", "There is no optimized prompt to insert yet.", false, "handoff");
     return;
   }
 
@@ -362,7 +349,7 @@ async function insertIntoGemini() {
 async function copyOptimized() {
   const prompt = el("optimizedPrompt").value.trim();
   if (!prompt) {
-    setStatus("Handoff", "Nothing to copy yet", "Optimize a prompt first.", false, "handoff");
+    setStatus("Ready", "Nothing to copy yet", "Optimize a prompt first.", false, "handoff");
     return;
   }
   await navigator.clipboard.writeText(prompt);
@@ -377,23 +364,13 @@ function bindEvents() {
   el("copyOptimized").addEventListener("click", copyOptimized);
   el("rawPrompt").addEventListener("input", updateTokenPill);
   el("optimizedPrompt").addEventListener("input", updateTokenPill);
-  el("useProduction").addEventListener("click", async () => {
-    el("backendUrl").value = PRODUCTION_ENDPOINT;
-    await saveSettings({ endpoint: PRODUCTION_ENDPOINT });
-    toast("Production endpoint selected");
-  });
-  el("useLocal").addEventListener("click", async () => {
-    el("backendUrl").value = LOCAL_ENDPOINT;
-    await saveSettings({ endpoint: LOCAL_ENDPOINT });
-    toast("Local endpoint selected");
-  });
   document.querySelectorAll("[data-stage]").forEach((button) => {
     button.addEventListener("click", () => {
       syncRail(button.dataset.stage);
       const messages = {
         capture: ["Capture", "Capture or paste prompt", "Get the rough prompt into Token Optimizer."],
-        compress: ["Compress", "Compress once", "Run Optimize to build the compact handoff."],
-        handoff: ["Handoff", "Review Gemini prompt", "Copy or insert the optimized prompt."],
+        compress: ["Compress", "Compress once", "Run Optimize to build the compact prompt."],
+        handoff: ["Ready", "Review Gemini prompt", "Copy or insert the optimized prompt."],
         paste: ["Paste", "Paste into Gemini", "Insert the optimized prompt into Gemini when ready."],
         review: ["Review", "Review before sending", "Gemini will not send until you choose to submit."]
       };
@@ -405,8 +382,6 @@ function bindEvents() {
 
 async function init() {
   bindEvents();
-  const settings = await getSettings();
-  el("backendUrl").value = settings.endpoint || PRODUCTION_ENDPOINT;
   updateTokenPill();
   checkConnection();
 }
