@@ -70,16 +70,40 @@ function asLines(value) {
     .filter(Boolean);
 }
 
+function cleanPromptText(text) {
+  return String(text || "")
+    .replace(/\s+/g, " ")
+    .replace(/\s+([,.!?;:])/g, "$1")
+    .trim();
+}
+
 function firstUsefulLine(text) {
   const lines = asLines(text);
   return lines[0] || "Complete the user's task.";
 }
 
-function uniqueShortLines(lines, max = 5) {
+function withoutEllipsis(text) {
+  return String(text || "").replace(/\.\.\.$/, "").trim();
+}
+
+function isTruncated(text) {
+  return /\.\.\.$/.test(String(text || "").trim());
+}
+
+function uniqueShortLines(lines, max = 5, reference = "") {
+  const referenceText = cleanPromptText(withoutEllipsis(reference)).toLowerCase();
   const seen = new Set();
   return lines
-    .map((line) => line.replace(/\s+/g, " ").trim())
+    .map((line) => cleanPromptText(withoutEllipsis(line)))
     .filter(Boolean)
+    .filter((line) => !/^(user_input|source|sources)$/i.test(line))
+    .filter((line) => {
+      const key = line.toLowerCase();
+      if (!referenceText) return true;
+      return key !== referenceText &&
+        !referenceText.includes(key) &&
+        !key.includes(referenceText);
+    })
     .filter((line) => {
       const key = line.toLowerCase();
       if (seen.has(key)) return false;
@@ -87,13 +111,21 @@ function uniqueShortLines(lines, max = 5) {
       return true;
     })
     .slice(0, max)
-    .map((line) => line.length > 220 ? `${line.slice(0, 217)}...` : line);
+    .map((line) => line.length > 260 ? `${line.slice(0, 257).replace(/\s+\S*$/, "")}.` : line);
 }
 
-function bulletSection(title, lines) {
-  const cleaned = uniqueShortLines(lines);
+function bulletSection(title, lines, reference = "") {
+  const cleaned = uniqueShortLines(lines, 5, reference);
   if (!cleaned.length) return "";
   return [`${title}:`, ...cleaned.map((line) => `- ${line}`)].join("\n");
+}
+
+function cleanDirectRequest(rawPrompt) {
+  const prompt = cleanPromptText(rawPrompt);
+  return prompt
+    .replace(/^i want you to\s+/i, "Please ")
+    .replace(/^i need you to\s+/i, "Please ")
+    .replace(/^i want\s+/i, "Please ");
 }
 
 async function getSettings() {
@@ -136,12 +168,25 @@ async function checkConnection() {
 
 function buildSidecarPrompt(result, rawPrompt) {
   const contract = result?.handoffContract || {};
-  const goal = String(contract.goal || firstUsefulLine(rawPrompt)).replace(/\s+/g, " ").trim();
+  const rawClean = cleanPromptText(rawPrompt);
+
+  if (estimateTokens(rawClean) <= 180) {
+    return [
+      cleanDirectRequest(rawClean),
+      "",
+      "Return the answer directly. Include every deliverable the request asks for, and do not mention token optimization or internal workflow."
+    ].join("\n");
+  }
+
+  const contractGoal = cleanPromptText(contract.goal || "");
+  const goal = isTruncated(contractGoal) || !contractGoal
+    ? cleanPromptText(firstUsefulLine(rawPrompt))
+    : contractGoal;
   const facts = uniqueShortLines([
     ...asLines(contract.facts),
     ...asLines(contract.sources)
-  ].filter((line) => line.toLowerCase() !== goal.toLowerCase()), 4);
-  const constraints = uniqueShortLines(asLines(contract.constraints), 4);
+  ], 4, goal);
+  const constraints = uniqueShortLines(asLines(contract.constraints), 4, goal);
   const outputStyle = String(contract.output_style || "").trim();
   const sections = [
     "Complete this task directly and concisely.",
@@ -149,8 +194,8 @@ function buildSidecarPrompt(result, rawPrompt) {
     "Task:",
     goal,
     "",
-    bulletSection("Important context", facts),
-    bulletSection("Requirements", constraints),
+    bulletSection("Important context", facts, goal),
+    bulletSection("Requirements", constraints, goal),
     [
       "Output:",
       "- Give the final answer directly.",
