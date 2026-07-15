@@ -532,6 +532,93 @@
       white-space: nowrap;
     }
 
+    .hub-map {
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+    }
+
+    .hub-svg {
+      display: block;
+      width: 100%;
+      min-width: 960px;
+      height: auto;
+    }
+
+    .hub-edge {
+      stroke: var(--brand);
+      stroke-width: 2.2;
+      fill: none;
+      marker-end: url(#hubArrow);
+    }
+
+    .hub-edge.input {
+      stroke: #9b5a00;
+    }
+
+    .hub-edge.audit {
+      stroke: #0b7a4b;
+      stroke-dasharray: 7 5;
+    }
+
+    .hub-core {
+      fill: var(--brand-soft);
+      stroke: var(--brand);
+      stroke-width: 2.5;
+    }
+
+    .hub-node {
+      fill: #ffffff;
+      stroke: #cdd6e7;
+      stroke-width: 1.5;
+    }
+
+    .hub-node.primary {
+      fill: #eaf0ff;
+      stroke: #8fa8ff;
+    }
+
+    .hub-node.guard {
+      fill: #fffaf0;
+      stroke: #ffd596;
+    }
+
+    .hub-node.output {
+      fill: #f0fbf5;
+      stroke: #9ad7b8;
+    }
+
+    .hub-label {
+      fill: var(--text);
+      font-size: 15px;
+      font-weight: 900;
+      text-anchor: middle;
+    }
+
+    .hub-small {
+      fill: #677084;
+      font-size: 11px;
+      font-weight: 700;
+      text-anchor: middle;
+    }
+
+    .hub-kicker {
+      fill: var(--brand);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-anchor: middle;
+      text-transform: uppercase;
+    }
+
+    .hub-edge-label {
+      fill: #445066;
+      font-size: 11px;
+      font-weight: 850;
+      text-anchor: middle;
+    }
+
     .agent-grid,
     .summary-grid {
       display: grid;
@@ -657,6 +744,7 @@
       .agent-grid,
       .summary-grid,
       .level-flow,
+      .hub-svg,
       .relations {
         grid-template-columns: 1fr;
         min-width: 0;
@@ -679,7 +767,8 @@
     <a href="/">Home</a>
     <a href="/workspace">Workspace</a>
     <a href="/a2a-kit">Optimized IDE</a>
-    <a href="/agent-structure" aria-current="page">Agent Graph</a>
+    <a id="navAgents" href="/agent-structure?view=agents" aria-current="page">Agents</a>
+    <a id="navGraph" href="/agent-structure?view=graph">Agent Graph</a>
     <a href="/prompt-history">History</a>
     <a href="/audit-log">Audit Log</a>
     <a href="/settings">Settings</a>
@@ -694,7 +783,7 @@
       </span>
     </a>
     <div class="status" role="status" aria-live="polite">
-      <strong id="statusTitle">Showing agent graph</strong>
+      <strong id="statusTitle">Showing agents</strong>
       <span id="statusDetail">Direct page for information flow, responsibilities, and agent handoff contracts.</span>
     </div>
     <div class="actions">
@@ -706,8 +795,8 @@
     <section class="panel">
       <div class="panel-header">
         <div>
-          <h1>Agent Graph And Responsibilities</h1>
-          <p>This is the full-page view of how data moves through the token optimizer's agents.</p>
+          <h1>Agents And Graph</h1>
+          <p>Start with the agents, then inspect the hub-and-spoke information graph.</p>
         </div>
         <span class="pill" id="routePill">Auto route</span>
       </div>
@@ -748,8 +837,8 @@
     <section class="grid">
       <div class="panel">
         <div class="tabs" role="tablist" aria-label="Agent structure views">
-          <button class="tab" data-view="graph" aria-selected="true">Agent Graph</button>
-          <button class="tab" data-view="agents" aria-selected="false">Agents</button>
+          <button class="tab" data-view="agents" aria-selected="true">Agents</button>
+          <button class="tab" data-view="graph" aria-selected="false">Agent Graph</button>
         </div>
         <div class="canvas">
           <div id="graphView" class="node-flow-graph"></div>
@@ -781,7 +870,7 @@
 
     const defaultGoal = "Create a handoff contract for a token optimizer so agents pass compact state instead of full transcripts.";
     const state = {
-      view: "graph",
+      view: "agents",
       goal: defaultGoal,
       platform: "codex",
       depth: "medium"
@@ -810,7 +899,7 @@
         const value = params.get(key);
         if (value) state[key] = value;
       });
-      if (!["graph", "agents"].includes(state.view)) state.view = "graph";
+      if (!["graph", "agents"].includes(state.view)) state.view = "agents";
       if (!platformNames[state.platform]) state.platform = "codex";
       if (!["light", "medium", "aggressive"].includes(state.depth)) state.depth = "medium";
     }
@@ -823,11 +912,18 @@
       document.querySelectorAll(".tab").forEach((button) => {
         button.setAttribute("aria-selected", String(button.dataset.view === state.view));
       });
+      if (state.view === "agents") {
+        el("navAgents").setAttribute("aria-current", "page");
+        el("navGraph").removeAttribute("aria-current");
+      } else {
+        el("navGraph").setAttribute("aria-current", "page");
+        el("navAgents").removeAttribute("aria-current");
+      }
       el("graphView").classList.toggle("hidden", state.view !== "graph");
       el("agentsView").classList.toggle("hidden", state.view !== "agents");
       el("statusTitle").textContent = state.view === "graph"
         ? "Showing agent graph"
-        : "Showing agent responsibilities";
+        : "Showing agents";
       el("statusDetail").textContent = `${platformNames[state.platform]} -> ${state.depth} depth`;
     }
 
@@ -844,75 +940,90 @@
       el("graphView").innerHTML = `
         <div class="structure-title">
           <div>
-            <strong>Level-Based Agent Flow</strong>
-            <p>Each row is one responsibility level. Arrows show what information is allowed to move forward.</p>
+            <strong>Hub-And-Spoke Agent Graph</strong>
+            <p>The handoff contract is the hub. Each agent connects to it as a spoke, so the flow is easier to scan.</p>
           </div>
           <span class="pill">Auto route</span>
         </div>
-        <div class="level-flow" role="img" aria-label="Level by level node graph showing agent information flow">
-          <div class="level-row">
-            <div class="level-label">Level 0</div>
-            <div class="level-nodes single">
-              <div class="flow-node">
-                <span>Entry</span>
-                <strong>User Input</strong>
-                <p>Full messy prompt is allowed here only.</p>
-              </div>
-            </div>
-          </div>
-          <div class="flow-arrow"><span>raw prompt -> intake summary</span></div>
-          <div class="level-row">
-            <div class="level-label">Level 1</div>
-            <div class="level-nodes single">
-              <div class="flow-node">
-                <span>Read once</span>
-                <strong>Intake Agent</strong>
-                <p>Extracts goal, facts, constraints, risks, and rough token pressure.</p>
-              </div>
-            </div>
-          </div>
-          <div class="flow-arrow"><span>goal + constraints -> compact plan</span></div>
-          <div class="level-row">
-            <div class="level-label">Level 2</div>
-            <div class="level-nodes">
-              <div class="flow-node primary">
-                <span>Compress</span>
-                <strong>Optimizer Agent</strong>
-                <p>Removes duplicate setup and keeps the smallest useful plan.</p>
-              </div>
-              <div class="flow-node primary">
-                <span>Shape</span>
-                <strong>Contract Agent</strong>
-                <p>Defines allowed fields, budgets, expected output, and next action.</p>
-              </div>
-              <div class="flow-node guard">
-                <span>Gate</span>
-                <strong>Validation Agent</strong>
-                <p>Blocks secrets, raw transcript replay, missing fields, and bloat.</p>
-              </div>
-            </div>
-          </div>
-          <div class="flow-arrow"><span>validated contract -> execution</span></div>
-          <div class="level-row">
-            <div class="level-label">Level 3</div>
-            <div class="level-nodes">
-              <div class="flow-node">
-                <span>Run</span>
-                <strong>Executor Agent</strong>
-                <p>Performs the task using only the compact contract payload.</p>
-              </div>
-              <div class="flow-node guard">
-                <span>Check</span>
-                <strong>Verifier Agent</strong>
-                <p>Checks constraints, fixes drift, and trims unnecessary output.</p>
-              </div>
-              <div class="flow-node output">
-                <span>Deliver</span>
-                <strong>Output Agent</strong>
-                <p>Returns the final answer, prompts, contract, audit trail, and token report.</p>
-              </div>
-            </div>
-          </div>
+        <div class="hub-map">
+          <svg class="hub-svg" viewBox="0 0 1120 720" role="img" aria-label="Hub and spoke node graph showing agent connections through the handoff contract">
+            <defs>
+              <marker id="hubArrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+                <path d="M0,0 L0,6 L9,3 z" fill="#2557d6"></path>
+              </marker>
+            </defs>
+
+            <path class="hub-edge input" d="M230 128 C330 170, 408 220, 488 292"></path>
+            <path class="hub-edge input" d="M445 128 C485 190, 515 235, 542 280"></path>
+            <path class="hub-edge" d="M610 280 C645 230, 675 185, 710 128"></path>
+            <path class="hub-edge" d="M646 330 C750 302, 822 274, 920 236"></path>
+            <path class="hub-edge" d="M662 384 C770 400, 840 420, 930 474"></path>
+            <path class="hub-edge" d="M615 438 C665 515, 700 565, 735 614"></path>
+            <path class="hub-edge" d="M532 440 C490 515, 455 565, 415 614"></path>
+            <path class="hub-edge output" d="M472 392 C355 430, 275 465, 170 505"></path>
+            <path class="hub-edge audit" d="M470 330 C360 302, 280 270, 180 235"></path>
+
+            <text class="hub-edge-label" x="350" y="176">raw prompt once</text>
+            <text class="hub-edge-label" x="506" y="203">goal + facts</text>
+            <text class="hub-edge-label" x="677" y="198">compact plan</text>
+            <text class="hub-edge-label" x="785" y="289">contract rules</text>
+            <text class="hub-edge-label" x="804" y="408">validated payload</text>
+            <text class="hub-edge-label" x="676" y="522">candidate</text>
+            <text class="hub-edge-label" x="468" y="522">verified result</text>
+            <text class="hub-edge-label" x="312" y="438">final answer</text>
+            <text class="hub-edge-label" x="306" y="286">audit trail</text>
+
+            <circle class="hub-core" cx="560" cy="360" r="92"></circle>
+            <text class="hub-kicker" x="560" y="326">Hub</text>
+            <text class="hub-label" x="560" y="354">Handoff</text>
+            <text class="hub-label" x="560" y="374">Contract</text>
+            <text class="hub-small" x="560" y="400">goal, facts, constraints</text>
+
+            <circle class="hub-node" cx="170" cy="100" r="76"></circle>
+            <text class="hub-kicker" x="170" y="75">Entry</text>
+            <text class="hub-label" x="170" y="102">User Input</text>
+            <text class="hub-small" x="170" y="126">full prompt only here</text>
+
+            <circle class="hub-node" cx="410" cy="100" r="76"></circle>
+            <text class="hub-kicker" x="410" y="75">Read once</text>
+            <text class="hub-label" x="410" y="102">Intake</text>
+            <text class="hub-small" x="410" y="126">extracts useful state</text>
+
+            <circle class="hub-node primary" cx="745" cy="100" r="76"></circle>
+            <text class="hub-kicker" x="745" y="75">Compress</text>
+            <text class="hub-label" x="745" y="102">Optimizer</text>
+            <text class="hub-small" x="745" y="126">removes bloat</text>
+
+            <circle class="hub-node primary" cx="960" cy="210" r="76"></circle>
+            <text class="hub-kicker" x="960" y="185">Shape</text>
+            <text class="hub-label" x="960" y="212">Contract</text>
+            <text class="hub-small" x="960" y="236">sets payload rules</text>
+
+            <circle class="hub-node guard" cx="960" cy="510" r="76"></circle>
+            <text class="hub-kicker" x="960" y="485">Gate</text>
+            <text class="hub-label" x="960" y="512">Validation</text>
+            <text class="hub-small" x="960" y="536">blocks drift + secrets</text>
+
+            <circle class="hub-node" cx="745" cy="640" r="76"></circle>
+            <text class="hub-kicker" x="745" y="615">Run</text>
+            <text class="hub-label" x="745" y="642">Executor</text>
+            <text class="hub-small" x="745" y="666">uses compact context</text>
+
+            <circle class="hub-node guard" cx="410" cy="640" r="76"></circle>
+            <text class="hub-kicker" x="410" y="615">Check</text>
+            <text class="hub-label" x="410" y="642">Verifier</text>
+            <text class="hub-small" x="410" y="666">confirms constraints</text>
+
+            <circle class="hub-node output" cx="145" cy="535" r="76"></circle>
+            <text class="hub-kicker" x="145" y="510">Deliver</text>
+            <text class="hub-label" x="145" y="537">Output</text>
+            <text class="hub-small" x="145" y="561">answer + report</text>
+
+            <circle class="hub-node output" cx="145" cy="210" r="76"></circle>
+            <text class="hub-kicker" x="145" y="185">Remember</text>
+            <text class="hub-label" x="145" y="212">Audit</text>
+            <text class="hub-small" x="145" y="236">history + trace</text>
+          </svg>
         </div>
         <div class="summary-grid">
           <div class="card"><h3>Compression Owner</h3><p>Optimizer Agent removes repeated instructions and preserves only useful state.</p></div>
