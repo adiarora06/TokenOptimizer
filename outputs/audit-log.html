@@ -212,7 +212,7 @@
     <section class="hero">
       <div>
         <h1>Audit Log</h1>
-        <p>Compact run history for learning what happened: mode, provider, token savings, and agent trace. It stays local in this browser.</p>
+        <p>Compact run history for learning what happened: mode, route, token savings, and agent trace. It stays local in this browser.</p>
       </div>
       <div class="actions">
         <button class="primary" id="openWorkspace">Open Workspace</button>
@@ -279,7 +279,7 @@
               <p>${fmtDate(item.createdAt)}</p>
               <div class="meta">
                 <span>${escapeHtml(item.mode || "mode")}</span>
-                <span>${escapeHtml(item.provider || "provider")}</span>
+                <span>${escapeHtml(item.provider || "route")}</span>
                 <span>${escapeHtml(item.status || "status")}</span>
                 <span>${item.rawTokens || 0} raw</span>
                 <span>${savings} saved</span>

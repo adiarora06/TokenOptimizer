@@ -329,13 +329,15 @@
   <script>
     const historyKey = "tokenOptimizerPromptHistory";
     const providerLabels = {
-      "groq-openai-fallback": "Groq + OpenAI",
-      groq: "Groq",
-      openai: "OpenAI",
-      offline: "Offline",
-      openrouter: "OpenRouter",
-      xai: "xAI/Grok",
-      litellm: "LiteLLM"
+      "groq-openai-fallback": "Auto",
+      groq: "Auto",
+      openai: "Auto",
+      offline: "Fallback",
+      fallback: "Fallback",
+      contract: "Contract",
+      openrouter: "Custom",
+      xai: "Custom",
+      litellm: "Custom"
     };
     const platformNames = {
       codex: "Codex",
@@ -415,7 +417,7 @@
             <p>${escapeHtml(item.goal)}</p>
             <div class="meta">
               <span>${escapeHtml(item.mode || "optimizer")}</span>
-              <span>${escapeHtml(providerLabels[item.provider] || item.provider || "provider")}</span>
+              <span>${escapeHtml(providerLabels[item.provider] || item.provider || "route")}</span>
               <span>${escapeHtml(platformNames[item.platform] || item.platform || "destination")}</span>
               <span>${escapeHtml(item.depth || "medium")}</span>
               <span>${item.tokens || Math.ceil(String(item.goal || "").length / 4)} tokens</span>
