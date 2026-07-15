@@ -17,6 +17,7 @@ http://127.0.0.1:8787
 ## Product Shape
 
 - **Workspace first**: one large prompt box, one optimized run action, live status, collapsed final result.
+- **Sidecar wrappers**: browser, Google-style web LLM, and IDE flows generate copy-ready prompts and file placement kits.
 - **Open source second**: contracts, agents, routes, generated files, and audit behavior are documented in `/open-source`.
 - **Power pages**: Agents, Agent Graph, History, Audit Log, Settings, and Optimized IDE stay available without crowding the main workflow.
 
@@ -52,6 +53,16 @@ The core optimization pattern is:
 2. Extract goal, facts, constraints, decisions, sources, open questions, and next action.
 3. Send downstream agents the compact contract instead of the full transcript.
 4. Save history and audit trail so the run can be inspected later.
+
+## Sidecar Wrapper Loop
+
+The background mode is for working beside an active LLM or IDE:
+
+1. Capture the active messy prompt.
+2. Compress it in Token Optimizer.
+3. Copy the sidecar prompt or wrapper kit.
+4. Paste the compact handoff into the target chat box or IDE agent.
+5. Review the result and save an audit trail when needed.
 
 ## Contributing Principle
 
