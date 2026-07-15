@@ -477,7 +477,7 @@ async function handleApi(req, res) {
 function serveStatic(req, res) {
   const requestUrl = new URL(req.url, `http://127.0.0.1:${port}`);
   const routeMap = {
-    "/": "/token-optimizer-file-generator.html",
+    "/": "/home.html",
     "/agent-structure": "/agent-structure.html",
     "/a2a-kit": "/a2a-kit.html",
     "/prompt-history": "/prompt-history.html",
@@ -515,5 +515,5 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(port, "127.0.0.1", () => {
-  console.log(`Token optimizer running at http://127.0.0.1:${port}/token-optimizer-file-generator.html`);
+  console.log(`Token optimizer running at http://127.0.0.1:${port}/`);
 });

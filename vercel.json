@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/",
-      "destination": "/outputs/token-optimizer-file-generator.html"
+      "destination": "/outputs/home.html"
     },
     {
       "source": "/agent-structure",
