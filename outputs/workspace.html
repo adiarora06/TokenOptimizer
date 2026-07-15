@@ -39,7 +39,7 @@
     body {
       margin: 0;
       min-height: 100vh;
-      padding: 46px 0 66px;
+      padding: 46px 0 82px;
       background: var(--bg);
       color: var(--text);
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -103,7 +103,7 @@
       position: fixed;
       inset: auto 0 0;
       z-index: 20;
-      min-height: 48px;
+      min-height: 66px;
       padding: 9px 24px;
       border-top: 1px solid var(--line);
       border-bottom: 0;
@@ -130,6 +130,12 @@
     .dot.running {
       background: var(--warn);
       box-shadow: 0 0 0 4px rgba(155, 90, 0, 0.14);
+      animation: pulse 1.15s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.24); }
     }
 
     .phase {
@@ -160,6 +166,34 @@
       font-size: 12px;
       text-overflow: ellipsis;
       white-space: nowrap;
+    }
+
+    .status-track {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      margin-top: 6px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .status-track::-webkit-scrollbar { display: none; }
+
+    .track-step {
+      min-height: 24px;
+      border-radius: 999px;
+      padding: 4px 8px;
+      background: #eef1f7;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .track-step[aria-current="step"] {
+      border-color: var(--brand);
+      background: var(--brand-soft);
+      color: var(--brand);
     }
 
     .page {
@@ -283,6 +317,55 @@
       margin-top: 2px;
       color: var(--muted);
       font-size: 13px;
+    }
+
+    .wrapper-options {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+      margin-top: 12px;
+    }
+
+    .wrapper-chip {
+      min-height: 34px;
+      border-radius: 8px;
+      padding: 7px 8px;
+      font-size: 12px;
+    }
+
+    .wrapper-chip[aria-pressed="true"] {
+      border-color: var(--brand);
+      background: var(--brand-soft);
+      color: var(--brand);
+    }
+
+    .wrapper-preview {
+      margin-top: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcff;
+      padding: 12px;
+    }
+
+    .wrapper-preview strong {
+      display: block;
+      font-size: 13px;
+    }
+
+    .wrapper-preview p {
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .wrapper-preview code {
+      display: inline-block;
+      margin-top: 8px;
+      border-radius: 6px;
+      background: var(--brand-soft);
+      color: var(--brand);
+      font-size: 12px;
+      padding: 3px 6px;
     }
 
     .brand {
@@ -652,6 +735,7 @@
     :root[data-theme="dark"] textarea,
     :root[data-theme="dark"] select,
     :root[data-theme="dark"] .kit-panel,
+    :root[data-theme="dark"] .wrapper-preview,
     :root[data-theme="dark"] .summary-card {
       background: var(--panel);
       border-color: var(--line);
@@ -781,6 +865,20 @@
             <div><span>3</span><div><strong>Verify</strong><p>The final answer is checked and collapsed.</p></div></div>
           </div>
         </div>
+        <div class="guide-card" id="wrapperCard">
+          <strong>Active LLM sidecar</strong>
+          <p class="muted">Use Token Optimizer beside a live chat tab, Google-style LLM, or IDE prompt box.</p>
+          <div class="wrapper-options" role="group" aria-label="Wrapper target">
+            <button class="wrapper-chip" type="button" data-wrapper="browser" aria-pressed="true">Browser</button>
+            <button class="wrapper-chip" type="button" data-wrapper="google" aria-pressed="false">Google</button>
+            <button class="wrapper-chip" type="button" data-wrapper="ide" aria-pressed="false">IDE</button>
+          </div>
+          <div class="wrapper-preview" id="wrapperPreview"></div>
+          <div class="button-row" style="margin-top: 12px">
+            <button id="copyWrapperPrompt">Copy Prompt</button>
+            <button id="copyWrapperKit">Copy Kit</button>
+          </div>
+        </div>
         <div class="guide-card">
           <strong>Open source confidence</strong>
           <p class="muted">Agents, contracts, routes, files, and contribution notes live on the workings page.</p>
@@ -822,6 +920,7 @@
           <button class="tab" data-tab="prompts" aria-selected="false">Prompts</button>
           <button class="tab" data-tab="contract" aria-selected="false">Contract</button>
           <button class="tab" data-tab="audit" aria-selected="false">Audit</button>
+          <button class="tab" data-tab="wrapper" aria-selected="false">Wrapper</button>
           <button class="tab" data-tab="background" aria-selected="false">Background Use</button>
         </div>
         <div class="view" id="overviewView"></div>
@@ -829,6 +928,7 @@
         <div class="view hidden" id="promptsView"></div>
         <div class="view hidden" id="contractView"></div>
         <div class="view hidden" id="auditView"></div>
+        <div class="view hidden" id="wrapperView"></div>
         <div class="view hidden" id="backgroundView"></div>
       </div>
     </section>
@@ -842,6 +942,13 @@
     <div class="status-main">
       <strong id="bottomTitle">Waiting for prompt</strong>
       <span id="bottomDetail">Nothing is running yet. Paste once and click Optimize & Run.</span>
+      <div class="status-track" aria-label="Sidecar workflow stages">
+        <button class="track-step" type="button" data-rail="capture" aria-current="step">Capture</button>
+        <button class="track-step" type="button" data-rail="compress">Compress</button>
+        <button class="track-step" type="button" data-rail="handoff">Handoff</button>
+        <button class="track-step" type="button" data-rail="paste">Paste</button>
+        <button class="track-step" type="button" data-rail="review">Review</button>
+      </div>
     </div>
     <div class="status-right">
       <span id="clock">Updated --:--:--</span>
@@ -853,6 +960,7 @@
   <script>
     const state = {
       mode: localStorage.getItem("tokenOptimizerUseMode") || "primary",
+      wrapperTarget: localStorage.getItem("tokenOptimizerWrapperTarget") || "browser",
       lastResult: null,
       finalExpanded: false,
       activeTab: "overview"
@@ -863,6 +971,62 @@
     const AUTO_API_ROUTE = "groq-openai-fallback";
     const KIT_API_ROUTE = "groq";
     const el = (id) => document.getElementById(id);
+    const wrapperTargets = {
+      browser: {
+        label: "Browser side panel",
+        artifact: "sidecar-browser-kit.md",
+        detail: "Keep this app beside a chat tab. Copy the compact prompt into the active message box.",
+        insert: "Paste into the active LLM chat box after the original prompt has been compacted here.",
+        files: [
+          ["sidecar/instructions.md", "Human-readable wrapper steps."],
+          ["sidecar/handoff-contract.json", "The compact A2A payload to pass forward."],
+          ["sidecar/content-script-notes.md", "Notes for a future browser extension or userscript."]
+        ]
+      },
+      google: {
+        label: "Google wrapper",
+        artifact: "google-wrapper-kit.md",
+        detail: "Use a split-screen or side-panel flow for Google/Gemini-style prompt boxes.",
+        insert: "Paste into the Google/Gemini prompt box, then bring the response back here for verification if needed.",
+        files: [
+          ["google-wrapper/instructions.md", "Side-by-side use directions."],
+          ["google-wrapper/handoff.yaml", "Nested prompt state for reuse."],
+          ["google-wrapper/verification.md", "Checklist for checking the target response."]
+        ]
+      },
+      ide: {
+        label: "IDE wrapper",
+        artifact: "ide-wrapper-kit.md",
+        detail: "Use this as a coding sidecar next to Cursor, VS Code, Codex, or another IDE agent.",
+        insert: "Paste into the IDE agent prompt box with the relevant files selected or attached.",
+        files: [
+          [".token-optimizer/instructions.md", "Repository-local agent instructions."],
+          [".token-optimizer/handoff.yaml", "Reusable A2A state for the task."],
+          [".token-optimizer/api-payload.json", "Structured payload for local tools or extensions."]
+        ]
+      }
+    };
+    const railStatusMap = {
+      ready: "capture",
+      idle: "capture",
+      example: "capture",
+      "needs input": "capture",
+      running: "capture",
+      contract: "compress",
+      optimizing: "compress",
+      executing: "handoff",
+      "agent kit": "handoff",
+      done: "review",
+      fallback: "review",
+      viewing: "review",
+      output: "paste",
+      sidecar: "paste",
+      capture: "capture",
+      compress: "compress",
+      handoff: "handoff",
+      paste: "paste",
+      review: "review"
+    };
 
     function setStatus(phase, title, detail, running = false) {
       for (const prefix of ["top", "bottom"]) {
@@ -873,6 +1037,18 @@
       }
       el("runPill").textContent = phase;
       el("runPill").className = running ? "pill warn" : "pill good";
+      syncStatusRail(phase);
+    }
+
+    function syncStatusRail(phase) {
+      const key = railStatusMap[String(phase || "").toLowerCase()] || "capture";
+      document.querySelectorAll("[data-rail]").forEach((button) => {
+        if (button.dataset.rail === key) {
+          button.setAttribute("aria-current", "step");
+        } else {
+          button.removeAttribute("aria-current");
+        }
+      });
     }
 
     function toast(message) {
@@ -986,6 +1162,7 @@
       el("coachMode").textContent = mode === "background"
         ? "Keep Token Optimizer open beside another LLM or IDE. Paste the messy prompt here, then copy the compact output into the tool you already use."
         : "Use Token Optimizer as the main workspace. Paste the messy prompt here, run it, and expand the final result only when needed.";
+      refreshWrapperPreview();
       setStatus(
         "Ready",
         (mode === "background" ? "Background Optimizer" : "Primary LLM") + " selected",
@@ -997,15 +1174,127 @@
     }
 
     function backgroundGuide(prompt) {
+      const target = wrapperTargets[state.wrapperTarget];
       return [
         "Use Token Optimizer in the background:",
         "1. Paste the full messy prompt into Token Optimizer first.",
         "2. Run Optimize & Run so raw context is read once and compacted.",
         "3. Expand only the output you need: final answer, prompts, or handoff contract.",
-        "4. Paste the compact output into your preferred LLM, agent tool, or IDE.",
+        `4. Use the ${target.label} path: ${target.insert}`,
         "5. Do not paste the full original context again unless the target LLM truly needs it.",
         prompt ? "\nCurrent prompt:\n" + prompt : ""
       ].join("\n");
+    }
+
+    function currentPrompt() {
+      return el("prompt").value.trim();
+    }
+
+    function ensurePrompt(label = "wrapper") {
+      const prompt = currentPrompt();
+      if (!prompt) {
+        setStatus("Needs input", "Paste a prompt first", "The " + label + " needs raw context before it can create a compact handoff.", false);
+        el("prompt").focus();
+        return null;
+      }
+      return prompt;
+    }
+
+    function currentContract(prompt, result = state.lastResult) {
+      return result?.handoffContract || result?.contractOutput || result?.kit || makeContract(prompt);
+    }
+
+    function contractText(prompt, result = state.lastResult) {
+      const payload = currentContract(prompt, result);
+      return typeof payload === "string" ? payload : JSON.stringify(payload, null, 2);
+    }
+
+    function wrapperPromptText(prompt = currentPrompt(), result = state.lastResult) {
+      const target = wrapperTargets[state.wrapperTarget];
+      const finalAnswer = result?.finalAnswer;
+      return [
+        `# Token Optimizer Sidecar Prompt`,
+        "",
+        `Target: ${target.label}`,
+        `Where to insert: ${target.insert}`,
+        "",
+        "Use this compact handoff instead of the original long prompt. Do not ask for the full transcript unless the handoff is impossible to execute.",
+        "",
+        "## Handoff Contract",
+        contractText(prompt, result),
+        "",
+        "## Run Instructions",
+        "- Preserve the goal, facts, and constraints.",
+        "- Avoid repeating setup text back to the user.",
+        "- Ask at most one clarifying question only if execution is blocked.",
+        "- Return the result in the requested format.",
+        finalAnswer ? "\n## Verified Output From Token Optimizer\n" + finalAnswer : ""
+      ].filter(Boolean).join("\n");
+    }
+
+    function wrapperKitText(prompt = currentPrompt(), result = state.lastResult) {
+      const target = wrapperTargets[state.wrapperTarget];
+      const payload = contractText(prompt, result);
+      const files = target.files.map(([file, purpose]) => `- ${file}: ${purpose}`).join("\n");
+      return [
+        `# Token Optimizer Sidecar Kit - ${target.label}`,
+        "",
+        "Purpose: run Token Optimizer beside an active LLM, Google-style prompt box, or IDE agent without sending the full messy prompt over and over.",
+        "",
+        "## Put These Files Here",
+        files,
+        "",
+        "## instructions.md",
+        "1. Capture the messy prompt from the active tool.",
+        "2. Paste it into Token Optimizer and run Optimize & Run.",
+        "3. Copy the sidecar prompt or handoff contract.",
+        `4. ${target.insert}`,
+        "5. Bring the target response back into Token Optimizer only when you want verification or an audit trail.",
+        "",
+        "## handoff contract",
+        "```json",
+        payload,
+        "```",
+        "",
+        "## sidecar prompt",
+        "```md",
+        wrapperPromptText(prompt, result),
+        "```",
+        "",
+        "## active status loop",
+        "- Capture: read the active prompt once.",
+        "- Compress: create the compact handoff.",
+        "- Handoff: copy the sidecar prompt.",
+        "- Paste: insert into the active LLM or IDE.",
+        "- Review: verify the result and save audit notes."
+      ].join("\n");
+    }
+
+    function refreshWrapperPreview() {
+      const target = wrapperTargets[state.wrapperTarget];
+      const prompt = currentPrompt();
+      const tokenLabel = prompt ? `${prettyTokens(estimateTokens(prompt))} raw tokens ready` : "Waiting for prompt";
+      el("wrapperPreview").innerHTML = [
+        `<strong>${escapeHtml(target.label)}</strong>`,
+        `<p>${escapeHtml(target.detail)}</p>`,
+        `<p>${escapeHtml(tokenLabel)}. Copy the prompt for a quick sidecar handoff, or copy the kit for file directions.</p>`,
+        `<code>${escapeHtml(target.artifact)}</code>`
+      ].join("");
+      if (state.mode === "background") el("artifactName").textContent = target.artifact;
+    }
+
+    function updateWrapperTarget(target, announce = true) {
+      if (!wrapperTargets[target]) return;
+      state.wrapperTarget = target;
+      localStorage.setItem("tokenOptimizerWrapperTarget", target);
+      document.querySelectorAll("[data-wrapper]").forEach((button) => {
+        button.setAttribute("aria-pressed", String(button.dataset.wrapper === target));
+      });
+      refreshWrapperPreview();
+      if (announce) {
+        const selected = wrapperTargets[target];
+        setStatus("Sidecar", `${selected.label} selected`, selected.detail, false);
+      }
     }
 
     async function copyText(text, label) {
@@ -1023,8 +1312,9 @@
         facts: lines.slice(0, 6),
         constraints: lines.filter((line) => /(must|should|need|want|avoid|do not|don't|use|without|with)/i.test(line)).slice(0, 6),
         agents: ["Intake", "Contract", "Executor", "Verifier", "Output"],
+        wrapper_target: state.wrapperTarget,
         rule: "Read raw input once. Pass compact state between agents. Expand details only on request.",
-        next_action: state.mode === "background" ? "Create compact output for another LLM or IDE." : "Run optimized workflow and return final answer.",
+        next_action: state.mode === "background" ? `Create compact output for ${wrapperTargets[state.wrapperTarget].label}.` : "Run optimized workflow and return final answer.",
         token_budget: {
           raw_input_estimate: estimateTokens(prompt),
           handoff_target: 700,
@@ -1126,21 +1416,26 @@
       const contractPayload = result?.handoffContract || result?.contractOutput || result?.kit || makeContract(prompt);
       renderPre("contractView", typeof contractPayload === "string" ? contractPayload : JSON.stringify(contractPayload, null, 2));
       renderPre("auditView", auditText(result, prompt));
-      renderPre("backgroundView", backgroundGuide(prompt) + "\n\nCompact output to paste elsewhere:\n" + finalAnswer);
+      renderPre("wrapperView", wrapperKitText(prompt, result));
+      renderPre("backgroundView", backgroundGuide(prompt) + "\n\nCompact output to paste elsewhere:\n" + wrapperPromptText(prompt, result));
       setActiveTab("overview");
-      el("artifactName").textContent = state.mode === "background" ? "background-optimized-prompt.md" : "optimized-final-answer.md";
+      el("artifactName").textContent = state.mode === "background" ? wrapperTargets[state.wrapperTarget].artifact : "optimized-final-answer.md";
     }
 
     function setActiveTab(tab) {
       state.activeTab = tab;
       document.querySelectorAll(".tab").forEach((button) => button.setAttribute("aria-selected", String(button.dataset.tab === tab)));
-      for (const name of ["overview", "agents", "prompts", "contract", "audit", "background"]) {
+      for (const name of ["overview", "agents", "prompts", "contract", "audit", "wrapper", "background"]) {
         el(name + "View").classList.toggle("hidden", name !== tab);
       }
       setStatus(
         "Viewing",
         "Showing " + tab,
-        tab === "agents" ? "Agent nodes explain responsibility and data flow." : "Details are available without moving the main optimizer controls.",
+        tab === "wrapper"
+          ? "Copy the sidecar prompt or file kit into the active LLM or IDE wrapper."
+          : tab === "agents"
+            ? "Agent nodes explain responsibility and data flow."
+            : "Details are available without moving the main optimizer controls.",
         false
       );
     }
@@ -1281,6 +1576,14 @@
         setStatus("Agent Kit", "Advanced kit is ready", "Paste once, then run the blank A2A kit from this workspace.", false);
       });
       el("copyBackgroundGuide").addEventListener("click", () => copyText(backgroundGuide(el("prompt").value.trim()), "Background guide"));
+      el("copyWrapperPrompt").addEventListener("click", () => {
+        const prompt = ensurePrompt("sidecar prompt");
+        if (prompt) copyText(wrapperPromptText(prompt), "Sidecar prompt");
+      });
+      el("copyWrapperKit").addEventListener("click", () => {
+        const prompt = ensurePrompt("wrapper kit");
+        if (prompt) copyText(wrapperKitText(prompt), "Wrapper kit");
+      });
       el("copyFinal").addEventListener("click", () => copyText(state.lastResult?.finalAnswer || el("finalPreview").textContent, "Final result"));
       el("toggleFinal").addEventListener("click", () => {
         state.finalExpanded = !state.finalExpanded;
@@ -1291,13 +1594,38 @@
       document.querySelectorAll(".tab").forEach((button) => button.addEventListener("click", () => setActiveTab(button.dataset.tab)));
       document.querySelectorAll("[data-example]").forEach((button) => button.addEventListener("click", () => {
         el("prompt").value = button.dataset.example;
+        refreshWrapperPreview();
+        if (/browser|extension|helper/i.test(button.dataset.example)) updateWrapperTarget("browser");
         setStatus("Example", "Example prompt loaded", "Click Optimize & Run when ready.", false);
       }));
       el("intent").addEventListener("change", () => setStatus("Output", "Output goal updated", el("intent").selectedOptions[0].textContent, false));
+      el("prompt").addEventListener("input", refreshWrapperPreview);
+      document.querySelectorAll("[data-wrapper]").forEach((button) => button.addEventListener("click", () => {
+        if (state.mode !== "background") updateMode("background");
+        updateWrapperTarget(button.dataset.wrapper);
+        el("wrapperCard").scrollIntoView({ behavior: "smooth", block: "center" });
+      }));
+      const railMessages = {
+        capture: ["Capture", "Capture active prompt", "Paste the messy prompt from the current LLM or IDE into Token Optimizer."],
+        compress: ["Compress", "Compress once", "Run the optimizer so the raw context becomes a compact handoff."],
+        handoff: ["Handoff", "Copy sidecar prompt", "Use Copy Prompt or the Wrapper tab to move the optimized handoff forward."],
+        paste: ["Paste", "Paste into active tool", ""],
+        review: ["Review", "Review and audit", "Bring the response back only when you want verification, history, or audit notes."]
+      };
+      document.querySelectorAll("[data-rail]").forEach((button) => button.addEventListener("click", () => {
+        const message = [...(railMessages[button.dataset.rail] || railMessages.capture)];
+        if (button.dataset.rail === "paste") message[2] = wrapperTargets[state.wrapperTarget].insert;
+        syncStatusRail(message[0]);
+        setStatus(message[0], message[1], message[2], false);
+        if (button.dataset.rail === "handoff" || button.dataset.rail === "paste") {
+          el("wrapperCard").scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+      }));
     }
 
     startClock();
     bindEvents();
+    updateWrapperTarget(state.wrapperTarget, false);
     updateMode(state.mode);
   </script>
 </body>
