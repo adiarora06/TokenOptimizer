@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Token Optimizer Open Source</title>
+  <script>document.documentElement.dataset.theme = localStorage.getItem("tokenOptimizerTheme") || "light";</script>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f7f8fb;
+      --panel: #ffffff;
+      --text: #18202f;
+      --muted: #677084;
+      --line: #dfe4ee;
+      --brand: #2557d6;
+      --brand-soft: #eaf0ff;
+      --good: #0b7a4b;
+      --shadow: 0 10px 30px rgba(24, 32, 47, 0.08);
+    }
+
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #0f131d;
+      --panel: #161b26;
+      --text: #eef2ff;
+      --muted: #9aa4b8;
+      --line: #293244;
+      --brand: #8fb0ff;
+      --brand-soft: #1f2c4d;
+      --good: #4ade80;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding-top: 45px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.4;
+    }
+
+    a, button { color: inherit; font: inherit; text-decoration: none; }
+    h1, h2, h3, p { margin: 0; }
+
+    .page-nav {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 20;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      padding: 10px 24px;
+      background: rgba(247, 248, 251, 0.96);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(12px);
+    }
+
+    .page-nav a, button, .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 36px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #ffffff;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 850;
+      padding: 7px 11px;
+    }
+
+    .page-nav a[aria-current="page"], .button.primary, button.primary {
+      border-color: var(--brand);
+      background: var(--brand);
+      color: #ffffff;
+    }
+
+    .page {
+      width: min(1180px, calc(100% - 36px));
+      margin: 0 auto;
+      padding: 24px 0 54px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 340px;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .panel, .card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-main {
+      padding: clamp(22px, 4vw, 40px);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      width: fit-content;
+      border-radius: 999px;
+      padding: 6px 10px;
+      background: var(--brand-soft);
+      color: var(--brand);
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    h1 {
+      max-width: 780px;
+      margin-top: 16px;
+      font-size: clamp(38px, 6vw, 64px);
+      line-height: 0.98;
+      letter-spacing: 0;
+    }
+
+    .lede {
+      max-width: 760px;
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 22px;
+    }
+
+    .side {
+      display: grid;
+      gap: 12px;
+      padding: 16px;
+    }
+
+    .side-row {
+      display: grid;
+      grid-template-columns: 32px minmax(0, 1fr);
+      gap: 10px;
+      align-items: start;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--bg);
+      padding: 12px;
+    }
+
+    .side-row span {
+      display: grid;
+      width: 32px;
+      height: 32px;
+      place-items: center;
+      border-radius: 999px;
+      background: var(--brand-soft);
+      color: var(--brand);
+      font-weight: 900;
+    }
+
+    .side-row strong {
+      display: block;
+      font-size: 14px;
+    }
+
+    .side-row p, .card p {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .section {
+      padding-top: 34px;
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, 0.85fr) minmax(260px, 0.35fr);
+      gap: 18px;
+      align-items: end;
+      margin-bottom: 14px;
+    }
+
+    h2 {
+      font-size: clamp(26px, 4vw, 40px);
+      line-height: 1.04;
+      letter-spacing: 0;
+    }
+
+    .section-head p {
+      color: var(--muted);
+    }
+
+    .grid-3, .grid-2 {
+      display: grid;
+      gap: 12px;
+    }
+
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+    .card {
+      padding: 16px;
+      box-shadow: none;
+    }
+
+    .tag {
+      display: inline-flex;
+      margin-bottom: 12px;
+      border-radius: 999px;
+      padding: 5px 8px;
+      background: var(--brand-soft);
+      color: var(--brand);
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .file-map {
+      display: grid;
+      gap: 10px;
+    }
+
+    .file {
+      display: grid;
+      grid-template-columns: minmax(190px, 0.34fr) minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      padding: 13px;
+    }
+
+    code {
+      border-radius: 6px;
+      background: var(--brand-soft);
+      color: var(--brand);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 12px;
+      padding: 2px 5px;
+    }
+
+    pre {
+      overflow: auto;
+      max-height: 420px;
+      margin: 0;
+      border-radius: 8px;
+      background: #111827;
+      color: #e5e7eb;
+      padding: 16px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .contract-panel {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 260px;
+      gap: 12px;
+      align-items: start;
+      padding: 16px;
+    }
+
+    .toast {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 30;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      color: var(--text);
+      padding: 10px 12px;
+      transform: translateY(12px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.18s ease, transform 0.18s ease;
+    }
+
+    .toast.show { transform: translateY(0); opacity: 1; }
+
+    :root[data-theme="dark"] .page-nav {
+      background: rgba(15, 19, 29, 0.96);
+    }
+
+    :root[data-theme="dark"] .page-nav a,
+    :root[data-theme="dark"] button,
+    :root[data-theme="dark"] .button {
+      background: var(--panel);
+      border-color: var(--line);
+      color: var(--text);
+    }
+
+    :root[data-theme="dark"] .page-nav a[aria-current="page"],
+    :root[data-theme="dark"] .button.primary,
+    :root[data-theme="dark"] button.primary {
+      background: var(--brand);
+      color: #0f131d;
+    }
+
+    @media (max-width: 920px) {
+      body { padding-top: 86px; }
+      .hero, .section-head, .grid-3, .grid-2, .file, .contract-panel {
+        grid-template-columns: 1fr;
+      }
+      .page { width: min(100% - 28px, 720px); }
+    }
+  </style>
+</head>
+<body>
+  <nav class="page-nav" aria-label="Token optimizer pages">
+    <a href="/">Home</a>
+    <a href="/workspace">Workspace</a>
+    <a href="/a2a-kit">Optimized IDE</a>
+    <a href="/agent-structure?view=agents">Agents</a>
+    <a href="/agent-structure?view=graph">Agent Graph</a>
+    <a href="/open-source" aria-current="page">Open Source</a>
+    <a href="/prompt-history">History</a>
+    <a href="/audit-log">Audit Log</a>
+    <a href="/settings">Settings</a>
+  </nav>
+
+  <main class="page">
+    <section class="hero">
+      <div class="hero-main panel">
+        <span class="eyebrow">Readable internals</span>
+        <h1>Use the app first. Inspect the workflow when you are curious.</h1>
+        <p class="lede">Token Optimizer is meant to feel simple up front and transparent underneath. This page explains the source layout, agent responsibilities, handoff contract, generated files, and contribution path.</p>
+        <div class="actions">
+          <a class="button primary" href="/workspace">Back to workspace</a>
+          <a class="button" href="https://github.com/adiarora06/TokenOptimizer">GitHub repo</a>
+          <button id="copyContract">Copy contract example</button>
+        </div>
+      </div>
+
+      <aside class="side panel">
+        <div class="side-row"><span>1</span><div><strong>Friendly app</strong><p>One prompt box, one run action, collapsed final result.</p></div></div>
+        <div class="side-row"><span>2</span><div><strong>Inspectable system</strong><p>Agents, contracts, prompts, routes, and logs are separated.</p></div></div>
+        <div class="side-row"><span>3</span><div><strong>Portable output</strong><p>Markdown, JSON, YAML, and generated prompt files can move into other tools.</p></div></div>
+      </aside>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>Architecture in plain English</h2>
+        <p>The full prompt is read once. After that, each agent receives a smaller handoff contract instead of the whole original context.</p>
+      </div>
+      <div class="grid-3">
+        <article class="card"><span class="tag">Input</span><strong>User prompt</strong><p>Messy instructions, context, files, desired output, and constraints arrive through the workspace.</p></article>
+        <article class="card"><span class="tag">A2A</span><strong>Handoff contract</strong><p>The optimizer turns the prompt into goal, facts, constraints, decisions, sources, and next action.</p></article>
+        <article class="card"><span class="tag">Output</span><strong>Final result</strong><p>Executor and verifier run from compact state, then the UI saves history and audit trail.</p></article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>Source map</h2>
+        <p>These are the first files to open when someone wants to understand or contribute.</p>
+      </div>
+      <div class="file-map">
+        <div class="file"><strong><code>outputs/workspace.html</code></strong><p>Main app experience: prompt box, live status, run buttons, results, history, and audit writes.</p></div>
+        <div class="file"><strong><code>optimizer-core.cjs</code></strong><p>Blank A2A kit, contract shaping, staged agent prompts, token estimates, and fallback behavior.</p></div>
+        <div class="file"><strong><code>server.cjs</code></strong><p>Local Node server, static routing, API proxy, provider routing, and optimize-run endpoint.</p></div>
+        <div class="file"><strong><code>api/*.js</code></strong><p>Vercel function entrypoints for hosted optimize, generate, provider status, and A2A runs.</p></div>
+        <div class="file"><strong><code>outputs/agent-structure.html</code></strong><p>Agent roles and the hub-and-spoke graph that explains flow of information.</p></div>
+        <div class="file"><strong><code>README.md</code></strong><p>Local run steps, environment setup, project overview, and contribution notes.</p></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>Handoff contract</h2>
+        <p>This is the heart of the token-saving system: compact state that agents can pass safely.</p>
+      </div>
+      <div class="contract-panel panel">
+        <pre id="contractExample">{
+  "contract_id": "optimizer.self_run.v1",
+  "goal": "Complete the user's requested task.",
+  "facts": [
+    "Important context extracted from the messy prompt",
+    "Relevant file, platform, or output requirements"
+  ],
+  "constraints": [
+    "Preserve intent",
+    "Avoid repeated context",
+    "Do not include secrets"
+  ],
+  "decisions": [
+    "Use raw input only during intake",
+    "Pass compact state to downstream agents"
+  ],
+  "sources": ["user_input"],
+  "open_questions": [],
+  "next_action": "Run the optimized workflow and return the best result.",
+  "required_payload": [
+    "goal",
+    "facts",
+    "constraints",
+    "decisions",
+    "sources",
+    "open_questions",
+    "next_action"
+  ]
+}</pre>
+        <div>
+          <article class="card"><span class="tag">Why it helps</span><strong>No repeated transcript</strong><p>Agents receive only the useful state for their job.</p></article>
+          <article class="card" style="margin-top: 12px"><span class="tag">Why it is open</span><strong>Easy to inspect</strong><p>The contract shape is readable, copyable, and simple to compare between runs.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>Generated file directions</h2>
+        <p>The optimizer can produce files that tell users exactly where to put each artifact.</p>
+      </div>
+      <div class="grid-3">
+        <article class="card"><span class="tag">Markdown</span><strong><code>instructions.md</code></strong><p>Use for human-readable steps, agent instructions, and project notes.</p></article>
+        <article class="card"><span class="tag">YAML</span><strong><code>handoff.yaml</code></strong><p>Use for nested workflow state, agent responsibilities, and config-like data.</p></article>
+        <article class="card"><span class="tag">JSON</span><strong><code>api-payload.json</code></strong><p>Use for API calls, structured contracts, validation fixtures, and provider-agnostic routing.</p></article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>Contributor checklist</h2>
+        <p>Keep the user path simple. Put complexity behind tabs, details, or this page.</p>
+      </div>
+      <div class="grid-2">
+        <article class="card"><span class="tag">Product rule</span><strong>Do not make users manage tokens manually</strong><p>The app should decide the compact route and explain what happened after the run.</p></article>
+        <article class="card"><span class="tag">Open rule</span><strong>Make every agent responsibility inspectable</strong><p>If a step changes state, it should appear in prompts, contracts, graph, or audit log.</p></article>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const toast = document.getElementById("toast");
+    document.getElementById("copyContract").addEventListener("click", async () => {
+      await navigator.clipboard.writeText(document.getElementById("contractExample").textContent);
+      toast.textContent = "Contract example copied";
+      toast.classList.add("show");
+      clearTimeout(toast.timer);
+      toast.timer = setTimeout(() => toast.classList.remove("show"), 2200);
+    });
+  </script>
+</body>
+</html>

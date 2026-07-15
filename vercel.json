@@ -9,12 +9,20 @@
       "destination": "/outputs/workspace.html"
     },
     {
+      "source": "/token-optimizer-file-generator.html",
+      "destination": "/outputs/workspace.html"
+    },
+    {
       "source": "/agent-structure",
       "destination": "/outputs/agent-structure.html"
     },
     {
       "source": "/a2a-kit",
       "destination": "/outputs/a2a-kit.html"
+    },
+    {
+      "source": "/open-source",
+      "destination": "/outputs/open-source.html"
     },
     {
       "source": "/audit-log",
