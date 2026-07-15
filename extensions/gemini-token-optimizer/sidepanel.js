@@ -1,6 +1,7 @@
 const PRODUCTION_ENDPOINT = "https://tok-pi-gilt.vercel.app/api/optimize-run";
 const LOCAL_ENDPOINT = "http://127.0.0.1:8787/api/optimize-run";
 const storageKey = "tokenOptimizerGeminiSettings";
+const recentPromptKey = "tokenOptimizerGeminiLastRawPrompt";
 
 const state = {
   lastResult: null,
@@ -121,11 +122,74 @@ function bulletSection(title, lines, reference = "") {
 }
 
 function cleanDirectRequest(rawPrompt) {
-  const prompt = cleanPromptText(rawPrompt);
+  const prompt = cleanPromptText(unwrapOptimizerPrompt(rawPrompt));
   return prompt
     .replace(/^i want you to\s+/i, "Please ")
     .replace(/^i need you to\s+/i, "Please ")
     .replace(/^i want\s+/i, "Please ");
+}
+
+function unwrapOptimizerPrompt(text) {
+  const raw = String(text || "").trim();
+  if (!raw) return "";
+  const lines = asLines(raw).map(stripListPrefix);
+  const looksWrapped = isOptimizerWrappedPrompt(raw);
+  if (!looksWrapped) return raw;
+
+  const candidates = [];
+  const task = sectionText(raw, "Task", ["Important context", "Requirements", "Output"]);
+  if (task && !/^Complete this task directly/i.test(task)) candidates.push(task);
+
+  for (const line of lines) {
+    if (isLikelyOriginalTask(line)) candidates.push(line);
+  }
+
+  const best = candidates
+    .map((candidate) => cleanPromptText(withoutEllipsis(candidate)))
+    .filter(Boolean)
+    .sort((a, b) => scoreOriginalTask(b) - scoreOriginalTask(a))[0];
+
+  return best || raw;
+}
+
+function isOptimizerWrappedPrompt(text) {
+  const raw = String(text || "").trim();
+  const lines = asLines(raw).map(stripListPrefix);
+  return /^Complete this task directly/i.test(raw) ||
+    lines.some((line) => /^(Task|Important context|Requirements|Output):$/i.test(line)) ||
+    /token optimization|handoff contracts|internal agent workflow/i.test(raw);
+}
+
+function sectionText(text, label, nextLabels) {
+  const escaped = label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const next = nextLabels.map((item) => item.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|");
+  const pattern = new RegExp(`${escaped}:\\s*([\\s\\S]*?)(?=\\n(?:${next}):|$)`, "i");
+  const match = String(text || "").match(pattern);
+  return match ? match[1].trim() : "";
+}
+
+function isLikelyOriginalTask(line) {
+  const cleaned = cleanPromptText(stripListPrefix(line));
+  if (!cleaned || cleaned.length < 28) return false;
+  if (/^(Task|Important context|Requirements|Output):?$/i.test(cleaned)) return false;
+  if (/^(Complete this task directly|Return the answer directly|Include code|Do not mention|If one small assumption)/i.test(cleaned)) return false;
+  if (/^(Style:|user_input|source|sources)$/i.test(cleaned)) return false;
+  return /\b(create|write|build|make|run|find|tell|display|generate|explain|implement|program|diagram|array|target)\b/i.test(cleaned);
+}
+
+function scoreOriginalTask(text) {
+  const cleaned = cleanPromptText(stripListPrefix(text));
+  let score = cleaned.length;
+  if (/^I want you to|^Please|^Create|^Write|^Build/i.test(cleaned)) score += 80;
+  if (/[.!?)]$/.test(cleaned)) score += 20;
+  if (isTruncated(text)) score -= 180;
+  if (/\b(range|array|target|diagram|program|binary search)\b/i.test(cleaned)) score += 35;
+  if (/token optimization|handoff|internal workflow/i.test(cleaned)) score -= 300;
+  return score;
+}
+
+function stripListPrefix(line) {
+  return String(line || "").replace(/^(\s*[-*]\s*)+/, "").trim();
 }
 
 async function getSettings() {
@@ -135,6 +199,17 @@ async function getSettings() {
 
 async function saveSettings(settings) {
   await chrome.storage.sync.set({ [storageKey]: settings });
+}
+
+async function getRecentRawPrompt() {
+  const data = await chrome.storage.local.get(recentPromptKey);
+  return String(data[recentPromptKey] || "").trim();
+}
+
+async function saveRecentRawPrompt(prompt) {
+  const cleaned = unwrapOptimizerPrompt(prompt);
+  if (!cleaned || isOptimizerWrappedPrompt(cleaned)) return;
+  await chrome.storage.local.set({ [recentPromptKey]: cleaned });
 }
 
 async function currentTab() {
@@ -168,7 +243,8 @@ async function checkConnection() {
 
 function buildSidecarPrompt(result, rawPrompt) {
   const contract = result?.handoffContract || {};
-  const rawClean = cleanPromptText(rawPrompt);
+  const unwrappedPrompt = unwrapOptimizerPrompt(rawPrompt);
+  const rawClean = cleanPromptText(unwrappedPrompt);
 
   if (estimateTokens(rawClean) <= 180) {
     return [
@@ -180,7 +256,7 @@ function buildSidecarPrompt(result, rawPrompt) {
 
   const contractGoal = cleanPromptText(contract.goal || "");
   const goal = isTruncated(contractGoal) || !contractGoal
-    ? cleanPromptText(firstUsefulLine(rawPrompt))
+    ? cleanPromptText(firstUsefulLine(unwrappedPrompt))
     : contractGoal;
   const facts = uniqueShortLines([
     ...asLines(contract.facts),
@@ -227,7 +303,10 @@ async function capturePrompt() {
 }
 
 async function optimizePrompt() {
-  const rawPrompt = el("rawPrompt").value.trim();
+  const enteredPrompt = el("rawPrompt").value.trim();
+  const wasWrapped = isOptimizerWrappedPrompt(enteredPrompt);
+  const recentRawPrompt = wasWrapped ? await getRecentRawPrompt() : "";
+  const rawPrompt = recentRawPrompt || unwrapOptimizerPrompt(enteredPrompt);
   if (!rawPrompt) {
     setStatus("Capture", "Paste or capture a prompt first", "The optimizer needs a rough prompt before it can compress anything.", false, "capture");
     el("rawPrompt").focus();
@@ -235,6 +314,9 @@ async function optimizePrompt() {
   }
 
   const endpoint = el("backendUrl").value.trim() || PRODUCTION_ENDPOINT;
+  el("rawPrompt").value = rawPrompt;
+  updateTokenPill();
+  await saveRecentRawPrompt(rawPrompt);
   await saveSettings({ endpoint });
   setStatus("Optimizing", "Compressing prompt", "Calling Token Optimizer and building a clean Gemini-ready prompt.", true, "compress");
   el("optimizePrompt").disabled = true;
