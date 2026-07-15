@@ -478,8 +478,10 @@ function serveStatic(req, res) {
   const requestUrl = new URL(req.url, `http://127.0.0.1:${port}`);
   const routeMap = {
     "/": "/home.html",
+    "/workspace": "/workspace.html",
     "/agent-structure": "/agent-structure.html",
     "/a2a-kit": "/a2a-kit.html",
+    "/audit-log": "/audit-log.html",
     "/prompt-history": "/prompt-history.html",
     "/settings": "/settings.html"
   };

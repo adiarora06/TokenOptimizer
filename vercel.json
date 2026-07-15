@@ -5,12 +5,20 @@
       "destination": "/outputs/home.html"
     },
     {
+      "source": "/workspace",
+      "destination": "/outputs/workspace.html"
+    },
+    {
       "source": "/agent-structure",
       "destination": "/outputs/agent-structure.html"
     },
     {
       "source": "/a2a-kit",
       "destination": "/outputs/a2a-kit.html"
+    },
+    {
+      "source": "/audit-log",
+      "destination": "/outputs/audit-log.html"
     },
     {
       "source": "/prompt-history",
