@@ -61,6 +61,41 @@ function updateTokenPill() {
   el("tokenPill").textContent = optimized ? `${optimized} optimized` : `${raw} raw`;
 }
 
+function asLines(value) {
+  if (Array.isArray(value)) return value.map((item) => String(item || "").trim()).filter(Boolean);
+  if (!value) return [];
+  return String(value)
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean);
+}
+
+function firstUsefulLine(text) {
+  const lines = asLines(text);
+  return lines[0] || "Complete the user's task.";
+}
+
+function uniqueShortLines(lines, max = 5) {
+  const seen = new Set();
+  return lines
+    .map((line) => line.replace(/\s+/g, " ").trim())
+    .filter(Boolean)
+    .filter((line) => {
+      const key = line.toLowerCase();
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    })
+    .slice(0, max)
+    .map((line) => line.length > 220 ? `${line.slice(0, 217)}...` : line);
+}
+
+function bulletSection(title, lines) {
+  const cleaned = uniqueShortLines(lines);
+  if (!cleaned.length) return "";
+  return [`${title}:`, ...cleaned.map((line) => `- ${line}`)].join("\n");
+}
+
 async function getSettings() {
   const data = await chrome.storage.sync.get(storageKey);
   return data[storageKey] || { endpoint: PRODUCTION_ENDPOINT };
@@ -101,27 +136,34 @@ async function checkConnection() {
 
 function buildSidecarPrompt(result, rawPrompt) {
   const contract = result?.handoffContract || {};
-  const contractText = JSON.stringify(contract, null, 2);
-  const finalAnswer = result?.finalAnswer || "";
+  const goal = String(contract.goal || firstUsefulLine(rawPrompt)).replace(/\s+/g, " ").trim();
+  const facts = uniqueShortLines([
+    ...asLines(contract.facts),
+    ...asLines(contract.sources)
+  ].filter((line) => line.toLowerCase() !== goal.toLowerCase()), 4);
+  const constraints = uniqueShortLines(asLines(contract.constraints), 4);
+  const outputStyle = String(contract.output_style || "").trim();
+  const sections = [
+    "Complete this task directly and concisely.",
+    "",
+    "Task:",
+    goal,
+    "",
+    bulletSection("Important context", facts),
+    bulletSection("Requirements", constraints),
+    [
+      "Output:",
+      "- Give the final answer directly.",
+      "- Include code, steps, diagrams, or tables only when the task asks for them.",
+      "- Do not mention token optimization, handoff contracts, or internal agent workflow.",
+      outputStyle ? `- Style: ${outputStyle}` : ""
+    ].filter(Boolean).join("\n")
+  ].filter(Boolean);
+
   return [
-    "# Token Optimizer Gemini Handoff",
+    ...sections,
     "",
-    "Use this compact handoff instead of the original long prompt. Do not ask for the full transcript unless the contract is impossible to execute.",
-    "",
-    "## Handoff Contract",
-    contractText,
-    "",
-    "## Optimized Result",
-    finalAnswer,
-    "",
-    "## Execution Rules",
-    "- Preserve the user's goal and constraints.",
-    "- Avoid repeating setup text back to the user.",
-    "- Ask at most one clarifying question only if blocked.",
-    "- Return a useful final answer.",
-    "",
-    "## Original Prompt Summary",
-    rawPrompt.slice(0, 900)
+    "If one small assumption is needed, make it and continue."
   ].join("\n");
 }
 
@@ -149,7 +191,7 @@ async function optimizePrompt() {
 
   const endpoint = el("backendUrl").value.trim() || PRODUCTION_ENDPOINT;
   await saveSettings({ endpoint });
-  setStatus("Optimizing", "Compressing prompt", "Calling Token Optimizer and building the Gemini handoff.", true, "compress");
+  setStatus("Optimizing", "Compressing prompt", "Calling Token Optimizer and building a clean Gemini-ready prompt.", true, "compress");
   el("optimizePrompt").disabled = true;
 
   try {
@@ -163,7 +205,7 @@ async function optimizePrompt() {
     state.lastResult = data;
     el("optimizedPrompt").value = buildSidecarPrompt(data, rawPrompt);
     updateTokenPill();
-    setStatus("Handoff", "Optimized handoff ready", "Copy it or insert it into Gemini. Nothing is auto-sent.", false, "handoff");
+    setStatus("Handoff", "Gemini prompt ready", "Copy it or insert it into Gemini. Nothing is auto-sent.", false, "handoff");
     toast("Optimized prompt ready");
   } catch (error) {
     setStatus("Error", "Optimization failed", error.message, false, "review");
@@ -197,7 +239,7 @@ async function copyOptimized() {
     return;
   }
   await navigator.clipboard.writeText(prompt);
-  setStatus("Paste", "Copied optimized handoff", "Paste it into Gemini or another active LLM prompt box.", false, "paste");
+  setStatus("Paste", "Copied Gemini-ready prompt", "Paste it into Gemini or another active LLM prompt box.", false, "paste");
   toast("Copied");
 }
 
@@ -224,7 +266,7 @@ function bindEvents() {
       const messages = {
         capture: ["Capture", "Capture or paste prompt", "Get the rough prompt into Token Optimizer."],
         compress: ["Compress", "Compress once", "Run Optimize to build the compact handoff."],
-        handoff: ["Handoff", "Review handoff", "Copy or insert the optimized prompt."],
+        handoff: ["Handoff", "Review Gemini prompt", "Copy or insert the optimized prompt."],
         paste: ["Paste", "Paste into Gemini", "Insert the optimized prompt into Gemini when ready."],
         review: ["Review", "Review before sending", "Gemini will not send until you choose to submit."]
       };

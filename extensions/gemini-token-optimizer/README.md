@@ -7,7 +7,7 @@ This is a local unpacked Chrome extension MVP for using Token Optimizer beside G
 - Opens a Chrome side panel on `https://gemini.google.com/*`.
 - Captures selected text or the focused Gemini prompt box.
 - Sends the prompt to the configured Token Optimizer backend only when you click **Optimize**.
-- Builds a Gemini-ready compact handoff prompt.
+- Builds a concise Gemini-ready prompt while keeping the internal handoff contract out of the Gemini box.
 - Inserts the optimized prompt into Gemini only when you click **Insert into Gemini**.
 - Does not auto-send the Gemini message.
 
