@@ -1,9 +1,11 @@
 const selectors = [
+  "rich-textarea .ql-editor[contenteditable='true']",
   "rich-textarea div[contenteditable='true']",
-  "div[contenteditable='true'][role='textbox']",
-  "div[contenteditable='true']",
-  "textarea",
-  "[role='textbox']"
+  "div.ql-editor[contenteditable='true']",
+  "textarea[aria-label]",
+  "textarea[placeholder]",
+  "[role='textbox'][contenteditable='true']",
+  "[role='textbox'] textarea"
 ];
 
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
@@ -39,28 +41,78 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
 
 function findPromptBox() {
   const active = document.activeElement;
-  if (isPromptLike(active)) return active;
+  if (isPromptCandidate(active, true)) return normalizePromptNode(active);
 
-  for (const selector of selectors) {
-    const candidates = [...document.querySelectorAll(selector)];
-    const visible = candidates.find((node) => isVisible(node) && isPromptLike(node));
-    if (visible) return visible;
-  }
+  const candidates = selectors
+    .flatMap((selector) => [...document.querySelectorAll(selector)])
+    .map(normalizePromptNode)
+    .filter(Boolean)
+    .filter((node, index, nodes) => nodes.indexOf(node) === index)
+    .filter((node) => isPromptCandidate(node, false))
+    .map((node) => ({
+      node,
+      score: promptScore(node)
+    }))
+    .sort((a, b) => b.score - a.score);
+
+  if (candidates[0]) return candidates[0].node;
 
   return null;
 }
 
-function isPromptLike(node) {
+function normalizePromptNode(node) {
+  if (!node || !(node instanceof HTMLElement)) return null;
+  if (node.tagName === "TEXTAREA") return node;
+  const textarea = node.querySelector?.("textarea");
+  if (textarea) return textarea;
+  return node;
+}
+
+function isPromptCandidate(node, allowFocused) {
   if (!node || !(node instanceof HTMLElement)) return false;
+  if (!isVisible(node)) return false;
+  if (isHugeEditable(node)) return false;
+
+  if (node.closest("rich-textarea")) return true;
+  if (node.tagName === "TEXTAREA") return true;
+  if (node.classList.contains("ql-editor")) return true;
+  if (node.getAttribute("role") === "textbox" && hasPromptLabel(node)) return true;
+  if (allowFocused && node.isContentEditable && isNearPromptArea(node)) return true;
+
+  return false;
+}
+
+function hasPromptLabel(node) {
   const label = [
     node.getAttribute("aria-label"),
     node.getAttribute("placeholder"),
-    node.textContent
+    node.getAttribute("data-placeholder")
   ].filter(Boolean).join(" ").toLowerCase();
-  return node.isContentEditable ||
-    node.tagName === "TEXTAREA" ||
-    node.getAttribute("role") === "textbox" ||
-    /prompt|message|ask|enter|type/i.test(label);
+  return /prompt|message|ask|enter|type|gemini/i.test(label);
+}
+
+function isHugeEditable(node) {
+  const rect = node.getBoundingClientRect();
+  if (node.closest("rich-textarea")) return false;
+  return rect.height > Math.min(360, window.innerHeight * 0.45) ||
+    rect.width > window.innerWidth * 0.96;
+}
+
+function isNearPromptArea(node) {
+  const rect = node.getBoundingClientRect();
+  return rect.bottom > window.innerHeight * 0.45;
+}
+
+function promptScore(node) {
+  const rect = node.getBoundingClientRect();
+  let score = 0;
+  if (node.closest("rich-textarea")) score += 100;
+  if (node.classList.contains("ql-editor")) score += 50;
+  if (node.tagName === "TEXTAREA") score += 40;
+  if (hasPromptLabel(node)) score += 25;
+  if (isNearPromptArea(node)) score += 10;
+  score += Math.max(0, Math.min(20, rect.bottom / Math.max(1, window.innerHeight) * 20));
+  return score;
 }
 
 function isVisible(node) {
@@ -94,6 +146,7 @@ function insertPrompt(prompt) {
     return { ok: false, message: "Open Gemini and click inside the prompt box first." };
   }
 
+  box.scrollIntoView({ block: "center", inline: "nearest" });
   box.focus();
 
   if (box.tagName === "TEXTAREA") {
@@ -114,7 +167,12 @@ function insertPrompt(prompt) {
 
   const inserted = document.execCommand("insertText", false, value);
   if (!inserted) {
-    box.textContent = value;
+    box.replaceChildren();
+    const lines = value.split(/\r?\n/);
+    lines.forEach((line, index) => {
+      if (index) box.append(document.createElement("br"));
+      box.append(document.createTextNode(line));
+    });
     box.dispatchEvent(new InputEvent("input", {
       bubbles: true,
       inputType: "insertText",

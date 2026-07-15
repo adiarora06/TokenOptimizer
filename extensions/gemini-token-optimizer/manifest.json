@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Token Optimizer for Gemini",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Optimize messy prompts in a side panel before inserting them into Gemini.",
   "minimum_chrome_version": "114",
   "action": {
