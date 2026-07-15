@@ -18,6 +18,7 @@ http://127.0.0.1:8787
 
 - **Workspace first**: one large prompt box, one optimized run action, live status, collapsed final result.
 - **Sidecar wrappers**: browser, Google-style web LLM, and IDE flows generate copy-ready prompts and file placement kits.
+- **Gemini extension MVP**: a Manifest V3 side panel can capture, optimize, and insert prompts on Gemini.
 - **Open source second**: contracts, agents, routes, generated files, and audit behavior are documented in `/open-source`.
 - **Power pages**: Agents, Agent Graph, History, Audit Log, Settings, and Optimized IDE stay available without crowding the main workflow.
 
@@ -26,6 +27,7 @@ http://127.0.0.1:8787
 - `outputs/workspace.html`: main browser app and user-facing run flow.
 - `outputs/open-source.html`: readable workings page for architecture and contribution context.
 - `outputs/agent-structure.html`: agent roles plus hub-and-spoke information graph.
+- `extensions/gemini-token-optimizer`: local unpacked Chrome extension MVP for Gemini.
 - `optimizer-core.cjs`: blank A2A kit, handoff shaping, staged prompts, token estimates, and fallback behavior.
 - `server.cjs`: local server, static routes, API routes, and provider routing.
 - `api/*.js`: Vercel function entrypoints.
@@ -63,6 +65,18 @@ The background mode is for working beside an active LLM or IDE:
 3. Copy the sidecar prompt or wrapper kit.
 4. Paste the compact handoff into the target chat box or IDE agent.
 5. Review the result and save an audit trail when needed.
+
+## Gemini Extension MVP
+
+Load the extension locally:
+
+1. Open `chrome://extensions`.
+2. Enable **Developer mode**.
+3. Click **Load unpacked**.
+4. Select `extensions/gemini-token-optimizer`.
+5. Open `https://gemini.google.com` and click the extension icon.
+
+The extension uses a Chrome side panel. It does not auto-send Gemini messages; it only inserts the optimized handoff when the user clicks **Insert into Gemini**.
 
 ## Contributing Principle
 

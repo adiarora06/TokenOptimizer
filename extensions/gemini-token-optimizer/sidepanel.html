@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Token Optimizer for Gemini</title>
+  <link rel="stylesheet" href="sidepanel.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="header">
+      <div class="logo">TO</div>
+      <div>
+        <strong>Token Optimizer</strong>
+        <span>Gemini sidecar MVP</span>
+      </div>
+    </header>
+
+    <section class="status" aria-live="polite">
+      <div class="status-row">
+        <span class="dot" id="statusDot"></span>
+        <span class="phase" id="statusPhase">Ready</span>
+      </div>
+      <strong id="statusTitle">Open Gemini and paste or capture a prompt.</strong>
+      <span id="statusDetail">The extension will optimize first, then insert only after you click.</span>
+      <div class="rail" aria-label="Workflow stages">
+        <button class="rail-step" type="button" data-stage="capture" aria-current="step">Capture</button>
+        <button class="rail-step" type="button" data-stage="compress">Compress</button>
+        <button class="rail-step" type="button" data-stage="handoff">Handoff</button>
+        <button class="rail-step" type="button" data-stage="paste">Paste</button>
+        <button class="rail-step" type="button" data-stage="review">Review</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <h1>Prompt</h1>
+          <p>Paste manually or capture from the Gemini input box.</p>
+        </div>
+        <span class="pill" id="connectionPill">Checking</span>
+      </div>
+      <textarea id="rawPrompt" placeholder="Paste the rough prompt here, or click Capture Gemini Prompt after focusing Gemini's prompt box."></textarea>
+      <div class="actions">
+        <button id="capturePrompt">Capture Gemini Prompt</button>
+        <button class="primary" id="optimizePrompt">Optimize</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <h2>Optimized handoff</h2>
+          <p>Copy it or insert it into Gemini. It will not auto-send.</p>
+        </div>
+        <span class="pill" id="tokenPill">0 tokens</span>
+      </div>
+      <textarea id="optimizedPrompt" readonly placeholder="Optimized prompt appears here after running."></textarea>
+      <div class="actions">
+        <button id="copyOptimized">Copy</button>
+        <button id="insertGemini">Insert into Gemini</button>
+      </div>
+    </section>
+
+    <details class="panel details">
+      <summary>Settings</summary>
+      <label for="backendUrl">Optimizer endpoint</label>
+      <input id="backendUrl" type="url" spellcheck="false">
+      <p>Default uses the deployed Token Optimizer backend. Use local only when `npm start` is running.</p>
+      <div class="actions">
+        <button id="useProduction">Production</button>
+        <button id="useLocal">Local</button>
+      </div>
+    </details>
+
+    <section class="panel compact">
+      <strong>Privacy shape</strong>
+      <p>Prompts are sent to the configured optimizer endpoint only when you click Optimize. Nothing is sent when you capture or insert.</p>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="sidepanel.js"></script>
+</body>
+</html>
