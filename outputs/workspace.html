@@ -175,7 +175,14 @@
       align-items: stretch;
     }
 
-    .card, .panel, .mode, .step, .node, .result {
+    .app-shell {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 330px;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .card, .panel, .mode, .step, .node, .result, .workspace-card, .guide-card {
       border: 1px solid var(--line);
       border-radius: 8px;
       background: var(--panel);
@@ -184,11 +191,109 @@
 
     .card { padding: 20px; }
 
+    .workspace-card {
+      overflow: hidden;
+    }
+
+    .app-head {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 18px 0;
+    }
+
+    .prompt-stage {
+      padding: 18px;
+    }
+
+    .prompt-stage h1 {
+      max-width: 760px;
+      font-size: 38px;
+    }
+
+    .prompt-stage .lede {
+      max-width: 760px;
+    }
+
+    .prompt-card {
+      margin-top: 18px;
+    }
+
+    .prompt-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .workspace-card textarea {
+      min-height: 310px;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    .guide-rail {
+      position: sticky;
+      top: 118px;
+      display: grid;
+      gap: 12px;
+      padding: 16px;
+    }
+
+    .guide-card {
+      padding: 14px;
+      box-shadow: none;
+    }
+
+    .mini-flow {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .mini-flow div {
+      display: grid;
+      grid-template-columns: 28px minmax(0, 1fr);
+      gap: 10px;
+      align-items: start;
+    }
+
+    .mini-flow span {
+      display: grid;
+      width: 28px;
+      height: 28px;
+      place-items: center;
+      border-radius: 999px;
+      background: var(--brand-soft);
+      color: var(--brand);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .mini-flow strong {
+      display: block;
+      font-size: 14px;
+    }
+
+    .mini-flow p {
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
     .brand {
       display: flex;
       gap: 10px;
       align-items: center;
       margin-bottom: 16px;
+    }
+
+    .app-head .brand {
+      margin-bottom: 0;
     }
 
     .logo {
@@ -228,6 +333,12 @@
     .mode-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .steps { grid-template-columns: repeat(4, minmax(0, 1fr)); }
     .summary { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+    .app-head .mode-grid {
+      width: min(100%, 340px);
+      grid-template-columns: repeat(2, minmax(120px, 1fr));
+      margin-top: 0;
+    }
 
     .mode, .step, .node, .summary-card {
       padding: 14px;
@@ -345,10 +456,7 @@
     }
 
     .kit-panel {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 12px;
-      align-items: center;
+      display: block;
       margin-top: 14px;
       border: 1px solid var(--line);
       border-radius: 8px;
@@ -356,9 +464,20 @@
       padding: 13px;
     }
 
+    .kit-panel summary {
+      cursor: pointer;
+      color: var(--text);
+      font-weight: 900;
+    }
+
     .kit-panel p {
+      margin-top: 8px;
       color: var(--muted);
       font-size: 13px;
+    }
+
+    .kit-panel .button-row {
+      margin-top: 12px;
     }
 
     button, .button {
@@ -532,6 +651,7 @@
     :root[data-theme="dark"] .button,
     :root[data-theme="dark"] textarea,
     :root[data-theme="dark"] select,
+    :root[data-theme="dark"] .kit-panel,
     :root[data-theme="dark"] .summary-card {
       background: var(--panel);
       border-color: var(--line);
@@ -548,10 +668,11 @@
 
     @media (max-width: 980px) {
       body { padding-top: 86px; }
-      .status, .hero, .controls, .mode-grid, .steps, .summary, .graph, .kit-panel { grid-template-columns: 1fr; }
+      .status, .hero, .app-shell, .controls, .mode-grid, .steps, .summary, .graph { grid-template-columns: 1fr; }
       .status.top { top: 83px; }
       .status-right { display: none; }
       h1 { font-size: 32px; }
+      .guide-rail { position: static; }
       .node:not(:last-child)::after { display: none; }
     }
   </style>
@@ -563,6 +684,7 @@
     <a href="/a2a-kit">Optimized IDE</a>
     <a href="/agent-structure?view=agents">Agents</a>
     <a href="/agent-structure?view=graph">Agent Graph</a>
+    <a href="/open-source">Open Source</a>
     <a href="/prompt-history">History</a>
     <a href="/audit-log">Audit Log</a>
     <a href="/settings">Settings</a>
@@ -584,89 +706,91 @@
   </div>
 
   <main class="page">
-    <section class="hero">
-      <div class="card">
-        <div class="brand">
-          <div class="logo">T</div>
-          <div>
-            <strong>Optimizer Workspace</strong>
-            <span>Browser-based optimized LLM</span>
+    <section class="app-shell" aria-label="Optimizer workspace">
+      <div class="workspace-card">
+        <div class="app-head">
+          <div class="brand">
+            <div class="logo">T</div>
+            <div>
+              <strong>Token Optimizer</strong>
+              <span>One-shot prompt workspace</span>
+            </div>
+          </div>
+          <div class="mode-grid" aria-label="Use mode">
+            <button class="mode" id="primaryMode" type="button" aria-pressed="true">
+              <strong>Main app</strong>
+              <p>Run here.</p>
+            </button>
+            <button class="mode" id="backgroundMode" type="button" aria-pressed="false">
+              <strong>Background</strong>
+              <p>Copy elsewhere.</p>
+            </button>
           </div>
         </div>
-        <h1>Paste the messy prompt. Get the optimized result.</h1>
-        <p class="lede">The app reads full context once, converts it into compact agent handoffs, runs the workflow, and keeps the final answer collapsed until you choose to view it.</p>
-        <div class="mode-grid" aria-label="Use mode">
-          <button class="mode" id="primaryMode" type="button" aria-pressed="true">
-            <strong>Primary LLM workspace</strong>
-            <p>Use this page as the place you paste prompts and get final answers.</p>
-          </button>
-          <button class="mode" id="backgroundMode" type="button" aria-pressed="false">
-            <strong>Background optimizer</strong>
-            <p>Keep this open beside ChatGPT, Claude, Codex, Grok, or your IDE and copy compact outputs into them.</p>
-          </button>
+
+        <div class="prompt-stage">
+          <h1>What do you want done?</h1>
+          <p class="lede">Paste the rough version. The app will optimize the prompt, run the agent flow, and keep the final result collapsed until you choose to open it.</p>
+          <div class="prompt-card">
+            <div class="prompt-meta">
+              <label for="prompt">Messy prompt</label>
+              <span class="pill good" id="runPill">Ready</span>
+            </div>
+            <textarea id="prompt" placeholder="Paste anything here: a rough product idea, coding request, research task, transcript, or long prompt. No cleanup needed."></textarea>
+          </div>
+          <div class="examples">
+            <button data-example="I want to build a browser extension that watches my prompt before I send it to another LLM, removes repeated context, creates a compact handoff contract, and lets me copy the optimized prompt.">Try background helper</button>
+            <button data-example="Turn this messy product idea into an optimized agent workflow: intake user prompt, create handoff contract, route to executor, verify final answer, save prompt history, and show a node graph of the flow.">Try product workflow</button>
+            <button data-example="Optimize a long prompt into smaller staged prompts. Run the optimized workflow, show token savings, and only reveal the final answer when I expand it.">Try staged prompt run</button>
+          </div>
+          <div class="controls">
+            <div>
+              <label for="intent">Output goal</label>
+              <select id="intent">
+                <option value="answer">Optimized final answer</option>
+                <option value="prompt">Prompt to paste elsewhere</option>
+                <option value="contract">Handoff contract</option>
+              </select>
+            </div>
+            <div class="actions">
+              <button id="contractOnly">Contract Only</button>
+              <button class="primary" id="runWorkflow">Optimize & Run</button>
+            </div>
+          </div>
+          <details class="kit-panel" id="agentKit">
+            <summary>Advanced Agent Kit</summary>
+            <p>Run the same prompt through the blank A2A kit when you want a more IDE-like agent experiment.</p>
+            <div class="button-row">
+              <button id="runKit">Run Agent Kit</button>
+              <a class="button" href="/open-source">See workings</a>
+            </div>
+          </details>
         </div>
       </div>
 
-      <aside class="coach panel">
+      <aside class="guide-rail panel">
         <div class="coach-section">
-          <h2>How to use it</h2>
+          <h2>No token thinking required</h2>
           <p id="coachMode">Paste here first. The app optimizes, runs, verifies, and saves prompts without making you manage tokens manually.</p>
         </div>
-        <div class="coach-section">
-          <h3>Most friendly path</h3>
-          <p>One obvious input, one run button, hidden advanced details, and a live status bar that explains the current agent step.</p>
+        <div class="guide-card">
+          <strong>What happens after Run</strong>
+          <div class="mini-flow">
+            <div><span>1</span><div><strong>Read once</strong><p>The full prompt only enters at intake.</p></div></div>
+            <div><span>2</span><div><strong>Shrink</strong><p>Agents receive a compact handoff contract.</p></div></div>
+            <div><span>3</span><div><strong>Verify</strong><p>The final answer is checked and collapsed.</p></div></div>
+          </div>
         </div>
-        <div class="coach-section">
-          <h3>Power pages</h3>
-          <p>The advanced agent kit is built into this workspace. Agents explain roles, Agent Graph shows connections, History reuses prompts, and Audit Log explains each run.</p>
+        <div class="guide-card">
+          <strong>Open source confidence</strong>
+          <p class="muted">Agents, contracts, routes, files, and contribution notes live on the workings page.</p>
+          <div class="button-row" style="margin-top: 12px">
+            <a class="button" href="/open-source">Open Source</a>
+            <button id="focusKit">Agent Kit</button>
+          </div>
         </div>
-        <div class="button-row">
-          <button id="copyBackgroundGuide">Copy Background Guide</button>
-          <button id="focusKit">Agent Kit</button>
-        </div>
+        <button id="copyBackgroundGuide">Copy Background Guide</button>
       </aside>
-    </section>
-
-    <section class="panel">
-      <div class="panel-header">
-        <div>
-          <h2>One-shot prompt entrance</h2>
-          <p>Drop in the long prompt you would normally paste into a paid LLM.</p>
-        </div>
-        <span class="pill good" id="runPill">Ready</span>
-      </div>
-      <div class="panel-body">
-        <label for="prompt">Paste prompt here</label>
-        <textarea id="prompt" placeholder="Paste a rough task, transcript, coding request, research plan, or long prompt. Token Optimizer will compress it into handoff contracts, run the staged workflow, and save reusable prompts."></textarea>
-        <div class="examples">
-          <button data-example="I want to build a browser extension that watches my prompt before I send it to ChatGPT, removes repeated context, creates a compact handoff contract, and lets me copy the optimized prompt.">Try background extension</button>
-          <button data-example="Turn this messy product idea into an optimized agent workflow: intake user prompt, create handoff contract, route to executor, verify final answer, save prompt history, and show a node graph of the flow.">Try product workflow</button>
-          <button data-example="Optimize a long Claude prompt into smaller staged prompts. Run the optimized workflow, show token savings, and only reveal the final answer when I expand it.">Try staged prompt run</button>
-        </div>
-        <div class="controls">
-          <div>
-            <label for="intent">Output goal</label>
-            <select id="intent">
-              <option value="answer">Optimized final answer</option>
-              <option value="prompt">Prompt to paste elsewhere</option>
-              <option value="contract">Handoff contract</option>
-            </select>
-          </div>
-          <div class="actions">
-            <button id="contractOnly">Contract Only</button>
-            <button class="primary" id="runWorkflow">Optimize & Run</button>
-          </div>
-        </div>
-        <div class="kit-panel" id="agentKit">
-          <div>
-            <strong>Advanced Agent Kit</strong>
-            <p>Run the same prompt through the blank A2A kit when you want a more IDE-like agent experiment.</p>
-          </div>
-          <div class="button-row">
-            <button id="runKit">Run Agent Kit</button>
-          </div>
-        </div>
-      </div>
     </section>
 
     <section class="steps" aria-label="Workflow steps">
@@ -860,7 +984,7 @@
       el("backgroundMode").setAttribute("aria-pressed", String(mode === "background"));
       el("topMode").textContent = mode === "background" ? "Background Optimizer" : "Primary LLM";
       el("coachMode").textContent = mode === "background"
-        ? "Keep Token Optimizer open beside another LLM or IDE. Paste the messy prompt here, then copy compact output into the tool you already use."
+        ? "Keep Token Optimizer open beside another LLM or IDE. Paste the messy prompt here, then copy the compact output into the tool you already use."
         : "Use Token Optimizer as the main workspace. Paste the messy prompt here, run it, and expand the final result only when needed.";
       setStatus(
         "Ready",
@@ -878,7 +1002,7 @@
         "1. Paste the full messy prompt into Token Optimizer first.",
         "2. Run Optimize & Run so raw context is read once and compacted.",
         "3. Expand only the output you need: final answer, prompts, or handoff contract.",
-        "4. Paste the compact output into ChatGPT, Claude, Codex, Grok, OpenRouter, LiteLLM, or your IDE.",
+        "4. Paste the compact output into your preferred LLM, agent tool, or IDE.",
         "5. Do not paste the full original context again unless the target LLM truly needs it.",
         prompt ? "\nCurrent prompt:\n" + prompt : ""
       ].join("\n");
@@ -1152,6 +1276,7 @@
       el("contractOnly").addEventListener("click", () => runWorkflow(true));
       el("runKit").addEventListener("click", runAgentKit);
       el("focusKit").addEventListener("click", () => {
+        el("agentKit").open = true;
         el("agentKit").scrollIntoView({ behavior: "smooth", block: "center" });
         setStatus("Agent Kit", "Advanced kit is ready", "Paste once, then run the blank A2A kit from this workspace.", false);
       });

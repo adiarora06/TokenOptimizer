@@ -479,8 +479,10 @@ function serveStatic(req, res) {
   const routeMap = {
     "/": "/home.html",
     "/workspace": "/workspace.html",
+    "/token-optimizer-file-generator.html": "/workspace.html",
     "/agent-structure": "/agent-structure.html",
     "/a2a-kit": "/a2a-kit.html",
+    "/open-source": "/open-source.html",
     "/audit-log": "/audit-log.html",
     "/prompt-history": "/prompt-history.html",
     "/settings": "/settings.html"

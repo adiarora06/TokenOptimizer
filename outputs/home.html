@@ -371,6 +371,79 @@
 
     .final-cta p { color: rgba(255, 255, 255, 0.72); margin-top: 8px; }
 
+    .start-card {
+      display: grid;
+      gap: 12px;
+      padding: 16px;
+    }
+
+    .mini-prompt {
+      width: 100%;
+      min-height: 150px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--bg);
+      color: var(--ink);
+      padding: 12px;
+      resize: none;
+    }
+
+    .quick-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .quick-row {
+      display: grid;
+      grid-template-columns: 28px minmax(0, 1fr);
+      gap: 10px;
+      align-items: start;
+    }
+
+    .quick-row span {
+      display: grid;
+      width: 28px;
+      height: 28px;
+      place-items: center;
+      border-radius: 999px;
+      background: var(--soft);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .quick-row strong {
+      display: block;
+      font-size: 14px;
+    }
+
+    .quick-row p {
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .source-band {
+      display: grid;
+      grid-template-columns: minmax(0, 0.78fr) minmax(280px, 0.42fr);
+      gap: 16px;
+      align-items: start;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+
+    .source-grid {
+      display: grid;
+      gap: 10px;
+    }
+
+    .source-grid .panel {
+      background: var(--bg);
+    }
+
     :root[data-theme="dark"] body {
       background: var(--bg);
     }
@@ -404,6 +477,7 @@
       .flow,
       .experiment,
       .workspace-preview,
+      .source-band,
       .final-cta {
         grid-template-columns: 1fr;
       }
@@ -428,154 +502,98 @@
       <a href="/workspace">Workspace</a>
       <a href="/agent-structure?view=agents">Agents</a>
       <a href="/agent-structure?view=graph">Agent Graph</a>
+      <a href="/open-source">Open Source</a>
       <a href="/prompt-history">History</a>
       <a href="/audit-log">Audit Log</a>
       <a href="/settings">Settings</a>
     </div>
     <div class="actions">
-      <a class="button primary" href="/workspace" id="navTry">Try workspace + kit</a>
+      <a class="button primary" href="/workspace" id="navTry">Open app</a>
     </div>
   </nav>
 
   <main class="page">
     <section class="hero">
       <div class="hero-main">
-        <span class="eyebrow">Browser-based optimized LLM</span>
-        <h1>Your prompts waste tokens, time, and attention.</h1>
-        <p class="lede">Long prompts repeat context, create errors, slow agents down, and build a backlog of messy instructions. Token Optimizer turns that mess into compact agent handoffs and runs the workflow for you.</p>
+        <span class="eyebrow">Optimized LLM workspace</span>
+        <h1>Paste once. Let the app do the token thinking.</h1>
+        <p class="lede">Token Optimizer turns a messy request into a compact agent workflow, runs it, verifies it, and keeps the heavy details tucked away until you ask for them.</p>
         <div class="hero-actions">
-          <a class="button primary" href="/workspace" id="startPrimary">Try workspace + kit</a>
+          <a class="button primary" href="/workspace" id="startPrimary">Open workspace</a>
           <a class="button" href="/workspace" id="startBackground">Use beside my LLM</a>
         </div>
       </div>
 
-      <aside class="hero-side" aria-label="Use modes">
-        <button class="mode-card active" data-mode="primary">
-          <strong>Primary workspace</strong>
-          <p>Paste once. Optimize, run, verify, and review in one browser UI.</p>
-        </button>
-        <button class="mode-card" data-mode="background">
-          <strong>Background mode</strong>
-          <p>Keep it open beside ChatGPT, Claude, Codex, Grok, or your IDE.</p>
-        </button>
-        <div class="panel">
-          <span class="tag">Live loop</span>
-          <strong id="modeTitle">Run Token Optimizer as the main LLM surface.</strong>
-          <p id="modeCopy">The workspace shows status, token savings, prompts, contracts, agents, and audit trail without flooding the page.</p>
+      <aside class="start-card panel" aria-label="Quick start">
+        <span class="tag">Start here</span>
+        <textarea class="mini-prompt" readonly>Paste your rough prompt here:
+
+"I need this done, but it is long, messy, and full of repeated context..."</textarea>
+        <div class="quick-list">
+          <div class="quick-row"><span>1</span><div><strong>Paste the messy version</strong><p>No cleanup required before you start.</p></div></div>
+          <div class="quick-row"><span>2</span><div><strong>Run once</strong><p>The app creates the compact handoff and executes it.</p></div></div>
+          <div class="quick-row"><span>3</span><div><strong>Expand only what matters</strong><p>Final answer first; prompts, agents, and audit trail stay optional.</p></div></div>
+        </div>
+        <div class="hero-actions">
+          <button class="mode-card active" data-mode="primary"><strong>Main app</strong><p>Use it as the primary LLM surface.</p></button>
+          <button class="mode-card" data-mode="background"><strong>Background helper</strong><p>Keep it beside another tool.</p></button>
+        </div>
+        <div>
+          <strong id="modeTitle">Run Token Optimizer as the main workspace.</strong>
+          <p id="modeCopy">The app shows status, savings, final output, and optional internals without flooding the first screen.</p>
         </div>
       </aside>
     </section>
 
-    <section class="metrics" aria-label="Outcome metrics">
-      <article class="metric"><span>Prompt bloat</span><strong id="bloatMetric">3.8x</strong></article>
-      <article class="metric"><span>Saved context</span><strong id="savedMetric">64%</strong></article>
-      <article class="metric"><span>Agent handoffs</span><strong>5</strong></article>
-      <article class="metric"><span>Result view</span><strong>Folded</strong></article>
-    </section>
-
     <section class="section" id="what">
       <div class="section-head">
-        <h2>What the project is</h2>
-        <p>A browser workspace plus advanced agent kit that turns rough intent into compact A2A contracts, optimized prompts, verified outputs, and reusable history.</p>
+        <h2>One friendly workflow</h2>
+        <p>The user path is intentionally small: paste, run, copy. Everything else is there when someone wants to learn or debug.</p>
       </div>
       <div class="grid-3">
         <article class="panel">
-          <span class="tag">Optimize</span>
-          <strong>Compress the task</strong>
-          <p>Raw context is read once, then reduced into goal, facts, constraints, and next action.</p>
+          <span class="tag">Use</span>
+          <strong>One prompt box</strong>
+          <p>The workspace starts with the action users came for.</p>
         </article>
         <article class="panel">
-          <span class="tag">Run</span>
-          <strong>Use compact agents</strong>
-          <p>Executor and verifier work from handoff contracts instead of the whole transcript.</p>
+          <span class="tag">Watch</span>
+          <strong>Live status</strong>
+          <p>A simple status bar says what the agents are doing now.</p>
         </article>
         <article class="panel">
-          <span class="tag">Learn</span>
-          <strong>Inspect the trail</strong>
-          <p>History, audit log, prompts, and graph views reveal how tokens were saved.</p>
+          <span class="tag">Reuse</span>
+          <strong>Saved runs</strong>
+          <p>History and audit logs stay available without taking over the interface.</p>
         </article>
       </div>
     </section>
 
-    <section class="section">
-      <div class="section-head">
-        <h2>Explore the flow</h2>
-        <p>Each stage owns one job. The UI invites poking around without forcing every detail onto the first screen.</p>
-      </div>
-      <div class="flow">
-        <article class="panel"><span class="tag">1</span><strong>Intake</strong><p>Read messy prompt.</p></article>
-        <article class="panel"><span class="tag">2</span><strong>Contract</strong><p>Keep only useful state.</p></article>
-        <article class="panel"><span class="tag">3</span><strong>Execute</strong><p>Run compact prompt.</p></article>
-        <article class="panel"><span class="tag">4</span><strong>Verify</strong><p>Check constraints.</p></article>
-        <article class="panel"><span class="tag">5</span><strong>Audit</strong><p>Save the trace.</p></article>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <h2>Token waste lab</h2>
-        <p>Move the sliders. See why repeated context and too many handoffs quietly burn time.</p>
-      </div>
-      <div class="experiment">
-        <div class="sliders">
-          <div class="slider-row">
-            <label for="promptLength"><span>Prompt size</span><span id="promptLengthLabel">1200 tokens</span></label>
-            <input id="promptLength" type="range" min="200" max="6000" step="100" value="1200">
-          </div>
-          <div class="slider-row">
-            <label for="handoffs"><span>Naive handoffs</span><span id="handoffsLabel">4 agents</span></label>
-            <input id="handoffs" type="range" min="1" max="9" step="1" value="4">
-          </div>
-          <div class="slider-row">
-            <label for="repeat"><span>Repeated context</span><span id="repeatLabel">55%</span></label>
-            <input id="repeat" type="range" min="0" max="90" step="5" value="55">
-          </div>
-        </div>
+    <section class="section" id="source">
+      <div class="source-band">
         <div>
-          <div class="waste-card">
-            <article class="metric"><span>Naive spend</span><strong id="naiveSpend">7.4k</strong></article>
-            <article class="metric"><span>Optimized</span><strong id="optimizedSpend">2.4k</strong></article>
-            <article class="metric"><span>Saved</span><strong id="labSaved">68%</strong></article>
-          </div>
-          <div class="workspace-preview">
-            <div class="mock">
-              <textarea readonly>Paste messy request here. The optimizer extracts the contract, runs the agent flow, and keeps details expandable.</textarea>
-              <div class="status-line">
-                <span class="muted">Live status: Contract agent reducing repeated context</span>
-                <div class="bar" style="--value: 68%"><span></span></div>
-              </div>
-            </div>
-            <div class="mock">
-              <strong>Explore next</strong>
-              <p class="muted">Try workspace, audit log, agent graph, and prompt history. Learn by clicking, not reading.</p>
-              <div class="button-row" style="margin-top: 12px">
-                <a class="button primary" href="/workspace">Open workspace</a>
-                <a class="button" href="/agent-structure">View graph</a>
-              </div>
-            </div>
+          <span class="eyebrow">Open source layer</span>
+          <h2 style="margin-top: 14px">Understand the machinery when you want to.</h2>
+          <p class="lede">The product stays simple, but the workings are inspectable: contracts, agent responsibilities, routes, generated files, and source layout are documented in one place.</p>
+          <div class="hero-actions">
+            <a class="button primary" href="/open-source">Open workings page</a>
+            <a class="button" href="https://github.com/adiarora06/TokenOptimizer">View GitHub</a>
           </div>
         </div>
-      </div>
-    </section>
-
-    <section class="section" id="background">
-      <div class="section-head">
-        <h2>Use it in the background</h2>
-        <p>Not ready to replace your favorite LLM? Keep this open beside it and paste only the compact output forward.</p>
-      </div>
-      <div class="grid-3">
-        <article class="panel"><span class="tag">Beside ChatGPT</span><strong>Pre-compress prompts</strong><p>Send cleaner requests with less repeated setup.</p></article>
-        <article class="panel"><span class="tag">Beside Codex</span><strong>Shape implementation tasks</strong><p>Turn rough feature ideas into contracts and file directions.</p></article>
-        <article class="panel"><span class="tag">Beside your IDE</span><strong>Keep state portable</strong><p>Copy contracts, prompts, and audit notes into the tool doing the work.</p></article>
+        <div class="source-grid">
+          <article class="panel"><span class="tag">Contracts</span><strong>See the handoff format</strong><p>Goal, facts, constraints, decisions, next action.</p></article>
+          <article class="panel"><span class="tag">Agents</span><strong>See who owns what</strong><p>Intake, optimizer, executor, verifier, output, audit.</p></article>
+          <article class="panel"><span class="tag">Files</span><strong>Know where code lives</strong><p>Core logic, API routes, static pages, and docs.</p></article>
+        </div>
       </div>
     </section>
 
     <section class="final-cta">
       <div>
-        <h2>Ready to stop feeding models the same context?</h2>
-        <p>Open the combined workspace, paste one messy prompt, and let the optimizer run the lean path.</p>
+        <h2>Ready to make the prompt lighter?</h2>
+        <p>Open the workspace, paste the messy version, and let the optimized workflow run in the background.</p>
       </div>
-      <a class="button primary" href="/workspace">Try the optimized LLM</a>
+      <a class="button primary" href="/workspace">Try the app</a>
     </section>
   </main>
 
@@ -590,11 +608,11 @@
       localStorage.setItem("tokenOptimizerUseMode", mode);
       modeCards.forEach((card) => card.classList.toggle("active", card.dataset.mode === mode));
       if (mode === "background") {
-        modeTitle.textContent = "Run Token Optimizer beside your existing LLM.";
-        modeCopy.textContent = "Paste here first, copy the compact result, then continue in ChatGPT, Claude, Codex, Grok, OpenRouter, LiteLLM, or your IDE.";
+        modeTitle.textContent = "Run Token Optimizer beside another tool.";
+        modeCopy.textContent = "Paste here first, copy the compact result, then continue wherever you already work.";
       } else {
-        modeTitle.textContent = "Run Token Optimizer as the main LLM surface.";
-        modeCopy.textContent = "The workspace shows status, token savings, prompts, contracts, agents, and audit trail without flooding the page.";
+        modeTitle.textContent = "Run Token Optimizer as the main workspace.";
+        modeCopy.textContent = "The app shows status, savings, final output, and optional internals without flooding the first screen.";
       }
     }
 
@@ -628,8 +646,10 @@
       document.getElementById("bloatMetric").textContent = Math.max(1, naive / Math.max(1, optimized)).toFixed(1) + "x";
     }
 
-    [promptLength, handoffs, repeat].forEach((control) => control.addEventListener("input", updateLab));
-    updateLab();
+    if (promptLength && handoffs && repeat) {
+      [promptLength, handoffs, repeat].forEach((control) => control.addEventListener("input", updateLab));
+      updateLab();
+    }
   </script>
 </body>
 </html>
