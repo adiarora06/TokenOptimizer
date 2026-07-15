@@ -1,0 +1,40 @@
+{
+  "manifest_version": 3,
+  "name": "Token Optimizer for Gemini",
+  "version": "0.1.0",
+  "description": "Optimize messy prompts in a side panel before inserting them into Gemini.",
+  "minimum_chrome_version": "114",
+  "action": {
+    "default_title": "Open Token Optimizer"
+  },
+  "background": {
+    "service_worker": "service-worker.js",
+    "type": "module"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; connect-src 'self' https://tok-pi-gilt.vercel.app http://127.0.0.1:8787"
+  },
+  "permissions": [
+    "sidePanel",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://gemini.google.com/*",
+    "https://tok-pi-gilt.vercel.app/*",
+    "http://127.0.0.1:8787/*"
+  ],
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://gemini.google.com/*"
+      ],
+      "js": [
+        "content-gemini.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}
