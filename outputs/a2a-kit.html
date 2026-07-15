@@ -478,7 +478,7 @@
     </a>
     <div class="status" role="status" aria-live="polite">
       <strong id="statusTitle">Ready</strong>
-      <span id="statusDetail">Paste any prompt, choose a provider, and run the blank agent kit.</span>
+      <span id="statusDetail">Paste any prompt and run the blank agent kit.</span>
     </div>
     <div class="actions">
       <button id="copyOutput">Copy Current</button>
@@ -509,26 +509,21 @@
       <aside class="panel">
         <div class="panel-header">
           <div>
-            <h2>Provider</h2>
-            <p>Any OpenAI-compatible endpoint</p>
+            <h2>Run Route</h2>
+            <p>Automatic by default. Add a custom endpoint only for experiments.</p>
           </div>
         </div>
         <div class="panel-body">
           <label for="provider">Route</label>
           <select id="provider">
-            <option value="offline">Offline A2A kit</option>
-            <option value="groq">Groq</option>
-            <option value="openai">OpenAI</option>
-            <option value="openrouter">OpenRouter</option>
-            <option value="xai">xAI/Grok</option>
-            <option value="litellm">LiteLLM proxy</option>
-            <option value="custom">Custom OpenAI-compatible</option>
+            <option value="groq">Automatic route</option>
+            <option value="custom">Custom route</option>
           </select>
 
           <div class="provider-grid">
             <div>
               <label for="model">Model</label>
-              <input id="model" placeholder="e.g. gpt-4.1-mini">
+              <input id="model" placeholder="optional">
             </div>
             <div>
               <label for="apiKey">API key</label>
@@ -537,7 +532,7 @@
           </div>
 
           <label for="baseUrl">Base URL</label>
-          <input id="baseUrl" placeholder="https://api.openai.com/v1">
+          <input id="baseUrl" placeholder="Custom chat endpoint">
 
           <div class="notice">
             Keys are sent only with the run request and are not saved by this page. For production, prefer Vercel environment variables or your own backend proxy.
@@ -577,7 +572,6 @@
     };
 
     const providerDefaults = {
-      offline: { baseUrl: "", model: "" },
       groq: { baseUrl: "https://api.groq.com/openai/v1", model: "llama-3.3-70b-versatile" },
       openai: { baseUrl: "https://api.openai.com/v1", model: "gpt-4.1-mini" },
       openrouter: { baseUrl: "https://openrouter.ai/api/v1", model: "openai/gpt-4.1-mini" },
@@ -587,13 +581,12 @@
     };
 
     const providerLabels = {
-      offline: "Offline A2A kit",
-      groq: "Groq",
-      openai: "OpenAI",
-      openrouter: "OpenRouter",
-      xai: "xAI/Grok",
-      litellm: "LiteLLM",
-      custom: "Custom provider"
+      groq: "Automatic route",
+      openai: "Automatic route",
+      openrouter: "Custom route",
+      xai: "Custom route",
+      litellm: "Custom route",
+      custom: "Custom route"
     };
 
     const el = (id) => document.getElementById(id);
@@ -674,9 +667,8 @@ ${item.prompt}
 
 ${trace.map((item) => `- ${item.agent} (${item.status}): ${item.detail}`).join("\n")}
 
-Provider: ${result.providerLabel || result.provider}
-Model: ${result.model}
-Fallback: ${result.providerError || "None"}`;
+Route: ${result.providerError ? "Fallback" : "Automatic"}
+Fallback: ${result.providerError ? "Used" : "Not used"}`;
     }
 
     function formatResult(result) {
@@ -693,10 +685,9 @@ ${result.finalAnswer || "No final answer returned."}
 - Estimated saved tokens: ${report.estimatedSavingsTokens || 0}
 - Estimated savings: ${report.estimatedSavingsPercent || 0}%
 
-## Provider
-- Provider: ${result.providerLabel || result.provider}
-- Model: ${result.model}
-- Fallback: ${result.providerError || "None"}`;
+## Route
+- Route: ${result.providerError ? "Fallback" : "Automatic"}
+- Fallback: ${result.providerError ? "Used" : "Not used"}`;
     }
 
     function renderResult() {
@@ -717,7 +708,7 @@ ${result.finalAnswer || "No final answer returned."}
           <div class="summary-card"><span>Raw Tokens</span><strong>${report.rawInputTokens || 0}</strong></div>
           <div class="summary-card"><span>A2A Tokens</span><strong>${report.optimizedPromptTokens || 0}</strong></div>
           <div class="summary-card"><span>Saved</span><strong>${report.estimatedSavingsPercent || 0}%</strong></div>
-          <div class="summary-card"><span>Model</span><strong>${escapeHtml(result.model || "offline")}</strong></div>
+          <div class="summary-card"><span>Route</span><strong>${result.providerError ? "Fallback" : "Auto"}</strong></div>
         </div>
         <pre style="min-height: 220px; max-height: 360px">${escapeHtml(visibleAnswer)}</pre>
         <div class="actions" style="margin-top: 12px; justify-content: flex-start">
@@ -785,7 +776,7 @@ ${result.finalAnswer || "No final answer returned."}
       el("contractOnly").disabled = true;
       try {
         const providerConfig = contractOnly
-          ? { provider: "offline" }
+          ? { provider: "groq" }
           : selectedProviderConfig();
         const response = await fetch("/api/a2a-run", {
           method: "POST",
@@ -807,7 +798,7 @@ ${result.finalAnswer || "No final answer returned."}
         state.sections.kit = JSON.stringify(result.kit || {}, null, 2);
         state.activeView = contractOnly ? "contract" : "result";
         renderView();
-        setStatus("Done", result.providerError ? "Provider failed; offline A2A fallback returned a result." : "Blank A2A kit completed the one-shot run.", false);
+        setStatus("Done", result.providerError ? "Fallback completed the A2A run." : "Blank A2A kit completed the one-shot run.", false);
       } catch (error) {
         setStatus("Error", error.message, false);
       } finally {

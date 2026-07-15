@@ -1237,13 +1237,10 @@
 
           <label for="provider">Model route</label>
           <select id="provider">
-            <option value="groq-openai-fallback">Groq primary + OpenAI backup</option>
-            <option value="groq">Groq only</option>
-            <option value="openai">OpenAI only</option>
-            <option value="offline">Free offline template generator</option>
-            <option value="openrouter">OpenRouter free router</option>
-            <option value="xai">xAI / Grok API</option>
-            <option value="litellm">LiteLLM proxy</option>
+            <option value="groq-openai-fallback">Automatic route</option>
+            <option value="openrouter">Custom router</option>
+            <option value="xai">Custom API</option>
+            <option value="litellm">Local proxy</option>
           </select>
 
           <div id="providerFields" class="hidden">
@@ -1521,13 +1518,13 @@
 
     function providerLabel(provider) {
       const labels = {
-        "groq-openai-fallback": "Groq primary + OpenAI backup",
-        groq: "Groq only",
-        openai: "OpenAI only",
-        offline: "free offline generator",
-        openrouter: "OpenRouter direct",
-        xai: "xAI/Grok direct",
-        litellm: "LiteLLM direct"
+        "groq-openai-fallback": "Automatic route",
+        groq: "Automatic route",
+        openai: "Automatic route",
+        offline: "Fallback route",
+        openrouter: "Custom router",
+        xai: "Custom API",
+        litellm: "Local proxy"
       };
       return labels[provider] || provider;
     }
@@ -2369,13 +2366,13 @@ Destination: ${platformNames[input.platform]}`;
     function renderAgentFlowGraph(input) {
       const routeLabel = escapeHtml(providerLabel(input.provider));
       const routeShortLabels = {
-        "groq-openai-fallback": "Groq + OpenAI",
-        groq: "Groq",
-        openai: "OpenAI",
-        offline: "Offline",
-        openrouter: "OpenRouter",
-        xai: "xAI/Grok",
-        litellm: "LiteLLM"
+        "groq-openai-fallback": "Auto",
+        groq: "Auto",
+        openai: "Auto",
+        offline: "Fallback",
+        openrouter: "Custom",
+        xai: "Custom",
+        litellm: "Local"
       };
       const routeShortLabel = escapeHtml(routeShortLabels[input.provider] || input.provider);
       const destination = escapeHtml(platformNames[input.platform]);
@@ -2467,7 +2464,7 @@ Destination: ${platformNames[input.platform]}`;
           <text class="node-kicker" x="1002" y="272">ROUTE</text>
           <text class="node-title" x="1002" y="295">Provider</text>
           <text class="node-line" x="1002" y="317">${routeShortLabel}</text>
-          <text class="node-line" x="1002" y="334">Fallback: offline</text>
+          <text class="node-line" x="1002" y="334">Fallback: automatic</text>
 
           <text class="node-subtitle" x="30" y="535">Destination: ${destination}</text>
           <text class="node-subtitle" x="30" y="555">Optimization depth: ${depth}. Only User Input sees the raw prompt; every edge after Intake is contract-shaped.</text>
@@ -2814,7 +2811,7 @@ ${item.prompt}
       const baseUrl = el("baseUrl").value.trim();
       const model = el("model").value.trim();
       if (!apiKey || !baseUrl || !model) {
-        throw new Error("Provider route selected, but API key, base URL, or model is missing.");
+        throw new Error("Custom route selected, but API key, base URL, or model is missing.");
       }
       const response = await fetch(baseUrl, {
         method: "POST",
@@ -3052,11 +3049,9 @@ ${item.prompt}
         const response = await fetch("/api/provider-status");
         if (!response.ok) return;
         const status = await response.json();
-        const groq = status.groqConfigured ? "Groq ready" : "Groq key missing";
-        const openai = status.openaiConfigured ? "OpenAI backup ready" : "OpenAI key missing";
-        setLiveStatus("Provider", "Backend provider status", groq + "; " + openai + ".", false);
+        setLiveStatus("Route", "Backend route status", status.groqConfigured || status.openaiConfigured ? "Automatic route ready." : "Fallback route ready.", false);
       } catch {
-        setLiveStatus("Provider", "Backend provider status unavailable", "Start the Node server to use Groq/OpenAI routes.", false);
+        setLiveStatus("Route", "Backend route status unavailable", "Start the Node server to use automatic routes.", false);
       }
     }
 
@@ -3106,7 +3101,7 @@ ${item.prompt}
 
     el("provider").addEventListener("change", () => {
       setProviderFields();
-      setLiveStatus("Provider", "Provider route changed", "Next advanced generation will use " + providerLabel(el("provider").value) + ".", false);
+      setLiveStatus("Route", "Route changed", "Next advanced generation will use " + providerLabel(el("provider").value) + ".", false);
     });
     const historyView = el("historyView");
     if (historyView) {

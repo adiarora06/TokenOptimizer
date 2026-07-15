@@ -301,7 +301,7 @@
 
     .control-row {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 10px;
     }
 
@@ -422,6 +422,114 @@
       fill: #677084;
       font-size: 11px;
       font-weight: 650;
+    }
+
+    .level-flow {
+      display: grid;
+      gap: 12px;
+      min-width: 880px;
+    }
+
+    .level-row {
+      display: grid;
+      grid-template-columns: 120px minmax(0, 1fr);
+      gap: 12px;
+      align-items: center;
+    }
+
+    .level-label {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--brand-soft);
+      color: var(--brand);
+      padding: 10px;
+      font-size: 12px;
+      font-weight: 900;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .level-nodes {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .level-nodes.single {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .flow-node {
+      min-height: 112px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+      padding: 12px;
+    }
+
+    .flow-node.primary {
+      border-color: #8fa8ff;
+      background: var(--brand-soft);
+    }
+
+    .flow-node.guard {
+      border-color: #ffd596;
+      background: #fffaf0;
+    }
+
+    .flow-node.output {
+      border-color: #9ad7b8;
+      background: #f0fbf5;
+    }
+
+    .flow-node span {
+      color: var(--brand);
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .flow-node strong {
+      display: block;
+      margin-top: 7px;
+      color: var(--text);
+      font-size: 15px;
+    }
+
+    .flow-node p {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .flow-arrow {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+      gap: 10px;
+      align-items: center;
+      margin-left: 132px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 850;
+    }
+
+    .flow-arrow::before,
+    .flow-arrow::after {
+      content: "";
+      height: 2px;
+      border-radius: 999px;
+      background: var(--brand);
+    }
+
+    .flow-arrow span {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #ffffff;
+      padding: 5px 9px;
+      white-space: nowrap;
     }
 
     .agent-grid,
@@ -548,9 +656,20 @@
 
       .agent-grid,
       .summary-grid,
+      .level-flow,
       .relations {
         grid-template-columns: 1fr;
         min-width: 0;
+      }
+
+      .level-row,
+      .level-nodes,
+      .flow-arrow {
+        grid-template-columns: 1fr;
+      }
+
+      .flow-arrow {
+        margin-left: 0;
       }
     }
   </style>
@@ -590,7 +709,7 @@
           <h1>Agent Graph And Responsibilities</h1>
           <p>This is the full-page view of how data moves through the token optimizer's agents.</p>
         </div>
-        <span class="pill" id="routePill">Offline</span>
+        <span class="pill" id="routePill">Auto route</span>
       </div>
 
       <div class="controls">
@@ -599,18 +718,6 @@
           <textarea id="goal"></textarea>
         </div>
         <div class="control-row">
-          <div>
-            <label for="provider">Provider route</label>
-            <select id="provider">
-              <option value="groq-openai-fallback">Groq primary + OpenAI backup</option>
-              <option value="groq">Groq only</option>
-              <option value="openai">OpenAI only</option>
-              <option value="offline">free offline generator</option>
-              <option value="openrouter">OpenRouter direct</option>
-              <option value="xai">xAI/Grok direct</option>
-              <option value="litellm">LiteLLM local proxy</option>
-            </select>
-          </div>
           <div>
             <label for="platform">Destination</label>
             <select id="platform">
@@ -672,31 +779,10 @@
       team: "team dashboard"
     };
 
-    const providerLabels = {
-      "groq-openai-fallback": "Groq primary + OpenAI backup",
-      groq: "Groq only",
-      openai: "OpenAI only",
-      offline: "free offline generator",
-      openrouter: "OpenRouter direct",
-      xai: "xAI/Grok direct",
-      litellm: "LiteLLM local proxy"
-    };
-
-    const providerShortLabels = {
-      "groq-openai-fallback": "Groq + OpenAI",
-      groq: "Groq",
-      openai: "OpenAI",
-      offline: "Offline",
-      openrouter: "OpenRouter",
-      xai: "xAI/Grok",
-      litellm: "LiteLLM"
-    };
-
     const defaultGoal = "Create a handoff contract for a token optimizer so agents pass compact state instead of full transcripts.";
     const state = {
       view: "graph",
       goal: defaultGoal,
-      provider: "groq-openai-fallback",
       platform: "codex",
       depth: "medium"
     };
@@ -720,22 +806,20 @@
       } catch {
         // Ignore corrupt local storage and use defaults.
       }
-      ["view", "goal", "provider", "platform", "depth"].forEach((key) => {
+      ["view", "goal", "platform", "depth"].forEach((key) => {
         const value = params.get(key);
         if (value) state[key] = value;
       });
       if (!["graph", "agents"].includes(state.view)) state.view = "graph";
-      if (!providerLabels[state.provider]) state.provider = "groq-openai-fallback";
       if (!platformNames[state.platform]) state.platform = "codex";
       if (!["light", "medium", "aggressive"].includes(state.depth)) state.depth = "medium";
     }
 
     function syncControls() {
       el("goal").value = state.goal || defaultGoal;
-      el("provider").value = state.provider;
       el("platform").value = state.platform;
       el("depth").value = state.depth;
-      el("routePill").textContent = providerLabels[state.provider];
+      el("routePill").textContent = "Auto route";
       document.querySelectorAll(".tab").forEach((button) => {
         button.setAttribute("aria-selected", String(button.dataset.view === state.view));
       });
@@ -744,119 +828,99 @@
       el("statusTitle").textContent = state.view === "graph"
         ? "Showing agent graph"
         : "Showing agent responsibilities";
-      el("statusDetail").textContent = `${providerLabels[state.provider]} -> ${platformNames[state.platform]} -> ${state.depth} depth`;
+      el("statusDetail").textContent = `${platformNames[state.platform]} -> ${state.depth} depth`;
     }
 
     function readControls() {
       state.goal = el("goal").value.trim() || defaultGoal;
-      state.provider = el("provider").value;
       state.platform = el("platform").value;
       state.depth = el("depth").value;
       localStorage.setItem("tokenOptimizerStructureInput", JSON.stringify(state));
     }
 
     function renderGraph() {
-      const routeLabel = escapeHtml(providerLabels[state.provider]);
-      const routeShortLabel = escapeHtml(providerShortLabels[state.provider] || state.provider);
       const destination = escapeHtml(platformNames[state.platform]);
       const depth = escapeHtml(state.depth);
       el("graphView").innerHTML = `
         <div class="structure-title">
           <div>
-            <strong>Agent Information Flow Graph</strong>
-            <p>A node-based view of what each agent owns, what it passes, and where provider calls happen.</p>
+            <strong>Level-Based Agent Flow</strong>
+            <p>Each row is one responsibility level. Arrows show what information is allowed to move forward.</p>
           </div>
-          <span class="pill">${routeLabel}</span>
+          <span class="pill">Auto route</span>
         </div>
-        <svg class="node-svg" viewBox="0 0 1120 580" role="img" aria-label="Agent node graph showing information flow and responsibilities">
-          <defs>
-            <marker id="agentArrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
-              <path d="M0,0 L0,6 L9,3 z" fill="#2557d6"></path>
-            </marker>
-          </defs>
-          <path class="edge" d="M155 285 C190 285, 195 285, 230 285"></path>
-          <path class="edge" d="M355 260 C385 210, 390 165, 430 150"></path>
-          <path class="edge" d="M555 150 C590 150, 595 150, 630 150"></path>
-          <path class="edge guard-edge" d="M755 150 C790 150, 795 150, 830 150"></path>
-          <path class="edge guard-edge" d="M900 205 C900 250, 560 250, 500 355"></path>
-          <path class="edge" d="M555 405 C590 405, 595 405, 630 405"></path>
-          <path class="edge" d="M755 405 C790 405, 795 405, 830 405"></path>
-          <path class="edge route-edge" d="M1000 255 C960 225, 910 205, 900 205"></path>
-          <path class="edge route-edge" d="M1000 315 C875 330, 715 340, 690 355"></path>
-          <path class="edge route-edge" d="M1000 345 C850 485, 520 475, 500 455"></path>
-
-          <text class="edge-label" x="177" y="276">raw prompt</text>
-          <text class="edge-label" x="360" y="206">goal + constraints</text>
-          <text class="edge-label" x="568" y="140">compact plan</text>
-          <text class="edge-label" x="760" y="140">contract rules</text>
-          <text class="edge-label" x="650" y="238">validated payload</text>
-          <text class="edge-label" x="570" y="395">candidate</text>
-          <text class="edge-label" x="762" y="395">final + report</text>
-          <text class="edge-label" x="933" y="214">model calls</text>
-
-          <rect class="node-box" x="30" y="235" width="125" height="100" rx="8"></rect>
-          <text class="node-kicker" x="48" y="261">ENTRY</text>
-          <text class="node-title" x="48" y="284">User Input</text>
-          <text class="node-line" x="48" y="306">Full prompt allowed</text>
-          <text class="node-line" x="48" y="323">once only</text>
-
-          <rect class="node-box" x="230" y="235" width="125" height="100" rx="8"></rect>
-          <text class="node-kicker" x="248" y="261">INTAKE</text>
-          <text class="node-title" x="248" y="284">Intake Agent</text>
-          <text class="node-line" x="248" y="306">Extracts goal,</text>
-          <text class="node-line" x="248" y="323">constraints, risk</text>
-
-          <rect class="node-box primary" x="430" y="100" width="125" height="100" rx="8"></rect>
-          <text class="node-kicker" x="448" y="126">COMPRESS</text>
-          <text class="node-title" x="448" y="149">Optimizer</text>
-          <text class="node-line" x="448" y="171">Creates smallest</text>
-          <text class="node-line" x="448" y="188">useful plan</text>
-
-          <rect class="node-box primary" x="630" y="100" width="125" height="100" rx="8"></rect>
-          <text class="node-kicker" x="648" y="126">CONTRACT</text>
-          <text class="node-title" x="648" y="149">Contract Agent</text>
-          <text class="node-line" x="648" y="171">Fields, budget,</text>
-          <text class="node-line" x="648" y="188">success checks</text>
-
-          <rect class="node-box guard" x="830" y="100" width="125" height="105" rx="8"></rect>
-          <text class="node-kicker" x="848" y="126">GATE</text>
-          <text class="node-title" x="848" y="149">Validation</text>
-          <text class="node-line" x="848" y="171">Blocks secrets,</text>
-          <text class="node-line" x="848" y="188">raw replay, bloat</text>
-
-          <rect class="node-box" x="430" y="355" width="125" height="100" rx="8"></rect>
-          <text class="node-kicker" x="448" y="381">RUN</text>
-          <text class="node-title" x="448" y="404">Executor</text>
-          <text class="node-line" x="448" y="426">Runs contract-</text>
-          <text class="node-line" x="448" y="443">valid task only</text>
-
-          <rect class="node-box guard" x="630" y="355" width="125" height="100" rx="8"></rect>
-          <text class="node-kicker" x="648" y="381">CHECK</text>
-          <text class="node-title" x="648" y="404">Verifier</text>
-          <text class="node-line" x="648" y="426">Checks output and</text>
-          <text class="node-line" x="648" y="443">compresses result</text>
-
-          <rect class="node-box output" x="830" y="355" width="125" height="100" rx="8"></rect>
-          <text class="node-kicker" x="848" y="381">DELIVER</text>
-          <text class="node-title" x="848" y="404">Output Agent</text>
-          <text class="node-line" x="848" y="426">Answer, prompts,</text>
-          <text class="node-line" x="848" y="443">files, token report</text>
-
-          <rect class="node-box route" x="985" y="245" width="110" height="115" rx="8"></rect>
-          <text class="node-kicker" x="1002" y="272">ROUTE</text>
-          <text class="node-title" x="1002" y="295">Provider</text>
-          <text class="node-line" x="1002" y="317">${routeShortLabel}</text>
-          <text class="node-line" x="1002" y="334">Fallback: offline</text>
-
-          <text class="node-subtitle" x="30" y="535">Destination: ${destination}</text>
-          <text class="node-subtitle" x="30" y="555">Optimization depth: ${depth}. Only User Input sees the raw prompt; every edge after Intake is contract-shaped.</text>
-        </svg>
+        <div class="level-flow" role="img" aria-label="Level by level node graph showing agent information flow">
+          <div class="level-row">
+            <div class="level-label">Level 0</div>
+            <div class="level-nodes single">
+              <div class="flow-node">
+                <span>Entry</span>
+                <strong>User Input</strong>
+                <p>Full messy prompt is allowed here only.</p>
+              </div>
+            </div>
+          </div>
+          <div class="flow-arrow"><span>raw prompt -> intake summary</span></div>
+          <div class="level-row">
+            <div class="level-label">Level 1</div>
+            <div class="level-nodes single">
+              <div class="flow-node">
+                <span>Read once</span>
+                <strong>Intake Agent</strong>
+                <p>Extracts goal, facts, constraints, risks, and rough token pressure.</p>
+              </div>
+            </div>
+          </div>
+          <div class="flow-arrow"><span>goal + constraints -> compact plan</span></div>
+          <div class="level-row">
+            <div class="level-label">Level 2</div>
+            <div class="level-nodes">
+              <div class="flow-node primary">
+                <span>Compress</span>
+                <strong>Optimizer Agent</strong>
+                <p>Removes duplicate setup and keeps the smallest useful plan.</p>
+              </div>
+              <div class="flow-node primary">
+                <span>Shape</span>
+                <strong>Contract Agent</strong>
+                <p>Defines allowed fields, budgets, expected output, and next action.</p>
+              </div>
+              <div class="flow-node guard">
+                <span>Gate</span>
+                <strong>Validation Agent</strong>
+                <p>Blocks secrets, raw transcript replay, missing fields, and bloat.</p>
+              </div>
+            </div>
+          </div>
+          <div class="flow-arrow"><span>validated contract -> execution</span></div>
+          <div class="level-row">
+            <div class="level-label">Level 3</div>
+            <div class="level-nodes">
+              <div class="flow-node">
+                <span>Run</span>
+                <strong>Executor Agent</strong>
+                <p>Performs the task using only the compact contract payload.</p>
+              </div>
+              <div class="flow-node guard">
+                <span>Check</span>
+                <strong>Verifier Agent</strong>
+                <p>Checks constraints, fixes drift, and trims unnecessary output.</p>
+              </div>
+              <div class="flow-node output">
+                <span>Deliver</span>
+                <strong>Output Agent</strong>
+                <p>Returns the final answer, prompts, contract, audit trail, and token report.</p>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="summary-grid">
           <div class="card"><h3>Compression Owner</h3><p>Optimizer Agent removes repeated instructions and preserves only useful state.</p></div>
           <div class="card primary"><h3>Contract Owner</h3><p>Contract Agent defines required fields, forbidden payloads, and budgets.</p></div>
           <div class="card guard"><h3>Guard Owner</h3><p>Validation and Verifier Agents block missing fields, secrets, replay, and drift.</p></div>
           <div class="card output"><h3>Execution Owner</h3><p>Executor runs the smallest valid payload; Output packages the final report.</p></div>
         </div>
+        <p class="node-subtitle">Destination: ${destination}. Optimization depth: ${depth}. Only User Input sees the raw prompt; every edge after Intake is contract-shaped.</p>
       `;
     }
 
@@ -867,7 +931,7 @@
             <strong>Agent Nodes And Responsibilities</strong>
             <p>The optimizer uses these agents so later stages do not reread the full original prompt.</p>
           </div>
-          <span class="pill">${escapeHtml(providerLabels[state.provider])}</span>
+          <span class="pill">Auto route</span>
         </div>
         <div class="agent-grid">
           <div class="card"><span>Entry</span><h3>Intake Agent</h3><p>Reads raw input once, estimates token pressure, and extracts the user goal.</p></div>
@@ -877,7 +941,6 @@
           <div class="card"><span>Run</span><h3>Executor Agent</h3><p>Receives only the contract-shaped prompt and performs the task.</p></div>
           <div class="card guard"><span>Check</span><h3>Verifier Agent</h3><p>Checks constraints, removes unnecessary output, and returns the best final answer.</p></div>
           <div class="card output"><span>Output</span><h3>Output Agent</h3><p>Returns answer, prompts used, token report, contract, and directions.</p></div>
-          <div class="card"><span>Route</span><h3>Provider Route</h3><p>${escapeHtml(providerLabels[state.provider])} with offline fallback when provider keys are missing.</p></div>
           <div class="card"><span>Memory</span><h3>Handoff State</h3><p>Goal, facts, constraints, decisions, sources, open questions, and next action.</p></div>
         </div>
         <div class="relations">
@@ -914,7 +977,6 @@
       renderRules();
       const params = new URLSearchParams({
         view: state.view,
-        provider: state.provider,
         platform: state.platform,
         depth: state.depth
       });
@@ -927,9 +989,6 @@
 
 Goal:
 ${state.goal}
-
-Provider:
-${providerLabels[state.provider]}
 
 Destination:
 ${platformNames[state.platform]}
@@ -957,7 +1016,7 @@ Only the first stage sees the raw prompt. Every later handoff must be contract-s
       });
     });
 
-    ["goal", "provider", "platform", "depth"].forEach((id) => {
+    ["goal", "platform", "depth"].forEach((id) => {
       el(id).addEventListener("change", renderAll);
     });
     el("refresh").addEventListener("click", renderAll);

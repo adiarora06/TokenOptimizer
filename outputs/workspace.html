@@ -338,10 +338,27 @@
 
     .controls {
       display: grid;
-      grid-template-columns: minmax(180px, 250px) minmax(160px, 230px) minmax(0, 1fr);
+      grid-template-columns: minmax(180px, 250px) minmax(0, 1fr);
       gap: 10px;
       align-items: end;
       margin-top: 12px;
+    }
+
+    .kit-panel {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      margin-top: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcff;
+      padding: 13px;
+    }
+
+    .kit-panel p {
+      color: var(--muted);
+      font-size: 13px;
     }
 
     button, .button {
@@ -531,7 +548,7 @@
 
     @media (max-width: 980px) {
       body { padding-top: 86px; }
-      .status, .hero, .controls, .mode-grid, .steps, .summary, .graph { grid-template-columns: 1fr; }
+      .status, .hero, .controls, .mode-grid, .steps, .summary, .graph, .kit-panel { grid-template-columns: 1fr; }
       .status.top { top: 83px; }
       .status-right { display: none; }
       h1 { font-size: 32px; }
@@ -600,11 +617,11 @@
         </div>
         <div class="coach-section">
           <h3>Power pages</h3>
-          <p>Optimized IDE handles custom providers, Agent Graph shows flow, History reuses prompts, and Audit Log explains each run.</p>
+          <p>The advanced agent kit is built into this workspace. Agent Graph shows flow, History reuses prompts, and Audit Log explains each run.</p>
         </div>
         <div class="button-row">
           <button id="copyBackgroundGuide">Copy Background Guide</button>
-          <a class="button" href="/a2a-kit">Open Optimized IDE</a>
+          <button id="focusKit">Agent Kit</button>
         </div>
       </aside>
     </section>
@@ -627,15 +644,6 @@
         </div>
         <div class="controls">
           <div>
-            <label for="provider">Run route</label>
-            <select id="provider">
-              <option value="groq-openai-fallback">Groq primary + OpenAI backup</option>
-              <option value="groq">Groq only</option>
-              <option value="openai">OpenAI only</option>
-              <option value="offline">Free offline template</option>
-            </select>
-          </div>
-          <div>
             <label for="intent">Output goal</label>
             <select id="intent">
               <option value="answer">Optimized final answer</option>
@@ -646,6 +654,15 @@
           <div class="actions">
             <button id="contractOnly">Contract Only</button>
             <button class="primary" id="runWorkflow">Optimize & Run</button>
+          </div>
+        </div>
+        <div class="kit-panel" id="agentKit">
+          <div>
+            <strong>Advanced Agent Kit</strong>
+            <p>Run the same prompt through the blank A2A kit when you want a more IDE-like agent experiment.</p>
+          </div>
+          <div class="button-row">
+            <button id="runKit">Run Agent Kit</button>
           </div>
         </div>
       </div>
@@ -717,6 +734,9 @@
     };
     const historyKey = "tokenOptimizerPromptHistory";
     const auditKey = "tokenOptimizerAuditLog";
+    const AUTO_ROUTE = "auto";
+    const AUTO_API_ROUTE = "groq-openai-fallback";
+    const KIT_API_ROUTE = "groq";
     const el = (id) => document.getElementById(id);
 
     function setStatus(phase, title, detail, running = false) {
@@ -802,13 +822,19 @@
       }
     }
 
-    function saveAudit(prompt, provider, result, status) {
+    function routeDisplay(result, route = AUTO_ROUTE) {
+      if (route === "contract") return "Contract";
+      if (result?.providerError || result?.provider === "offline") return "Fallback";
+      return "Auto";
+    }
+
+    function saveAudit(prompt, route, result, status) {
       const report = result?.tokenReport || {};
       const item = {
         id: Date.now().toString(36),
         title: promptTitle(prompt),
         mode: state.mode,
-        provider,
+        provider: routeDisplay(result, route),
         status,
         rawTokens: report.rawInputTokens || estimateTokens(prompt),
         optimizedTokens: report.optimizedPromptTokens || 0,
@@ -888,7 +914,7 @@
         ["Raw Tokens", prettyTokens(report.rawInputTokens || estimateTokens(prompt))],
         ["Optimized Tokens", prettyTokens(report.optimizedPromptTokens || estimateTokens(JSON.stringify(makeContract(prompt))))],
         ["Est. Savings", report.estimatedSavingsPercent != null ? report.estimatedSavingsPercent + "%" : "auto"],
-        ["Provider", result?.provider || el("provider").value]
+        ["Route", routeDisplay(result)]
       ];
       el("summaryGrid").innerHTML = cards.map(([label, value]) => `<article class="summary-card"><span>${label}</span><strong>${value}</strong></article>`).join("");
     }
@@ -945,13 +971,13 @@
       return [
         "Audit summary:",
         `Mode: ${state.mode}`,
-        `Provider: ${result?.provider || el("provider").value}`,
+        `Route: ${routeDisplay(result)}`,
         `Raw tokens: ${report.rawInputTokens || estimateTokens(prompt)}`,
         `Optimized tokens: ${report.optimizedPromptTokens || "n/a"}`,
         `Estimated savings: ${report.estimatedSavingsPercent != null ? report.estimatedSavingsPercent + "%" : "n/a"}`,
         "",
         "Trace:",
-        ...(trace.length ? trace.map((step, index) => `${index + 1}. ${step.agent || "Agent"} - ${step.detail || step.phase || "Processed compact state."}`) : ["No provider trace returned. Local contract was generated."]),
+        ...(trace.length ? trace.map((step, index) => `${index + 1}. ${step.agent || "Agent"} - ${step.detail || step.phase || "Processed compact state."}`) : ["Fallback contract was generated."]),
         "",
         "Saved to Audit Log for later review."
       ].join("\n");
@@ -972,7 +998,8 @@
       renderPre("overviewView", overviewText(result, prompt));
       el("agentsView").innerHTML = traceHtml(result);
       renderPre("promptsView", promptsText(result));
-      renderPre("contractView", JSON.stringify(result?.handoffContract || makeContract(prompt), null, 2));
+      const contractPayload = result?.handoffContract || result?.contractOutput || result?.kit || makeContract(prompt);
+      renderPre("contractView", typeof contractPayload === "string" ? contractPayload : JSON.stringify(contractPayload, null, 2));
       renderPre("auditView", auditText(result, prompt));
       renderPre("backgroundView", backgroundGuide(prompt) + "\n\nCompact output to paste elsewhere:\n" + finalAnswer);
       setActiveTab("overview");
@@ -1001,8 +1028,8 @@
         return;
       }
 
-      const provider = contractOnly ? "offline" : el("provider").value;
-      rememberPrompt(prompt, provider, state.mode);
+      const route = contractOnly ? "contract" : AUTO_ROUTE;
+      rememberPrompt(prompt, routeDisplay(null, route), state.mode);
       setStatus(contractOnly ? "Contract" : "Running", contractOnly ? "Generating compact contract" : "Starting optimized A2A run", "Intake agent is reading the raw prompt once.", true);
       el("runWorkflow").disabled = true;
       el("contractOnly").disabled = true;
@@ -1010,7 +1037,7 @@
       if (contractOnly) {
         const contract = makeContract(prompt);
         renderResult({
-          provider: "offline",
+          provider: "contract",
           model: "frontend-template",
           finalAnswer: JSON.stringify(contract, null, 2),
           handoffContract: contract,
@@ -1020,7 +1047,7 @@
             estimatedSavingsPercent: 45
           }
         }, prompt);
-        saveAudit(prompt, provider, state.lastResult, "contract");
+        saveAudit(prompt, route, state.lastResult, "contract");
         setStatus("Done", "Contract ready", "Copy the contract or open Agent Structure for the graph view.", false);
         el("runWorkflow").disabled = false;
         el("contractOnly").disabled = false;
@@ -1033,18 +1060,18 @@
         const response = await fetch("/api/optimize-run", {
           method: "POST",
           headers: { "content-type": "application/json" },
-          body: JSON.stringify({ input: prompt, provider })
+          body: JSON.stringify({ input: prompt, provider: AUTO_API_ROUTE })
         });
         const data = await response.json();
         if (!response.ok) throw new Error(data.error || "Optimizer request failed");
         renderResult(data, prompt);
-        rememberPrompt(prompt, provider, state.mode);
-        saveAudit(prompt, provider, data, data.providerError ? "fallback" : "done");
-        setStatus("Done", "Optimized result ready", data.providerError ? "Provider failed, so the offline fallback produced a result." : "Final answer is collapsed. Expand it only when needed.", false);
+        rememberPrompt(prompt, routeDisplay(data, route), state.mode);
+        saveAudit(prompt, route, data, data.providerError ? "fallback" : "done");
+        setStatus("Done", "Optimized result ready", data.providerError ? "The fallback route completed the result." : "Final answer is collapsed. Expand it only when needed.", false);
       } catch (error) {
         const contract = makeContract(prompt);
         renderResult({
-          provider: "offline",
+          provider: "fallback",
           model: "frontend-template",
           providerError: error.message,
           finalAnswer: JSON.stringify(contract, null, 2),
@@ -1055,11 +1082,57 @@
             estimatedSavingsPercent: 40
           }
         }, prompt);
-        saveAudit(prompt, provider, state.lastResult, "fallback");
-        setStatus("Fallback", "Provider route failed", "Returned a local contract so the workflow still teaches the optimized pattern.", false);
+        saveAudit(prompt, route, state.lastResult, "fallback");
+        setStatus("Fallback", "Fallback route completed", "Returned a compact contract so the workflow still teaches the optimized pattern.", false);
       } finally {
         el("runWorkflow").disabled = false;
         el("contractOnly").disabled = false;
+      }
+    }
+
+    async function runAgentKit() {
+      const prompt = el("prompt").value.trim();
+      if (!prompt) {
+        setStatus("Needs input", "Paste a prompt first", "The agent kit uses the same prompt box as the main workspace.", false);
+        el("prompt").focus();
+        return;
+      }
+      setStatus("Agent Kit", "Running blank A2A kit", "Contract, Executor, and Verifier agents are working from the compact handoff.", true);
+      el("runKit").disabled = true;
+      try {
+        const response = await fetch("/api/a2a-run", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            input: prompt,
+            providerConfig: { provider: KIT_API_ROUTE },
+            options: { mode: "one-shot" }
+          })
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "Agent kit run failed");
+        renderResult(data, prompt);
+        rememberPrompt(prompt, routeDisplay(data), state.mode);
+        saveAudit(prompt, AUTO_ROUTE, data, data.providerError ? "fallback" : "agent-kit");
+        setStatus("Done", data.providerError ? "Agent kit completed through fallback" : "Agent kit run ready", "Open the Prompts, Contract, or Audit tabs to inspect the run.", false);
+      } catch (error) {
+        const contract = makeContract(prompt);
+        renderResult({
+          provider: "fallback",
+          model: "frontend-template",
+          providerError: error.message,
+          finalAnswer: JSON.stringify(contract, null, 2),
+          handoffContract: contract,
+          tokenReport: {
+            rawInputTokens: estimateTokens(prompt),
+            optimizedPromptTokens: estimateTokens(JSON.stringify(contract)),
+            estimatedSavingsPercent: 40
+          }
+        }, prompt);
+        saveAudit(prompt, AUTO_ROUTE, state.lastResult, "fallback");
+        setStatus("Fallback", "Agent kit fallback completed", "The fallback contract is ready to inspect.", false);
+      } finally {
+        el("runKit").disabled = false;
       }
     }
 
@@ -1076,6 +1149,11 @@
       el("backgroundMode").addEventListener("click", () => updateMode("background"));
       el("runWorkflow").addEventListener("click", () => runWorkflow(false));
       el("contractOnly").addEventListener("click", () => runWorkflow(true));
+      el("runKit").addEventListener("click", runAgentKit);
+      el("focusKit").addEventListener("click", () => {
+        el("agentKit").scrollIntoView({ behavior: "smooth", block: "center" });
+        setStatus("Agent Kit", "Advanced kit is ready", "Paste once, then run the blank A2A kit from this workspace.", false);
+      });
       el("copyBackgroundGuide").addEventListener("click", () => copyText(backgroundGuide(el("prompt").value.trim()), "Background guide"));
       el("copyFinal").addEventListener("click", () => copyText(state.lastResult?.finalAnswer || el("finalPreview").textContent, "Final result"));
       el("toggleFinal").addEventListener("click", () => {
@@ -1089,7 +1167,6 @@
         el("prompt").value = button.dataset.example;
         setStatus("Example", "Example prompt loaded", "Click Optimize & Run when ready.", false);
       }));
-      el("provider").addEventListener("change", () => setStatus("Route", "Provider route updated", el("provider").selectedOptions[0].textContent, false));
       el("intent").addEventListener("change", () => setStatus("Output", "Output goal updated", el("intent").selectedOptions[0].textContent, false));
     }
 
