@@ -9,6 +9,10 @@
       "destination": "/outputs/workspace.html"
     },
     {
+      "source": "/system-worker.js",
+      "destination": "/outputs/system-worker.js"
+    },
+    {
       "source": "/token-optimizer-file-generator.html",
       "destination": "/outputs/workspace.html"
     },

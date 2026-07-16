@@ -357,12 +357,15 @@
     <section class="section">
       <div class="section-head">
         <h2>Architecture in plain English</h2>
-        <p>The full prompt is read once. After that, each agent receives a smaller handoff contract instead of the whole original context.</p>
+        <p>The user sees one simple workspace. Behind it, a worker preflights the prompt, a system runner owns job state, and the optimizer core runs the A2A workflow.</p>
       </div>
       <div class="grid-3">
-        <article class="card"><span class="tag">Input</span><strong>User prompt</strong><p>Messy instructions, context, files, desired output, and constraints arrive through the workspace.</p></article>
-        <article class="card"><span class="tag">A2A</span><strong>Handoff contract</strong><p>The optimizer turns the prompt into goal, facts, constraints, decisions, sources, and next action.</p></article>
-        <article class="card"><span class="tag">Output</span><strong>Final result</strong><p>Executor and verifier run from compact state, then the UI saves history and audit trail.</p></article>
+        <article class="card"><span class="tag">UI</span><strong>Workspace</strong><p>Collects the messy prompt once, shows live status, and keeps final output collapsed until requested.</p></article>
+        <article class="card"><span class="tag">Worker</span><strong>Background preflight</strong><p>Estimates tokens, finds constraints, builds a local contract preview, and recommends a route while the user types.</p></article>
+        <article class="card"><span class="tag">System</span><strong>Run manager</strong><p>Creates run IDs, tracks stages, queues local work, and returns stable snapshots for the live status UI.</p></article>
+        <article class="card"><span class="tag">Core</span><strong>A2A optimizer</strong><p>Runs intake, contract, executor, verifier, provider fallback, and token reporting in one shared module.</p></article>
+        <article class="card"><span class="tag">Store</span><strong>Browser records</strong><p>Saves history, audit logs, session stats, and usage charts locally in the browser.</p></article>
+        <article class="card"><span class="tag">Deploy</span><strong>Hosted compatibility</strong><p>Vercel uses the same system snapshot shape, with inline completion because serverless memory is not a durable queue.</p></article>
       </div>
     </section>
 
@@ -373,12 +376,27 @@
       </div>
       <div class="file-map">
         <div class="file"><strong><code>outputs/workspace.html</code></strong><p>Main app experience: prompt box, live status, run buttons, results, history, and audit writes.</p></div>
+        <div class="file"><strong><code>outputs/system-worker.js</code></strong><p>Browser background worker for fast token estimates, constraint detection, contract preview, and route hints.</p></div>
+        <div class="file"><strong><code>optimizer-system.cjs</code></strong><p>System runner for run IDs, stages, background local execution, and shared run snapshot formatting.</p></div>
         <div class="file"><strong><code>optimizer-core.cjs</code></strong><p>Blank A2A kit, contract shaping, staged agent prompts, token estimates, and fallback behavior.</p></div>
-        <div class="file"><strong><code>server.cjs</code></strong><p>Local Node server, static routing, API proxy, provider routing, and optimize-run endpoint.</p></div>
-        <div class="file"><strong><code>api/*.js</code></strong><p>Vercel function entrypoints for hosted optimize, generate, provider status, and A2A runs.</p></div>
+        <div class="file"><strong><code>server.cjs</code></strong><p>Thin local host for static routing, provider APIs, system-run endpoints, and run polling.</p></div>
+        <div class="file"><strong><code>api/system-runs.js</code></strong><p>Hosted system-run endpoint that returns the same snapshot shape as local background runs.</p></div>
+        <div class="file"><strong><code>api/*.js</code></strong><p>Vercel function entrypoints for hosted optimize, generate, provider status, and A2A compatibility.</p></div>
         <div class="file"><strong><code>outputs/agent-structure.html</code></strong><p>Agent roles and the hub-and-spoke graph that explains flow of information.</p></div>
         <div class="file"><strong><code>extensions/gemini-token-optimizer</code></strong><p>Manifest V3 side-panel MVP for capturing, optimizing, and inserting prompts on Gemini.</p></div>
         <div class="file"><strong><code>README.md</code></strong><p>Local run steps, environment setup, project overview, and contribution notes.</p></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>Background processing model</h2>
+        <p>The system does useful work before and during a run without making the workspace feel busy.</p>
+      </div>
+      <div class="grid-3">
+        <article class="card"><span class="tag">Preflight</span><strong>Runs while typing</strong><p>The worker updates token estimates, route hints, and compact contract previews without blocking the page.</p></article>
+        <article class="card"><span class="tag">Local run</span><strong>Queued by ID</strong><p>The Node server starts a background job and the UI polls `/api/system-runs/:id` for stage snapshots.</p></article>
+        <article class="card"><span class="tag">Hosted run</span><strong>Inline but compatible</strong><p>Vercel completes the run inside one request and returns the same `run` object the local queue uses.</p></article>
       </div>
     </section>
 

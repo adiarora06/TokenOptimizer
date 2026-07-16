@@ -368,6 +368,76 @@
       padding: 3px 6px;
     }
 
+    .system-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+      margin-top: 12px;
+    }
+
+    .system-meter {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcff;
+      padding: 9px;
+    }
+
+    .system-meter span {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .system-meter strong {
+      display: block;
+      margin-top: 4px;
+      color: var(--text);
+      font-size: 15px;
+    }
+
+    .progress-bar {
+      height: 8px;
+      margin-top: 12px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #eef1f7;
+    }
+
+    .progress-bar div {
+      width: var(--progress, 0%);
+      height: 100%;
+      border-radius: inherit;
+      background: var(--brand);
+      transition: width 0.2s ease;
+    }
+
+    .system-activity {
+      display: grid;
+      gap: 7px;
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .system-activity div {
+      display: grid;
+      grid-template-columns: 8px minmax(0, 1fr);
+      gap: 8px;
+      align-items: start;
+    }
+
+    .system-activity div::before {
+      width: 8px;
+      height: 8px;
+      margin-top: 5px;
+      border-radius: 999px;
+      background: var(--brand);
+      content: "";
+    }
+
     .brand {
       display: flex;
       gap: 10px;
@@ -736,6 +806,7 @@
     :root[data-theme="dark"] select,
     :root[data-theme="dark"] .kit-panel,
     :root[data-theme="dark"] .wrapper-preview,
+    :root[data-theme="dark"] .system-meter,
     :root[data-theme="dark"] .summary-card {
       background: var(--panel);
       border-color: var(--line);
@@ -751,11 +822,12 @@
     }
 
     @media (max-width: 980px) {
-      body { padding-top: 86px; }
+      body { padding-top: 150px; }
       .status, .hero, .app-shell, .controls, .mode-grid, .steps, .summary, .graph { grid-template-columns: 1fr; }
-      .status.top { top: 83px; }
+      .status.top { top: 140px; }
       .status-right { display: none; }
       h1 { font-size: 32px; }
+      .system-grid { grid-template-columns: 1fr; }
       .guide-rail { position: static; }
       .node:not(:last-child)::after { display: none; }
     }
@@ -864,6 +936,19 @@
             <div><span>1</span><div><strong>Read once</strong><p>The full prompt only enters at intake.</p></div></div>
             <div><span>2</span><div><strong>Shrink</strong><p>Agents receive a compact handoff contract.</p></div></div>
             <div><span>3</span><div><strong>Verify</strong><p>The final answer is checked and collapsed.</p></div></div>
+          </div>
+        </div>
+        <div class="guide-card" id="systemEngineCard">
+          <strong>System engine</strong>
+          <p class="muted" id="systemSummary">Background preflight is ready.</p>
+          <div class="system-grid" aria-label="System processing snapshot">
+            <div class="system-meter"><span>Tokens</span><strong id="systemTokens">0</strong></div>
+            <div class="system-meter"><span>Route</span><strong id="systemRoute">Ready</strong></div>
+            <div class="system-meter"><span>Stage</span><strong id="systemStage">Idle</strong></div>
+          </div>
+          <div class="progress-bar" aria-label="System run progress"><div id="systemProgress"></div></div>
+          <div class="system-activity" id="systemActivity">
+            <div>Paste a prompt and the background worker will preflight it.</div>
           </div>
         </div>
         <div class="guide-card" id="wrapperCard">
@@ -980,7 +1065,11 @@
       wrapperTarget: localStorage.getItem("tokenOptimizerWrapperTarget") || "browser",
       lastResult: null,
       finalExpanded: false,
-      activeTab: "overview"
+      activeTab: "overview",
+      worker: null,
+      preflightTimer: null,
+      preflightRequestId: 0,
+      systemRunId: null
     };
     const historyKey = "tokenOptimizerPromptHistory";
     const auditKey = "tokenOptimizerAuditLog";
@@ -1074,6 +1163,115 @@
       node.classList.add("show");
       clearTimeout(toast.timer);
       toast.timer = setTimeout(() => node.classList.remove("show"), 2200);
+    }
+
+    function renderSystemActivity(items) {
+      const entries = (items || []).filter(Boolean).slice(0, 5);
+      el("systemActivity").innerHTML = entries.length
+        ? entries.map((item) => `<div>${escapeHtml(item)}</div>`).join("")
+        : "<div>System engine is idle.</div>";
+    }
+
+    function setSystemProgress(value) {
+      el("systemProgress").style.setProperty("--progress", Math.max(0, Math.min(100, Number(value) || 0)) + "%");
+    }
+
+    function renderPreflight(analysis) {
+      if (!analysis) return;
+      el("systemTokens").textContent = prettyTokens(analysis.rawTokens);
+      el("systemRoute").textContent = analysis.recommendedRoute === "system-runner" ? "System" : "Direct";
+      el("systemStage").textContent = analysis.ready ? "Preflight" : "Idle";
+      const routeLabel = analysis.recommendedRoute === "system-runner" ? "system route" : "direct compact route";
+      const savingsLabel = analysis.estimatedSavingsPercent > 0
+        ? `${analysis.estimatedSavingsPercent}% estimated savings`
+        : routeLabel;
+      el("systemSummary").textContent = analysis.ready
+        ? `${analysis.outputStyle} output, ${analysis.constraintsFound} constraints, ${savingsLabel}.`
+        : "Background preflight is ready.";
+      setSystemProgress(analysis.ready ? 18 : 0);
+      renderSystemActivity(analysis.activity);
+    }
+
+    function renderSystemRun(run) {
+      if (!run) return;
+      state.systemRunId = run.id;
+      const current = run.currentStage || {};
+      el("systemTokens").textContent = prettyTokens(run.tokenEstimate || 0);
+      el("systemRoute").textContent = run.runType === "kit" ? "Kit" : "System";
+      el("systemStage").textContent = current.label || run.phase || "Run";
+      el("systemSummary").textContent = run.status === "completed"
+        ? "Run completed in the system engine."
+        : run.status === "failed"
+          ? run.error || "System run failed."
+          : current.detail || "System run is active.";
+      setSystemProgress(run.progress || 0);
+      renderSystemActivity((run.stages || []).map((stage) => `${stage.label}: ${stage.status}`));
+      setStatus(
+        current.label || run.phase || "System",
+        run.status === "completed" ? "System run completed" : run.status === "failed" ? "System run failed" : "System run active",
+        current.detail || run.error || "The backend runner is processing the workflow.",
+        run.status === "queued" || run.status === "running"
+      );
+    }
+
+    function fallbackPreflight(prompt) {
+      const contract = makeContract(prompt);
+      renderPreflight({
+        ready: Boolean(prompt),
+        rawTokens: estimateTokens(prompt),
+        constraintsFound: contract.constraints.length,
+        outputStyle: "answer",
+        recommendedRoute: estimateTokens(prompt) > 120 ? "system-runner" : "compact-direct",
+        estimatedSavingsPercent: 40,
+        activity: [
+          prompt ? "Prompt captured by inline preflight." : "Waiting for prompt input.",
+          `${estimateTokens(prompt)} estimated raw tokens.`,
+          `${contract.constraints.length} constraints detected.`
+        ]
+      });
+    }
+
+    function schedulePreflight() {
+      const prompt = currentPrompt();
+      clearTimeout(state.preflightTimer);
+      state.preflightTimer = setTimeout(() => {
+        if (!state.worker) {
+          fallbackPreflight(prompt);
+          return;
+        }
+        const requestId = ++state.preflightRequestId;
+        state.worker.postMessage({
+          type: "preflight",
+          requestId,
+          prompt,
+          mode: state.mode,
+          wrapperTarget: state.wrapperTarget
+        });
+      }, 140);
+    }
+
+    function initSystemWorker() {
+      if (!("Worker" in window)) {
+        renderSystemActivity(["Inline preflight active."]);
+        return;
+      }
+      try {
+        state.worker = new Worker("/system-worker.js");
+        state.worker.onmessage = (event) => {
+          const message = event.data || {};
+          if (message.type === "preflight-result" && message.requestId === state.preflightRequestId) {
+            renderPreflight(message.analysis);
+          }
+        };
+        state.worker.onerror = () => {
+          state.worker = null;
+          fallbackPreflight(currentPrompt());
+        };
+        renderSystemActivity(["Background worker connected.", "Preflight runs while you type."]);
+      } catch {
+        state.worker = null;
+        renderSystemActivity(["Inline preflight active."]);
+      }
     }
 
     function estimateTokens(text) {
@@ -1198,6 +1396,7 @@
           : "The app will run the optimized workflow as the primary answer source.",
         false
       );
+      schedulePreflight();
     }
 
     function backgroundGuide(prompt) {
@@ -1318,6 +1517,7 @@
         button.setAttribute("aria-pressed", String(button.dataset.wrapper === target));
       });
       refreshWrapperPreview();
+      schedulePreflight();
       if (announce) {
         const selected = wrapperTargets[target];
         setStatus("Sidecar", `${selected.label} selected`, selected.detail, false);
@@ -1449,6 +1649,38 @@
       el("artifactName").textContent = state.mode === "background" ? wrapperTargets[state.wrapperTarget].artifact : "optimized-final-answer.md";
     }
 
+    function wait(ms) {
+      return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+
+    async function pollSystemRun(id) {
+      for (let attempt = 0; attempt < 180; attempt += 1) {
+        await wait(650);
+        const response = await fetch(`/api/system-runs/${encodeURIComponent(id)}`);
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "System run polling failed");
+        renderSystemRun(data.run);
+        if (data.run.status === "completed") return data.run.result;
+        if (data.run.status === "failed") throw new Error(data.run.error || "System run failed");
+      }
+      throw new Error("System run timed out");
+    }
+
+    async function startSystemRun(payload) {
+      const response = await fetch("/api/system-runs", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "System run request failed");
+      if (!data.run) throw new Error("System run returned no run snapshot");
+      renderSystemRun(data.run);
+      if (data.run.status === "completed") return data.run.result;
+      if (data.run.status === "failed") throw new Error(data.run.error || "System run failed");
+      return pollSystemRun(data.run.id);
+    }
+
     function setActiveTab(tab) {
       state.activeTab = tab;
       document.querySelectorAll(".tab").forEach((button) => button.setAttribute("aria-selected", String(button.dataset.tab === tab)));
@@ -1502,15 +1734,13 @@
       }
 
       try {
-        setTimeout(() => setStatus("Optimizing", "Building handoff contract", "Contract agent is removing repeated instructions and preserving constraints.", true), 350);
-        setTimeout(() => setStatus("Executing", "Running compact prompt", "Executor agent is using the handoff instead of the full original prompt.", true), 1100);
-        const response = await fetch("/api/optimize-run", {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({ input: prompt, provider: AUTO_API_ROUTE })
+        const data = await startSystemRun({
+          input: prompt,
+          runType: "optimizer",
+          provider: AUTO_API_ROUTE,
+          source: state.mode,
+          sessionId: usageSession.id
         });
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.error || "Optimizer request failed");
         renderResult(data, prompt);
         rememberPrompt(prompt, routeDisplay(data, route), state.mode);
         saveAudit(prompt, route, data, data.providerError ? "fallback" : "done");
@@ -1547,17 +1777,14 @@
       setStatus("Agent Kit", "Running blank A2A kit", "Contract, Executor, and Verifier agents are working from the compact handoff.", true);
       el("runKit").disabled = true;
       try {
-        const response = await fetch("/api/a2a-run", {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({
-            input: prompt,
-            providerConfig: { provider: KIT_API_ROUTE },
-            options: { mode: "one-shot" }
-          })
+        const data = await startSystemRun({
+          input: prompt,
+          runType: "kit",
+          providerConfig: { provider: KIT_API_ROUTE },
+          options: { mode: "one-shot" },
+          source: state.mode,
+          sessionId: usageSession.id
         });
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.error || "Agent kit run failed");
         renderResult(data, prompt);
         rememberPrompt(prompt, routeDisplay(data), state.mode);
         saveAudit(prompt, AUTO_ROUTE, data, data.providerError ? "fallback" : "agent-kit");
@@ -1626,7 +1853,10 @@
         setStatus("Example", "Example prompt loaded", "Click Optimize & Run when ready.", false);
       }));
       el("intent").addEventListener("change", () => setStatus("Output", "Output goal updated", el("intent").selectedOptions[0].textContent, false));
-      el("prompt").addEventListener("input", refreshWrapperPreview);
+      el("prompt").addEventListener("input", () => {
+        refreshWrapperPreview();
+        schedulePreflight();
+      });
       document.querySelectorAll("[data-wrapper]").forEach((button) => button.addEventListener("click", () => {
         if (state.mode !== "background") updateMode("background");
         updateWrapperTarget(button.dataset.wrapper);
@@ -1651,6 +1881,7 @@
     }
 
     startClock();
+    initSystemWorker();
     bindEvents();
     updateWrapperTarget(state.wrapperTarget, false);
     updateMode(state.mode);
