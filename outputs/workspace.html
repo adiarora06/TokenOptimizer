@@ -837,7 +837,7 @@
   <nav class="page-nav" aria-label="Token optimizer pages">
     <a href="/">Home</a>
     <a href="/workspace" aria-current="page">Workspace</a>
-    <a href="/a2a-kit">Optimized IDE</a>
+    <a href="/optimized-ide">Optimized IDE</a>
     <a href="/agent-structure">Agents</a>
     <a href="/open-source">Open Source</a>
     <a href="/stats">Stats</a>
@@ -885,7 +885,7 @@
 
         <div class="prompt-stage">
           <h1>What do you want done?</h1>
-          <p class="lede">Paste the rough version. The app will optimize the prompt, run the agent flow, and keep the final result collapsed until you choose to open it.</p>
+          <p class="lede">Paste the rough version. The app chooses the leanest valid route, runs the contract workflow, and keeps the final result collapsed until you choose to open it.</p>
           <div class="prompt-card">
             <div class="prompt-meta">
               <label for="prompt">Messy prompt</label>
@@ -894,8 +894,8 @@
             <textarea id="prompt" placeholder="Paste anything here: a rough product idea, coding request, research task, transcript, or long prompt. No cleanup needed."></textarea>
           </div>
           <div class="examples">
-            <button data-example="I want to build a browser extension that watches my prompt before I send it to another LLM, removes repeated context, creates a compact handoff contract, and lets me copy the optimized prompt.">Try background helper</button>
-            <button data-example="Turn this messy product idea into an optimized agent workflow: intake user prompt, create handoff contract, route to executor, verify final answer, save prompt history, and show a node graph of the flow.">Try product workflow</button>
+            <button data-example="I want to build a browser extension that watches my prompt before I send it to another LLM, removes repeated context, creates a compact contract, and lets me copy the optimized prompt.">Try background helper</button>
+            <button data-example="Turn this messy product idea into an optimized workflow: intake user prompt, choose the route, create a contract when useful, route to executor, verify final answer, save prompt history, and show a node graph of the flow.">Try product workflow</button>
             <button data-example="Optimize a long prompt into smaller staged prompts. Run the optimized workflow, show token savings, and only reveal the final answer when I expand it.">Try staged prompt run</button>
           </div>
           <div class="controls">
@@ -914,7 +914,7 @@
           </div>
           <details class="kit-panel" id="agentKit">
             <summary>Advanced Agent Kit</summary>
-            <p>Run the same prompt through the blank A2A kit when you want a more IDE-like agent experiment.</p>
+            <p>Run the same prompt through the contract workflow kit when you want a more IDE-like agent experiment.</p>
             <div class="button-row">
               <button id="runKit">Run Agent Kit</button>
               <a class="button" href="/open-source">See workings</a>
@@ -932,7 +932,7 @@
           <strong>What happens after Run</strong>
           <div class="mini-flow">
             <div><span>1</span><div><strong>Read once</strong><p>The full prompt only enters at intake.</p></div></div>
-            <div><span>2</span><div><strong>Shrink</strong><p>Agents receive a compact handoff contract.</p></div></div>
+            <div><span>2</span><div><strong>Choose route</strong><p>Simple prompts stay direct; complex prompts use contracts.</p></div></div>
             <div><span>3</span><div><strong>Verify</strong><p>The final answer is checked and collapsed.</p></div></div>
           </div>
         </div>
@@ -977,8 +977,8 @@
 
     <section class="steps" aria-label="Workflow steps">
       <article class="step"><span>1</span><strong>Paste once</strong><p>Use full context only at intake.</p></article>
-      <article class="step"><span>2</span><strong>Compact state</strong><p>Agents pass contracts, not transcripts.</p></article>
-      <article class="step"><span>3</span><strong>Run lean</strong><p>Executor and verifier use the handoff.</p></article>
+      <article class="step"><span>2</span><strong>Adaptive route</strong><p>Direct, contract, or full verification.</p></article>
+      <article class="step"><span>3</span><strong>Run lean</strong><p>Provider adapters use the smallest valid payload.</p></article>
       <article class="step"><span>4</span><strong>Expand if needed</strong><p>Results stay collapsed by default.</p></article>
     </section>
 
@@ -1029,14 +1029,14 @@
       <div class="status-track" aria-label="Sidecar workflow stages">
         <button class="track-step" type="button" data-rail="capture" aria-current="step">Capture</button>
         <button class="track-step" type="button" data-rail="compress">Compress</button>
-        <button class="track-step" type="button" data-rail="handoff">Handoff</button>
+        <button class="track-step" type="button" data-rail="route">Route</button>
         <button class="track-step" type="button" data-rail="paste">Paste</button>
         <button class="track-step" type="button" data-rail="review">Review</button>
       </div>
     </div>
     <div class="status-right">
       <span id="clock">Updated --:--:--</span>
-      <strong id="artifactName">handoff-contract.json</strong>
+      <strong id="artifactName">contract-workflow.json</strong>
     </div>
   </div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -1083,7 +1083,7 @@
         insert: "Paste into the active LLM chat box after the original prompt has been compacted here.",
         files: [
           ["sidecar/instructions.md", "Human-readable wrapper steps."],
-          ["sidecar/handoff-contract.json", "The compact A2A payload to pass forward."],
+          ["sidecar/contract-workflow.json", "The compact contract payload to pass forward."],
           ["sidecar/content-script-notes.md", "Notes for a future browser extension or userscript."]
         ]
       },
@@ -1105,7 +1105,7 @@
         insert: "Paste into the IDE agent prompt box with the relevant files selected or attached.",
         files: [
           [".token-optimizer/instructions.md", "Repository-local agent instructions."],
-          [".token-optimizer/handoff.yaml", "Reusable A2A state for the task."],
+          [".token-optimizer/handoff.yaml", "Reusable contract workflow state for the task."],
           [".token-optimizer/api-payload.json", "Structured payload for local tools or extensions."]
         ]
       }
@@ -1118,8 +1118,8 @@
       running: "capture",
       contract: "compress",
       optimizing: "compress",
-      executing: "handoff",
-      "agent kit": "handoff",
+      executing: "route",
+      "agent kit": "route",
       done: "review",
       fallback: "review",
       viewing: "review",
@@ -1127,7 +1127,8 @@
       sidecar: "paste",
       capture: "capture",
       compress: "compress",
-      handoff: "handoff",
+      route: "route",
+      handoff: "route",
       paste: "paste",
       review: "review"
     };
@@ -1177,9 +1178,13 @@
     function renderPreflight(analysis) {
       if (!analysis) return;
       el("systemTokens").textContent = prettyTokens(analysis.rawTokens);
-      el("systemRoute").textContent = analysis.recommendedRoute === "system-runner" ? "System" : "Direct";
+      const routeLabel = analysis.workflowRoute === "full"
+        ? "Full verify"
+        : analysis.workflowRoute === "contract"
+          ? "Contract"
+          : "Direct";
+      el("systemRoute").textContent = routeLabel;
       el("systemStage").textContent = analysis.ready ? "Preflight" : "Idle";
-      const routeLabel = analysis.recommendedRoute === "system-runner" ? "system route" : "direct compact route";
       const savingsLabel = analysis.estimatedSavingsPercent > 0
         ? `${analysis.estimatedSavingsPercent}% estimated savings`
         : routeLabel;
@@ -1219,6 +1224,7 @@
         rawTokens: estimateTokens(prompt),
         constraintsFound: contract.constraints.length,
         outputStyle: "answer",
+        workflowRoute: estimateTokens(prompt) > 360 ? "full" : estimateTokens(prompt) > 120 ? "contract" : "direct",
         recommendedRoute: estimateTokens(prompt) > 120 ? "system-runner" : "compact-direct",
         estimatedSavingsPercent: 40,
         activity: [
@@ -1340,6 +1346,10 @@
 
     function routeDisplay(result, route = AUTO_ROUTE) {
       if (route === "contract") return "Contract";
+      const adaptive = result?.tokenReport?.adaptiveRoute || result?.workflowShape?.route;
+      if (adaptive === "direct") return "Direct";
+      if (adaptive === "contract") return "Contract";
+      if (adaptive === "full") return "Full Verify";
       if (result?.providerError || result?.provider === "offline") return "Fallback";
       return "Auto";
     }
@@ -1403,7 +1413,7 @@
         "Use Token Optimizer in the background:",
         "1. Paste the full messy prompt into Token Optimizer first.",
         "2. Run Optimize & Run so raw context is read once and compacted.",
-        "3. Expand only the output you need: final answer, prompts, or handoff contract.",
+        "3. Expand only the output you need: final answer, prompts, or contract.",
         `4. Use the ${target.label} path: ${target.insert}`,
         "5. Do not paste the full original context again unless the target LLM truly needs it.",
         prompt ? "\nCurrent prompt:\n" + prompt : ""
@@ -1417,7 +1427,7 @@
     function ensurePrompt(label = "wrapper") {
       const prompt = currentPrompt();
       if (!prompt) {
-        setStatus("Needs input", "Paste a prompt first", "The " + label + " needs raw context before it can create a compact handoff.", false);
+        setStatus("Needs input", "Paste a prompt first", "The " + label + " needs raw context before it can create a compact contract.", false);
         el("prompt").focus();
         return null;
       }
@@ -1442,9 +1452,9 @@
         `Target: ${target.label}`,
         `Where to insert: ${target.insert}`,
         "",
-        "Use this compact handoff instead of the original long prompt. Do not ask for the full transcript unless the handoff is impossible to execute.",
+        "Use this compact prompt instead of the original long prompt. Do not ask for the full transcript unless execution is impossible.",
         "",
-        "## Handoff Contract",
+        "## Contract",
         contractText(prompt, result),
         "",
         "## Run Instructions",
@@ -1471,11 +1481,11 @@
         "## instructions.md",
         "1. Capture the messy prompt from the active tool.",
         "2. Paste it into Token Optimizer and run Optimize & Run.",
-        "3. Copy the sidecar prompt or handoff contract.",
+        "3. Copy the sidecar prompt or contract.",
         `4. ${target.insert}`,
         "5. Bring the target response back into Token Optimizer only when you want verification or an audit trail.",
         "",
-        "## handoff contract",
+        "## contract",
         "```json",
         payload,
         "```",
@@ -1487,7 +1497,7 @@
         "",
         "## active status loop",
         "- Capture: read the active prompt once.",
-        "- Compress: create the compact handoff.",
+        "- Compress: create the compact contract.",
         "- Handoff: copy the sidecar prompt.",
         "- Paste: insert into the active LLM or IDE.",
         "- Review: verify the result and save audit notes."
@@ -1501,7 +1511,7 @@
       el("wrapperPreview").innerHTML = [
         `<strong>${escapeHtml(target.label)}</strong>`,
         `<p>${escapeHtml(target.detail)}</p>`,
-        `<p>${escapeHtml(tokenLabel)}. Copy the prompt for a quick sidecar handoff, or copy the kit for file directions.</p>`,
+        `<p>${escapeHtml(tokenLabel)}. Copy the prompt for a quick sidecar route, or copy the kit for file directions.</p>`,
         `<code>${escapeHtml(target.artifact)}</code>`
       ].join("");
       if (state.mode === "background") el("artifactName").textContent = target.artifact;
@@ -1531,18 +1541,18 @@
       const lines = prompt.split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
       const goal = lines[0] || "Complete the user's requested task.";
       return {
-        contract_id: "optimizer.frontend_handoff.v1",
+        contract_id: "optimizer.frontend_contract_workflow.v2",
         use_mode: state.mode,
         goal: goal.length > 180 ? goal.slice(0, 177) + "..." : goal,
         facts: lines.slice(0, 6),
         constraints: lines.filter((line) => /(must|should|need|want|avoid|do not|don't|use|without|with)/i.test(line)).slice(0, 6),
-        agents: ["Intake", "Contract", "Executor", "Verifier", "Output"],
+        agents: ["Intake", "Adaptive Router", "Contract Builder", "Provider Adapter", "Executor", "Verifier", "Output"],
         wrapper_target: state.wrapperTarget,
-        rule: "Read raw input once. Pass compact state between agents. Expand details only on request.",
+        rule: "Read raw input once. Use the leanest valid route. Pass compact state after intake. Expand details only on request.",
         next_action: state.mode === "background" ? `Create compact output for ${wrapperTargets[state.wrapperTarget].label}.` : "Run optimized workflow and return final answer.",
         token_budget: {
           raw_input_estimate: estimateTokens(prompt),
-          handoff_target: 700,
+          contract_target: 700,
           final_target: 1200
         }
       };
@@ -1562,8 +1572,10 @@
     function traceHtml(result) {
       const trace = result?.trace || [
         { agent: "Intake Agent", phase: "intake", detail: "Reads the full prompt once." },
-        { agent: "Contract Agent", phase: "contract", detail: "Creates compact handoff state." },
-        { agent: "Executor Agent", phase: "execute", detail: "Works from optimized context." },
+        { agent: "Adaptive Router", phase: "route", detail: "Chooses direct, contract, or full verification." },
+        { agent: "Contract Builder", phase: "contract", detail: "Creates compact typed state when useful." },
+        { agent: "Provider Adapter", phase: "adapter", detail: "Prepares the model-ready payload." },
+        { agent: "Executor Agent", phase: "execute", detail: "Works from the smallest valid context." },
         { agent: "Verifier Agent", phase: "verify", detail: "Checks constraints and trims output." },
         { agent: "Output Agent", phase: "final", detail: "Returns copyable result." }
       ];
@@ -1601,7 +1613,7 @@
         contract.goal,
         "",
         "Why this saves tokens:",
-        "The raw prompt becomes a smaller handoff contract. Downstream agents use goal, facts, constraints, and next action instead of the whole prompt."
+        "The workflow avoids unnecessary stages for simple prompts and uses a smaller contract only when the task needs structure."
       ].join("\n");
     }
 
@@ -1700,14 +1712,14 @@
     async function runWorkflow(contractOnly = false) {
       const prompt = el("prompt").value.trim();
       if (!prompt) {
-        setStatus("Needs input", "Paste a prompt first", "The optimizer needs raw context before it can create compact handoffs.", false);
+        setStatus("Needs input", "Paste a prompt first", "The optimizer needs raw context before it can choose a route.", false);
         el("prompt").focus();
         return;
       }
 
       const route = contractOnly ? "contract" : AUTO_ROUTE;
       rememberPrompt(prompt, routeDisplay(null, route), state.mode);
-      setStatus(contractOnly ? "Contract" : "Running", contractOnly ? "Generating compact contract" : "Starting optimized A2A run", "Intake agent is reading the raw prompt once.", true);
+      setStatus(contractOnly ? "Contract" : "Running", contractOnly ? "Generating compact contract" : "Starting adaptive contract workflow", "Intake is reading the raw prompt once.", true);
       el("runWorkflow").disabled = true;
       el("contractOnly").disabled = true;
 
@@ -1758,7 +1770,7 @@
           }
         }, prompt);
         saveAudit(prompt, route, state.lastResult, "fallback");
-        setStatus("Fallback", "Fallback route completed", "Returned a compact contract so the workflow still teaches the optimized pattern.", false);
+        setStatus("Fallback", "Fallback route completed", "Returned a compact contract so the workflow still has a useful output.", false);
       } finally {
         el("runWorkflow").disabled = false;
         el("contractOnly").disabled = false;
@@ -1772,7 +1784,7 @@
         el("prompt").focus();
         return;
       }
-      setStatus("Agent Kit", "Running blank A2A kit", "Contract, Executor, and Verifier agents are working from the compact handoff.", true);
+      setStatus("Agent Kit", "Running contract workflow kit", "Router, Contract Builder, Executor, and Verifier are working from the smallest valid payload.", true);
       el("runKit").disabled = true;
       try {
         const data = await startSystemRun({
@@ -1786,7 +1798,7 @@
         renderResult(data, prompt);
         rememberPrompt(prompt, routeDisplay(data), state.mode);
         saveAudit(prompt, AUTO_ROUTE, data, data.providerError ? "fallback" : "agent-kit");
-        setStatus("Done", data.providerError ? "Agent kit completed through fallback" : "Agent kit run ready", "Open the Prompts, Contract, or Audit tabs to inspect the run.", false);
+        setStatus("Done", data.providerError ? "Agent kit completed through fallback" : "Contract kit run ready", "Open the Prompts, Contract, or Audit tabs to inspect the run.", false);
       } catch (error) {
         const contract = makeContract(prompt);
         renderResult({
@@ -1825,7 +1837,7 @@
       el("focusKit").addEventListener("click", () => {
         el("agentKit").open = true;
         el("agentKit").scrollIntoView({ behavior: "smooth", block: "center" });
-        setStatus("Agent Kit", "Advanced kit is ready", "Paste once, then run the blank A2A kit from this workspace.", false);
+        setStatus("Agent Kit", "Advanced kit is ready", "Paste once, then run the contract workflow kit from this workspace.", false);
       });
       el("copyBackgroundGuide").addEventListener("click", () => copyText(backgroundGuide(el("prompt").value.trim()), "Background guide"));
       el("copyWrapperPrompt").addEventListener("click", () => {
@@ -1862,8 +1874,8 @@
       }));
       const railMessages = {
         capture: ["Capture", "Capture active prompt", "Paste the messy prompt from the current LLM or IDE into Token Optimizer."],
-        compress: ["Compress", "Compress once", "Run the optimizer so the raw context becomes a compact handoff."],
-        handoff: ["Handoff", "Copy sidecar prompt", "Use Copy Prompt or the Wrapper tab to move the optimized handoff forward."],
+        compress: ["Compress", "Compress once", "Run the optimizer so repeated context becomes compact state."],
+        route: ["Route", "Choose leanest path", "The workflow can stay direct or use contract and verification stages."],
         paste: ["Paste", "Paste into active tool", ""],
         review: ["Review", "Review and audit", "Bring the response back only when you want verification, history, or audit notes."]
       };
@@ -1872,7 +1884,7 @@
         if (button.dataset.rail === "paste") message[2] = wrapperTargets[state.wrapperTarget].insert;
         syncStatusRail(message[0]);
         setStatus(message[0], message[1], message[2], false);
-        if (button.dataset.rail === "handoff" || button.dataset.rail === "paste") {
+        if (button.dataset.rail === "route" || button.dataset.rail === "paste") {
           el("wrapperCard").scrollIntoView({ behavior: "smooth", block: "center" });
         }
       }));

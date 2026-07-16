@@ -461,7 +461,7 @@
   <nav class="page-nav" aria-label="Token optimizer pages">
     <a href="/">Home</a>
     <a href="/workspace">Workspace</a>
-    <a href="/a2a-kit" aria-current="page">Optimized IDE</a>
+    <a href="/optimized-ide" aria-current="page">Optimized IDE</a>
     <a href="/agent-structure">Agents</a>
     <a href="/open-source">Open Source</a>
     <a href="/stats">Stats</a>
@@ -471,7 +471,7 @@
 
   <header class="topbar">
     <a class="brand" href="/">
-      <span class="logo">A2A</span>
+      <span class="logo">CW</span>
       <span>
         <strong>Optimized IDE</strong>
         <span>One messy prompt to optimized end result</span>
@@ -479,7 +479,7 @@
     </a>
     <div class="status" role="status" aria-live="polite">
       <strong id="statusTitle">Ready</strong>
-      <span id="statusDetail">Paste any prompt and run the blank agent kit.</span>
+      <span id="statusDetail">Paste any prompt and run the adaptive contract workflow kit.</span>
     </div>
     <div class="actions">
       <button id="copyOutput">Copy Current</button>
@@ -492,13 +492,13 @@
         <div class="panel-header">
           <div>
             <h1>Optimized IDE</h1>
-            <p>Blank agent architecture: Intake -> Contract -> Executor -> Verifier -> Final.</p>
+            <p>Adaptive architecture: Intake -> Route -> Contract -> Provider Adapter -> Executor -> Verifier -> Final.</p>
           </div>
           <span class="pill" id="modePill">one-shot</span>
         </div>
         <div class="panel-body">
           <label for="prompt">Messy prompt entrance</label>
-          <textarea id="prompt" placeholder="Paste any task, transcript, idea, coding request, research question, or messy prompt. The blank A2A kit will turn it into a compact handoff contract and run the optimized workflow."></textarea>
+          <textarea id="prompt" placeholder="Paste any task, transcript, idea, coding request, research question, or messy prompt. The contract workflow kit will choose the leanest route, create compact state when useful, and run the optimized workflow."></textarea>
           <div class="run-actions">
             <button class="primary" id="runKit">Run Optimized IDE</button>
             <button id="contractOnly">Contract Only</button>
@@ -515,25 +515,27 @@
           </div>
         </div>
         <div class="panel-body">
-          <label for="provider">Route</label>
-          <select id="provider">
-            <option value="groq">Automatic route</option>
-            <option value="custom">Custom route</option>
-          </select>
+          <form id="providerForm" autocomplete="off">
+            <label for="provider">Route</label>
+            <select id="provider">
+              <option value="groq">Automatic route</option>
+              <option value="custom">Custom route</option>
+            </select>
 
-          <div class="provider-grid">
-            <div>
-              <label for="model">Model</label>
-              <input id="model" placeholder="optional">
+            <div class="provider-grid">
+              <div>
+                <label for="model">Model</label>
+                <input id="model" placeholder="optional" autocomplete="off">
+              </div>
+              <div>
+                <label for="apiKey">API key</label>
+                <input id="apiKey" type="password" placeholder="Used for this request only" autocomplete="off">
+              </div>
             </div>
-            <div>
-              <label for="apiKey">API key</label>
-              <input id="apiKey" type="password" placeholder="Used for this request only">
-            </div>
-          </div>
 
-          <label for="baseUrl">Base URL</label>
-          <input id="baseUrl" placeholder="Custom chat endpoint">
+            <label for="baseUrl">Base URL</label>
+            <input id="baseUrl" placeholder="Custom chat endpoint" autocomplete="off">
+          </form>
 
           <div class="notice">
             Keys are sent only with the run request and are not saved by this page. For production, prefer Vercel environment variables or your own backend proxy.
@@ -543,7 +545,7 @@
     </section>
 
     <section class="panel" style="margin-top: 18px">
-      <div class="tabs" role="tablist" aria-label="A2A kit output views">
+      <div class="tabs" role="tablist" aria-label="Contract workflow output views">
         <button class="tab" data-view="result" aria-selected="true">Result</button>
         <button class="tab" data-view="trace" aria-selected="false">Trace</button>
         <button class="tab" data-view="contract" aria-selected="false">Contract</button>
@@ -623,7 +625,7 @@
           prompt = "";
         }
       }
-      el("prompt").value = prompt || "Take this messy prompt and produce the optimized end result using a blank A2A kit.";
+      el("prompt").value = prompt || "Take this messy prompt and produce the optimized end result using the adaptive contract workflow kit.";
     }
 
     function selectedProviderConfig() {
@@ -646,8 +648,8 @@
 
     function formatPrompts(result) {
       const prompts = result.optimizedPrompts || [];
-      if (!prompts.length) return "# A2A Prompts\n\nNo staged prompts returned.";
-      return `# A2A Prompts
+      if (!prompts.length) return "# Workflow Prompts\n\nNo staged prompts returned.";
+      return `# Workflow Prompts
 
 ${prompts.map((item, index) => `## ${index + 1}. ${item.agent}
 
@@ -664,7 +666,7 @@ ${item.prompt}
 
     function formatTrace(result) {
       const trace = result.trace || [];
-      return `# A2A Trace
+      return `# Contract Workflow Trace
 
 ${trace.map((item) => `- ${item.agent} (${item.status}): ${item.detail}`).join("\n")}
 
@@ -681,7 +683,7 @@ ${result.finalAnswer || "No final answer returned."}
 
 ## Token Report
 - Raw input tokens: ${report.rawInputTokens || 0}
-- A2A prompt tokens: ${report.optimizedPromptTokens || 0}
+- Workflow prompt tokens: ${report.optimizedPromptTokens || 0}
 - Estimated naive three-step tokens: ${report.estimatedNaiveThreeStepTokens || 0}
 - Estimated saved tokens: ${report.estimatedSavingsTokens || 0}
 - Estimated savings: ${report.estimatedSavingsPercent || 0}%
@@ -707,7 +709,7 @@ ${result.finalAnswer || "No final answer returned."}
       el("resultView").innerHTML = `
         <div class="summary-grid">
           <div class="summary-card"><span>Raw Tokens</span><strong>${report.rawInputTokens || 0}</strong></div>
-          <div class="summary-card"><span>A2A Tokens</span><strong>${report.optimizedPromptTokens || 0}</strong></div>
+          <div class="summary-card"><span>Workflow Tokens</span><strong>${report.optimizedPromptTokens || 0}</strong></div>
           <div class="summary-card"><span>Saved</span><strong>${report.estimatedSavingsPercent || 0}%</strong></div>
           <div class="summary-card"><span>Route</span><strong>${result.providerError ? "Fallback" : "Auto"}</strong></div>
         </div>
@@ -772,14 +774,14 @@ ${result.finalAnswer || "No final answer returned."}
       } catch {
         // Continue without persistence.
       }
-      setStatus("Running", contractOnly ? "Building the blank A2A contract." : "Running Contract, Executor, and Verifier agents.", true);
+      setStatus("Running", contractOnly ? "Building the compact contract." : "Running adaptive route, contract, executor, and verifier nodes.", true);
       el("runKit").disabled = true;
       el("contractOnly").disabled = true;
       try {
         const providerConfig = contractOnly
           ? { provider: "groq" }
           : selectedProviderConfig();
-        const response = await fetch("/api/a2a-run", {
+        const response = await fetch("/api/workflow-run", {
           method: "POST",
           headers: { "content-type": "application/json" },
           body: JSON.stringify({
@@ -789,7 +791,7 @@ ${result.finalAnswer || "No final answer returned."}
           })
         });
         const result = await response.json();
-        if (!response.ok) throw new Error(result.error || "A2A run failed");
+        if (!response.ok) throw new Error(result.error || "Workflow run failed");
         state.lastResult = result;
         state.resultExpanded = false;
         state.sections.result = formatResult(result);
@@ -799,7 +801,7 @@ ${result.finalAnswer || "No final answer returned."}
         state.sections.kit = JSON.stringify(result.kit || {}, null, 2);
         state.activeView = contractOnly ? "contract" : "result";
         renderView();
-        setStatus("Done", result.providerError ? "Fallback completed the A2A run." : "Blank A2A kit completed the one-shot run.", false);
+        setStatus("Done", result.providerError ? "Fallback completed the workflow run." : "Contract workflow kit completed the one-shot run.", false);
       } catch (error) {
         setStatus("Error", error.message, false);
       } finally {
@@ -814,6 +816,7 @@ ${result.finalAnswer || "No final answer returned."}
         renderView();
       });
     });
+    el("providerForm").addEventListener("submit", (event) => event.preventDefault());
     el("provider").addEventListener("change", setProviderDefaults);
     el("runKit").addEventListener("click", () => runKit(false));
     el("contractOnly").addEventListener("click", () => runKit(true));

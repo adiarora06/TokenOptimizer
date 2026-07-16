@@ -324,7 +324,7 @@
   <nav class="page-nav" aria-label="Token optimizer pages">
     <a href="/">Home</a>
     <a href="/workspace">Workspace</a>
-    <a href="/a2a-kit">Optimized IDE</a>
+    <a href="/optimized-ide">Optimized IDE</a>
     <a href="/agent-structure">Agents</a>
     <a href="/open-source" aria-current="page">Open Source</a>
     <a href="/stats">Stats</a>
@@ -337,7 +337,7 @@
       <div class="hero-main panel">
         <span class="eyebrow">Readable internals</span>
         <h1>Use the app first. Inspect the workflow when you are curious.</h1>
-        <p class="lede">Token Optimizer is meant to feel simple up front and transparent underneath. This page explains the source layout, agent responsibilities, handoff contract, generated files, and contribution path.</p>
+        <p class="lede">Token Optimizer is meant to feel simple up front and transparent underneath. This page explains the source layout, agent responsibilities, adaptive routes, typed contracts, generated files, and contribution path.</p>
         <div class="actions">
           <a class="button primary" href="/workspace">Back to workspace</a>
           <a class="button" href="https://github.com/adiarora06/TokenOptimizer">GitHub repo</a>
@@ -355,13 +355,13 @@
     <section class="section">
       <div class="section-head">
         <h2>Architecture in plain English</h2>
-        <p>The user sees one simple workspace. Behind it, a worker preflights the prompt, a system runner owns job state, and the optimizer core runs the A2A workflow.</p>
+        <p>The user sees one simple workspace. Behind it, a worker preflights the prompt, a system runner owns job state, and the optimizer core chooses the leanest contract workflow.</p>
       </div>
       <div class="grid-3">
         <article class="card"><span class="tag">UI</span><strong>Workspace</strong><p>Collects the messy prompt once, shows live status, and keeps final output collapsed until requested.</p></article>
         <article class="card"><span class="tag">Worker</span><strong>Background preflight</strong><p>Estimates tokens, finds constraints, builds a local contract preview, and recommends a route while the user types.</p></article>
         <article class="card"><span class="tag">System</span><strong>Run manager</strong><p>Creates run IDs, tracks stages, queues local work, and returns stable snapshots for the live status UI.</p></article>
-        <article class="card"><span class="tag">Core</span><strong>A2A optimizer</strong><p>Runs intake, contract, executor, verifier, provider fallback, and token reporting in one shared module.</p></article>
+        <article class="card"><span class="tag">Core</span><strong>Adaptive workflow</strong><p>Runs intake, route selection, contract building, provider adapters, execution, verification, fallback, and token reporting in one shared module.</p></article>
         <article class="card"><span class="tag">Store</span><strong>Browser records</strong><p>Saves history, audit logs, session stats, and usage charts locally in the browser.</p></article>
         <article class="card"><span class="tag">Deploy</span><strong>Hosted compatibility</strong><p>Vercel uses the same system snapshot shape, with inline completion because serverless memory is not a durable queue.</p></article>
       </div>
@@ -376,10 +376,10 @@
         <div class="file"><strong><code>outputs/workspace.html</code></strong><p>Main app experience: prompt box, live status, run buttons, results, history, and audit writes.</p></div>
         <div class="file"><strong><code>outputs/system-worker.js</code></strong><p>Browser background worker for fast token estimates, constraint detection, contract preview, and route hints.</p></div>
         <div class="file"><strong><code>optimizer-system.cjs</code></strong><p>System runner for run IDs, stages, background local execution, and shared run snapshot formatting.</p></div>
-        <div class="file"><strong><code>optimizer-core.cjs</code></strong><p>Blank A2A kit, contract shaping, staged agent prompts, token estimates, and fallback behavior.</p></div>
+        <div class="file"><strong><code>optimizer-core.cjs</code></strong><p>Adaptive route selection, contract shaping, provider-ready prompts, staged agents, token estimates, and fallback behavior.</p></div>
         <div class="file"><strong><code>server.cjs</code></strong><p>Thin local host for static routing, provider APIs, system-run endpoints, and run polling.</p></div>
         <div class="file"><strong><code>api/system-runs.js</code></strong><p>Hosted system-run endpoint that returns the same snapshot shape as local background runs.</p></div>
-        <div class="file"><strong><code>api/*.js</code></strong><p>Vercel function entrypoints for hosted optimize, generate, provider status, and A2A compatibility.</p></div>
+        <div class="file"><strong><code>api/*.js</code></strong><p>Vercel function entrypoints for hosted optimize, generate, provider status, and compatibility routes.</p></div>
         <div class="file"><strong><code>outputs/agent-structure.html</code></strong><p>Agent roles and the hub-and-spoke graph that explains flow of information.</p></div>
         <div class="file"><strong><code>extensions/gemini-token-optimizer</code></strong><p>Manifest V3 side-panel MVP for capturing, optimizing, and inserting prompts on Gemini.</p></div>
         <div class="file"><strong><code>README.md</code></strong><p>Local run steps, environment setup, project overview, and contribution notes.</p></div>
@@ -400,12 +400,12 @@
 
     <section class="section">
       <div class="section-head">
-        <h2>Handoff contract</h2>
-        <p>This is the heart of the token-saving system: compact state that agents can pass safely.</p>
+        <h2>Typed contract</h2>
+        <p>This is the heart of the token-saving system: compact state that workflow nodes can pass safely.</p>
       </div>
       <div class="contract-panel panel">
         <pre id="contractExample">{
-  "contract_id": "optimizer.self_run.v1",
+  "contract_id": "optimizer.contract_workflow.v2",
   "goal": "Complete the user's requested task.",
   "facts": [
     "Important context extracted from the messy prompt",
@@ -418,7 +418,8 @@
   ],
   "decisions": [
     "Use raw input only during intake",
-    "Pass compact state to downstream agents"
+    "Use direct route for simple prompts",
+    "Pass compact state to downstream nodes when structure is needed"
   ],
   "sources": ["user_input"],
   "open_questions": [],
@@ -434,7 +435,7 @@
   ]
 }</pre>
         <div>
-          <article class="card"><span class="tag">Why it helps</span><strong>No repeated transcript</strong><p>Agents receive only the useful state for their job.</p></article>
+          <article class="card"><span class="tag">Why it helps</span><strong>No repeated transcript</strong><p>Downstream nodes receive only the useful state for their job.</p></article>
           <article class="card" style="margin-top: 12px"><span class="tag">Why it is open</span><strong>Easy to inspect</strong><p>The contract shape is readable, copyable, and simple to compare between runs.</p></article>
         </div>
       </div>
@@ -447,7 +448,7 @@
       </div>
       <div class="grid-3">
         <article class="card"><span class="tag">Markdown</span><strong><code>instructions.md</code></strong><p>Use for human-readable steps, agent instructions, and project notes.</p></article>
-        <article class="card"><span class="tag">YAML</span><strong><code>handoff.yaml</code></strong><p>Use for nested workflow state, agent responsibilities, and config-like data.</p></article>
+        <article class="card"><span class="tag">YAML</span><strong><code>handoff.yaml</code></strong><p>Use for nested workflow state, agent responsibilities, adapter routes, and config-like data.</p></article>
         <article class="card"><span class="tag">JSON</span><strong><code>api-payload.json</code></strong><p>Use for API calls, structured contracts, validation fixtures, and provider-agnostic routing.</p></article>
       </div>
     </section>

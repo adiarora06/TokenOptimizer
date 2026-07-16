@@ -500,6 +500,7 @@
     <div class="links">
       <a href="/" aria-current="page">Home</a>
       <a href="/workspace">Workspace</a>
+      <a href="/optimized-ide">Optimized IDE</a>
       <a href="/agent-structure">Agents</a>
       <a href="/open-source">Open Source</a>
       <a href="/stats">Stats</a>
@@ -516,7 +517,7 @@
       <div class="hero-main">
         <span class="eyebrow">Optimized LLM workspace</span>
         <h1>Paste once. Let the app do the token thinking.</h1>
-        <p class="lede">Token Optimizer turns a messy request into a compact agent workflow, runs it, verifies it, and keeps the heavy details tucked away until you ask for them.</p>
+        <p class="lede">Token Optimizer turns a messy request into the leanest valid workflow: direct for simple tasks, contract-based for complex work, and verified when the risk is worth it.</p>
         <div class="hero-actions">
           <a class="button primary" href="/workspace" id="startPrimary">Open workspace</a>
           <a class="button" href="/workspace" id="startBackground">Use beside my LLM</a>
@@ -530,7 +531,7 @@
 "I need this done, but it is long, messy, and full of repeated context..."</textarea>
         <div class="quick-list">
           <div class="quick-row"><span>1</span><div><strong>Paste the messy version</strong><p>No cleanup required before you start.</p></div></div>
-          <div class="quick-row"><span>2</span><div><strong>Run once</strong><p>The app creates the compact handoff and executes it.</p></div></div>
+          <div class="quick-row"><span>2</span><div><strong>Run once</strong><p>The app chooses the route, builds compact state when useful, and executes it.</p></div></div>
           <div class="quick-row"><span>3</span><div><strong>Expand only what matters</strong><p>Final answer first; prompts, agents, and audit trail stay optional.</p></div></div>
         </div>
         <div class="hero-actions">
@@ -547,7 +548,7 @@
     <section class="section" id="what">
       <div class="section-head">
         <h2>One friendly workflow</h2>
-        <p>The user path is intentionally small: paste, run, copy. Everything else is there when someone wants to learn or debug.</p>
+        <p>The user path is intentionally small: paste, run, copy. The system decides whether the task needs direct execution, a contract, or verification.</p>
       </div>
       <div class="grid-3">
         <article class="panel">
@@ -558,7 +559,7 @@
         <article class="panel">
           <span class="tag">Watch</span>
           <strong>Live status</strong>
-          <p>A simple status bar says what the agents are doing now.</p>
+          <p>A simple status bar says which route and stage are active now.</p>
         </article>
         <article class="panel">
           <span class="tag">Reuse</span>
@@ -573,14 +574,14 @@
         <div>
           <span class="eyebrow">Open source layer</span>
           <h2 style="margin-top: 14px">Understand the machinery when you want to.</h2>
-          <p class="lede">The product stays simple, but the workings are inspectable: contracts, agent responsibilities, routes, generated files, and source layout are documented in one place.</p>
+          <p class="lede">The product stays simple, but the workings are inspectable: contracts, agent responsibilities, adaptive routes, provider adapters, generated files, and source layout are documented in one place.</p>
           <div class="hero-actions">
             <a class="button primary" href="/open-source">Open workings page</a>
             <a class="button" href="https://github.com/adiarora06/TokenOptimizer">View GitHub</a>
           </div>
         </div>
         <div class="source-grid">
-          <article class="panel"><span class="tag">Contracts</span><strong>See the handoff format</strong><p>Goal, facts, constraints, decisions, next action.</p></article>
+          <article class="panel"><span class="tag">Contracts</span><strong>See the typed state</strong><p>Goal, facts, constraints, decisions, budget, next action.</p></article>
           <article class="panel"><span class="tag">Agents</span><strong>See who owns what</strong><p>Intake, optimizer, executor, verifier, output, audit.</p></article>
           <article class="panel"><span class="tag">Files</span><strong>Know where code lives</strong><p>Core logic, API routes, static pages, and docs.</p></article>
         </div>

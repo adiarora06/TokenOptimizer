@@ -10,22 +10,27 @@ const SYSTEM_ARCHITECTURE = {
     {
       id: "workspace",
       name: "Workspace UI",
-      responsibility: "Collect the messy prompt once, show live status, and keep advanced details collapsed."
+      responsibility: "Collect the messy prompt once, show live status, and keep advanced details collapsed until requested."
     },
     {
       id: "preflight-worker",
       name: "Background Preflight Worker",
-      responsibility: "Estimate tokens, detect constraints, build a local contract preview, and prepare route hints while the user types."
+      responsibility: "Estimate tokens, detect constraints, build a local contract preview, and recommend direct, contract, or full verification routes while the user types."
     },
     {
       id: "system-runner",
       name: "System Runner",
-      responsibility: "Create run IDs, track stages, queue background work, and return stable snapshots to the UI."
+      responsibility: "Create run IDs, track stages, queue local work, and return stable snapshots to the UI."
     },
     {
       id: "optimizer-core",
       name: "Optimizer Core",
-      responsibility: "Run the A2A contract, executor, verifier, provider fallback, and token report logic."
+      responsibility: "Run the adaptive workflow graph, typed contracts, provider adapters, verifier, fallback, and token report logic."
+    },
+    {
+      id: "provider-adapters",
+      name: "Provider Adapters",
+      responsibility: "Hide provider-specific model details behind one contract-ready execution interface."
     },
     {
       id: "local-storage",
@@ -37,6 +42,8 @@ const SYSTEM_ARCHITECTURE = {
     ["workspace", "preflight-worker"],
     ["workspace", "system-runner"],
     ["system-runner", "optimizer-core"],
+    ["optimizer-core", "provider-adapters"],
+    ["provider-adapters", "optimizer-core"],
     ["optimizer-core", "system-runner"],
     ["system-runner", "workspace"],
     ["workspace", "local-storage"]
@@ -65,10 +72,12 @@ function baseStages(runType) {
   const contractLabel = runType === "kit" ? "Kit Contract" : "Contract";
   return [
     { id: "queued", label: "Queued", status: "done", detail: "System runner accepted the job." },
+    { id: "preflight", label: "Preflight", status: "pending", detail: "Estimate tokens and choose the leanest route." },
     { id: "intake", label: "Intake", status: "pending", detail: "Read the raw prompt once." },
-    { id: "contract", label: contractLabel, status: "pending", detail: "Build compact handoff state." },
-    { id: "execute", label: "Execute", status: "pending", detail: "Run from compact state." },
-    { id: "verify", label: "Verify", status: "pending", detail: "Check constraints and reduce drift." },
+    { id: "route", label: "Route", status: "pending", detail: "Pick direct, contract, or full verification." },
+    { id: "contract", label: contractLabel, status: "pending", detail: "Build compact typed state." },
+    { id: "execute", label: "Execute", status: "pending", detail: "Run from the leanest valid payload." },
+    { id: "verify", label: "Verify", status: "pending", detail: "Check constraints without extra model calls unless needed." },
     { id: "save", label: "Save", status: "pending", detail: "Return result for browser history and stats." }
   ];
 }
@@ -91,6 +100,8 @@ function updateStage(run, stageId, status, detail) {
 function stageFromTrace(traceItem = {}) {
   const raw = String(traceItem.phase || "").toLowerCase();
   if (raw.includes("contract")) return "contract";
+  if (raw.includes("route")) return "route";
+  if (raw.includes("preflight")) return "preflight";
   if (raw.includes("execute")) return "execute";
   if (raw.includes("verify")) return "verify";
   if (raw.includes("intake")) return "intake";
@@ -137,10 +148,16 @@ function publicRun(run) {
 async function executeSystemRun(run, payload = {}) {
   const started = Date.now();
   run.status = "running";
-  run.progress = 14;
+  run.progress = 10;
+  updateStage(run, "preflight", "running", "Estimating token pressure and route shape.");
+  updateStage(run, "preflight", "done", "Preflight snapshot is ready.");
+  run.progress = 20;
   updateStage(run, "intake", "running", "Reading raw prompt once and building a run snapshot.");
   updateStage(run, "intake", "done", `${run.tokenEstimate} estimated input tokens captured.`);
-  run.progress = 28;
+  run.progress = 32;
+  updateStage(run, "route", "running", "Selecting the leanest valid workflow route.");
+  updateStage(run, "route", "done", "Adaptive route selected.");
+  run.progress = 42;
   updateStage(run, "contract", "running", "Creating contract-shaped state before downstream work.");
 
   try {

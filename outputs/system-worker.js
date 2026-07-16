@@ -51,6 +51,7 @@ function complexityScore(prompt, rawTokens, itemCount) {
   let score = rawTokens > 700 ? 3 : rawTokens > 300 ? 2 : rawTokens > 120 ? 1 : 0;
   if (/(file|api|database|deploy|extension|agent|workflow|architecture)/.test(lower)) score += 1;
   if (itemCount > 8) score += 1;
+  if (((prompt.match(/\b(and|also|plus|then)\b/gi) || []).length) >= 3) score += 1;
   return Math.min(score, 4);
 }
 
@@ -65,7 +66,12 @@ function analyzePrompt(prompt, options) {
     .slice(0, 6);
   const style = outputStyle(prompt);
   const complexity = complexityScore(prompt, rawTokens, unique.length);
-  const recommendedRoute = complexity >= 3 ? "system-runner" : "compact-direct";
+  const workflowRoute = complexity <= 1
+    ? "direct"
+    : complexity <= 3
+      ? "contract"
+      : "full";
+  const recommendedRoute = workflowRoute === "direct" ? "compact-direct" : "system-runner";
   const contract = {
     contract_id: "optimizer.preflight.v1",
     mode: options.mode,
@@ -92,6 +98,7 @@ function analyzePrompt(prompt, options) {
     constraintsFound: constraints.length,
     outputStyle: style,
     complexity,
+    workflowRoute,
     recommendedRoute,
     estimatedContractTokens: estimateTokens(JSON.stringify(contract)),
     estimatedSavingsPercent: rawTokens ? Math.max(0, Math.min(82, Math.round((1 - estimateTokens(JSON.stringify(contract)) / Math.max(rawTokens * 2, 1)) * 100))) : 0,
@@ -100,7 +107,11 @@ function analyzePrompt(prompt, options) {
       compact ? "Prompt captured in background preflight." : "Waiting for prompt input.",
       `${rawTokens} estimated raw tokens.`,
       `${constraints.length} constraints detected.`,
-      recommendedRoute === "system-runner" ? "Use background system runner." : "Compact direct route is enough."
+      workflowRoute === "direct"
+        ? "Use direct one-call route."
+        : workflowRoute === "contract"
+          ? "Use contract route with compact execution."
+          : "Use full route with verification."
     ]
   };
 }

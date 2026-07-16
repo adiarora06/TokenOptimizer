@@ -21,6 +21,10 @@
       "destination": "/outputs/agent-structure.html"
     },
     {
+      "source": "/optimized-ide",
+      "destination": "/outputs/a2a-kit.html"
+    },
+    {
       "source": "/a2a-kit",
       "destination": "/outputs/a2a-kit.html"
     },

@@ -1,6 +1,6 @@
 # Token Optimizer
 
-Token Optimizer is a browser-based optimized LLM workspace built with Node.js and vanilla HTML/CSS/JavaScript that converts messy prompts into compact A2A handoff contracts, runs staged agents, and keeps the workflow inspectable.
+Token Optimizer is a browser-based optimized LLM workspace built with Node.js and vanilla HTML/CSS/JavaScript that turns messy prompts into adaptive contract workflows, routes simple tasks directly, and keeps agent internals inspectable.
 
 ## Run Locally
 
@@ -17,7 +17,7 @@ http://127.0.0.1:8787
 ## Product Shape
 
 - **Workspace first**: one large prompt box, one optimized run action, live status, collapsed final result.
-- **System runner**: background preflight, queued local runs, stage snapshots, and hosted-compatible run objects keep orchestration out of the UI.
+- **System runner**: background preflight, adaptive routing, queued local runs, stage snapshots, and hosted-compatible run objects keep orchestration out of the UI.
 - **Sidecar wrappers**: browser, Google-style web LLM, and IDE flows generate copy-ready prompts and file placement kits.
 - **Gemini extension MVP**: a Manifest V3 side panel can capture, optimize, and insert prompts on Gemini.
 - **Open source second**: contracts, agents, routes, generated files, and audit behavior are documented in `/open-source`.
@@ -32,10 +32,10 @@ http://127.0.0.1:8787
 - `extensions/gemini-token-optimizer`: local unpacked Chrome extension MVP for Gemini.
 - `extensions/gemini-token-optimizer/PUBLISHING.md`: Chrome Web Store readiness checklist.
 - `optimizer-system.cjs`: system runner for run IDs, stages, background local execution, and shared run snapshots.
-- `optimizer-core.cjs`: blank A2A kit, handoff shaping, staged prompts, token estimates, and fallback behavior.
+- `optimizer-core.cjs`: adaptive route selection, contract shaping, provider-ready prompts, staged agents, token estimates, and fallback behavior.
 - `server.cjs`: thin local server, static routes, API routes, system-run polling, and provider routing.
 - `api/system-runs.js`: hosted system-run endpoint that returns the same run snapshot shape as local background jobs.
-- `api/*.js`: Vercel function entrypoints.
+- `api/*.js`: Vercel function entrypoints, including `/api/workflow-run` and the older `/api/a2a-run` compatibility route.
 
 ## Optional Provider Keys
 
@@ -52,14 +52,15 @@ OPENAI_API_KEY=
 
 The browser never stores provider keys. Server routes handle model calls and keep the UI provider-agnostic.
 
-## Handoff Contract
+## Typed Contract Workflow
 
 The core optimization pattern is:
 
 1. Read the raw prompt once.
-2. Extract goal, facts, constraints, decisions, sources, open questions, and next action.
-3. Send downstream agents the compact contract instead of the full transcript.
-4. Save history and audit trail so the run can be inspected later.
+2. Choose the leanest valid route: direct, contract, or full verification.
+3. Extract goal, facts, constraints, decisions, sources, open questions, and next action when a contract is useful.
+4. Send downstream nodes compact state instead of the full transcript.
+5. Save history and audit trail so the run can be inspected later.
 
 ## System Runner
 
