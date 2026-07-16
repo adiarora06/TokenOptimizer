@@ -194,7 +194,7 @@ function serveStatic(req, res) {
     "/a2a-kit": "/a2a-kit.html",
     "/open-source": "/open-source.html",
     "/stats": "/stats.html",
-    "/audit-log": "/audit-log.html",
+    "/audit-log": "/prompt-history.html",
     "/prompt-history": "/prompt-history.html",
     "/settings": "/settings.html",
     "/privacy": "/privacy.html"

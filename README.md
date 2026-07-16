@@ -21,7 +21,7 @@ http://127.0.0.1:8787
 - **Sidecar wrappers**: browser, Google-style web LLM, and IDE flows generate copy-ready prompts and file placement kits.
 - **Gemini extension MVP**: a Manifest V3 side panel can capture, optimize, and insert prompts on Gemini.
 - **Open source second**: contracts, agents, routes, generated files, and audit behavior are documented in `/open-source`.
-- **Power pages**: Agents, Agent Graph, History, Audit Log, Settings, and Optimized IDE stay available without crowding the main workflow.
+- **Power pages**: Agents, History, Stats, Settings, and Optimized IDE stay available without crowding the main workflow.
 
 ## Source Map
 

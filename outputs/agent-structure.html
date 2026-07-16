@@ -24,15 +24,15 @@
 
     :root[data-theme="dark"] {
       color-scheme: dark;
-      --bg: #0f131d;
-      --panel: #161b26;
-      --text: #eef2ff;
-      --muted: #9aa4b8;
-      --line: #293244;
-      --brand: #8fb0ff;
-      --brand-soft: #1f2c4d;
-      --good: #4ade80;
-      --warn: #fbbf24;
+      --bg: #0b0f14;
+      --panel: #111827;
+      --text: #ffffff;
+      --muted: #d1d5db;
+      --line: #374151;
+      --brand: #3b82f6;
+      --brand-soft: #172554;
+      --good: #22c55e;
+      --warn: #f59e0b;
       --shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
     }
 
@@ -113,7 +113,7 @@
 
     :root[data-theme="dark"] .page-nav,
     :root[data-theme="dark"] .topbar {
-      background: rgba(15, 19, 29, 0.96);
+      background: rgba(11, 15, 20, 0.96);
     }
 
     :root[data-theme="dark"] .panel,
@@ -767,12 +767,10 @@
     <a href="/">Home</a>
     <a href="/workspace">Workspace</a>
     <a href="/a2a-kit">Optimized IDE</a>
-    <a id="navAgents" href="/agent-structure?view=agents" aria-current="page">Agents</a>
-    <a id="navGraph" href="/agent-structure?view=graph">Agent Graph</a>
+    <a id="navAgents" href="/agent-structure" aria-current="page">Agents</a>
     <a href="/open-source">Open Source</a>
     <a href="/stats">Stats</a>
     <a href="/prompt-history">History</a>
-    <a href="/audit-log">Audit Log</a>
     <a href="/settings">Settings</a>
   </nav>
 
@@ -914,13 +912,7 @@
       document.querySelectorAll(".tab").forEach((button) => {
         button.setAttribute("aria-selected", String(button.dataset.view === state.view));
       });
-      if (state.view === "agents") {
-        el("navAgents").setAttribute("aria-current", "page");
-        el("navGraph").removeAttribute("aria-current");
-      } else {
-        el("navGraph").setAttribute("aria-current", "page");
-        el("navAgents").removeAttribute("aria-current");
-      }
+      el("navAgents").setAttribute("aria-current", "page");
       el("graphView").classList.toggle("hidden", state.view !== "graph");
       el("agentsView").classList.toggle("hidden", state.view !== "agents");
       el("statusTitle").textContent = state.view === "graph"

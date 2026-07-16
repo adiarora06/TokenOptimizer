@@ -23,14 +23,14 @@
 
     :root[data-theme="dark"] {
       color-scheme: dark;
-      --bg: #0f131d;
-      --panel: #161b26;
-      --text: #eef2ff;
-      --muted: #9aa4b8;
-      --line: #293244;
-      --brand: #8fb0ff;
-      --brand-soft: #1f2c4d;
-      --good: #4ade80;
+      --bg: #0b0f14;
+      --panel: #111827;
+      --text: #ffffff;
+      --muted: #d1d5db;
+      --line: #374151;
+      --brand: #3b82f6;
+      --brand-soft: #172554;
+      --good: #22c55e;
       --shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
     }
 
@@ -109,16 +109,23 @@
 
     :root[data-theme="dark"] .page-nav,
     :root[data-theme="dark"] .topbar {
-      background: rgba(15, 19, 29, 0.96);
+      background: rgba(11, 15, 20, 0.96);
     }
 
     :root[data-theme="dark"] .panel,
+    :root[data-theme="dark"] .page-nav a,
     :root[data-theme="dark"] button,
     :root[data-theme="dark"] .button,
-    :root[data-theme="dark"] .history-card {
+    :root[data-theme="dark"] .history-card,
+    :root[data-theme="dark"] .audit-card {
       background: var(--panel);
       border-color: var(--line);
       color: var(--text);
+    }
+
+    :root[data-theme="dark"] .meta span {
+      background: #1f2937;
+      color: var(--muted);
     }
 
     .brand,
@@ -177,6 +184,13 @@
       box-shadow: var(--shadow);
     }
 
+    .history-shell {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(300px, 0.38fr);
+      gap: 14px;
+      align-items: start;
+    }
+
     .panel-header {
       display: flex;
       justify-content: space-between;
@@ -228,7 +242,8 @@
       padding: 16px;
     }
 
-    .history-card {
+    .history-card,
+    .audit-card {
       display: grid;
       grid-template-columns: minmax(0, 1fr) auto;
       gap: 12px;
@@ -238,12 +253,32 @@
       padding: 12px;
     }
 
-    .history-card strong {
+    .audit-panel {
+      position: sticky;
+      top: 118px;
+    }
+
+    .audit-list {
+      display: grid;
+      gap: 10px;
+      max-height: calc(100vh - 190px);
+      overflow: auto;
+      padding: 16px;
+    }
+
+    .audit-card {
+      grid-template-columns: 1fr;
+      box-shadow: none;
+    }
+
+    .history-card strong,
+    .audit-card strong {
       display: block;
       font-size: 14px;
     }
 
-    .history-card p {
+    .history-card p,
+    .audit-card p {
       margin-top: 5px;
       font-size: 12px;
     }
@@ -264,6 +299,30 @@
       font-weight: 800;
     }
 
+    details {
+      margin-top: 8px;
+      border-top: 1px solid var(--line);
+      padding-top: 8px;
+    }
+
+    summary {
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    pre {
+      overflow: auto;
+      max-height: 220px;
+      margin: 10px 0 0;
+      border-radius: 8px;
+      background: #111827;
+      color: #f9fafb;
+      padding: 12px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
     .empty {
       display: grid;
       min-height: 340px;
@@ -275,8 +334,17 @@
 
     @media (max-width: 900px) {
       .topbar,
+      .history-shell,
       .history-card {
         grid-template-columns: 1fr;
+      }
+
+      .audit-panel {
+        position: static;
+      }
+
+      .audit-list {
+        max-height: none;
       }
 
       .actions {
@@ -290,12 +358,10 @@
     <a href="/">Home</a>
     <a href="/workspace">Workspace</a>
     <a href="/a2a-kit">Optimized IDE</a>
-    <a href="/agent-structure?view=agents">Agents</a>
-    <a href="/agent-structure?view=graph">Agent Graph</a>
+    <a href="/agent-structure">Agents</a>
     <a href="/open-source">Open Source</a>
     <a href="/stats">Stats</a>
     <a href="/prompt-history" aria-current="page">History</a>
-    <a href="/audit-log">Audit Log</a>
     <a href="/settings">Settings</a>
   </nav>
 
@@ -317,20 +383,37 @@
   </header>
 
   <main class="page">
-    <section class="panel">
-      <div class="panel-header">
-        <div>
-          <h1>Past Prompts</h1>
-          <p>Stored locally in this browser. Nothing here is sent to a server until you choose to run it.</p>
+    <div class="history-shell">
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <h1>Past Prompts</h1>
+            <p>Stored locally in this browser. Nothing here is sent to a server until you choose to run it.</p>
+          </div>
+          <button id="clearHistory">Clear All</button>
         </div>
-        <button id="clearHistory">Clear All</button>
-      </div>
-      <div id="historyList" class="history-list"></div>
-    </section>
+        <div id="historyList" class="history-list"></div>
+      </section>
+
+      <aside class="panel audit-panel" aria-label="Audit log">
+        <div class="panel-header">
+          <div>
+            <h2>Audit Trail</h2>
+            <p id="auditSummary">No runs yet.</p>
+          </div>
+          <div class="actions">
+            <button id="copyAudit">Copy</button>
+            <button id="clearAudit">Clear</button>
+          </div>
+        </div>
+        <div id="auditList" class="audit-list"></div>
+      </aside>
+    </div>
   </main>
 
   <script>
     const historyKey = "tokenOptimizerPromptHistory";
+    const auditKey = "tokenOptimizerAuditLog";
     const providerLabels = {
       "groq-openai-fallback": "Auto",
       groq: "Auto",
@@ -375,9 +458,27 @@
       localStorage.setItem(historyKey, JSON.stringify(items));
     }
 
+    function loadAudit() {
+      try {
+        const parsed = JSON.parse(localStorage.getItem(auditKey) || "[]");
+        return Array.isArray(parsed) ? parsed : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function saveAudit(items) {
+      localStorage.setItem(auditKey, JSON.stringify(items));
+    }
+
     function title(goal) {
       const compact = String(goal || "").replace(/\s+/g, " ").trim();
       return compact.length > 88 ? compact.slice(0, 85) + "..." : compact || "Untitled prompt";
+    }
+
+    function fmtDate(value) {
+      const date = new Date(value);
+      return Number.isNaN(date.getTime()) ? "Unknown time" : date.toLocaleString();
     }
 
     function sendPrompt(destination, item) {
@@ -396,7 +497,52 @@
         ...item,
         view: "agents"
       }));
-      window.location.href = "/agent-structure?view=agents";
+      window.location.href = "/agent-structure";
+    }
+
+    function traceText(item) {
+      const trace = item.phases?.length ? item.phases : [];
+      return trace.length
+        ? trace.map((step, index) => `${index + 1}. ${step.agent || "Agent"} - ${step.detail || step.phase || "Processed state."}`).join("\n")
+        : "No trace steps recorded.";
+    }
+
+    function renderAudit() {
+      const audit = loadAudit();
+      el("auditSummary").textContent = audit.length ? `${audit.length} saved run${audit.length === 1 ? "" : "s"}` : "No runs yet.";
+      if (!audit.length) {
+        el("auditList").innerHTML = `
+          <div class="empty">
+            <div>
+              <strong>No audit entries yet.</strong>
+              <p>Run a prompt in the workspace and the audit trail will appear here.</p>
+            </div>
+          </div>
+        `;
+        return;
+      }
+      el("auditList").innerHTML = audit.slice(0, 12).map((item) => {
+        const savings = item.savingsPercent == null ? "n/a" : item.savingsPercent + "%";
+        return `
+          <article class="audit-card">
+            <div>
+              <strong>${escapeHtml(item.title || "Untitled run")}</strong>
+              <p>${escapeHtml(fmtDate(item.createdAt))}</p>
+              <div class="meta">
+                <span>${escapeHtml(item.mode || "mode")}</span>
+                <span>${escapeHtml(item.provider || "route")}</span>
+                <span>${escapeHtml(item.status || "status")}</span>
+                <span>${item.rawTokens || 0} raw</span>
+                <span>${savings} saved</span>
+              </div>
+              <details>
+                <summary>Trace</summary>
+                <pre>${escapeHtml(traceText(item))}</pre>
+              </details>
+            </div>
+          </article>
+        `;
+      }).join("");
     }
 
     function render() {
@@ -411,6 +557,7 @@
             </div>
           </div>
         `;
+        renderAudit();
         return;
       }
       el("historyList").innerHTML = history.map((item) => `
@@ -435,6 +582,7 @@
           </div>
         </article>
       `).join("");
+      renderAudit();
     }
 
     el("historyList").addEventListener("click", (event) => {
@@ -466,6 +614,31 @@
       setTimeout(() => {
         el("exportHistory").textContent = "Copy History";
       }, 1000);
+    });
+
+    el("copyAudit").addEventListener("click", async () => {
+      const audit = loadAudit();
+      const text = audit.length
+        ? audit.map((item, index) => [
+          `${index + 1}. ${item.title || "Untitled run"}`,
+          `Mode: ${item.mode || "n/a"}`,
+          `Route: ${item.provider || "n/a"}`,
+          `Status: ${item.status || "n/a"}`,
+          `Raw tokens: ${item.rawTokens || 0}`,
+          `Savings: ${item.savingsPercent == null ? "n/a" : item.savingsPercent + "%"}`,
+          traceText(item)
+        ].join("\n")).join("\n\n")
+        : "No audit entries.";
+      await navigator.clipboard.writeText(text);
+      el("copyAudit").textContent = "Copied";
+      setTimeout(() => {
+        el("copyAudit").textContent = "Copy";
+      }, 1000);
+    });
+
+    el("clearAudit").addEventListener("click", () => {
+      saveAudit([]);
+      renderAudit();
     });
 
     render();

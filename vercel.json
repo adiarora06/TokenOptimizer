@@ -34,7 +34,7 @@
     },
     {
       "source": "/audit-log",
-      "destination": "/outputs/audit-log.html"
+      "destination": "/outputs/prompt-history.html"
     },
     {
       "source": "/prompt-history",
