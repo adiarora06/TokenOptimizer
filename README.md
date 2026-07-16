@@ -17,6 +17,7 @@ http://127.0.0.1:8787
 ## Product Shape
 
 - **Workspace first**: one large prompt box, one optimized run action, live status, collapsed final result.
+- **System runner**: background preflight, queued local runs, stage snapshots, and hosted-compatible run objects keep orchestration out of the UI.
 - **Sidecar wrappers**: browser, Google-style web LLM, and IDE flows generate copy-ready prompts and file placement kits.
 - **Gemini extension MVP**: a Manifest V3 side panel can capture, optimize, and insert prompts on Gemini.
 - **Open source second**: contracts, agents, routes, generated files, and audit behavior are documented in `/open-source`.
@@ -25,12 +26,15 @@ http://127.0.0.1:8787
 ## Source Map
 
 - `outputs/workspace.html`: main browser app and user-facing run flow.
+- `outputs/system-worker.js`: background preflight worker for token estimates, constraints, contract preview, and route hints.
 - `outputs/open-source.html`: readable workings page for architecture and contribution context.
 - `outputs/agent-structure.html`: agent roles plus hub-and-spoke information graph.
 - `extensions/gemini-token-optimizer`: local unpacked Chrome extension MVP for Gemini.
 - `extensions/gemini-token-optimizer/PUBLISHING.md`: Chrome Web Store readiness checklist.
+- `optimizer-system.cjs`: system runner for run IDs, stages, background local execution, and shared run snapshots.
 - `optimizer-core.cjs`: blank A2A kit, handoff shaping, staged prompts, token estimates, and fallback behavior.
-- `server.cjs`: local server, static routes, API routes, and provider routing.
+- `server.cjs`: thin local server, static routes, API routes, system-run polling, and provider routing.
+- `api/system-runs.js`: hosted system-run endpoint that returns the same run snapshot shape as local background jobs.
 - `api/*.js`: Vercel function entrypoints.
 
 ## Optional Provider Keys
@@ -56,6 +60,16 @@ The core optimization pattern is:
 2. Extract goal, facts, constraints, decisions, sources, open questions, and next action.
 3. Send downstream agents the compact contract instead of the full transcript.
 4. Save history and audit trail so the run can be inspected later.
+
+## System Runner
+
+The app now separates product UI from orchestration:
+
+1. The browser worker performs local preflight while the user types.
+2. The workspace starts `/api/system-runs` instead of calling the optimizer directly.
+3. The local Node server queues a background job and exposes snapshots at `/api/system-runs/:id`.
+4. Vercel completes the same run inline and returns the same `run` object shape.
+5. The workspace writes final history, audit, and stats from the returned run result.
 
 ## Sidecar Wrapper Loop
 
