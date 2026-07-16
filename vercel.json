@@ -35,6 +35,10 @@
     {
       "source": "/settings",
       "destination": "/outputs/settings.html"
+    },
+    {
+      "source": "/privacy",
+      "destination": "/outputs/privacy.html"
     }
   ]
 }

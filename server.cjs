@@ -485,7 +485,8 @@ function serveStatic(req, res) {
     "/open-source": "/open-source.html",
     "/audit-log": "/audit-log.html",
     "/prompt-history": "/prompt-history.html",
-    "/settings": "/settings.html"
+    "/settings": "/settings.html",
+    "/privacy": "/privacy.html"
   };
   const pathname = routeMap[requestUrl.pathname] || requestUrl.pathname;
   const filePath = path.normalize(path.join(outputDir, pathname));
