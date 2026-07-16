@@ -25,6 +25,10 @@
       "destination": "/outputs/open-source.html"
     },
     {
+      "source": "/stats",
+      "destination": "/outputs/stats.html"
+    },
+    {
       "source": "/audit-log",
       "destination": "/outputs/audit-log.html"
     },

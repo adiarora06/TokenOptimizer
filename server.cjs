@@ -483,6 +483,7 @@ function serveStatic(req, res) {
     "/agent-structure": "/agent-structure.html",
     "/a2a-kit": "/a2a-kit.html",
     "/open-source": "/open-source.html",
+    "/stats": "/stats.html",
     "/audit-log": "/audit-log.html",
     "/prompt-history": "/prompt-history.html",
     "/settings": "/settings.html",

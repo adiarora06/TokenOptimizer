@@ -769,6 +769,7 @@
     <a href="/agent-structure?view=agents">Agents</a>
     <a href="/agent-structure?view=graph">Agent Graph</a>
     <a href="/open-source">Open Source</a>
+    <a href="/stats">Stats</a>
     <a href="/prompt-history">History</a>
     <a href="/audit-log">Audit Log</a>
     <a href="/settings">Settings</a>
@@ -958,6 +959,22 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script>
+    const sessionIdKey = "tokenOptimizerSessionId";
+    const sessionStartKey = "tokenOptimizerSessionStart";
+
+    function ensureUsageSession() {
+      let id = sessionStorage.getItem(sessionIdKey);
+      let startedAt = sessionStorage.getItem(sessionStartKey);
+      if (!id || !startedAt) {
+        id = Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+        startedAt = new Date().toISOString();
+        sessionStorage.setItem(sessionIdKey, id);
+        sessionStorage.setItem(sessionStartKey, startedAt);
+      }
+      return { id, startedAt };
+    }
+
+    const usageSession = ensureUsageSession();
     const state = {
       mode: localStorage.getItem("tokenOptimizerUseMode") || "primary",
       wrapperTarget: localStorage.getItem("tokenOptimizerWrapperTarget") || "browser",
@@ -1103,6 +1120,8 @@
         fileType: "run",
         depth: "auto",
         tokens: estimateTokens(prompt),
+        sessionId: usageSession.id,
+        sessionStartedAt: usageSession.startedAt,
         createdAt: new Date().toISOString()
       });
       localStorage.setItem(historyKey, JSON.stringify(history.slice(0, 25)));
@@ -1131,15 +1150,23 @@
 
     function saveAudit(prompt, route, result, status) {
       const report = result?.tokenReport || {};
+      const rawTokens = report.rawInputTokens || estimateTokens(prompt);
+      const optimizedTokens = report.optimizedPromptTokens || 0;
+      const naiveTokens = report.estimatedNaiveThreeStepTokens || rawTokens * 3;
+      const savedTokens = report.estimatedSavingsTokens ?? Math.max(0, naiveTokens - optimizedTokens);
       const item = {
         id: Date.now().toString(36),
         title: promptTitle(prompt),
         mode: state.mode,
         provider: routeDisplay(result, route),
         status,
-        rawTokens: report.rawInputTokens || estimateTokens(prompt),
-        optimizedTokens: report.optimizedPromptTokens || 0,
+        rawTokens,
+        optimizedTokens,
+        naiveTokens,
+        savedTokens,
         savingsPercent: report.estimatedSavingsPercent ?? null,
+        sessionId: usageSession.id,
+        sessionStartedAt: usageSession.startedAt,
         phases: (result?.trace || []).map((step) => ({
           agent: step.agent,
           phase: step.phase,
