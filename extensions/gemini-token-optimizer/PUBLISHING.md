@@ -29,7 +29,7 @@ The extension is useful as an inspectable wrapper example:
 3. Keep permissions narrow: `sidePanel`, `storage`, `https://gemini.google.com/*`, and the optimizer API origin.
 4. Add a public privacy policy page.
 5. Include a Limited Use disclosure for prompt/user data.
-6. Add screenshots and store listing assets.
+6. Add screenshots and upload the generated store listing assets from `store-assets/`.
 7. Test local unpacked install on a fresh Chrome profile.
 8. Package the extension zip from this folder.
 9. Upload the zip in the Chrome Web Store Developer Dashboard.
@@ -77,6 +77,15 @@ zip -r ../../gemini-token-optimizer-mvp.zip \
 ```
 
 Upload the generated zip through the Chrome Web Store Developer Dashboard.
+
+## Store Listing Assets
+
+Ready-to-upload listing copy and promo graphics live in `store-assets/`:
+
+- `store-listing.md`
+- `store-icon-128.png`
+- `small-promo-tile-440x280.png`
+- `marquee-promo-tile-1400x560.png`
 
 ## Publication Types
 
