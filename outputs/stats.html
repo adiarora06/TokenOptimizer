@@ -1,0 +1,828 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Token Optimizer Stats</title>
+  <script>document.documentElement.dataset.theme = localStorage.getItem("tokenOptimizerTheme") || "light";</script>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f7f8fb;
+      --panel: #ffffff;
+      --text: #18202f;
+      --muted: #677084;
+      --line: #dfe4ee;
+      --brand: #2557d6;
+      --brand-soft: #eaf0ff;
+      --good: #0b7a4b;
+      --warn: #9b5a00;
+      --ink-soft: #eef3ff;
+      --shadow: 0 10px 30px rgba(24, 32, 47, 0.08);
+    }
+
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #0f131d;
+      --panel: #161b26;
+      --text: #eef2ff;
+      --muted: #9aa4b8;
+      --line: #293244;
+      --brand: #8fb0ff;
+      --brand-soft: #1f2c4d;
+      --good: #4ade80;
+      --warn: #fbbf24;
+      --ink-soft: #1f2c4d;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding-top: 45px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.4;
+    }
+
+    a, button { color: inherit; font: inherit; text-decoration: none; }
+    h1, h2, h3, p { margin: 0; }
+    button { cursor: pointer; }
+
+    .page-nav {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 20;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      padding: 10px 24px;
+      background: rgba(247, 248, 251, 0.96);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(12px);
+    }
+
+    :root[data-theme="dark"] .page-nav {
+      background: rgba(15, 19, 29, 0.96);
+    }
+
+    .page-nav a,
+    .button,
+    button {
+      display: inline-flex;
+      min-height: 36px;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--panel);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 850;
+      padding: 7px 11px;
+    }
+
+    .page-nav a[aria-current="page"],
+    .button.primary,
+    button.primary {
+      border-color: var(--brand);
+      background: var(--brand);
+      color: #ffffff;
+    }
+
+    :root[data-theme="dark"] .page-nav a[aria-current="page"],
+    :root[data-theme="dark"] .button.primary,
+    :root[data-theme="dark"] button.primary {
+      color: #0f131d;
+    }
+
+    .page {
+      width: min(1220px, calc(100% - 36px));
+      margin: 0 auto;
+      padding: 24px 0 54px;
+    }
+
+    .hero,
+    .panel,
+    .metric,
+    .recent-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      width: fit-content;
+      border-radius: 999px;
+      padding: 6px 10px;
+      background: var(--brand-soft);
+      color: var(--brand);
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    h1 {
+      margin-top: 12px;
+      font-size: 58px;
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .hero p,
+    .muted {
+      color: var(--muted);
+    }
+
+    .hero p {
+      max-width: 780px;
+      margin-top: 10px;
+      font-size: 17px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    .section {
+      margin-top: 16px;
+    }
+
+    .section-head {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: end;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .section-head h2 {
+      font-size: 24px;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .metric {
+      min-height: 116px;
+      padding: 15px;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 850;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .metric strong {
+      display: block;
+      margin-top: 10px;
+      font-size: 34px;
+      line-height: 1;
+    }
+
+    .metric p {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .charts {
+      display: grid;
+      grid-template-columns: 0.88fr 1.35fr;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .panel {
+      padding: 16px;
+      overflow: hidden;
+    }
+
+    .panel h3 {
+      font-size: 17px;
+    }
+
+    .panel-head {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .donuts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .donut-wrap {
+      display: grid;
+      gap: 10px;
+      justify-items: center;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--ink-soft);
+      text-align: center;
+    }
+
+    .donut {
+      position: relative;
+      display: grid;
+      width: 164px;
+      aspect-ratio: 1;
+      place-items: center;
+      border-radius: 999px;
+      background: conic-gradient(var(--good) 0deg, var(--good) 0deg, var(--brand-soft) 0deg, var(--brand-soft) 360deg);
+    }
+
+    .donut::after {
+      position: absolute;
+      inset: 22px;
+      border-radius: inherit;
+      background: var(--panel);
+      content: "";
+    }
+
+    .donut strong,
+    .donut span {
+      position: relative;
+      z-index: 1;
+      display: block;
+    }
+
+    .donut strong {
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    .donut span {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 850;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .legend i {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      margin-right: 5px;
+      vertical-align: -1px;
+    }
+
+    .trend {
+      width: 100%;
+      min-height: 260px;
+    }
+
+    .breakdowns {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .bar-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .bar-row {
+      display: grid;
+      grid-template-columns: 110px minmax(0, 1fr) 46px;
+      gap: 8px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .bar-track {
+      height: 10px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: var(--brand-soft);
+    }
+
+    .bar-fill {
+      width: var(--w, 0%);
+      height: 100%;
+      border-radius: inherit;
+      background: var(--brand);
+    }
+
+    .recent-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .recent-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      padding: 14px;
+      box-shadow: none;
+    }
+
+    .recent-card strong {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 8px;
+    }
+
+    .meta span,
+    .pill {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 5px 8px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .empty {
+      display: grid;
+      min-height: 190px;
+      place-items: center;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    @media (max-width: 980px) {
+      body { padding-top: 150px; }
+      h1 { font-size: 42px; }
+      .hero, .charts, .breakdowns { grid-template-columns: 1fr; }
+      .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .actions { justify-content: flex-start; }
+    }
+
+    @media (max-width: 640px) {
+      .metric strong { font-size: 29px; }
+      .metrics, .donuts { grid-template-columns: 1fr; }
+      .bar-row { grid-template-columns: 86px minmax(0, 1fr) 40px; }
+      .recent-card { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="page-nav" aria-label="Token optimizer pages">
+    <a href="/">Home</a>
+    <a href="/workspace">Workspace</a>
+    <a href="/a2a-kit">Optimized IDE</a>
+    <a href="/agent-structure?view=agents">Agents</a>
+    <a href="/agent-structure?view=graph">Agent Graph</a>
+    <a href="/open-source">Open Source</a>
+    <a href="/stats" aria-current="page">Stats</a>
+    <a href="/prompt-history">History</a>
+    <a href="/audit-log">Audit Log</a>
+    <a href="/settings">Settings</a>
+  </nav>
+
+  <main class="page">
+    <section class="hero">
+      <div>
+        <span class="eyebrow">Personal Usage Hub</span>
+        <h1>Stats</h1>
+        <p>See local usage, token savings, prompt volume, and workflow routes for this browser. All-time stats come from saved audit entries; current-session stats reset when you start a new browser session or press Reset Session.</p>
+      </div>
+      <div class="actions">
+        <button id="copyStats">Copy Stats</button>
+        <button id="resetSession">Reset Session</button>
+        <a class="button primary" href="/workspace">Open Workspace</a>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>All Time</h2>
+          <p class="muted">Everything saved in this browser.</p>
+        </div>
+        <span class="pill" id="allRange">No runs yet</span>
+      </div>
+      <div class="metrics">
+        <article class="metric"><span>Runs</span><strong id="allRuns">0</strong><p>Saved audit entries</p></article>
+        <article class="metric"><span>Raw tokens</span><strong id="allRaw">0</strong><p>Original prompt input</p></article>
+        <article class="metric"><span>Optimized tokens</span><strong id="allOptimized">0</strong><p>Compact prompt usage</p></article>
+        <article class="metric"><span>Saved tokens</span><strong id="allSaved">0</strong><p>Estimated avoided tokens</p></article>
+        <article class="metric"><span>Avg savings</span><strong id="allSavingsPct">0%</strong><p>Against naive handoff flow</p></article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>Current Session</h2>
+          <p class="muted" id="sessionStart">Session starting...</p>
+        </div>
+        <span class="pill" id="sessionPromptCount">0 prompts this session</span>
+      </div>
+      <div class="metrics">
+        <article class="metric"><span>Runs</span><strong id="sessionRuns">0</strong><p>This browser session</p></article>
+        <article class="metric"><span>Raw tokens</span><strong id="sessionRaw">0</strong><p>Prompt input this session</p></article>
+        <article class="metric"><span>Optimized tokens</span><strong id="sessionOptimized">0</strong><p>Compact prompt usage</p></article>
+        <article class="metric"><span>Saved tokens</span><strong id="sessionSaved">0</strong><p>Estimated avoided tokens</p></article>
+        <article class="metric"><span>Avg savings</span><strong id="sessionSavingsPct">0%</strong><p>Current-session efficiency</p></article>
+      </div>
+    </section>
+
+    <section class="charts">
+      <article class="panel">
+        <div class="panel-head">
+          <div>
+            <h3>Token Split</h3>
+            <p class="muted">Saved versus optimized token usage.</p>
+          </div>
+        </div>
+        <div class="donuts">
+          <div class="donut-wrap">
+            <div class="donut" id="allDonut"><div><strong id="allDonutPct">0%</strong><span>all time</span></div></div>
+            <div class="legend"><span><i style="background: var(--good)"></i>Saved</span><span><i style="background: var(--brand)"></i>Optimized</span></div>
+          </div>
+          <div class="donut-wrap">
+            <div class="donut" id="sessionDonut"><div><strong id="sessionDonutPct">0%</strong><span>session</span></div></div>
+            <div class="legend"><span><i style="background: var(--good)"></i>Saved</span><span><i style="background: var(--brand)"></i>Optimized</span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-head">
+          <div>
+            <h3>Run Trend</h3>
+            <p class="muted">Last 10 runs: raw input tokens versus optimized prompt tokens.</p>
+          </div>
+          <span class="pill">Raw / Optimized</span>
+        </div>
+        <div id="trendChart" class="trend"></div>
+      </article>
+    </section>
+
+    <section class="breakdowns">
+      <article class="panel">
+        <h3>Mode Mix</h3>
+        <p class="muted">Primary workspace versus background helper.</p>
+        <div id="modeBreakdown" class="bar-list"></div>
+      </article>
+      <article class="panel">
+        <h3>Route Mix</h3>
+        <p class="muted">How runs were completed.</p>
+        <div id="routeBreakdown" class="bar-list"></div>
+      </article>
+      <article class="panel">
+        <h3>Status Mix</h3>
+        <p class="muted">Completed, fallback, contract-only, or kit runs.</p>
+        <div id="statusBreakdown" class="bar-list"></div>
+      </article>
+    </section>
+
+    <section class="section panel">
+      <div class="panel-head">
+        <div>
+          <h3>Recent Runs</h3>
+          <p class="muted">Latest saved audit entries from this browser.</p>
+        </div>
+        <span class="pill" id="promptTotal">0 prompts saved</span>
+      </div>
+      <div id="recentRuns" class="recent-list"></div>
+    </section>
+  </main>
+
+  <script>
+    const historyKey = "tokenOptimizerPromptHistory";
+    const auditKey = "tokenOptimizerAuditLog";
+    const sessionIdKey = "tokenOptimizerSessionId";
+    const sessionStartKey = "tokenOptimizerSessionStart";
+    const el = (id) => document.getElementById(id);
+
+    function ensureSession() {
+      let id = sessionStorage.getItem(sessionIdKey);
+      let startedAt = sessionStorage.getItem(sessionStartKey);
+      if (!id || !startedAt) {
+        id = Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+        startedAt = new Date().toISOString();
+        sessionStorage.setItem(sessionIdKey, id);
+        sessionStorage.setItem(sessionStartKey, startedAt);
+      }
+      return { id, startedAt };
+    }
+
+    let session = ensureSession();
+
+    function loadArray(key) {
+      try {
+        const parsed = JSON.parse(localStorage.getItem(key) || "[]");
+        return Array.isArray(parsed) ? parsed : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function safeNumber(value) {
+      const number = Number(value);
+      return Number.isFinite(number) && number > 0 ? number : 0;
+    }
+
+    function percent(part, total) {
+      return total > 0 ? Math.round((part / total) * 100) : 0;
+    }
+
+    function compact(value) {
+      const number = Math.round(safeNumber(value));
+      if (number >= 1_000_000) return (number / 1_000_000).toFixed(1).replace(/\.0$/, "") + "m";
+      if (number >= 10_000) return Math.round(number / 1000) + "k";
+      if (number >= 1000) return (number / 1000).toFixed(1).replace(/\.0$/, "") + "k";
+      return String(number);
+    }
+
+    function fmtDate(value) {
+      const date = new Date(value);
+      return Number.isNaN(date.getTime()) ? "Unknown time" : date.toLocaleString();
+    }
+
+    function escapeHtml(value) {
+      return String(value || "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function normalizeRun(item) {
+      const rawTokens = safeNumber(item.rawTokens);
+      let optimizedTokens = safeNumber(item.optimizedTokens);
+      const naiveTokens = safeNumber(item.naiveTokens) || rawTokens * 3;
+      let savedTokens = safeNumber(item.savedTokens);
+      const savingsPercent = item.savingsPercent == null ? null : Math.max(0, Math.min(100, Number(item.savingsPercent)));
+      if (!savedTokens && Number.isFinite(savingsPercent) && naiveTokens) savedTokens = Math.round((naiveTokens * savingsPercent) / 100);
+      if (!savedTokens && optimizedTokens && naiveTokens) savedTokens = Math.max(0, naiveTokens - optimizedTokens);
+      if (!optimizedTokens && savedTokens && naiveTokens) optimizedTokens = Math.max(0, naiveTokens - savedTokens);
+      return {
+        ...item,
+        rawTokens,
+        optimizedTokens,
+        naiveTokens,
+        savedTokens,
+        savingsPercent: Number.isFinite(savingsPercent) ? savingsPercent : percent(savedTokens, naiveTokens),
+        createdAt: item.createdAt || new Date(0).toISOString()
+      };
+    }
+
+    function isInSession(item) {
+      if (item.sessionId && item.sessionId === session.id) return true;
+      const itemTime = new Date(item.createdAt || 0).getTime();
+      const startTime = new Date(session.startedAt).getTime();
+      return Number.isFinite(itemTime) && Number.isFinite(startTime) && itemTime >= startTime;
+    }
+
+    function aggregate(runs, prompts) {
+      const rawTokens = runs.reduce((sum, item) => sum + item.rawTokens, 0);
+      const optimizedTokens = runs.reduce((sum, item) => sum + item.optimizedTokens, 0);
+      const naiveTokens = runs.reduce((sum, item) => sum + item.naiveTokens, 0);
+      const savedTokens = runs.reduce((sum, item) => sum + item.savedTokens, 0);
+      return {
+        runs: runs.length,
+        prompts: prompts.length,
+        rawTokens,
+        optimizedTokens,
+        naiveTokens,
+        savedTokens,
+        savingsPercent: percent(savedTokens, naiveTokens)
+      };
+    }
+
+    function byKey(items, key, fallback = "Unknown") {
+      return items.reduce((map, item) => {
+        const label = item[key] || fallback;
+        map[label] = (map[label] || 0) + 1;
+        return map;
+      }, {});
+    }
+
+    function renderMetrics(prefix, stats) {
+      el(prefix + "Runs").textContent = compact(stats.runs);
+      el(prefix + "Raw").textContent = compact(stats.rawTokens);
+      el(prefix + "Optimized").textContent = compact(stats.optimizedTokens);
+      el(prefix + "Saved").textContent = compact(stats.savedTokens);
+      el(prefix + "SavingsPct").textContent = stats.savingsPercent + "%";
+    }
+
+    function renderDonut(id, pctId, stats) {
+      const total = stats.savedTokens + stats.optimizedTokens;
+      const savedPct = percent(stats.savedTokens, total);
+      const degrees = Math.round((savedPct / 100) * 360);
+      el(id).style.background = `conic-gradient(var(--good) 0deg ${degrees}deg, var(--brand) ${degrees}deg 360deg)`;
+      el(pctId).textContent = savedPct + "%";
+    }
+
+    function renderBars(id, values) {
+      const entries = Object.entries(values).sort((a, b) => b[1] - a[1]);
+      const total = entries.reduce((sum, [, value]) => sum + value, 0);
+      if (!entries.length) {
+        el(id).innerHTML = `<div class="empty"><p>No data yet.</p></div>`;
+        return;
+      }
+      el(id).innerHTML = entries.map(([label, value]) => `
+        <div class="bar-row">
+          <span>${escapeHtml(label)}</span>
+          <div class="bar-track"><div class="bar-fill" style="--w: ${percent(value, total)}%"></div></div>
+          <span>${value}</span>
+        </div>
+      `).join("");
+    }
+
+    function renderTrend(runs) {
+      const recent = [...runs]
+        .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+        .slice(-10);
+      if (!recent.length) {
+        el("trendChart").innerHTML = `<div class="empty"><div><strong>No run data yet.</strong><p>Run a prompt in the workspace to start building the chart.</p></div></div>`;
+        return;
+      }
+      const width = 740;
+      const height = 260;
+      const pad = 34;
+      const maxValue = Math.max(1, ...recent.flatMap((item) => [item.rawTokens, item.optimizedTokens]));
+      const slot = (width - pad * 2) / recent.length;
+      const bar = Math.max(8, Math.min(22, slot * 0.28));
+      const bars = recent.map((item, index) => {
+        const x = pad + index * slot + slot * 0.25;
+        const rawHeight = Math.max(2, (item.rawTokens / maxValue) * (height - pad * 2));
+        const optHeight = Math.max(2, (item.optimizedTokens / maxValue) * (height - pad * 2));
+        const yRaw = height - pad - rawHeight;
+        const yOpt = height - pad - optHeight;
+        return `
+          <g>
+            <rect x="${x.toFixed(1)}" y="${yRaw.toFixed(1)}" width="${bar}" height="${rawHeight.toFixed(1)}" rx="4" fill="var(--brand)" opacity="0.82"></rect>
+            <rect x="${(x + bar + 4).toFixed(1)}" y="${yOpt.toFixed(1)}" width="${bar}" height="${optHeight.toFixed(1)}" rx="4" fill="var(--good)" opacity="0.9"></rect>
+            <text x="${(x + bar).toFixed(1)}" y="${height - 10}" text-anchor="middle" fill="var(--muted)" font-size="11">${index + 1}</text>
+          </g>
+        `;
+      }).join("");
+      el("trendChart").innerHTML = `
+        <svg viewBox="0 0 ${width} ${height}" role="img" aria-label="Raw and optimized token trend">
+          <line x1="${pad}" y1="${height - pad}" x2="${width - pad}" y2="${height - pad}" stroke="var(--line)" stroke-width="1"></line>
+          <line x1="${pad}" y1="${pad}" x2="${pad}" y2="${height - pad}" stroke="var(--line)" stroke-width="1"></line>
+          <text x="${pad}" y="20" fill="var(--muted)" font-size="12">max ${compact(maxValue)} tokens</text>
+          ${bars}
+          <g transform="translate(${width - 210}, 18)">
+            <rect width="10" height="10" rx="2" fill="var(--brand)"></rect>
+            <text x="16" y="10" fill="var(--muted)" font-size="12">Raw</text>
+            <rect x="66" width="10" height="10" rx="2" fill="var(--good)"></rect>
+            <text x="82" y="10" fill="var(--muted)" font-size="12">Optimized</text>
+          </g>
+        </svg>
+      `;
+    }
+
+    function renderRecent(runs) {
+      const recent = [...runs]
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        .slice(0, 8);
+      if (!recent.length) {
+        el("recentRuns").innerHTML = `<div class="empty"><div><strong>No usage yet.</strong><p>Open the workspace, run a prompt, and your personal stats will appear here.</p></div></div>`;
+        return;
+      }
+      el("recentRuns").innerHTML = recent.map((item) => `
+        <article class="recent-card">
+          <div>
+            <strong>${escapeHtml(item.title || "Untitled run")}</strong>
+            <p class="muted">${escapeHtml(fmtDate(item.createdAt))}</p>
+            <div class="meta">
+              <span>${escapeHtml(item.mode || "mode")}</span>
+              <span>${escapeHtml(item.provider || "route")}</span>
+              <span>${escapeHtml(item.status || "status")}</span>
+              <span>${compact(item.rawTokens)} raw</span>
+              <span>${compact(item.savedTokens)} saved</span>
+            </div>
+          </div>
+          <span class="pill">${item.savingsPercent}% saved</span>
+        </article>
+      `).join("");
+    }
+
+    function dateRange(runs) {
+      if (!runs.length) return "No runs yet";
+      const dates = runs.map((item) => new Date(item.createdAt)).filter((date) => !Number.isNaN(date.getTime()));
+      if (!dates.length) return `${runs.length} runs`;
+      const first = new Date(Math.min(...dates)).toLocaleDateString();
+      const last = new Date(Math.max(...dates)).toLocaleDateString();
+      return first === last ? first : `${first} to ${last}`;
+    }
+
+    function render() {
+      const runs = loadArray(auditKey).map(normalizeRun);
+      const prompts = loadArray(historyKey);
+      const sessionRuns = runs.filter(isInSession);
+      const sessionPrompts = prompts.filter(isInSession);
+      const allStats = aggregate(runs, prompts);
+      const sessionStats = aggregate(sessionRuns, sessionPrompts);
+
+      renderMetrics("all", allStats);
+      renderMetrics("session", sessionStats);
+      renderDonut("allDonut", "allDonutPct", allStats);
+      renderDonut("sessionDonut", "sessionDonutPct", sessionStats);
+      renderTrend(runs);
+      renderBars("modeBreakdown", byKey(runs, "mode", "unknown"));
+      renderBars("routeBreakdown", byKey(runs, "provider", "unknown"));
+      renderBars("statusBreakdown", byKey(runs, "status", "unknown"));
+      renderRecent(runs);
+
+      el("allRange").textContent = dateRange(runs);
+      el("sessionStart").textContent = "Started " + fmtDate(session.startedAt);
+      el("sessionPromptCount").textContent = `${sessionPrompts.length} prompt${sessionPrompts.length === 1 ? "" : "s"} this session`;
+      el("promptTotal").textContent = `${prompts.length} prompt${prompts.length === 1 ? "" : "s"} saved`;
+    }
+
+    function statsText() {
+      const runs = loadArray(auditKey).map(normalizeRun);
+      const prompts = loadArray(historyKey);
+      const allStats = aggregate(runs, prompts);
+      const sessionStats = aggregate(runs.filter(isInSession), prompts.filter(isInSession));
+      return [
+        "Token Optimizer Stats",
+        "",
+        "All time:",
+        `- Runs: ${allStats.runs}`,
+        `- Raw tokens: ${Math.round(allStats.rawTokens)}`,
+        `- Optimized tokens: ${Math.round(allStats.optimizedTokens)}`,
+        `- Saved tokens: ${Math.round(allStats.savedTokens)}`,
+        `- Average savings: ${allStats.savingsPercent}%`,
+        "",
+        "Current session:",
+        `- Runs: ${sessionStats.runs}`,
+        `- Raw tokens: ${Math.round(sessionStats.rawTokens)}`,
+        `- Optimized tokens: ${Math.round(sessionStats.optimizedTokens)}`,
+        `- Saved tokens: ${Math.round(sessionStats.savedTokens)}`,
+        `- Average savings: ${sessionStats.savingsPercent}%`
+      ].join("\n");
+    }
+
+    document.getElementById("copyStats").addEventListener("click", async () => {
+      await navigator.clipboard.writeText(statsText());
+      document.getElementById("copyStats").textContent = "Copied";
+      setTimeout(() => document.getElementById("copyStats").textContent = "Copy Stats", 1400);
+    });
+
+    document.getElementById("resetSession").addEventListener("click", () => {
+      sessionStorage.removeItem(sessionIdKey);
+      sessionStorage.removeItem(sessionStartKey);
+      session = ensureSession();
+      render();
+    });
+
+    render();
+  </script>
+</body>
+</html>
