@@ -62,3 +62,7 @@ Token Optimizer for Gemini optimizes user-provided prompt text and inserts the r
 - Store icon: `store-icon-128.png` at 128x128, RGB, no alpha.
 - Small promo tile: `small-promo-tile-440x280.png` at 440x280, RGB, no alpha.
 - Marquee promo tile: `marquee-promo-tile-1400x560.png` at 1400x560, RGB, no alpha.
+
+## Privacy Policy URL
+
+https://tok-pi-gilt.vercel.app/privacy
