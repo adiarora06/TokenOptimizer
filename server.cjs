@@ -161,7 +161,7 @@ async function handleApi(req, res) {
     return;
   }
 
-  if (req.method === "POST" && pathname === "/api/a2a-run") {
+  if (req.method === "POST" && (pathname === "/api/workflow-run" || pathname === "/api/a2a-run")) {
     try {
       const body = await readJson(req);
       const rawInput = String(body.input || "");
@@ -191,6 +191,7 @@ function serveStatic(req, res) {
     "/workspace": "/workspace.html",
     "/token-optimizer-file-generator.html": "/workspace.html",
     "/agent-structure": "/agent-structure.html",
+    "/optimized-ide": "/a2a-kit.html",
     "/a2a-kit": "/a2a-kit.html",
     "/open-source": "/open-source.html",
     "/stats": "/stats.html",

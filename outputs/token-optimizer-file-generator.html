@@ -1158,7 +1158,7 @@
   <nav class="page-nav" aria-label="Token optimizer pages">
     <a href="/">Home</a>
     <a href="/workspace" aria-current="page">Workspace</a>
-    <a href="/a2a-kit" data-page-action="a2a">Optimized IDE</a>
+    <a href="/optimized-ide" data-page-action="a2a">Optimized IDE</a>
     <a href="/agent-structure" data-page-action="agents">Agents</a>
     <a href="/open-source">Open Source</a>
     <a href="/stats">Stats</a>
@@ -1628,7 +1628,7 @@
       if (input.goal.length < 1200) {
         params.set("prompt", input.goal);
       }
-      window.location.href = `/a2a-kit${params.toString() ? "?" + params.toString() : ""}`;
+      window.location.href = `/optimized-ide${params.toString() ? "?" + params.toString() : ""}`;
     }
 
     function loadIncomingPrompt() {

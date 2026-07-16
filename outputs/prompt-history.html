@@ -357,7 +357,7 @@
   <nav class="page-nav" aria-label="Token optimizer pages">
     <a href="/">Home</a>
     <a href="/workspace">Workspace</a>
-    <a href="/a2a-kit">Optimized IDE</a>
+    <a href="/optimized-ide">Optimized IDE</a>
     <a href="/agent-structure">Agents</a>
     <a href="/open-source">Open Source</a>
     <a href="/stats">Stats</a>
@@ -375,7 +375,7 @@
     </a>
     <div class="status" role="status" aria-live="polite">
       <strong id="statusTitle">History ready</strong>
-      <span id="statusDetail">Load an old prompt into the optimizer, A2A kit, or agent page.</span>
+      <span id="statusDetail">Load an old prompt into the workspace, Optimized IDE, or workflow structure page.</span>
     </div>
     <div class="actions" aria-label="Token optimizer pages">
       <button id="exportHistory">Copy History</button>
@@ -490,7 +490,7 @@
       }
       if (destination === "a2a") {
         localStorage.setItem("tokenOptimizerA2AInput", JSON.stringify(payload));
-        window.location.href = "/a2a-kit";
+        window.location.href = "/optimized-ide";
         return;
       }
       localStorage.setItem("tokenOptimizerStructureInput", JSON.stringify({

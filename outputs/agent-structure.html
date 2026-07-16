@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Token Optimizer Agent Structure</title>
+  <title>Token Optimizer Workflow Structure</title>
   <script>
     document.documentElement.dataset.theme = localStorage.getItem("tokenOptimizerTheme") || "light";
   </script>
@@ -562,6 +562,11 @@
       stroke-dasharray: 7 5;
     }
 
+    .hub-edge.route-edge {
+      stroke: #677084;
+      stroke-dasharray: 7 5;
+    }
+
     .hub-core {
       fill: var(--brand-soft);
       stroke: var(--brand);
@@ -766,7 +771,7 @@
   <nav class="page-nav" aria-label="Token optimizer pages">
     <a href="/">Home</a>
     <a href="/workspace">Workspace</a>
-    <a href="/a2a-kit">Optimized IDE</a>
+    <a href="/optimized-ide">Optimized IDE</a>
     <a id="navAgents" href="/agent-structure" aria-current="page">Agents</a>
     <a href="/open-source">Open Source</a>
     <a href="/stats">Stats</a>
@@ -778,13 +783,13 @@
     <a class="brand" href="/">
       <span class="logo">TO</span>
       <span>
-        <strong>Agent Structure</strong>
-        <span>Connected visualization page</span>
+        <strong>Workflow Structure</strong>
+        <span>Agents, contracts, routes, and adapters</span>
       </span>
     </a>
     <div class="status" role="status" aria-live="polite">
       <strong id="statusTitle">Showing agents</strong>
-      <span id="statusDetail">Direct page for information flow, responsibilities, and agent handoff contracts.</span>
+      <span id="statusDetail">Direct page for information flow, responsibilities, typed contracts, and provider adapters.</span>
     </div>
     <div class="actions">
       <button class="primary" id="copyLink">Copy Page Link</button>
@@ -795,8 +800,8 @@
     <section class="panel">
       <div class="panel-header">
         <div>
-          <h1>Agents And Graph</h1>
-          <p>Start with the agents, then inspect the hub-and-spoke information graph.</p>
+          <h1>Agents And Workflow Graph</h1>
+          <p>Start with responsibilities, then inspect the hub-and-spoke graph that shows how compact state moves.</p>
         </div>
         <span class="pill" id="routePill">Auto route</span>
       </div>
@@ -838,7 +843,7 @@
       <div class="panel">
         <div class="tabs" role="tablist" aria-label="Agent structure views">
           <button class="tab" data-view="agents" aria-selected="true">Agents</button>
-          <button class="tab" data-view="graph" aria-selected="false">Agent Graph</button>
+          <button class="tab" data-view="graph" aria-selected="false">Workflow Graph</button>
         </div>
         <div class="canvas">
           <div id="graphView" class="node-flow-graph"></div>
@@ -849,7 +854,7 @@
       <aside class="panel">
         <div class="panel-header">
           <div>
-            <h2>Contract Rules</h2>
+            <h2>Workflow Rules</h2>
             <p>What the graph enforces</p>
           </div>
         </div>
@@ -868,7 +873,7 @@
       team: "team dashboard"
     };
 
-    const defaultGoal = "Create a handoff contract for a token optimizer so agents pass compact state instead of full transcripts.";
+    const defaultGoal = "Create an adaptive token optimizer where simple prompts run directly and complex prompts use typed contracts, provider adapters, and verification.";
     const state = {
       view: "agents",
       goal: defaultGoal,
@@ -916,7 +921,7 @@
       el("graphView").classList.toggle("hidden", state.view !== "graph");
       el("agentsView").classList.toggle("hidden", state.view !== "agents");
       el("statusTitle").textContent = state.view === "graph"
-        ? "Showing agent graph"
+        ? "Showing workflow graph"
         : "Showing agents";
       el("statusDetail").textContent = `${platformNames[state.platform]} -> ${state.depth} depth`;
     }
@@ -934,13 +939,13 @@
       el("graphView").innerHTML = `
         <div class="structure-title">
           <div>
-            <strong>Hub-And-Spoke Agent Graph</strong>
-            <p>The handoff contract is the hub. Each agent connects to it as a spoke, so the flow is easier to scan.</p>
+            <strong>Hub-And-Spoke Workflow Graph</strong>
+            <p>The typed contract is the hub. Agents, routing, provider adapters, and A2A compatibility connect as spokes.</p>
           </div>
           <span class="pill">Auto route</span>
         </div>
         <div class="hub-map">
-          <svg class="hub-svg" viewBox="0 0 1120 720" role="img" aria-label="Hub and spoke node graph showing agent connections through the handoff contract">
+          <svg class="hub-svg" viewBox="0 0 1120 720" role="img" aria-label="Hub and spoke graph showing prompt flow through typed contracts, provider adapters, and agents">
             <defs>
               <marker id="hubArrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
                 <path d="M0,0 L0,6 L9,3 z" fill="#2557d6"></path>
@@ -949,8 +954,10 @@
 
             <path class="hub-edge input" d="M230 128 C330 170, 408 220, 488 292"></path>
             <path class="hub-edge input" d="M445 128 C485 190, 515 235, 542 280"></path>
+            <path class="hub-edge route-edge" d="M560 268 C560 220, 560 174, 560 140"></path>
             <path class="hub-edge" d="M610 280 C645 230, 675 185, 710 128"></path>
             <path class="hub-edge" d="M646 330 C750 302, 822 274, 920 236"></path>
+            <path class="hub-edge route-edge" d="M662 360 C780 360, 870 360, 965 360"></path>
             <path class="hub-edge" d="M662 384 C770 400, 840 420, 930 474"></path>
             <path class="hub-edge" d="M615 438 C665 515, 700 565, 735 614"></path>
             <path class="hub-edge" d="M532 440 C490 515, 455 565, 415 614"></path>
@@ -959,8 +966,10 @@
 
             <text class="hub-edge-label" x="350" y="176">raw prompt once</text>
             <text class="hub-edge-label" x="506" y="203">goal + facts</text>
-            <text class="hub-edge-label" x="677" y="198">compact plan</text>
+            <text class="hub-edge-label" x="600" y="218">interop contract</text>
+            <text class="hub-edge-label" x="677" y="198">route decision</text>
             <text class="hub-edge-label" x="785" y="289">contract rules</text>
+            <text class="hub-edge-label" x="812" y="346">provider payload</text>
             <text class="hub-edge-label" x="804" y="408">validated payload</text>
             <text class="hub-edge-label" x="676" y="522">candidate</text>
             <text class="hub-edge-label" x="468" y="522">verified result</text>
@@ -969,9 +978,15 @@
 
             <circle class="hub-core" cx="560" cy="360" r="92"></circle>
             <text class="hub-kicker" x="560" y="326">Hub</text>
-            <text class="hub-label" x="560" y="354">Handoff</text>
+            <text class="hub-label" x="560" y="354">Typed</text>
             <text class="hub-label" x="560" y="374">Contract</text>
-            <text class="hub-small" x="560" y="400">goal, facts, constraints</text>
+            <text class="hub-small" x="560" y="400">goal, facts, constraints, budget</text>
+
+            <circle class="hub-node" cx="560" cy="82" r="58"></circle>
+            <text class="hub-kicker" x="560" y="58">Interop</text>
+            <text class="hub-label" x="560" y="84">A2A</text>
+            <text class="hub-label" x="560" y="104">Bridge</text>
+            <text class="hub-small" x="560" y="124">optional compatibility</text>
 
             <circle class="hub-node" cx="170" cy="100" r="76"></circle>
             <text class="hub-kicker" x="170" y="75">Entry</text>
@@ -984,14 +999,22 @@
             <text class="hub-small" x="410" y="126">extracts useful state</text>
 
             <circle class="hub-node primary" cx="745" cy="100" r="76"></circle>
-            <text class="hub-kicker" x="745" y="75">Compress</text>
-            <text class="hub-label" x="745" y="102">Optimizer</text>
-            <text class="hub-small" x="745" y="126">removes bloat</text>
+            <text class="hub-kicker" x="745" y="75">Choose</text>
+            <text class="hub-label" x="745" y="102">Adaptive</text>
+            <text class="hub-label" x="745" y="122">Router</text>
+            <text class="hub-small" x="745" y="146">direct / contract / full</text>
 
             <circle class="hub-node primary" cx="960" cy="210" r="76"></circle>
             <text class="hub-kicker" x="960" y="185">Shape</text>
             <text class="hub-label" x="960" y="212">Contract</text>
-            <text class="hub-small" x="960" y="236">sets payload rules</text>
+            <text class="hub-label" x="960" y="232">Builder</text>
+            <text class="hub-small" x="960" y="254">sets payload rules</text>
+
+            <circle class="hub-node primary" cx="1030" cy="360" r="64"></circle>
+            <text class="hub-kicker" x="1030" y="338">Adapt</text>
+            <text class="hub-label" x="1030" y="362">Provider</text>
+            <text class="hub-label" x="1030" y="382">Adapter</text>
+            <text class="hub-small" x="1030" y="404">model-ready call</text>
 
             <circle class="hub-node guard" cx="960" cy="510" r="76"></circle>
             <text class="hub-kicker" x="960" y="485">Gate</text>
@@ -1020,12 +1043,13 @@
           </svg>
         </div>
         <div class="summary-grid">
-          <div class="card"><h3>Compression Owner</h3><p>Optimizer Agent removes repeated instructions and preserves only useful state.</p></div>
-          <div class="card primary"><h3>Contract Owner</h3><p>Contract Agent defines required fields, forbidden payloads, and budgets.</p></div>
+          <div class="card"><h3>Route Owner</h3><p>Adaptive Router avoids over-processing simple prompts and escalates complex work.</p></div>
+          <div class="card primary"><h3>Contract Owner</h3><p>Contract Builder defines required fields, forbidden payloads, and budgets.</p></div>
           <div class="card guard"><h3>Guard Owner</h3><p>Validation and Verifier Agents block missing fields, secrets, replay, and drift.</p></div>
-          <div class="card output"><h3>Execution Owner</h3><p>Executor runs the smallest valid payload; Output packages the final report.</p></div>
+          <div class="card output"><h3>Adapter Owner</h3><p>Provider Adapter turns validated state into the smallest model-ready payload.</p></div>
+          <div class="card"><h3>A2A Bridge</h3><p>Optional interoperability spoke for agent-to-agent systems; the typed workflow remains the source of truth.</p></div>
         </div>
-        <p class="node-subtitle">Destination: ${destination}. Optimization depth: ${depth}. Only User Input sees the raw prompt; every edge after Intake is contract-shaped.</p>
+        <p class="node-subtitle">Destination: ${destination}. Optimization depth: ${depth}. Only User Input and Intake see the raw prompt; every later edge is route-aware and contract-shaped.</p>
       `;
     }
 
@@ -1034,26 +1058,28 @@
         <div class="structure-title">
           <div>
             <strong>Agent Nodes And Responsibilities</strong>
-            <p>The optimizer uses these agents so later stages do not reread the full original prompt.</p>
+            <p>The optimizer uses a workflow graph so simple prompts stay lean and complex prompts get typed contracts.</p>
           </div>
           <span class="pill">Auto route</span>
         </div>
         <div class="agent-grid">
           <div class="card"><span>Entry</span><h3>Intake Agent</h3><p>Reads raw input once, estimates token pressure, and extracts the user goal.</p></div>
-          <div class="card primary"><span>Optimize</span><h3>Optimizer Agent</h3><p>Turns messy context into a compact execution plan with facts and constraints.</p></div>
-          <div class="card primary"><span>Contract</span><h3>Contract Agent</h3><ul><li>required fields</li><li>forbidden payloads</li><li>token budgets</li></ul></div>
+          <div class="card primary"><span>Choose</span><h3>Adaptive Router</h3><p>Selects direct, contract, or full verification based on complexity and risk.</p></div>
+          <div class="card primary"><span>Contract</span><h3>Contract Builder</h3><ul><li>required fields</li><li>forbidden payloads</li><li>token budgets</li></ul></div>
           <div class="card guard"><span>Guard</span><h3>Validation Agent</h3><p>Blocks missing fields, raw transcripts, duplicated instructions, and secrets.</p></div>
-          <div class="card"><span>Run</span><h3>Executor Agent</h3><p>Receives only the contract-shaped prompt and performs the task.</p></div>
-          <div class="card guard"><span>Check</span><h3>Verifier Agent</h3><p>Checks constraints, removes unnecessary output, and returns the best final answer.</p></div>
-          <div class="card output"><span>Output</span><h3>Output Agent</h3><p>Returns answer, prompts used, token report, contract, and directions.</p></div>
-          <div class="card"><span>Memory</span><h3>Handoff State</h3><p>Goal, facts, constraints, decisions, sources, open questions, and next action.</p></div>
+          <div class="card primary"><span>Adapt</span><h3>Provider Adapter</h3><p>Converts validated state into a model-ready payload without exposing provider mechanics.</p></div>
+          <div class="card"><span>Run</span><h3>Executor Agent</h3><p>Receives the smallest valid payload and performs the task.</p></div>
+          <div class="card guard"><span>Check</span><h3>Verifier Agent</h3><p>Checks constraints, removes unnecessary output, and only spends another call when needed.</p></div>
+          <div class="card output"><span>Output</span><h3>Output And Audit</h3><p>Returns answer, prompts used, token report, contract, directions, and history-ready trace.</p></div>
+          <div class="card"><span>Interop</span><h3>A2A Bridge</h3><p>Optional compatibility layer for agent-to-agent systems; not the core control model.</p></div>
         </div>
         <div class="relations">
           <div class="relation"><strong>User Input -> Intake:</strong> raw prompt enters once.</div>
-          <div class="relation"><strong>Intake -> Optimizer:</strong> goal and constraints are extracted.</div>
-          <div class="relation"><strong>Optimizer -> Contract:</strong> compact handoff contract is created.</div>
-          <div class="relation"><strong>Contract -> Executor:</strong> only allowed fields continue.</div>
-          <div class="relation"><strong>Executor -> Verifier:</strong> candidate answer is checked.</div>
+          <div class="relation"><strong>Intake -> Router:</strong> token pressure and task complexity are scored.</div>
+          <div class="relation"><strong>Router -> Contract:</strong> only complex work needs typed state.</div>
+          <div class="relation"><strong>Contract -> Adapter:</strong> provider-ready prompt is created.</div>
+          <div class="relation"><strong>Adapter -> Executor:</strong> smallest valid payload is sent.</div>
+          <div class="relation"><strong>Executor -> Verifier:</strong> candidate answer is checked when useful.</div>
           <div class="relation"><strong>Verifier -> Output:</strong> final answer and report are returned.</div>
         </div>
       `;
@@ -1062,7 +1088,9 @@
     function renderRules() {
       const rules = [
         ["Raw prompt boundary", "Only User Input and Intake may see the full raw prompt."],
-        ["Handoff payload", "Every downstream transfer uses goal, facts, constraints, decisions, sources, questions, and next action."],
+        ["Adaptive route", "Simple prompts can run direct; complex prompts use contract and verification stages."],
+        ["Contract payload", "Downstream transfers use goal, facts, constraints, decisions, sources, questions, next action, and budget."],
+        ["Provider adapters", "Model-specific calls sit behind one adapter layer so the UI stays provider-agnostic."],
         ["Validation", "Secrets, raw transcript replay, missing required fields, and over-budget context are blocked."],
         ["Connected route", `This page is callable directly and connected back to the optimizer with ${platformNames[state.platform]} settings.`]
       ];
@@ -1102,10 +1130,10 @@ Depth:
 ${state.depth}
 
 Core flow:
-User Input -> Intake Agent -> Optimizer Agent -> Contract Agent -> Validation Agent -> Executor Agent -> Verifier Agent -> Output Agent
+User Input -> Intake Agent -> Adaptive Router -> Contract Builder -> Validation Agent -> Provider Adapter -> Executor Agent -> Verifier Agent -> Output And Audit
 
 Rule:
-Only the first stage sees the raw prompt. Every later handoff must be contract-shaped, validated, and token-bounded.`;
+Only the first stage sees the raw prompt. Every later payload must be route-aware, contract-shaped, validated, and token-bounded.`;
     }
 
     loadInitialState();

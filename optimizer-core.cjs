@@ -10,6 +10,47 @@ function compactLines(text, maxLines = 8) {
     .slice(0, maxLines);
 }
 
+function outputStyleFor(text) {
+  const lower = String(text || "").toLowerCase();
+  if (/\b(json|api|schema|yaml|structured)\b/.test(lower)) return "Return structured output without extra narration.";
+  if (/\b(code|program|function|component|debug|repo|test)\b/.test(lower)) return "Return implementation-ready code and concise verification steps.";
+  if (/\b(plan|strategy|workflow|architecture|roadmap)\b/.test(lower)) return "Return a concise plan with clear next steps.";
+  return "Return a concise, useful final answer.";
+}
+
+function analyzeWorkflowShape(rawInput) {
+  const text = String(rawInput || "");
+  const lower = text.toLowerCase();
+  const rawTokens = estimateTokens(text);
+  const lines = compactLines(text, 40);
+  const constraintCount = lines.filter((line) => /(must|should|don't|do not|avoid|need|want|require|constraint|use|with|without)/i.test(line)).length;
+  const hasCodeOrFiles = /\b(code|program|function|component|repo|file|api|schema|database|deploy|extension|test)\b/.test(lower);
+  const hasWorkflow = /\b(agent|workflow|architecture|handoff|multi-agent|multi agent|provider|route|orchestrat)\b/.test(lower);
+  const hasLongContext = rawTokens > 450 || lines.length > 14;
+  const hasMultiDeliverable = (text.match(/\b(and|also|plus|then)\b/gi) || []).length >= 3;
+  let complexity = 0;
+  if (rawTokens > 140) complexity += 1;
+  if (rawTokens > 360) complexity += 1;
+  if (hasLongContext) complexity += 1;
+  if (hasCodeOrFiles || hasWorkflow) complexity += 1;
+  if (constraintCount > 3 || hasMultiDeliverable) complexity += 1;
+
+  const route = complexity <= 1
+    ? "direct"
+    : complexity <= 3
+      ? "contract"
+      : "full";
+
+  return {
+    rawTokens,
+    lines: lines.length,
+    constraintCount,
+    complexity,
+    route,
+    outputStyle: outputStyleFor(text)
+  };
+}
+
 function providerStatus() {
   return {
     groqConfigured: Boolean(process.env.GROQ_API_KEY),
@@ -134,7 +175,7 @@ function resolveA2AProvider(config = {}) {
   if (provider === "offline") {
     return {
       provider,
-      label: "Offline A2A Kit",
+      label: "Local Contract Kit",
       apiKey: "",
       baseUrl: "",
       model: "offline-template"
@@ -181,7 +222,7 @@ async function callA2AProvider({ providerConfig, prompt, system }) {
       messages: [
         {
           role: "system",
-          content: system || "You are a precise A2A agent. Use compact handoffs, preserve intent, and avoid exposing secrets."
+          content: system || "You are a precise contract workflow node. Use compact handoffs, preserve intent, and avoid exposing secrets."
         },
         {
           role: "user",
@@ -232,8 +273,9 @@ async function generateWithFallback(prompt) {
 function buildBlankA2AKit(rawInput, options = {}) {
   const contract = buildOfflineContract(rawInput);
   return {
-    kit_id: "blank-a2a-kit.v1",
+    kit_id: "contract-workflow-kit.v2",
     mode: options.mode || "one-shot",
+    architecture: "workflow graph + typed handoff contracts + provider adapters",
     goal: contract.goal,
     agents: [
       {
@@ -244,41 +286,73 @@ function buildBlankA2AKit(rawInput, options = {}) {
         sends: ["goal", "facts", "constraints", "risk_notes"]
       },
       {
-        id: "contract",
-        name: "Contract Agent",
-        responsibility: "Create the compact handoff contract all downstream agents must obey.",
+        id: "extractor",
+        name: "Context Extractor",
+        responsibility: "Keep only useful facts, constraints, deliverables, and assumptions.",
         receives: ["goal", "facts", "constraints", "risk_notes"],
+        sends: ["minimal_context"]
+      },
+      {
+        id: "contract",
+        name: "Contract Builder",
+        responsibility: "Create the typed handoff contract all downstream nodes must obey.",
+        receives: ["minimal_context"],
         sends: ["handoff_contract"]
+      },
+      {
+        id: "validator",
+        name: "Contract Validator",
+        responsibility: "Reject missing fields, raw transcript replay, secrets, and over-budget payloads.",
+        receives: ["handoff_contract"],
+        sends: ["validated_contract"]
+      },
+      {
+        id: "adapter",
+        name: "Provider Adapter",
+        responsibility: "Route the validated payload to the configured model endpoint without exposing provider mechanics to the user.",
+        receives: ["validated_contract"],
+        sends: ["provider_ready_prompt"]
       },
       {
         id: "executor",
         name: "Executor Agent",
-        responsibility: "Complete the user's task using only the compact contract.",
-        receives: ["handoff_contract"],
+        responsibility: "Complete the user's task using only the validated contract.",
+        receives: ["provider_ready_prompt"],
         sends: ["candidate_result"]
       },
       {
         id: "verifier",
         name: "Verifier Agent",
-        responsibility: "Check the candidate result against the contract and compress the final answer.",
+        responsibility: "Check the candidate result against the contract and remove unnecessary output.",
         receives: ["handoff_contract", "candidate_result"],
         sends: ["final_result", "token_report"]
+      },
+      {
+        id: "output_audit",
+        name: "Output And Audit",
+        responsibility: "Return the final result, token report, trace, and history-ready metadata.",
+        receives: ["final_result", "token_report"],
+        sends: ["user_result", "audit_record"]
       }
     ],
     handoff_contract: contract,
     handoff_rules: [
-      "Only Intake Agent may receive the raw prompt.",
-      "Every later agent receives contract-shaped state, not the full transcript.",
+      "Only Intake may receive the raw prompt.",
+      "Every later node receives contract-shaped state, not the full transcript.",
       "Do not include secrets, API keys, duplicate instructions, or unrelated context in handoffs.",
       "Prefer the smallest payload that preserves task quality."
-    ]
+    ],
+    a2a_compatibility: {
+      role: "interop layer",
+      note: "This kit can be represented as agent-to-agent handoffs, but the source of truth is the typed contract workflow."
+    }
   };
 }
 
 function buildA2AContractPrompt(rawInput, kit) {
-  return `You are the Contract Agent in a blank A2A kit.
+  return `You are the Contract Builder in an adaptive token optimizer.
 
-Convert the raw user prompt into a compact agent handoff contract. This is the only stage that may read the full raw prompt.
+Convert the raw user prompt into a compact typed handoff contract. This is the only model-facing stage that may read the full raw prompt.
 
 Return compact Markdown with:
 1. Goal
@@ -288,7 +362,7 @@ Return compact Markdown with:
 5. Handoff Contract JSON
 6. Optimized Executor Prompt
 
-Blank kit scaffold:
+Workflow kit scaffold:
 ${JSON.stringify(kit, null, 2)}
 
 Raw user prompt:
@@ -296,9 +370,9 @@ ${rawInput}`;
 }
 
 function buildA2AExecutorPrompt(contractText, kit) {
-  return `You are the Executor Agent in a blank A2A kit.
+  return `You are the Executor Agent in a contract workflow.
 
-Use only this handoff contract and complete the user's task. Do not ask for the raw prompt unless the contract is impossible to execute.
+Use only this validated handoff contract and complete the user's task. Do not ask for the raw prompt unless the contract is impossible to execute.
 
 Handoff contract:
 ${contractText}
@@ -311,7 +385,7 @@ Execution rules:
 }
 
 function buildA2AVerifierPrompt(contractText, candidateResult) {
-  return `You are the Verifier Agent in a blank A2A kit.
+  return `You are the Verifier Agent in a contract workflow.
 
 Check the candidate result against the handoff contract and return the final user-facing result.
 
@@ -319,7 +393,7 @@ Rules:
 - Fix obvious misses.
 - Preserve the user's intent.
 - Remove unnecessary repetition.
-- Add a compact "A2A optimization used" note.
+- Do not mention token optimization, handoff contracts, providers, or internal workflow unless the user explicitly asks.
 
 Handoff contract:
 ${contractText}
@@ -330,11 +404,11 @@ ${candidateResult}`;
 
 function offlineA2AResult(kit) {
   const contract = kit.handoff_contract;
-  return `## Blank A2A Kit Result
+  return `## Contract Workflow Kit Result
 
 Goal: ${contract.goal}
 
-Optimized execution prompt:
+Optimized executor prompt:
 "${contract.next_action}
 
 Context:
@@ -344,10 +418,7 @@ Constraints:
 - ${contract.constraints.join("\n- ")}
 
 Output style:
-${contract.output_style}"
-
-## A2A optimization used
-The raw prompt entered the Intake Agent once. The blank kit converted it into a compact handoff contract, then downstream agents used only goal, facts, constraints, decisions, sources, open questions, and next action.`;
+${contract.output_style}"`;
 }
 
 async function runBlankA2AKit({ rawInput, providerConfig = {}, options = {} }) {
@@ -364,9 +435,9 @@ async function runBlankA2AKit({ rawInput, providerConfig = {}, options = {} }) {
     },
     {
       phase: "contract",
-      agent: "Contract Agent",
+      agent: "Contract Builder",
       status: "done",
-      detail: "Prepared the blank A2A kit scaffold and handoff rules."
+      detail: "Prepared the contract workflow kit scaffold and handoff rules."
     }
   ];
 
@@ -381,8 +452,8 @@ async function runBlankA2AKit({ rawInput, providerConfig = {}, options = {} }) {
 
   const contractPrompt = buildA2AContractPrompt(rawInput, kit);
   optimizedPrompts.push({
-    agent: "Contract Agent",
-    purpose: "Convert raw messy prompt into a compact A2A handoff contract.",
+    agent: "Contract Builder",
+    purpose: "Convert raw messy prompt into a compact typed handoff contract.",
     tokens: estimateTokens(contractPrompt),
     prompt: contractPrompt
   });
@@ -391,14 +462,14 @@ async function runBlankA2AKit({ rawInput, providerConfig = {}, options = {} }) {
     try {
       trace.push({
         phase: "contract_model_call",
-        agent: "Contract Agent",
+        agent: "Contract Builder",
         status: "running",
         detail: `Calling ${resolvedProvider.label} for the compact contract.`
       });
       const contractResult = await callA2AProvider({
         providerConfig,
         prompt: contractPrompt,
-        system: "You are a Contract Agent. Convert messy user input into compact, safe, token-bounded A2A handoff contracts."
+        system: "You are a Contract Builder. Convert messy user input into compact, safe, token-bounded handoff contracts."
       });
       contractOutput = contractResult.content;
       providerUsed = contractResult.provider;
@@ -450,27 +521,27 @@ async function runBlankA2AKit({ rawInput, providerConfig = {}, options = {} }) {
     } catch (error) {
       providerError = error.message;
       providerUsed = "offline";
-      providerLabel = "Offline A2A Kit";
+      providerLabel = "Local Contract Kit";
       modelUsed = "offline-template";
       trace.push({
         phase: "fallback",
-        agent: "Offline A2A Kit",
+        agent: "Local Contract Kit",
         status: "done",
-        detail: "Provider call failed, so the blank kit returned a deterministic offline result."
+        detail: "Provider call failed, so the contract kit returned a deterministic local result."
       });
     }
   } else {
     trace.push({
       phase: "offline",
-      agent: "Offline A2A Kit",
+      agent: "Local Contract Kit",
       status: "done",
-      detail: "Generated a deterministic A2A contract and optimized result without provider calls."
+      detail: "Generated a deterministic contract and optimized result without provider calls."
     });
   }
 
   const optimizedPromptTokens = optimizedPrompts.reduce((sum, item) => sum + item.tokens, 0);
   return {
-    mode: "blank-a2a-kit-run",
+    mode: "contract-workflow-kit-run",
     provider: providerUsed,
     providerLabel,
     model: modelUsed,
@@ -502,29 +573,27 @@ function buildOfflineContract(rawInput) {
   const constraints = lines
     .filter((line) => /(must|should|don't|do not|avoid|need|want|require|constraint|use|with|without)/i.test(line))
     .slice(0, 6);
-  const outputStyle = lower.includes("json")
-    ? "Return structured JSON when possible."
-    : lower.includes("code")
-      ? "Return implementation-ready code and concise verification steps."
-      : "Return a concise, useful final answer with clear next steps.";
+  const outputStyle = outputStyleFor(rawInput);
+  const shape = analyzeWorkflowShape(rawInput);
 
   return {
-    contract_id: "optimizer.self_run.v1",
+    contract_id: "optimizer.contract_workflow.v2",
     goal: likelyGoal,
     facts: lines.slice(0, 6),
     constraints: constraints.length ? constraints : ["Preserve the user's intent.", "Avoid unnecessary context and repeated instructions."],
     decisions: [
-      "Use the raw input only during the optimizer stage.",
-      "Use compact handoff contracts for all later stages.",
-      "Do not pass full transcripts between internal agents."
+      "Use the raw input only during intake or contract building.",
+      "Route simple prompts through the direct path.",
+      "Use compact handoff contracts for complex or multi-step work.",
+      "Do not pass full transcripts between downstream nodes."
     ],
     sources: ["user_input"],
     open_questions: [],
     next_action: "Execute the optimized prompt plan and return the best final result.",
     token_budget: {
       raw_input_estimate: estimateTokens(rawInput),
-      handoff_target: 700,
-      executor_target: 1200
+      handoff_target: Math.min(700, Math.max(120, Math.round(shape.rawTokens * 0.5))),
+      executor_target: outputStyle.includes("code") ? 1400 : 900
     },
     required_payload: ["goal", "facts", "constraints", "decisions", "sources", "open_questions", "next_action"],
     forbidden_payload: ["raw full transcript after optimizer stage", "duplicate role instructions", "API keys or secrets", "unrelated context"],
@@ -533,9 +602,9 @@ function buildOfflineContract(rawInput) {
 }
 
 function buildOptimizerPrompt(rawInput, offlineContract) {
-  return `You are the Optimizer Agent in a token-saving multi-agent workflow.
+  return `You are the Contract Builder in an adaptive prompt workflow.
 
-Convert the raw user input into a compact handoff contract for downstream agents.
+Convert the raw user input into a compact handoff contract for downstream nodes.
 
 Rules:
 - Preserve the user's actual goal, constraints, and important nuance.
@@ -571,14 +640,14 @@ Execution requirements:
 }
 
 function buildVerifierPrompt(contractText, executorOutput) {
-  return `You are the Verifier Agent in a token optimizer.
+  return `You are the Verifier Agent in a contract workflow.
 
 Check the executor output against the handoff contract. Return the final user-facing answer.
 
 Rules:
 - Fix missing constraints if obvious.
 - Keep the final answer shorter than the executor output when possible.
-- Include a tiny "Token optimization used" note at the end.
+- Do not mention token optimization, handoff contracts, providers, or internal workflow unless the user explicitly asks.
 
 Handoff contract:
 ${contractText}
@@ -603,16 +672,34 @@ Constraints:
 - ${contract.constraints.join("\n- ")}
 
 Output style:
-${contract.output_style}"
+${contract.output_style}"`;
+}
 
-## Token optimization used
-The raw input was converted into a handoff contract with goal, facts, constraints, decisions, sources, open questions, and next action. Later agents should use this compact contract instead of the full original prompt.`;
+function buildDirectExecutorPrompt(rawInput, contract) {
+  return `Task:
+${rawInput}
+
+Output:
+- Answer directly.
+- Include only deliverables the task asks for.
+- Style: ${contract.output_style}`;
+}
+
+async function callWorkflowProvider(selectedProvider, prompt, system) {
+  if (selectedProvider === "openai") {
+    return callChatCompletion({ provider: "openai", prompt, system });
+  }
+  if (selectedProvider === "groq") {
+    return callChatCompletion({ provider: "groq", prompt, system });
+  }
+  return generateWithFallback(prompt);
 }
 
 async function runSelfOptimizingWorkflow({ rawInput, provider }) {
   const startedAt = Date.now();
   const selectedProvider = provider || "groq-openai-fallback";
   const offlineContract = buildOfflineContract(rawInput);
+  const workflowShape = analyzeWorkflowShape(rawInput);
   const rawTokens = estimateTokens(rawInput);
   const trace = [
     {
@@ -622,10 +709,16 @@ async function runSelfOptimizingWorkflow({ rawInput, provider }) {
       detail: `Estimated raw input at ${rawTokens} tokens.`
     },
     {
-      phase: "contract",
-      agent: "Contract Agent",
+      phase: "route",
+      agent: "Adaptive Router",
       status: "done",
-      detail: "Built an offline handoff contract so downstream agents do not need the full prompt."
+      detail: `Selected ${workflowShape.route} route for complexity ${workflowShape.complexity}.`
+    },
+    {
+      phase: "contract",
+      agent: "Contract Builder",
+      status: "done",
+      detail: "Built a local handoff contract so downstream nodes do not need the full prompt."
     }
   ];
 
@@ -637,77 +730,123 @@ async function runSelfOptimizingWorkflow({ rawInput, provider }) {
   let finalAnswer = executorOutput;
   let providerError = null;
 
+  const directPrompt = buildDirectExecutorPrompt(rawInput, offlineContract);
   const optimizerPrompt = buildOptimizerPrompt(rawInput, offlineContract);
-  optimizedPrompts.push({
-    agent: "Optimizer Agent",
-    purpose: "Read the raw prompt once and create the compact handoff contract.",
-    tokens: estimateTokens(optimizerPrompt),
-    prompt: optimizerPrompt
-  });
+
+  if (workflowShape.route === "direct") {
+    optimizedPrompts.push({
+      agent: "Direct Executor",
+      purpose: "Simple prompt route: avoid multi-step prompt bloat and complete the task in one model call.",
+      tokens: estimateTokens(directPrompt),
+      prompt: directPrompt
+    });
+  } else {
+    optimizedPrompts.push({
+      agent: "Contract Builder",
+      purpose: "Read the raw prompt once and create the compact handoff contract.",
+      tokens: estimateTokens(optimizerPrompt),
+      prompt: optimizerPrompt
+    });
+  }
 
   if (selectedProvider !== "offline") {
     try {
-      trace.push({
-        phase: "optimize",
-        agent: "Optimizer Agent",
-        status: "running",
-        detail: "Sending raw input once to create a compact contract."
-      });
-      const optimizerResult = selectedProvider === "openai"
-        ? await callChatCompletion({ provider: "openai", prompt: optimizerPrompt })
-        : selectedProvider === "groq"
-          ? await callChatCompletion({ provider: "groq", prompt: optimizerPrompt })
-          : await generateWithFallback(optimizerPrompt);
-      optimizerOutput = optimizerResult.content;
-      providerUsed = optimizerResult.provider;
-      modelUsed = optimizerResult.model;
-      trace[trace.length - 1].status = "done";
+      if (workflowShape.route === "direct") {
+        trace.push({
+          phase: "execute",
+          agent: "Direct Executor",
+          status: "running",
+          detail: "Simple prompt detected, so the workflow is using one lean model call."
+        });
+        const directResult = await callWorkflowProvider(
+          selectedProvider,
+          directPrompt,
+          "Complete the user's task directly. Preserve requested deliverables and avoid internal process commentary."
+        );
+        executorOutput = directResult.content;
+        finalAnswer = directResult.content;
+        providerUsed = directResult.provider;
+        modelUsed = directResult.model;
+        trace[trace.length - 1].status = "done";
+        trace.push({
+          phase: "verify",
+          agent: "Local Verifier",
+          status: "done",
+          detail: "Applied local output rules without adding another model call."
+        });
+      } else {
+        trace.push({
+          phase: "optimize",
+          agent: "Contract Builder",
+          status: "running",
+          detail: "Sending raw input once to create a compact contract."
+        });
+        const optimizerResult = await callWorkflowProvider(
+          selectedProvider,
+          optimizerPrompt,
+          "You are a Contract Builder. Preserve intent, remove repetition, and return compact execution state."
+        );
+        optimizerOutput = optimizerResult.content;
+        providerUsed = optimizerResult.provider;
+        modelUsed = optimizerResult.model;
+        trace[trace.length - 1].status = "done";
 
-      const executorPrompt = buildExecutorPrompt(optimizerOutput, offlineContract);
-      optimizedPrompts.push({
-        agent: "Executor Agent",
-        purpose: "Execute the task using only the compact handoff contract.",
-        tokens: estimateTokens(executorPrompt),
-        prompt: executorPrompt
-      });
-      trace.push({
-        phase: "execute",
-        agent: "Executor Agent",
-        status: "running",
-        detail: "Running the optimized prompt without resending the raw input."
-      });
-      const executorResult = selectedProvider === "openai"
-        ? await callChatCompletion({ provider: "openai", prompt: executorPrompt })
-        : selectedProvider === "groq"
-          ? await callChatCompletion({ provider: "groq", prompt: executorPrompt })
-          : await generateWithFallback(executorPrompt);
-      executorOutput = executorResult.content;
-      providerUsed = executorResult.provider;
-      modelUsed = executorResult.model;
-      trace[trace.length - 1].status = "done";
+        const executorPrompt = buildExecutorPrompt(optimizerOutput, offlineContract);
+        optimizedPrompts.push({
+          agent: "Executor Agent",
+          purpose: "Execute the task using only the compact handoff contract.",
+          tokens: estimateTokens(executorPrompt),
+          prompt: executorPrompt
+        });
+        trace.push({
+          phase: "execute",
+          agent: "Executor Agent",
+          status: "running",
+          detail: "Running the optimized prompt without resending the raw input."
+        });
+        const executorResult = await callWorkflowProvider(
+          selectedProvider,
+          executorPrompt,
+          "You are an Executor Agent. Produce the best final work product from the compact handoff contract."
+        );
+        executorOutput = executorResult.content;
+        finalAnswer = executorResult.content;
+        providerUsed = executorResult.provider;
+        modelUsed = executorResult.model;
+        trace[trace.length - 1].status = "done";
 
-      const verifierPrompt = buildVerifierPrompt(optimizerOutput, executorOutput);
-      optimizedPrompts.push({
-        agent: "Verifier Agent",
-        purpose: "Verify constraints and compress the final answer.",
-        tokens: estimateTokens(verifierPrompt),
-        prompt: verifierPrompt
-      });
-      trace.push({
-        phase: "verify",
-        agent: "Verifier Agent",
-        status: "running",
-        detail: "Checking the result against the compact contract."
-      });
-      const verifierResult = selectedProvider === "openai"
-        ? await callChatCompletion({ provider: "openai", prompt: verifierPrompt })
-        : selectedProvider === "groq"
-          ? await callChatCompletion({ provider: "groq", prompt: verifierPrompt })
-          : await generateWithFallback(verifierPrompt);
-      finalAnswer = verifierResult.content;
-      providerUsed = verifierResult.provider;
-      modelUsed = verifierResult.model;
-      trace[trace.length - 1].status = "done";
+        if (workflowShape.route === "full") {
+          const verifierPrompt = buildVerifierPrompt(optimizerOutput, executorOutput);
+          optimizedPrompts.push({
+            agent: "Verifier Agent",
+            purpose: "Verify constraints and compress the final answer.",
+            tokens: estimateTokens(verifierPrompt),
+            prompt: verifierPrompt
+          });
+          trace.push({
+            phase: "verify",
+            agent: "Verifier Agent",
+            status: "running",
+            detail: "Checking the result against the compact contract."
+          });
+          const verifierResult = await callWorkflowProvider(
+            selectedProvider,
+            verifierPrompt,
+            "You are a Verifier Agent. Fix drift, preserve intent, and return a compact final answer without process commentary."
+          );
+          finalAnswer = verifierResult.content;
+          providerUsed = verifierResult.provider;
+          modelUsed = verifierResult.model;
+          trace[trace.length - 1].status = "done";
+        } else {
+          trace.push({
+            phase: "verify",
+            agent: "Local Verifier",
+            status: "done",
+            detail: "Medium complexity route skipped the extra verifier model call."
+          });
+        }
+      }
     } catch (error) {
       providerError = error.message;
       trace.push({
@@ -728,10 +867,11 @@ async function runSelfOptimizingWorkflow({ rawInput, provider }) {
 
   const optimizedPromptTokens = optimizedPrompts.reduce((sum, item) => sum + item.tokens, 0);
   return {
-    mode: "self-optimizing-agent-run",
+    mode: "adaptive-contract-workflow-run",
     provider: providerUsed,
     model: modelUsed,
     providerError,
+    workflowShape,
     handoffContract: offlineContract,
     optimizerOutput,
     executorOutput,
@@ -745,7 +885,9 @@ async function runSelfOptimizingWorkflow({ rawInput, provider }) {
       estimatedSavingsTokens: Math.max(0, rawTokens * 3 - optimizedPromptTokens),
       estimatedSavingsPercent: rawTokens
         ? Math.max(0, Math.round(((rawTokens * 3 - optimizedPromptTokens) / (rawTokens * 3)) * 100))
-        : 0
+        : 0,
+      adaptiveRoute: workflowShape.route,
+      complexity: workflowShape.complexity
     },
     elapsedMs: Date.now() - startedAt
   };
