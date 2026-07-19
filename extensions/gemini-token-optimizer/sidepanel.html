@@ -12,7 +12,7 @@
       <div class="logo">TO</div>
       <div>
         <strong>Token Optimizer</strong>
-        <span>Gemini sidecar MVP</span>
+        <span>Gemini wrapper</span>
       </div>
     </header>
 
@@ -25,9 +25,9 @@
       <span id="statusDetail">The extension will optimize first, then insert only after you click.</span>
       <div class="rail" aria-label="Workflow stages">
         <button class="rail-step" type="button" data-stage="capture" aria-current="step">Capture</button>
-        <button class="rail-step" type="button" data-stage="compress">Compress</button>
+        <button class="rail-step" type="button" data-stage="prepare">Prepare</button>
         <button class="rail-step" type="button" data-stage="handoff">Ready</button>
-        <button class="rail-step" type="button" data-stage="paste">Paste</button>
+        <button class="rail-step" type="button" data-stage="insert">Insert</button>
         <button class="rail-step" type="button" data-stage="review">Review</button>
       </div>
     </section>
@@ -35,40 +35,49 @@
     <section class="panel">
       <div class="panel-head">
         <div>
-          <h1>Prompt</h1>
-          <p>Paste manually or capture from the Gemini input box.</p>
+          <h1>Messy prompt</h1>
+          <p>Paste it here or capture the active Gemini prompt.</p>
         </div>
         <span class="pill" id="connectionPill">Checking</span>
       </div>
       <textarea id="rawPrompt" placeholder="Paste the rough prompt here, or click Capture Gemini Prompt after focusing Gemini's prompt box."></textarea>
       <div class="actions">
         <button id="capturePrompt">Capture Gemini Prompt</button>
-        <button class="primary" id="optimizePrompt">Optimize</button>
+        <button id="optimizePrompt">Prepare only</button>
+        <button class="primary" id="optimizeInsert">Prepare &amp; insert</button>
       </div>
     </section>
 
     <section class="panel">
       <div class="panel-head">
         <div>
-          <h2>Gemini-ready prompt</h2>
-          <p>Review, copy, or insert when ready.</p>
+          <h2>Prepared prompt</h2>
+          <p>Compact, reusable, and ready for the active assistant.</p>
         </div>
         <span class="pill" id="tokenPill">0 tokens</span>
       </div>
-      <textarea id="optimizedPrompt" readonly placeholder="Optimized prompt appears here after running."></textarea>
+      <textarea id="optimizedPrompt" readonly placeholder="Prepared prompt appears here."></textarea>
+      <div class="metrics" id="metrics" hidden>
+        <div><strong id="rawTokenMetric">0</strong><span>Original</span></div>
+        <div><strong id="readyTokenMetric">0</strong><span>Prepared</span></div>
+        <div><strong id="savedTokenMetric">0</strong><span>Saved</span></div>
+        <div><strong id="modelCallMetric">0</strong><span>Prep calls</span></div>
+      </div>
+      <p class="route-note" id="routeNote" hidden></p>
       <div class="actions">
-        <button id="copyOptimized">Copy</button>
-        <button id="insertGemini">Insert into Gemini</button>
+        <button id="copyPrepared">Copy</button>
+        <button id="insertTarget">Insert into Gemini</button>
       </div>
     </section>
 
     <section class="panel compact">
-      <strong>Privacy shape</strong>
-      <p>Prompts are sent to Token Optimizer only when you click Optimize. Nothing is sent when you capture or insert.</p>
+      <strong>No duplicate model call</strong>
+      <p>Preparation uses deterministic processing. Nothing is sent to Gemini until you choose to insert it, and the wrapper never submits it.</p>
     </section>
   </main>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="platforms.js"></script>
   <script src="sidepanel.js"></script>
 </body>
 </html>

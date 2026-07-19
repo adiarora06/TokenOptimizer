@@ -138,12 +138,13 @@ context.window.getSelection = () => ({
 });
 context.document.execCommand = () => false;
 
-const code = fs.readFileSync(path.resolve(__dirname, "../content-gemini.js"), "utf8");
-vm.runInNewContext(`${code}
-this.__findPromptBox = findPromptBox;
-this.__capturePrompt = capturePrompt;
-this.__insertPrompt = insertPrompt;
-`, context);
+const adapterCode = fs.readFileSync(path.resolve(__dirname, "../adapters/gemini.js"), "utf8");
+const bridgeCode = fs.readFileSync(path.resolve(__dirname, "../content-bridge.js"), "utf8");
+vm.runInNewContext(`${adapterCode}\n${bridgeCode}`, context);
+
+context.__findPromptBox = context.TokenOptimizerSiteAdapter.findPromptBox;
+context.__capturePrompt = context.TokenOptimizerSiteAdapter.capturePrompt;
+context.__insertPrompt = context.TokenOptimizerSiteAdapter.insertPrompt;
 
 assert.equal(context.__findPromptBox(), promptBox);
 assert.equal(context.__capturePrompt(), "Original prompt");
@@ -156,5 +157,10 @@ assert.notEqual(context.__findPromptBox(), hugeEditor);
 
 context.window.getSelection = () => ({ toString: () => "Selected prompt" });
 assert.equal(context.__capturePrompt(), "Selected prompt");
+
+let pingResponse = null;
+context.__listener({ type: "TOKEN_OPTIMIZER_PING" }, null, (response) => { pingResponse = response; });
+assert.equal(pingResponse.target, "gemini");
+assert.equal(pingResponse.capabilities.autoSubmit, false);
 
 console.log("content gemini tests passed", nodes.length);

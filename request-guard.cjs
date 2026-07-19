@@ -17,6 +17,7 @@ const optimizerPayloadSchema = z.object({
   input: z.string().trim().min(1, "Missing input").max(MAX_INPUT_CHARS, `Input exceeds ${MAX_INPUT_CHARS.toLocaleString()} characters`),
   provider: z.enum(["groq-openai-fallback", "groq", "openai", "offline"]).optional(),
   source: z.string().trim().max(80).optional(),
+  target: z.string().trim().max(80).optional(),
   sessionId: z.string().trim().max(120).nullable().optional(),
   runType: z.enum(["optimizer", "kit"]).optional(),
   options: z.object({

@@ -4,97 +4,96 @@ const path = require("node:path");
 const vm = require("node:vm");
 
 const extensionDir = path.resolve(__dirname, "..");
-const code = fs
-  .readFileSync(path.join(extensionDir, "sidepanel.js"), "utf8")
-  .replace(/\ninit\(\);\s*$/, "\n");
+const elements = new Map();
+
+function element(id) {
+  if (!elements.has(id)) {
+    elements.set(id, {
+      id,
+      textContent: "",
+      value: "",
+      hidden: false,
+      disabled: false,
+      classList: { add() {}, remove() {}, toggle() {} },
+      addEventListener() {},
+      setAttribute() {},
+      removeAttribute() {}
+    });
+  }
+  return elements.get(id);
+}
+
+let fetchRequest = null;
+const preparedResponse = {
+  optimizedPrompt: "Please create a binary search program for range(0, 70).",
+  strategy: "pass-through",
+  tokenReport: {
+    rawInputTokens: 24,
+    optimizedPromptTokens: 14,
+    estimatedSavingsTokens: 10,
+    estimatedSavingsPercent: 42,
+    modelCalls: 0
+  }
+};
 
 const context = {
   console,
+  globalThis: null,
   document: {
-    getElementById: () => ({
-      textContent: "",
-      value: "",
-      classList: { add() {}, remove() {}, toggle() {} }
-    }),
+    getElementById: element,
     querySelectorAll: () => []
   },
   chrome: {
-    storage: {
-      sync: { get: async () => ({}), set: async () => {} },
-      local: { get: async () => ({}), set: async () => {} }
-    },
+    storage: { local: { get: async () => ({}), set: async () => {} } },
     tabs: { query: async () => [] }
   },
   navigator: { clipboard: { writeText: async () => {} } },
-  fetch: async () => ({ json: async () => ({}), ok: true }),
+  fetch: async (url, options) => {
+    fetchRequest = { url, options };
+    return { json: async () => preparedResponse, ok: true };
+  },
   clearTimeout,
   setTimeout
 };
+context.globalThis = context;
 
-vm.runInNewContext(`${code}
-this.__buildSidecarPrompt = buildSidecarPrompt;
-this.__unwrapOptimizerPrompt = unwrapOptimizerPrompt;
-this.__isOptimizerWrappedPrompt = isOptimizerWrappedPrompt;
+const platformsCode = fs.readFileSync(path.join(extensionDir, "platforms.js"), "utf8");
+const sidepanelCode = fs
+  .readFileSync(path.join(extensionDir, "sidepanel.js"), "utf8")
+  .replace(/\ninit\(\);\s*$/, "\n");
+
+vm.runInNewContext(`${platformsCode}\n${sidepanelCode}
+this.__looksPrepared = looksPrepared;
+this.__platformForUrl = platformForUrl;
+this.__requestPreparation = requestPreparation;
+this.__renderMetrics = renderMetrics;
 `, context);
 
-const binarySearchPrompt = "I want you to create a program that runs binary search on this array to find the target 7, and tell me how many tries it took. Also create a diagram that displays the binary searches. The array is all numbers in range(0, 70)";
+assert.equal(context.__platformForUrl("https://gemini.google.com/app").id, "gemini");
+assert.equal(context.__platformForUrl("https://example.com"), null);
+assert.equal(context.__looksPrepared("Complete this task directly.\nTask:\nBuild it."), true);
+assert.equal(context.__looksPrepared("Build a clean implementation."), false);
 
-const clean = context.__buildSidecarPrompt({}, binarySearchPrompt);
-assert.match(clean, /^Please create a program/);
-assert.match(clean, /range\(0, 70\)/);
-assert.doesNotMatch(clean, /Important context:/);
-assert.doesNotMatch(clean, /Requirements:/);
-assert.doesNotMatch(clean, /user_input/);
-assert.doesNotMatch(clean, /handoff/i);
-assert.doesNotMatch(clean, /token optimization|internal workflow/i);
+context.__renderMetrics(preparedResponse);
+assert.equal(element("rawTokenMetric").textContent, 24);
+assert.equal(element("readyTokenMetric").textContent, 14);
+assert.equal(element("savedTokenMetric").textContent, "10 (42%)");
+assert.equal(element("modelCallMetric").textContent, 0);
+assert.equal(element("routeNote").textContent, "Prepared without calling a model.");
 
-const wrapped = `Complete this task directly and concisely.
-Task:
-Complete this task directly and concisely.
-Important context:
-- Task:
-- I want you to create a program that runs binary search on this array to find the target 7, and tell me how many tries it took. Also create a diagram that displays the binary sea
-- Important context:
-- - I want you to create a program that runs binary search on this array to find the target 7, and tell me how many tries it took. Also create a diagram that displays the binary searches. The array is all numbers in range
-Requirements:
-- I want you to create a program that runs binary search on this array to find the target 7, and tell me how many tries it took. Also create a diagram that displays the binary sea
-- - user_input
-Output:
-- Give the final answer directly.
-- Do not mention token optimization, handoff contracts, or internal agent workflow.`;
-
-const unwrapped = context.__unwrapOptimizerPrompt(wrapped);
-assert.match(unwrapped, /binary search/);
-assert.doesNotMatch(unwrapped, /^Complete this task directly/);
-assert.doesNotMatch(unwrapped, /Important context:/);
-
-const rebuilt = context.__buildSidecarPrompt({}, wrapped);
-assert.doesNotMatch(rebuilt, /Important context:/);
-assert.doesNotMatch(rebuilt, /Requirements:/);
-assert.doesNotMatch(rebuilt, /user_input/);
-assert.doesNotMatch(rebuilt, /token optimization|handoff contracts|internal agent workflow/i);
-
-const longPrompt = [
-  "Build a Chrome extension MVP for Gemini.",
-  "It must use a side panel.",
-  "It should capture prompt text.",
-  "It should insert only after user confirmation.",
-  "Avoid storing provider keys in the extension.",
-  "Add a privacy note."
-].join("\n");
-const longResult = {
-  handoffContract: {
-    goal: "Build a Chrome extension MVP for Gemini.",
-    facts: ["It must use a side panel.", "It should capture prompt text."],
-    constraints: ["Avoid storing provider keys in the extension."],
-    output_style: "Return implementation-ready steps."
-  }
-};
-const structured = context.__buildSidecarPrompt(longResult, longPrompt.repeat(20));
-assert.match(structured, /Task:/);
-assert.match(structured, /Important context:/);
-assert.match(structured, /Requirements:/);
-assert.doesNotMatch(structured, /user_input/);
-assert.doesNotMatch(structured, /token optimization|handoff contracts|internal agent workflow/i);
-
-console.log("sidepanel logic tests passed");
+(async () => {
+  const result = await context.__requestPreparation(
+    "Create a binary search program for range(0, 70).",
+    { id: "gemini" }
+  );
+  assert.equal(result.optimizedPrompt, preparedResponse.optimizedPrompt);
+  assert.match(fetchRequest.url, /\/api\/prepare-handoff$/);
+  const body = JSON.parse(fetchRequest.options.body);
+  assert.equal(body.target, "gemini");
+  assert.equal(body.source, "browser-extension");
+  assert.equal(body.provider, undefined);
+  console.log("sidepanel logic tests passed");
+})().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});
