@@ -4,7 +4,7 @@ const {
   publicError,
   takeRateLimit,
   validateOptimizerPayload
-} = require("../api-guard.cjs");
+} = require("../request-guard.cjs");
 
 module.exports = async function handler(req, res) {
   for (const [name, value] of Object.entries(commonHeaders())) res.setHeader(name, value);

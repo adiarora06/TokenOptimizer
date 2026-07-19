@@ -36,7 +36,7 @@ http://127.0.0.1:8787
 - `extensions/gemini-token-optimizer`: local unpacked Chrome extension MVP for Gemini.
 - `extensions/gemini-token-optimizer/PUBLISHING.md`: Chrome Web Store readiness checklist.
 - `optimizer-core.cjs`: adaptive route selection, secret removal, contract shaping, staged execution, usage accounting, and fallback behavior.
-- `api-guard.cjs`: payload validation, public error shaping, response hardening, and request throttling.
+- `request-guard.cjs`: payload validation, public error shaping, response hardening, and request throttling.
 - `api/optimize-stream.js`: hosted server-sent event endpoint for live run progress.
 - `server.cjs`: local static server and streaming API implementation.
 - `api/*.js`: Vercel function entrypoints, including workflow, compatibility, health, and streamed run routes.
