@@ -21,7 +21,7 @@ http://127.0.0.1:8787
 - **Provider-agnostic UI**: model routing, fallback, timeouts, usage normalization, and optional cost estimates stay on the server.
 - **Runs and Insights**: local prompt history, audit traces, session totals, all-time totals, route mix, status mix, and token charts.
 - **Inspectable architecture**: agent responsibilities and the hub-and-spoke contract graph share one Architecture page.
-- **Gemini extension MVP**: a Manifest V3 side panel can capture, optimize, and insert prompts on Gemini.
+- **Gemini wrapper**: a Manifest V3 side panel prepares and inserts prompts with zero duplicate provider calls.
 
 ## Source Map
 
@@ -34,10 +34,12 @@ http://127.0.0.1:8787
 - `outputs/prompt-history.html`: prompt history and side-panel audit log.
 - `outputs/stats.html`: session and all-time usage insights.
 - `extensions/gemini-token-optimizer`: local unpacked Chrome extension MVP for Gemini.
+- `extensions/gemini-token-optimizer/ADAPTERS.md`: reusable site-adapter contract for future AI assistants.
 - `extensions/gemini-token-optimizer/PUBLISHING.md`: Chrome Web Store readiness checklist.
 - `optimizer-core.cjs`: adaptive route selection, secret removal, contract shaping, staged execution, usage accounting, and fallback behavior.
 - `request-guard.cjs`: payload validation, public error shaping, response hardening, and request throttling.
 - `api/optimize-stream.js`: hosted server-sent event endpoint for live run progress.
+- `api/prepare-handoff.js`: deterministic, zero-model-call prompt preparation for wrappers.
 - `server.cjs`: local static server and streaming API implementation.
 - `api/*.js`: Vercel function entrypoints, including workflow, compatibility, health, and streamed run routes.
 
@@ -89,9 +91,9 @@ The browser and orchestration layers are intentionally separate:
 The background mode is for working beside an active LLM or IDE:
 
 1. Capture the active messy prompt.
-2. Compress it in Token Optimizer.
-3. Copy the sidecar prompt or wrapper kit.
-4. Paste the compact handoff into the target chat box or IDE agent.
+2. Prepare it locally through the zero-call handoff endpoint.
+3. Review the measured original and prepared token counts.
+4. Insert the compact prompt into the target chat box or IDE agent.
 5. Review the result and save an audit trail when needed.
 
 ## Gemini Extension MVP
@@ -104,7 +106,7 @@ Load the extension locally:
 4. Select `extensions/gemini-token-optimizer`.
 5. Open `https://gemini.google.com` and click the extension icon.
 
-The extension uses a Chrome side panel. It does not auto-send Gemini messages; it only inserts the optimized handoff when the user clicks **Insert into Gemini**.
+The extension uses a Chrome side panel. It does not auto-send Gemini messages and it does not run a provider model while preparing the prompt. Gemini is the only enabled site today; the internal adapter bridge can support additional assistants later without changing the core workflow.
 
 ## Contributing Principle
 

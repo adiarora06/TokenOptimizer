@@ -2,11 +2,12 @@
 
 This extension is not deployed by Vercel. Vercel hosts the Token Optimizer web app and API. The Gemini wrapper is a Chrome extension package in this folder that must be uploaded to the Chrome Web Store Developer Dashboard.
 
-## Current MVP
+## Current Wrapper
 
 - Manifest V3 side-panel extension.
 - Runs on `https://gemini.google.com/*`.
-- Uses the deployed Token Optimizer endpoint.
+- Uses the deployed preparation-only Token Optimizer endpoint.
+- Makes zero provider model calls while preparing a Gemini prompt.
 - Captures or accepts prompt text only after user action.
 - Inserts an optimized prompt into Gemini only after user action.
 - Does not auto-send Gemini messages.
@@ -18,8 +19,11 @@ This extension is not deployed by Vercel. Vercel hosts the Token Optimizer web a
 The extension is useful as an inspectable wrapper example:
 
 - `manifest.json`: permissions, Gemini host access, side-panel setup, content script registration.
-- `sidepanel.html`, `sidepanel.css`, `sidepanel.js`: the extension UI and optimize/insert workflow.
-- `content-gemini.js`: the Gemini DOM adapter for capture and insert.
+- `sidepanel.html`, `sidepanel.css`, `sidepanel.js`: the extension UI and prepare/insert workflow.
+- `platforms.js`: supported-site metadata for the side panel.
+- `content-bridge.js`: reusable capture/insert message contract.
+- `adapters/gemini.js`: the Gemini DOM adapter.
+- `ADAPTERS.md`: the contract for future AI assistant adapters.
 - `service-worker.js`: side-panel enablement for Gemini tabs.
 
 ## Store-Ready Checklist
@@ -41,11 +45,12 @@ The extension is useful as an inspectable wrapper example:
 The privacy policy should plainly say:
 
 - Prompt text is user data.
-- Prompt text is sent to Token Optimizer only when the user clicks Optimize.
+- Prompt text is sent to Token Optimizer only when the user clicks Prepare or Prepare & insert.
+- Prompt preparation is deterministic and does not call a provider model.
 - The extension does not sell user data.
 - The extension does not use prompt data for unrelated advertising or tracking.
 - The extension does not store provider API keys.
-- The extension stores the latest raw prompt locally only to prevent recursive wrapper output.
+- The extension stores the latest raw prompt and preparation metrics locally to prevent recursive output and show usage.
 
 ## Local Test Notes
 
@@ -71,9 +76,9 @@ From this folder:
 
 ```bash
 zip -r ../../gemini-token-optimizer-mvp.zip \
-  manifest.json service-worker.js content-gemini.js \
+  manifest.json service-worker.js content-bridge.js platforms.js adapters \
   sidepanel.html sidepanel.css sidepanel.js icons \
-  README.md PUBLISHING.md
+  README.md ADAPTERS.md PUBLISHING.md
 ```
 
 Upload the generated zip through the Chrome Web Store Developer Dashboard.

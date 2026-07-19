@@ -1,9 +1,11 @@
-const PRODUCTION_ENDPOINT = "https://tok-pi-gilt.vercel.app/api/optimize-run";
-const recentPromptKey = "tokenOptimizerGeminiLastRawPrompt";
+const PREPARE_ENDPOINT = "https://tok-pi-gilt.vercel.app/api/prepare-handoff";
+const recentPromptKey = "tokenOptimizerLastRawPrompt";
+const preparationHistoryKey = "tokenOptimizerPreparationHistory";
 
 const state = {
+  activeStage: "capture",
   lastResult: null,
-  activeStage: "capture"
+  target: null
 };
 
 const el = (id) => document.getElementById(id);
@@ -21,12 +23,13 @@ function syncRail(stage) {
     ready: "capture",
     capture: "capture",
     captured: "capture",
-    compress: "compress",
-    optimizing: "compress",
+    analyze: "prepare",
+    prepare: "prepare",
+    preparing: "prepare",
     handoff: "handoff",
-    optimized: "handoff",
-    paste: "paste",
-    inserted: "paste",
+    prepared: "handoff",
+    insert: "insert",
+    inserted: "insert",
     review: "review",
     done: "review",
     error: "review"
@@ -34,11 +37,8 @@ function syncRail(stage) {
 
   state.activeStage = normalized;
   document.querySelectorAll("[data-stage]").forEach((button) => {
-    if (button.dataset.stage === normalized) {
-      button.setAttribute("aria-current", "step");
-    } else {
-      button.removeAttribute("aria-current");
-    }
+    if (button.dataset.stage === normalized) button.setAttribute("aria-current", "step");
+    else button.removeAttribute("aria-current");
   });
 }
 
@@ -54,140 +54,33 @@ function estimateTokens(text) {
   return Math.max(0, Math.ceil(String(text || "").length / 4));
 }
 
-function updateTokenPill() {
-  const raw = estimateTokens(el("rawPrompt").value);
-  const optimized = estimateTokens(el("optimizedPrompt").value);
-  el("tokenPill").textContent = optimized ? `${optimized} optimized` : `${raw} raw`;
+function looksPrepared(text) {
+  const value = String(text || "").trim();
+  return /^Complete this task directly/i.test(value) ||
+    /\n(?:Task|Important context|Requirements|Output):/i.test(value) ||
+    /token optimization|handoff contracts|internal agent workflow/i.test(value);
 }
 
-function asLines(value) {
-  if (Array.isArray(value)) return value.map((item) => String(item || "").trim()).filter(Boolean);
-  if (!value) return [];
-  return String(value)
-    .split(/\r?\n/)
-    .map((line) => line.trim())
-    .filter(Boolean);
+function platformForUrl(url) {
+  return globalThis.TokenOptimizerPlatformRegistry?.forUrl(url) || null;
 }
 
-function cleanPromptText(text) {
-  return String(text || "")
-    .replace(/\s+/g, " ")
-    .replace(/\s+([,.!?;:])/g, "$1")
-    .trim();
+async function currentContext() {
+  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  const target = platformForUrl(tab?.url);
+  if (!tab?.id || !target) throw new Error("Open a supported AI assistant tab first.");
+  state.target = target;
+  return { tab, target };
 }
 
-function firstUsefulLine(text) {
-  const lines = asLines(text);
-  return lines[0] || "Complete the user's task.";
-}
-
-function withoutEllipsis(text) {
-  return String(text || "").replace(/\.\.\.$/, "").trim();
-}
-
-function isTruncated(text) {
-  return /\.\.\.$/.test(String(text || "").trim());
-}
-
-function uniqueShortLines(lines, max = 5, reference = "") {
-  const referenceText = cleanPromptText(withoutEllipsis(reference)).toLowerCase();
-  const seen = new Set();
-  return lines
-    .map((line) => cleanPromptText(withoutEllipsis(line)))
-    .filter(Boolean)
-    .filter((line) => !/^(user_input|source|sources)$/i.test(line))
-    .filter((line) => {
-      const key = line.toLowerCase();
-      if (!referenceText) return true;
-      return key !== referenceText &&
-        !referenceText.includes(key) &&
-        !key.includes(referenceText);
-    })
-    .filter((line) => {
-      const key = line.toLowerCase();
-      if (seen.has(key)) return false;
-      seen.add(key);
-      return true;
-    })
-    .slice(0, max)
-    .map((line) => line.length > 260 ? `${line.slice(0, 257).replace(/\s+\S*$/, "")}.` : line);
-}
-
-function bulletSection(title, lines, reference = "") {
-  const cleaned = uniqueShortLines(lines, 5, reference);
-  if (!cleaned.length) return "";
-  return [`${title}:`, ...cleaned.map((line) => `- ${line}`)].join("\n");
-}
-
-function cleanDirectRequest(rawPrompt) {
-  const prompt = cleanPromptText(unwrapOptimizerPrompt(rawPrompt));
-  return prompt
-    .replace(/^i want you to\s+/i, "Please ")
-    .replace(/^i need you to\s+/i, "Please ")
-    .replace(/^i want\s+/i, "Please ");
-}
-
-function unwrapOptimizerPrompt(text) {
-  const raw = String(text || "").trim();
-  if (!raw) return "";
-  const lines = asLines(raw).map(stripListPrefix);
-  const looksWrapped = isOptimizerWrappedPrompt(raw);
-  if (!looksWrapped) return raw;
-
-  const candidates = [];
-  const task = sectionText(raw, "Task", ["Important context", "Requirements", "Output"]);
-  if (task && !/^Complete this task directly/i.test(task)) candidates.push(task);
-
-  for (const line of lines) {
-    if (isLikelyOriginalTask(line)) candidates.push(line);
+async function messageTarget(message) {
+  const { tab, target } = await currentContext();
+  try {
+    const response = await chrome.tabs.sendMessage(tab.id, message);
+    return { response, target };
+  } catch {
+    throw new Error(`${target.label} is not ready yet. Refresh the page, focus its prompt box, and try again.`);
   }
-
-  const best = candidates
-    .map((candidate) => cleanPromptText(withoutEllipsis(candidate)))
-    .filter(Boolean)
-    .sort((a, b) => scoreOriginalTask(b) - scoreOriginalTask(a))[0];
-
-  return best || raw;
-}
-
-function isOptimizerWrappedPrompt(text) {
-  const raw = String(text || "").trim();
-  const lines = asLines(raw).map(stripListPrefix);
-  return /^Complete this task directly/i.test(raw) ||
-    lines.some((line) => /^(Task|Important context|Requirements|Output):$/i.test(line)) ||
-    /token optimization|handoff contracts|internal agent workflow/i.test(raw);
-}
-
-function sectionText(text, label, nextLabels) {
-  const escaped = label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const next = nextLabels.map((item) => item.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|");
-  const pattern = new RegExp(`${escaped}:\\s*([\\s\\S]*?)(?=\\n(?:${next}):|$)`, "i");
-  const match = String(text || "").match(pattern);
-  return match ? match[1].trim() : "";
-}
-
-function isLikelyOriginalTask(line) {
-  const cleaned = cleanPromptText(stripListPrefix(line));
-  if (!cleaned || cleaned.length < 28) return false;
-  if (/^(Task|Important context|Requirements|Output):?$/i.test(cleaned)) return false;
-  if (/^(Complete this task directly|Return the answer directly|Include code|Do not mention|If one small assumption)/i.test(cleaned)) return false;
-  if (/^(Style:|user_input|source|sources)$/i.test(cleaned)) return false;
-  return /\b(create|write|build|make|run|find|tell|display|generate|explain|implement|program|diagram|array|target)\b/i.test(cleaned);
-}
-
-function scoreOriginalTask(text) {
-  const cleaned = cleanPromptText(stripListPrefix(text));
-  let score = cleaned.length;
-  if (/^I want you to|^Please|^Create|^Write|^Build/i.test(cleaned)) score += 80;
-  if (/[.!?)]$/.test(cleaned)) score += 20;
-  if (isTruncated(text)) score -= 180;
-  if (/\b(range|array|target|diagram|program|binary search)\b/i.test(cleaned)) score += 35;
-  if (/token optimization|handoff|internal workflow/i.test(cleaned)) score -= 300;
-  return score;
-}
-
-function stripListPrefix(line) {
-  return String(line || "").replace(/^(\s*[-*]\s*)+/, "").trim();
 }
 
 async function getRecentRawPrompt() {
@@ -195,184 +88,178 @@ async function getRecentRawPrompt() {
   return String(data[recentPromptKey] || "").trim();
 }
 
-async function saveRecentRawPrompt(prompt) {
-  const cleaned = unwrapOptimizerPrompt(prompt);
-  if (!cleaned || isOptimizerWrappedPrompt(cleaned)) return;
-  await chrome.storage.local.set({ [recentPromptKey]: cleaned });
+async function rememberRawPrompt(prompt) {
+  if (!prompt || looksPrepared(prompt)) return;
+  await chrome.storage.local.set({ [recentPromptKey]: prompt });
 }
 
-async function currentTab() {
-  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-  return tab;
+async function recordPreparation(result, target) {
+  const data = await chrome.storage.local.get(preparationHistoryKey);
+  const history = Array.isArray(data[preparationHistoryKey]) ? data[preparationHistoryKey] : [];
+  const report = result.tokenReport || {};
+  history.unshift({
+    at: new Date().toISOString(),
+    target: target.id,
+    strategy: result.strategy || "pass-through",
+    rawTokens: Number(report.rawInputTokens || 0),
+    preparedTokens: Number(report.optimizedPromptTokens || 0),
+    savedTokens: Number(report.estimatedSavingsTokens || 0),
+    modelCalls: Number(report.modelCalls || 0)
+  });
+  await chrome.storage.local.set({ [preparationHistoryKey]: history.slice(0, 50) });
 }
 
-async function messageGemini(message) {
-  const tab = await currentTab();
-  if (!tab?.id || !tab.url?.startsWith("https://gemini.google.com/")) {
-    throw new Error("Open a Gemini tab first.");
-  }
+function renderMetrics(result) {
+  const report = result?.tokenReport || {};
+  const raw = Number(report.rawInputTokens || 0);
+  const prepared = Number(report.optimizedPromptTokens || 0);
+  const saved = Number(report.estimatedSavingsTokens || 0);
+  const percent = Number(report.estimatedSavingsPercent || 0);
+  const calls = Number(report.modelCalls || 0);
 
-  try {
-    return await chrome.tabs.sendMessage(tab.id, message);
-  } catch {
-    throw new Error("Gemini page is not ready yet. Refresh Gemini, focus the prompt box, and try again.");
-  }
+  el("tokenPill").textContent = `${prepared} ready`;
+  el("rawTokenMetric").textContent = raw;
+  el("readyTokenMetric").textContent = prepared;
+  el("savedTokenMetric").textContent = saved ? `${saved} (${percent}%)` : "No increase";
+  el("modelCallMetric").textContent = calls;
+  el("metrics").hidden = false;
+  el("routeNote").textContent = calls === 0
+    ? "Prepared without calling a model."
+    : `${calls} preparation model call${calls === 1 ? "" : "s"}.`;
+  el("routeNote").hidden = false;
+}
+
+function updateDraftTokenPill() {
+  if (state.lastResult) return;
+  const raw = estimateTokens(el("rawPrompt").value);
+  el("tokenPill").textContent = raw ? `${raw} raw` : "0 tokens";
 }
 
 async function checkConnection() {
   try {
-    const response = await messageGemini({ type: "TO_GEMINI_PING" });
-    el("connectionPill").textContent = response?.hasInput ? "Gemini ready" : "Open prompt";
-    setStatus("Ready", "Gemini sidecar connected", "Capture, optimize, then insert when you choose.", false, "capture");
+    const { response, target } = await messageTarget({ type: "TOKEN_OPTIMIZER_PING" });
+    el("connectionPill").textContent = response?.hasInput ? target.statusLabel : `Open ${target.label} prompt`;
+    setStatus("Ready", `${target.label} wrapper connected`, "Capture a rough prompt or prepare and insert it in one click.", false, "capture");
   } catch (error) {
-    el("connectionPill").textContent = "No Gemini";
+    el("connectionPill").textContent = "No assistant";
     setStatus("Ready", "Open Gemini to connect", error.message, false, "capture");
   }
 }
 
-function buildSidecarPrompt(result, rawPrompt) {
-  const contract = result?.handoffContract || {};
-  const unwrappedPrompt = unwrapOptimizerPrompt(rawPrompt);
-  const rawClean = cleanPromptText(unwrappedPrompt);
-
-  if (estimateTokens(rawClean) <= 180) {
-    return [
-      cleanDirectRequest(rawClean),
-      "",
-      "Return the answer directly. Include every deliverable the request asks for."
-    ].join("\n");
-  }
-
-  const contractGoal = cleanPromptText(contract.goal || "");
-  const goal = isTruncated(contractGoal) || !contractGoal
-    ? cleanPromptText(firstUsefulLine(unwrappedPrompt))
-    : contractGoal;
-  const facts = uniqueShortLines([
-    ...asLines(contract.facts),
-    ...asLines(contract.sources)
-  ], 4, goal);
-  const constraints = uniqueShortLines(asLines(contract.constraints), 4, goal);
-  const outputStyle = String(contract.output_style || "").trim();
-  const sections = [
-    "Complete this task directly and concisely.",
-    "",
-    "Task:",
-    goal,
-    "",
-    bulletSection("Important context", facts, goal),
-    bulletSection("Requirements", constraints, goal),
-    [
-      "Output:",
-      "- Give the final answer directly.",
-      "- Include code, steps, diagrams, or tables only when the task asks for them.",
-      "- Do not add process commentary unless the task asks for it.",
-      outputStyle ? `- Style: ${outputStyle}` : ""
-    ].filter(Boolean).join("\n")
-  ].filter(Boolean);
-
-  return [
-    ...sections,
-    "",
-    "If one small assumption is needed, make it and continue."
-  ].join("\n");
-}
-
-async function capturePrompt() {
-  setStatus("Capture", "Capturing Gemini prompt", "Reading the active prompt box or selected text.", true, "capture");
-  try {
-    const response = await messageGemini({ type: "TO_CAPTURE_PROMPT" });
-    if (!response?.ok) throw new Error(response?.message || "No prompt text found.");
-    el("rawPrompt").value = response.prompt;
-    updateTokenPill();
-    setStatus("Captured", "Prompt captured", "Now click Optimize to build a Gemini-ready prompt.", false, "capture");
+async function capturePrompt({ quiet = false } = {}) {
+  if (!quiet) setStatus("Capture", "Capturing the active prompt", "Reading the selected text or prompt box.", true, "capture");
+  const { response, target } = await messageTarget({ type: "TOKEN_OPTIMIZER_CAPTURE" });
+  if (!response?.ok) throw new Error(response?.message || `No ${target.label} prompt text found.`);
+  el("rawPrompt").value = response.prompt;
+  state.lastResult = null;
+  updateDraftTokenPill();
+  await rememberRawPrompt(response.prompt);
+  if (!quiet) {
+    setStatus("Captured", "Prompt captured", "Prepare it, or prepare and insert it in one click.", false, "capture");
     toast("Prompt captured");
-  } catch (error) {
-    setStatus("Error", "Capture failed", error.message, false, "capture");
   }
+  return response.prompt;
 }
 
-async function optimizePrompt() {
-  const enteredPrompt = el("rawPrompt").value.trim();
-  const wasWrapped = isOptimizerWrappedPrompt(enteredPrompt);
-  const recentRawPrompt = wasWrapped ? await getRecentRawPrompt() : "";
-  const rawPrompt = recentRawPrompt || unwrapOptimizerPrompt(enteredPrompt);
-  if (!rawPrompt) {
-    setStatus("Capture", "Paste or capture a prompt first", "The optimizer needs a rough prompt before it can compress anything.", false, "capture");
-    el("rawPrompt").focus();
-    return;
+async function rawPromptForPreparation() {
+  let prompt = el("rawPrompt").value.trim();
+  if (!prompt) prompt = await capturePrompt({ quiet: true });
+  if (looksPrepared(prompt)) prompt = await getRecentRawPrompt() || prompt;
+  if (!prompt) throw new Error("Paste a prompt or focus a prompt box first.");
+  el("rawPrompt").value = prompt;
+  await rememberRawPrompt(prompt);
+  return prompt;
+}
+
+async function requestPreparation(rawPrompt, target) {
+  const response = await fetch(PREPARE_ENDPOINT, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      input: rawPrompt,
+      source: "browser-extension",
+      target: target.id,
+      options: { routePreference: "auto" }
+    })
+  });
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.error || "Prompt preparation failed.");
+  if (Number(data?.tokenReport?.modelCalls || 0) !== 0) {
+    throw new Error("Preparation stopped because it attempted an unnecessary model call.");
   }
+  if (!data.optimizedPrompt) throw new Error("The preparation service returned an empty prompt.");
+  return data;
+}
 
-  el("rawPrompt").value = rawPrompt;
-  updateTokenPill();
-  await saveRecentRawPrompt(rawPrompt);
-  setStatus("Optimizing", "Compressing prompt", "Building a clean Gemini-ready prompt.", true, "compress");
-  el("optimizePrompt").disabled = true;
+async function insertPreparedPrompt(prompt) {
+  setStatus("Insert", "Inserting the prepared prompt", "Placing it in the active prompt box without sending it.", true, "insert");
+  const { response, target } = await messageTarget({ type: "TOKEN_OPTIMIZER_INSERT", prompt });
+  if (!response?.ok) throw new Error(response?.message || "Insert failed.");
+  setStatus("Review", `Inserted into ${target.label}`, "Review it, then send when ready.", false, "review");
+  toast(`Inserted into ${target.label}`);
+}
 
+async function preparePrompt({ insert = false } = {}) {
+  const buttons = [el("optimizePrompt"), el("optimizeInsert")];
+  buttons.forEach((button) => { button.disabled = true; });
   try {
-    const response = await fetch(PRODUCTION_ENDPOINT, {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ input: rawPrompt })
-    });
-    const data = await response.json();
-    if (!response.ok) throw new Error(data.error || "Optimizer request failed.");
-    state.lastResult = data;
-    el("optimizedPrompt").value = buildSidecarPrompt(data, rawPrompt);
-    updateTokenPill();
-    setStatus("Ready", "Gemini prompt ready", "Copy it or insert it into Gemini. Nothing is auto-sent.", false, "handoff");
-    toast("Optimized prompt ready");
+    const rawPrompt = await rawPromptForPreparation();
+    const { target } = await currentContext();
+    setStatus("Prepare", "Preparing a clean handoff", "Removing repeated wrapper text without running another model.", true, "prepare");
+    const result = await requestPreparation(rawPrompt, target);
+    state.lastResult = result;
+    el("optimizedPrompt").value = result.optimizedPrompt;
+    renderMetrics(result);
+    await recordPreparation(result, target);
+    setStatus("Prepared", "Prompt ready", "No preparation model call was used.", false, "handoff");
+    toast("Prompt ready");
+    if (insert) await insertPreparedPrompt(result.optimizedPrompt);
   } catch (error) {
-    setStatus("Error", "Optimization failed", error.message, false, "review");
+    setStatus("Error", "Could not prepare the prompt", error.message, false, "review");
   } finally {
-    el("optimizePrompt").disabled = false;
+    buttons.forEach((button) => { button.disabled = false; });
   }
 }
 
-async function insertIntoGemini() {
+async function copyPrepared() {
   const prompt = el("optimizedPrompt").value.trim();
   if (!prompt) {
-    setStatus("Ready", "Optimize first", "There is no optimized prompt to insert yet.", false, "handoff");
-    return;
-  }
-
-  setStatus("Paste", "Inserting into Gemini", "The prompt will be placed in the box, but not submitted.", true, "paste");
-  try {
-    const response = await messageGemini({ type: "TO_INSERT_PROMPT", prompt });
-    if (!response?.ok) throw new Error(response?.message || "Insert failed.");
-    setStatus("Review", "Inserted into Gemini", "Review the prompt in Gemini, then send it when ready.", false, "review");
-    toast("Inserted into Gemini");
-  } catch (error) {
-    setStatus("Error", "Insert failed", error.message, false, "paste");
-  }
-}
-
-async function copyOptimized() {
-  const prompt = el("optimizedPrompt").value.trim();
-  if (!prompt) {
-    setStatus("Ready", "Nothing to copy yet", "Optimize a prompt first.", false, "handoff");
+    setStatus("Ready", "Nothing to copy yet", "Prepare a prompt first.", false, "handoff");
     return;
   }
   await navigator.clipboard.writeText(prompt);
-  setStatus("Paste", "Copied Gemini-ready prompt", "Paste it into Gemini or another active LLM prompt box.", false, "paste");
+  setStatus("Ready", "Prepared prompt copied", "Paste it into any supported assistant.", false, "handoff");
   toast("Copied");
 }
 
 function bindEvents() {
-  el("capturePrompt").addEventListener("click", capturePrompt);
-  el("optimizePrompt").addEventListener("click", optimizePrompt);
-  el("insertGemini").addEventListener("click", insertIntoGemini);
-  el("copyOptimized").addEventListener("click", copyOptimized);
-  el("rawPrompt").addEventListener("input", updateTokenPill);
-  el("optimizedPrompt").addEventListener("input", updateTokenPill);
+  el("capturePrompt").addEventListener("click", () => capturePrompt().catch((error) => {
+    setStatus("Error", "Capture failed", error.message, false, "capture");
+  }));
+  el("optimizePrompt").addEventListener("click", () => preparePrompt({ insert: false }));
+  el("optimizeInsert").addEventListener("click", () => preparePrompt({ insert: true }));
+  el("insertTarget").addEventListener("click", () => {
+    const prompt = el("optimizedPrompt").value.trim();
+    if (!prompt) {
+      setStatus("Ready", "Prepare first", "There is no prepared prompt to insert yet.", false, "handoff");
+      return;
+    }
+    insertPreparedPrompt(prompt).catch((error) => setStatus("Error", "Insert failed", error.message, false, "insert"));
+  });
+  el("copyPrepared").addEventListener("click", copyPrepared);
+  el("rawPrompt").addEventListener("input", () => {
+    state.lastResult = null;
+    updateDraftTokenPill();
+  });
   document.querySelectorAll("[data-stage]").forEach((button) => {
     button.addEventListener("click", () => {
-      syncRail(button.dataset.stage);
+      const target = state.target?.label || "the assistant";
       const messages = {
-        capture: ["Capture", "Capture or paste prompt", "Get the rough prompt into Token Optimizer."],
-        compress: ["Compress", "Compress once", "Run Optimize to build the compact prompt."],
-        handoff: ["Ready", "Review Gemini prompt", "Copy or insert the optimized prompt."],
-        paste: ["Paste", "Paste into Gemini", "Insert the optimized prompt into Gemini when ready."],
-        review: ["Review", "Review before sending", "Gemini will not send until you choose to submit."]
+        capture: ["Capture", "Capture or paste", "Bring the rough prompt into the wrapper."],
+        prepare: ["Prepare", "Prepare locally", "Remove repetition without calling another model."],
+        handoff: ["Ready", "Review the prepared prompt", "Copy it or insert it into the active assistant."],
+        insert: ["Insert", `Insert into ${target}`, "Place the prompt without submitting it."],
+        review: ["Review", "Review before sending", "The wrapper never submits the assistant message for you."]
       };
       const [phase, title, detail] = messages[button.dataset.stage];
       setStatus(phase, title, detail, false, button.dataset.stage);
@@ -382,8 +269,8 @@ function bindEvents() {
 
 async function init() {
   bindEvents();
-  updateTokenPill();
-  checkConnection();
+  updateDraftTokenPill();
+  await checkConnection();
 }
 
 init();

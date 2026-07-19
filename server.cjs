@@ -8,6 +8,7 @@ const port = Number(process.env.PORT || 8787);
 const {
   callChatCompletion,
   generateWithFallback,
+  preparePortableHandoff,
   providerStatus,
   runBlankA2AKit,
   runSelfOptimizingWorkflow
@@ -108,6 +109,7 @@ function validateOptimizerPayload(body = {}) {
       input: input.text,
       provider: body.provider,
       source: typeof body.source === "string" ? body.source.slice(0, 80) : undefined,
+      target: typeof body.target === "string" ? body.target.slice(0, 80) : undefined,
       sessionId: typeof body.sessionId === "string" ? body.sessionId.slice(0, 120) : null,
       runType: body.runType === "kit" ? "kit" : "optimizer",
       options: options.value,
@@ -191,6 +193,7 @@ async function handleApi(req, res) {
   const rateLimitedPaths = new Set([
     "/api/system-runs",
     "/api/generate",
+    "/api/prepare-handoff",
     "/api/optimize-run",
     "/api/optimize-stream",
     "/api/workflow-run",
@@ -318,6 +321,26 @@ async function handleApi(req, res) {
           ? await callChatCompletion({ provider: "groq", prompt })
           : await generateWithFallback(prompt);
       sendJson(res, 200, result);
+    } catch (error) {
+      sendJson(res, 500, { error: publicError(error) });
+    }
+    return;
+  }
+
+  if (req.method === "POST" && pathname === "/api/prepare-handoff") {
+    try {
+      const body = await readJson(req);
+      const parsed = validateOptimizerPayload(body);
+      if (!parsed.ok) {
+        sendJson(res, 400, { error: parsed.error });
+        return;
+      }
+      const result = preparePortableHandoff({
+        rawInput: parsed.data.input,
+        options: parsed.data.options || {},
+        target: parsed.data.target || "ai-assistant"
+      });
+      sendJson(res, 200, result, commonHeaders(rate));
     } catch (error) {
       sendJson(res, 500, { error: publicError(error) });
     }

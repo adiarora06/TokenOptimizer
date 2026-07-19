@@ -6,6 +6,7 @@ process.env.TOKEN_OPTIMIZER_TEST_MODE = "1";
 const {
   analyzeWorkflowShape,
   combineUsage,
+  preparePortableHandoff,
   redactSensitiveText,
   runBlankA2AKit,
   runSelfOptimizingWorkflow
@@ -29,6 +30,50 @@ async function run() {
   assert.equal(verified.route, "full");
   assert.equal(verified.verificationNeeded, true);
   assert.equal(verified.signals.highImpact, true);
+
+  const portable = preparePortableHandoff({
+    rawInput: "I want you to create Python code that runs binary search for target 7 in range(0, 70).",
+    target: "gemini"
+  });
+  assert.equal(portable.executionStatus, "prompt_ready");
+  assert.equal(portable.target, "gemini");
+  assert.equal(portable.provider, null);
+  assert.equal(portable.model, null);
+  assert.equal(portable.tokenReport.modelCalls, 0);
+  assert.equal(portable.providerUsage.modelCalls, 0);
+  assert.match(portable.optimizedPrompt, /^Please create Python code/);
+  assert.match(portable.optimizedPrompt, /range\(0, 70\)/);
+
+  const repeatedRequest = [
+    "Build an extendable browser wrapper for AI applications.",
+    "Keep provider keys out of the extension.",
+    "Keep provider keys out of the extension.",
+    "Insert prompts only after a user action.",
+    "Insert prompts only after a user action."
+  ].join("\n");
+  const compactPortable = preparePortableHandoff({ rawInput: repeatedRequest, target: "gemini" });
+  assert.equal(compactPortable.tokenReport.modelCalls, 0);
+  assert.ok(compactPortable.tokenReport.optimizedPromptTokens < compactPortable.tokenReport.rawInputTokens);
+  assert.equal((compactPortable.optimizedPrompt.match(/Keep provider keys/g) || []).length, 1);
+
+  const wrappedPortable = preparePortableHandoff({
+    rawInput: `Complete this task directly and concisely.
+Task:
+I want you to create a binary search program for target 7 in range(0, 70).
+Output:
+- Give the final answer directly.`,
+    target: "gemini"
+  });
+  assert.equal(wrappedPortable.strategy, "recursive-wrapper-cleanup");
+  assert.doesNotMatch(wrappedPortable.optimizedPrompt, /^Complete this task directly/i);
+  assert.doesNotMatch(wrappedPortable.optimizedPrompt, /handoff contracts|internal agent workflow/i);
+
+  const portableSecret = preparePortableHandoff({
+    rawInput: `Summarize this request and use ${secret}.`,
+    target: "gemini"
+  });
+  assert.equal(portableSecret.securityReport.redactions, 1);
+  assert.equal(portableSecret.optimizedPrompt.includes(secret), false);
 
   const events = [];
   const result = await runSelfOptimizingWorkflow({

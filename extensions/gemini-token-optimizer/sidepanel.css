@@ -198,6 +198,44 @@ textarea {
   justify-content: flex-end;
 }
 
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.metrics[hidden],
+.route-note[hidden] {
+  display: none;
+}
+
+.metrics div {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg);
+  padding: 8px;
+}
+
+.metrics strong {
+  overflow: hidden;
+  font-size: 13px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.metrics span,
+.route-note {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.route-note {
+  font-weight: 750;
+}
+
 button {
   display: inline-flex;
   min-height: 36px;
@@ -260,4 +298,40 @@ label {
 .toast.show {
   transform: translateY(0);
   opacity: 1;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --bg: #17191d;
+    --panel: #22252a;
+    --text: #f2f3f5;
+    --muted: #b4bac5;
+    --line: #3a3f47;
+    --brand: #7da2ff;
+    --brand-soft: #293553;
+    --good: #4fc18c;
+    --warn: #e7ad57;
+    --shadow: 0 10px 26px rgba(0, 0, 0, 0.24);
+  }
+
+  textarea,
+  input,
+  button {
+    border-color: var(--line);
+    background: #292d33;
+    color: var(--text);
+  }
+
+  button.primary {
+    border-color: #6f96ef;
+    background: #6f96ef;
+    color: #111318;
+  }
+
+  textarea:focus,
+  input:focus {
+    border-color: var(--brand);
+    box-shadow: 0 0 0 3px rgba(125, 162, 255, 0.18);
+  }
 }

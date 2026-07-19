@@ -233,7 +233,7 @@
       <h1>Token Optimizer Privacy Policy</h1>
       <p class="lede">This policy explains how Token Optimizer and the Token Optimizer for Gemini Chrome extension handle prompt text and related data.</p>
       <div class="meta">
-        <span class="pill">Effective date: July 16, 2026</span>
+        <span class="pill">Effective date: July 19, 2026</span>
         <span class="pill">Single purpose: prompt optimization</span>
         <span class="pill">No auto-send</span>
       </div>
@@ -243,7 +243,8 @@
       <article class="panel">
         <h2>Plain Summary</h2>
         <ul>
-          <li>Prompt text is sent to Token Optimizer only when you click <strong>Optimize</strong>.</li>
+          <li>Prompt text is sent to Token Optimizer only when you click a <strong>Prepare</strong> action.</li>
+          <li>Extension preparation uses deterministic processing and does not call a provider AI model.</li>
           <li>Nothing is sent when you capture text or insert text into Gemini.</li>
           <li>The extension does not auto-send Gemini messages.</li>
           <li>The extension does not store provider API keys, passwords, or account credentials.</li>
@@ -261,7 +262,7 @@
         <ul>
           <li><strong>Prompt text:</strong> text you paste into Token Optimizer or ask the extension to capture from Gemini.</li>
           <li><strong>Optimized prompt output:</strong> the rewritten prompt returned by Token Optimizer so you can review, copy, or insert it.</li>
-          <li><strong>Local browser data:</strong> the extension may store the latest raw prompt locally to avoid recursively optimizing an already optimized prompt.</li>
+          <li><strong>Local browser data:</strong> the extension may store the latest raw prompt and preparation metrics locally to prevent recursive output and show token counts.</li>
           <li><strong>Operational request data:</strong> basic technical information may be processed by hosting infrastructure to deliver, secure, and debug the service.</li>
         </ul>
       </article>
@@ -271,14 +272,14 @@
         <ul>
           <li>To convert rough or repetitive prompt text into cleaner prompt text.</li>
           <li>To return the optimized prompt to the user for review.</li>
-          <li>To support the extension workflow: capture, optimize, insert, and review.</li>
+          <li>To support the extension workflow: capture, prepare, insert, and review.</li>
           <li>To maintain security, reliability, and debugging for the Token Optimizer service.</li>
         </ul>
       </article>
 
       <article class="panel">
         <h2>Data Sharing</h2>
-        <p>Prompt text may be processed by backend infrastructure and AI model-processing services solely to provide the prompt optimization feature. We do not sell user data. We do not use or transfer user data for advertising, creditworthiness, lending, or unrelated purposes.</p>
+        <p>The extension's preparation endpoint processes prompt text without sending it to a provider AI model. Provider AI model processing occurs only when a user separately chooses to execute a task in the Token Optimizer workspace or sends the prepared prompt in Gemini. We do not sell user data. We do not use or transfer user data for advertising, creditworthiness, lending, or unrelated purposes.</p>
       </article>
 
       <article class="panel">
@@ -295,7 +296,7 @@
         <h2>User Control</h2>
         <ul>
           <li>You choose when to paste or capture prompt text.</li>
-          <li>You choose when to click Optimize.</li>
+          <li>You choose when to click Prepare only or Prepare &amp; insert.</li>
           <li>You choose whether to copy or insert the optimized prompt.</li>
           <li>You choose when to send the message in Gemini. The extension does not send it for you.</li>
           <li>You can remove locally stored extension data by clearing the extension's site data or removing the extension.</li>
@@ -304,7 +305,7 @@
 
       <article class="panel">
         <h2>Retention</h2>
-        <p>The extension stores the latest raw prompt locally in your browser only to prevent recursive prompt wrapping. Backend systems may process prompt text long enough to provide the optimization response and maintain service reliability. Token Optimizer does not use prompt text for advertising or resale.</p>
+        <p>The extension stores the latest raw prompt and preparation metrics locally in your browser to prevent recursive prompt wrapping and show usage. Backend systems may process prompt text long enough to provide the preparation response and maintain service reliability. Token Optimizer does not use prompt text for advertising or resale.</p>
       </article>
 
       <article class="panel">
