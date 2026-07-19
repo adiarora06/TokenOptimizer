@@ -1,6 +1,13 @@
 const { SYSTEM_ARCHITECTURE, runSystemRunInline } = require("../optimizer-system.cjs");
+const {
+  commonHeaders,
+  publicError,
+  takeRateLimit,
+  validateOptimizerPayload
+} = require("../api-guard.cjs");
 
 module.exports = async function handler(req, res) {
+  for (const [name, value] of Object.entries(commonHeaders())) res.setHeader(name, value);
   if (req.method === "GET") {
     res.status(200).json({
       runs: [],
@@ -16,24 +23,31 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const rawInput = String(req.body?.input || "");
-    if (!rawInput.trim()) {
-      res.status(400).json({ error: "Missing input" });
+    const rate = takeRateLimit(req);
+    for (const [name, value] of Object.entries(commonHeaders(rate))) res.setHeader(name, value);
+    if (!rate.allowed) {
+      res.setHeader("retry-after", String(rate.retryAfterSeconds));
+      res.status(429).json({ error: "Too many runs. Please wait a moment and try again." });
+      return;
+    }
+    const parsed = validateOptimizerPayload(req.body);
+    if (!parsed.ok) {
+      res.status(400).json({ error: parsed.error });
       return;
     }
 
     const run = await runSystemRunInline({
-      rawInput,
-      runType: req.body?.runType || "optimizer",
-      provider: req.body?.provider || "groq-openai-fallback",
-      providerConfig: req.body?.providerConfig || {},
-      options: req.body?.options || {},
-      source: req.body?.source || "workspace",
-      sessionId: req.body?.sessionId || null
+      rawInput: parsed.data.input,
+      runType: parsed.data.runType || "optimizer",
+      provider: parsed.data.provider || "groq-openai-fallback",
+      providerConfig: parsed.data.providerConfig || {},
+      options: parsed.data.options || {},
+      source: parsed.data.source || "workspace",
+      sessionId: parsed.data.sessionId || null
     });
 
     res.status(200).json({ run });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: publicError(error) });
   }
 };

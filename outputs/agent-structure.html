@@ -766,35 +766,20 @@
       }
     }
   </style>
+  <link rel="stylesheet" href="/vendor/tabler/tabler-icons.min.css">
+  <link rel="stylesheet" href="/app-nav.css">
 </head>
-<body>
-  <nav class="page-nav" aria-label="Token optimizer pages">
-    <a href="/">Home</a>
-    <a href="/workspace">Workspace</a>
-    <a href="/optimized-ide">Optimized IDE</a>
-    <a id="navAgents" href="/agent-structure" aria-current="page">Agents</a>
-    <a href="/open-source">Open Source</a>
-    <a href="/stats">Stats</a>
-    <a href="/prompt-history">History</a>
-    <a href="/settings">Settings</a>
+<body class="has-app-nav">
+  <nav class="app-topbar" aria-label="Primary navigation">
+    <a class="app-brand" href="/" aria-label="Token Optimizer home"><span class="app-brand-mark" aria-hidden="true">T</span><strong>Token Optimizer</strong></a>
+    <div class="app-primary-nav">
+      <a href="/workspace">Workspace</a>
+      <a href="/prompt-history">Runs</a>
+      <a href="/stats">Insights</a>
+      <a id="navAgents" href="/agent-structure" aria-current="page">Architecture</a>
+    </div>
+    <a class="app-settings" href="/settings" aria-label="Settings" title="Settings"><i class="ti ti-settings" aria-hidden="true"></i></a>
   </nav>
-
-  <header class="topbar">
-    <a class="brand" href="/">
-      <span class="logo">TO</span>
-      <span>
-        <strong>Workflow Structure</strong>
-        <span>Agents, contracts, routes, and adapters</span>
-      </span>
-    </a>
-    <div class="status" role="status" aria-live="polite">
-      <strong id="statusTitle">Showing agents</strong>
-      <span id="statusDetail">Direct page for information flow, responsibilities, typed contracts, and provider adapters.</span>
-    </div>
-    <div class="actions">
-      <button class="primary" id="copyLink">Copy Page Link</button>
-    </div>
-  </header>
 
   <main class="page">
     <section class="panel">
@@ -803,7 +788,10 @@
           <h1>Agents And Workflow Graph</h1>
           <p>Start with responsibilities, then inspect the hub-and-spoke graph that shows how compact state moves.</p>
         </div>
-        <span class="pill" id="routePill">Auto route</span>
+        <div class="actions">
+          <span class="pill" id="routePill">Auto route</span>
+          <button id="copyLink">Copy Link</button>
+        </div>
       </div>
 
       <div class="controls">
@@ -920,10 +908,6 @@
       el("navAgents").setAttribute("aria-current", "page");
       el("graphView").classList.toggle("hidden", state.view !== "graph");
       el("agentsView").classList.toggle("hidden", state.view !== "agents");
-      el("statusTitle").textContent = state.view === "graph"
-        ? "Showing workflow graph"
-        : "Showing agents";
-      el("statusDetail").textContent = `${platformNames[state.platform]} -> ${state.depth} depth`;
     }
 
     function readControls() {
@@ -1164,7 +1148,7 @@ Only the first stage sees the raw prompt. Every later payload must be route-awar
       await navigator.clipboard.writeText(window.location.href);
       el("copyLink").textContent = "Link Copied";
       setTimeout(() => {
-        el("copyLink").textContent = "Copy Page Link";
+        el("copyLink").textContent = "Copy Link";
       }, 1000);
     });
   </script>

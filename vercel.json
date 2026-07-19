@@ -9,6 +9,22 @@
       "destination": "/outputs/workspace.html"
     },
     {
+      "source": "/workspace.css",
+      "destination": "/outputs/workspace.css"
+    },
+    {
+      "source": "/workspace.js",
+      "destination": "/outputs/workspace.js"
+    },
+    {
+      "source": "/app-nav.css",
+      "destination": "/outputs/app-nav.css"
+    },
+    {
+      "source": "/vendor/:path*",
+      "destination": "/outputs/vendor/:path*"
+    },
+    {
       "source": "/system-worker.js",
       "destination": "/outputs/system-worker.js"
     },

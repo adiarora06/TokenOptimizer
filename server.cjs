@@ -13,6 +13,14 @@ const {
   runSelfOptimizingWorkflow
 } = require("./optimizer-core.cjs");
 const { createOptimizerSystem } = require("./optimizer-system.cjs");
+const {
+  commonHeaders,
+  publicError,
+  takeRateLimit,
+  validateA2APayload,
+  validateGeneratePayload,
+  validateOptimizerPayload
+} = require("./api-guard.cjs");
 
 loadEnvFile(path.join(rootDir, ".env.local"));
 
@@ -32,13 +40,20 @@ function loadEnvFile(filePath) {
   }
 }
 
-function sendJson(res, status, data) {
+function sendJson(res, status, data, headers = {}) {
   const body = JSON.stringify(data);
   res.writeHead(status, {
+    ...commonHeaders(),
     "content-type": "application/json",
-    "content-length": Buffer.byteLength(body)
+    "content-length": Buffer.byteLength(body),
+    ...headers
   });
   res.end(body);
+}
+
+function writeSse(res, event, data) {
+  if (res.writableEnded) return;
+  res.write(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`);
 }
 
 function readJson(req) {
@@ -65,6 +80,24 @@ function readJson(req) {
 async function handleApi(req, res) {
   const requestUrl = new URL(req.url, `http://127.0.0.1:${port}`);
   const pathname = requestUrl.pathname;
+  const rateLimitedPaths = new Set([
+    "/api/system-runs",
+    "/api/generate",
+    "/api/optimize-run",
+    "/api/optimize-stream",
+    "/api/workflow-run",
+    "/api/a2a-run"
+  ]);
+  const rate = req.method === "POST" && rateLimitedPaths.has(pathname) ? takeRateLimit(req) : null;
+  if (rate && !rate.allowed) {
+    sendJson(
+      res,
+      429,
+      { error: "Too many runs. Please wait a moment and try again." },
+      { ...commonHeaders(rate), "retry-after": String(rate.retryAfterSeconds) }
+    );
+    return;
+  }
 
   if (req.method === "GET" && pathname === "/api/provider-status") {
     sendJson(res, 200, providerStatus());
@@ -100,23 +133,63 @@ async function handleApi(req, res) {
   if (req.method === "POST" && pathname === "/api/system-runs") {
     try {
       const body = await readJson(req);
-      const rawInput = String(body.input || "");
-      if (!rawInput.trim()) {
-        sendJson(res, 400, { error: "Missing input" });
+      const parsed = validateOptimizerPayload(body);
+      if (!parsed.ok) {
+        sendJson(res, 400, { error: parsed.error });
         return;
       }
       const run = optimizerSystem.start({
-        rawInput,
-        runType: body.runType || "optimizer",
-        provider: body.provider || "groq-openai-fallback",
-        providerConfig: body.providerConfig || {},
-        options: body.options || {},
-        source: body.source || "workspace",
-        sessionId: body.sessionId || null
+        rawInput: parsed.data.input,
+        runType: parsed.data.runType || "optimizer",
+        provider: parsed.data.provider || "groq-openai-fallback",
+        providerConfig: parsed.data.providerConfig || {},
+        options: parsed.data.options || {},
+        source: parsed.data.source || "workspace",
+        sessionId: parsed.data.sessionId || null
       });
-      sendJson(res, 202, { run });
+      sendJson(res, 202, { run }, commonHeaders(rate));
     } catch (error) {
-      sendJson(res, 500, { error: error.message });
+      sendJson(res, 500, { error: publicError(error) });
+    }
+    return;
+  }
+
+  if (req.method === "POST" && pathname === "/api/optimize-stream") {
+    try {
+      const body = await readJson(req);
+      const parsed = validateOptimizerPayload(body);
+      if (!parsed.ok) {
+        sendJson(res, 400, { error: parsed.error });
+        return;
+      }
+
+      res.writeHead(200, {
+        ...commonHeaders(rate),
+        "content-type": "text/event-stream; charset=utf-8",
+        "cache-control": "no-store",
+        connection: "keep-alive",
+        "x-accel-buffering": "no"
+      });
+      const controller = new AbortController();
+      req.on("aborted", () => controller.abort());
+      writeSse(res, "run", { type: "run", status: "running", detail: "Run accepted." });
+      const result = await runSelfOptimizingWorkflow({
+        rawInput: parsed.data.input,
+        provider: parsed.data.provider || "groq-openai-fallback",
+        options: parsed.data.options || {},
+        signal: controller.signal,
+        onEvent(event) {
+          writeSse(res, "progress", event);
+        }
+      });
+      writeSse(res, "result", { result });
+      res.end();
+    } catch (error) {
+      if (!res.headersSent) sendJson(res, 500, { error: publicError(error) });
+      else {
+        writeSse(res, "error", { error: publicError(error) });
+        res.end();
+      }
     }
     return;
   }
@@ -124,12 +197,13 @@ async function handleApi(req, res) {
   if (req.method === "POST" && pathname === "/api/generate") {
     try {
       const body = await readJson(req);
-      const provider = body.provider || "groq-openai-fallback";
-      const prompt = String(body.prompt || "");
-      if (!prompt.trim()) {
-        sendJson(res, 400, { error: "Missing prompt" });
+      const parsed = validateGeneratePayload(body);
+      if (!parsed.ok) {
+        sendJson(res, 400, { error: parsed.error });
         return;
       }
+      const provider = parsed.data.provider || "groq-openai-fallback";
+      const prompt = parsed.data.prompt;
       const result = provider === "openai"
         ? await callChatCompletion({ provider: "openai", prompt })
         : provider === "groq"
@@ -137,7 +211,7 @@ async function handleApi(req, res) {
           : await generateWithFallback(prompt);
       sendJson(res, 200, result);
     } catch (error) {
-      sendJson(res, 500, { error: error.message });
+      sendJson(res, 500, { error: publicError(error) });
     }
     return;
   }
@@ -145,18 +219,19 @@ async function handleApi(req, res) {
   if (req.method === "POST" && pathname === "/api/optimize-run") {
     try {
       const body = await readJson(req);
-      const rawInput = String(body.input || "");
-      if (!rawInput.trim()) {
-        sendJson(res, 400, { error: "Missing input" });
+      const parsed = validateOptimizerPayload(body);
+      if (!parsed.ok) {
+        sendJson(res, 400, { error: parsed.error });
         return;
       }
       const result = await runSelfOptimizingWorkflow({
-        rawInput,
-        provider: body.provider || "groq-openai-fallback"
+        rawInput: parsed.data.input,
+        provider: parsed.data.provider || "groq-openai-fallback",
+        options: parsed.data.options || {}
       });
-      sendJson(res, 200, result);
+      sendJson(res, 200, result, commonHeaders(rate));
     } catch (error) {
-      sendJson(res, 500, { error: error.message });
+      sendJson(res, 500, { error: publicError(error) });
     }
     return;
   }
@@ -164,19 +239,19 @@ async function handleApi(req, res) {
   if (req.method === "POST" && (pathname === "/api/workflow-run" || pathname === "/api/a2a-run")) {
     try {
       const body = await readJson(req);
-      const rawInput = String(body.input || "");
-      if (!rawInput.trim()) {
-        sendJson(res, 400, { error: "Missing input" });
+      const parsed = validateA2APayload(body);
+      if (!parsed.ok) {
+        sendJson(res, 400, { error: parsed.error });
         return;
       }
       const result = await runBlankA2AKit({
-        rawInput,
-        providerConfig: body.providerConfig || {},
-        options: body.options || {}
+        rawInput: parsed.data.input,
+        providerConfig: parsed.data.providerConfig || {},
+        options: parsed.data.options || {}
       });
       sendJson(res, 200, result);
     } catch (error) {
-      sendJson(res, 500, { error: error.message });
+      sendJson(res, 500, { error: publicError(error) });
     }
     return;
   }

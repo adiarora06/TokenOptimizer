@@ -168,17 +168,19 @@
       }
     }
   </style>
+  <link rel="stylesheet" href="/vendor/tabler/tabler-icons.min.css">
+  <link rel="stylesheet" href="/app-nav.css">
 </head>
-<body>
-  <nav class="page-nav" aria-label="Token optimizer pages">
-    <a href="/">Home</a>
-    <a href="/workspace">Workspace</a>
-    <a href="/optimized-ide">Optimized IDE</a>
-    <a href="/agent-structure">Agents</a>
-    <a href="/open-source">Open Source</a>
-    <a href="/stats">Stats</a>
-    <a href="/prompt-history">History</a>
-    <a href="/settings" aria-current="page">Settings</a>
+<body class="has-app-nav">
+  <nav class="app-topbar" aria-label="Primary navigation">
+    <a class="app-brand" href="/" aria-label="Token Optimizer home"><span class="app-brand-mark" aria-hidden="true">T</span><strong>Token Optimizer</strong></a>
+    <div class="app-primary-nav">
+      <a href="/workspace">Workspace</a>
+      <a href="/prompt-history">Runs</a>
+      <a href="/stats">Insights</a>
+      <a href="/agent-structure">Architecture</a>
+    </div>
+    <a class="app-settings" href="/settings" aria-current="page" aria-label="Settings" title="Settings"><i class="ti ti-settings" aria-hidden="true"></i></a>
   </nav>
 
   <main class="page">
@@ -205,7 +207,7 @@
       </div>
 
       <h2>Navigation</h2>
-      <p>The top navigation stays fixed across Optimizer, Optimized IDE, Agent Structure, Prompt History, and Settings.</p>
+        <p>The same navigation stays fixed across Workspace, Runs, Insights, Architecture, and Settings.</p>
     </section>
   </main>
 

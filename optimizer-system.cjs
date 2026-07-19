@@ -169,7 +169,8 @@ async function executeSystemRun(run, payload = {}) {
       })
       : await runSelfOptimizingWorkflow({
         rawInput: payload.rawInput,
-        provider: payload.provider || "groq-openai-fallback"
+        provider: payload.provider || "groq-openai-fallback",
+        options: payload.options || {}
       });
 
     run.result = result;
