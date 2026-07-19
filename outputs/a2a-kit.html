@@ -456,17 +456,19 @@
       }
     }
   </style>
+  <link rel="stylesheet" href="/vendor/tabler/tabler-icons.min.css">
+  <link rel="stylesheet" href="/app-nav.css">
 </head>
-<body>
-  <nav class="page-nav" aria-label="Token optimizer pages">
-    <a href="/">Home</a>
-    <a href="/workspace">Workspace</a>
-    <a href="/optimized-ide" aria-current="page">Optimized IDE</a>
-    <a href="/agent-structure">Agents</a>
-    <a href="/open-source">Open Source</a>
-    <a href="/stats">Stats</a>
-    <a href="/prompt-history">History</a>
-    <a href="/settings">Settings</a>
+<body class="has-app-nav">
+  <nav class="app-topbar" aria-label="Primary navigation">
+    <a class="app-brand" href="/" aria-label="Token Optimizer home"><span class="app-brand-mark" aria-hidden="true">T</span><strong>Token Optimizer</strong></a>
+    <div class="app-primary-nav">
+      <a href="/workspace" aria-current="page">Workspace</a>
+      <a href="/prompt-history">Runs</a>
+      <a href="/stats">Insights</a>
+      <a href="/agent-structure">Architecture</a>
+    </div>
+    <a class="app-settings" href="/settings" aria-label="Settings" title="Settings"><i class="ti ti-settings" aria-hidden="true"></i></a>
   </nav>
 
   <header class="topbar">
@@ -670,8 +672,8 @@ ${item.prompt}
 
 ${trace.map((item) => `- ${item.agent} (${item.status}): ${item.detail}`).join("\n")}
 
-Route: ${result.providerError ? "Fallback" : "Automatic"}
-Fallback: ${result.providerError ? "Used" : "Not used"}`;
+Status: ${result.executionStatus || "unknown"}
+Model calls: ${result.tokenReport?.modelCalls || 0}`;
     }
 
     function formatResult(result) {
@@ -689,8 +691,8 @@ ${result.finalAnswer || "No final answer returned."}
 - Estimated savings: ${report.estimatedSavingsPercent || 0}%
 
 ## Route
-- Route: ${result.providerError ? "Fallback" : "Automatic"}
-- Fallback: ${result.providerError ? "Used" : "Not used"}`;
+- Status: ${result.executionStatus || "unknown"}
+- Model calls: ${report.modelCalls || 0}`;
     }
 
     function renderResult() {
@@ -711,7 +713,7 @@ ${result.finalAnswer || "No final answer returned."}
           <div class="summary-card"><span>Raw Tokens</span><strong>${report.rawInputTokens || 0}</strong></div>
           <div class="summary-card"><span>Workflow Tokens</span><strong>${report.optimizedPromptTokens || 0}</strong></div>
           <div class="summary-card"><span>Saved</span><strong>${report.estimatedSavingsPercent || 0}%</strong></div>
-          <div class="summary-card"><span>Route</span><strong>${result.providerError ? "Fallback" : "Auto"}</strong></div>
+          <div class="summary-card"><span>Status</span><strong>${result.executionStatus === "completed" ? "Completed" : result.executionStatus === "prompt_ready" ? "Prompt ready" : "Needs attention"}</strong></div>
         </div>
         <pre style="min-height: 220px; max-height: 360px">${escapeHtml(visibleAnswer)}</pre>
         <div class="actions" style="margin-top: 12px; justify-content: flex-start">
@@ -801,7 +803,13 @@ ${result.finalAnswer || "No final answer returned."}
         state.sections.kit = JSON.stringify(result.kit || {}, null, 2);
         state.activeView = contractOnly ? "contract" : "result";
         renderView();
-        setStatus("Done", result.providerError ? "Fallback completed the workflow run." : "Contract workflow kit completed the one-shot run.", false);
+        if (result.providerError) {
+          setStatus("Needs attention", "Model execution stopped. The prepared contract and prompts are still available.", false);
+        } else if (result.executionStatus === "prompt_ready") {
+          setStatus("Contract ready", "The compact contract is ready. No task execution was claimed.", false);
+        } else {
+          setStatus("Done", "The optimized workflow completed the one-shot run.", false);
+        }
       } catch (error) {
         setStatus("Error", error.message, false);
       } finally {

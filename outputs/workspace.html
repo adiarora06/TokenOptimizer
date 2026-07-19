@@ -3,1898 +3,226 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Token Optimizer Workspace</title>
+  <meta name="description" content="Turn a rough prompt into a measured, usable AI result in one run.">
+  <title>Workspace | Token Optimizer</title>
   <script>document.documentElement.dataset.theme = localStorage.getItem("tokenOptimizerTheme") || "light";</script>
-  <style>
-    :root {
-      color-scheme: light;
-      --bg: #f7f8fb;
-      --panel: #ffffff;
-      --text: #18202f;
-      --muted: #677084;
-      --line: #dfe4ee;
-      --brand: #2557d6;
-      --brand-soft: #eaf0ff;
-      --good: #0b7a4b;
-      --warn: #9b5a00;
-      --shadow: 0 10px 30px rgba(24, 32, 47, 0.08);
-    }
-
-    :root[data-theme="dark"] {
-      color-scheme: dark;
-      --bg: #0b0f14;
-      --panel: #111827;
-      --text: #ffffff;
-      --muted: #d1d5db;
-      --line: #374151;
-      --brand: #3b82f6;
-      --brand-soft: #172554;
-      --good: #22c55e;
-      --warn: #f59e0b;
-      --shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      padding: 46px 0 82px;
-      background: var(--bg);
-      color: var(--text);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      line-height: 1.4;
-    }
-
-    button, select, textarea { font: inherit; }
-    a { color: inherit; text-decoration: none; }
-    h1, h2, h3, p { margin: 0; }
-
-    .page-nav {
-      position: fixed;
-      inset: 0 0 auto;
-      z-index: 20;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      align-items: center;
-      padding: 10px 24px;
-      background: rgba(247, 248, 251, 0.96);
-      border-bottom: 1px solid var(--line);
-      backdrop-filter: blur(12px);
-    }
-
-    .page-nav a {
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: #ffffff;
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 800;
-      padding: 7px 11px;
-    }
-
-    .page-nav a[aria-current="page"] {
-      border-color: var(--brand);
-      background: var(--brand);
-      color: #ffffff;
-    }
-
-    .status {
-      display: grid;
-      grid-template-columns: auto minmax(0, 1fr) auto;
-      gap: 10px;
-      align-items: center;
-      background: rgba(255, 255, 255, 0.96);
-      border-bottom: 1px solid var(--line);
-      box-shadow: 0 8px 24px rgba(24, 32, 47, 0.08);
-      backdrop-filter: blur(12px);
-    }
-
-    .status.top {
-      position: sticky;
-      top: 45px;
-      z-index: 12;
-      min-height: 58px;
-      padding: 10px 24px;
-    }
-
-    .status.bottom {
-      position: fixed;
-      inset: auto 0 0;
-      z-index: 20;
-      min-height: 66px;
-      padding: 9px 24px;
-      border-top: 1px solid var(--line);
-      border-bottom: 0;
-      box-shadow: 0 -8px 24px rgba(24, 32, 47, 0.08);
-    }
-
-    .status-left, .status-right {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      min-width: 0;
-    }
-
-    .status-right { justify-content: flex-end; }
-
-    .dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 999px;
-      background: var(--good);
-      box-shadow: 0 0 0 4px rgba(11, 122, 75, 0.12);
-    }
-
-    .dot.running {
-      background: var(--warn);
-      box-shadow: 0 0 0 4px rgba(155, 90, 0, 0.14);
-      animation: pulse 1.15s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.24); }
-    }
-
-    .phase {
-      border-radius: 999px;
-      padding: 5px 9px;
-      background: var(--brand-soft);
-      color: var(--brand);
-      font-size: 12px;
-      font-weight: 900;
-      white-space: nowrap;
-    }
-
-    .status-main { min-width: 0; }
-
-    .status strong {
-      display: block;
-      overflow: hidden;
-      color: var(--text);
-      font-size: 13px;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .status span {
-      display: block;
-      overflow: hidden;
-      color: var(--muted);
-      font-size: 12px;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .status-track {
-      display: flex;
-      gap: 6px;
-      align-items: center;
-      margin-top: 6px;
-      overflow-x: auto;
-      scrollbar-width: none;
-    }
-
-    .status-track::-webkit-scrollbar { display: none; }
-
-    .track-step {
-      min-height: 24px;
-      border-radius: 999px;
-      padding: 4px 8px;
-      background: #eef1f7;
-      color: var(--muted);
-      font-size: 11px;
-      font-weight: 900;
-      white-space: nowrap;
-    }
-
-    .track-step[aria-current="step"] {
-      border-color: var(--brand);
-      background: var(--brand-soft);
-      color: var(--brand);
-    }
-
-    .page {
-      width: min(1180px, calc(100% - 36px));
-      margin: 0 auto;
-      padding: 22px 0 38px;
-    }
-
-    .hero {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 330px;
-      gap: 18px;
-      align-items: stretch;
-    }
-
-    .app-shell {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 330px;
-      gap: 18px;
-      align-items: start;
-    }
-
-    .card, .panel, .mode, .step, .node, .result, .workspace-card, .guide-card {
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: var(--panel);
-      box-shadow: var(--shadow);
-    }
-
-    .card { padding: 20px; }
-
-    .workspace-card {
-      overflow: hidden;
-    }
-
-    .app-head {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-      align-items: center;
-      justify-content: space-between;
-      padding: 18px 18px 0;
-    }
-
-    .prompt-stage {
-      padding: 18px;
-    }
-
-    .prompt-stage h1 {
-      max-width: 760px;
-      font-size: 38px;
-    }
-
-    .prompt-stage .lede {
-      max-width: 760px;
-    }
-
-    .prompt-card {
-      margin-top: 18px;
-    }
-
-    .prompt-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 8px;
-    }
-
-    .workspace-card textarea {
-      min-height: 310px;
-      font-size: 16px;
-      line-height: 1.5;
-    }
-
-    .guide-rail {
-      position: sticky;
-      top: 118px;
-      display: grid;
-      gap: 12px;
-      padding: 16px;
-    }
-
-    .guide-card {
-      padding: 14px;
-      box-shadow: none;
-    }
-
-    .mini-flow {
-      display: grid;
-      gap: 10px;
-      margin-top: 12px;
-    }
-
-    .mini-flow div {
-      display: grid;
-      grid-template-columns: 28px minmax(0, 1fr);
-      gap: 10px;
-      align-items: start;
-    }
-
-    .mini-flow span {
-      display: grid;
-      width: 28px;
-      height: 28px;
-      place-items: center;
-      border-radius: 999px;
-      background: var(--brand-soft);
-      color: var(--brand);
-      font-size: 12px;
-      font-weight: 900;
-    }
-
-    .mini-flow strong {
-      display: block;
-      font-size: 14px;
-    }
-
-    .mini-flow p {
-      margin-top: 2px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .wrapper-options {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 6px;
-      margin-top: 12px;
-    }
-
-    .wrapper-chip {
-      min-height: 34px;
-      border-radius: 8px;
-      padding: 7px 8px;
-      font-size: 12px;
-    }
-
-    .wrapper-chip[aria-pressed="true"] {
-      border-color: var(--brand);
-      background: var(--brand-soft);
-      color: var(--brand);
-    }
-
-    .wrapper-preview {
-      margin-top: 12px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: #fbfcff;
-      padding: 12px;
-    }
-
-    .wrapper-preview strong {
-      display: block;
-      font-size: 13px;
-    }
-
-    .wrapper-preview p {
-      margin-top: 5px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .wrapper-preview code {
-      display: inline-block;
-      margin-top: 8px;
-      border-radius: 6px;
-      background: var(--brand-soft);
-      color: var(--brand);
-      font-size: 12px;
-      padding: 3px 6px;
-    }
-
-    .system-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 6px;
-      margin-top: 12px;
-    }
-
-    .system-meter {
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: #fbfcff;
-      padding: 9px;
-    }
-
-    .system-meter span {
-      display: block;
-      color: var(--muted);
-      font-size: 11px;
-      font-weight: 900;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-
-    .system-meter strong {
-      display: block;
-      margin-top: 4px;
-      color: var(--text);
-      font-size: 15px;
-    }
-
-    .progress-bar {
-      height: 8px;
-      margin-top: 12px;
-      overflow: hidden;
-      border-radius: 999px;
-      background: #eef1f7;
-    }
-
-    .progress-bar div {
-      width: var(--progress, 0%);
-      height: 100%;
-      border-radius: inherit;
-      background: var(--brand);
-      transition: width 0.2s ease;
-    }
-
-    .system-activity {
-      display: grid;
-      gap: 7px;
-      margin-top: 12px;
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .system-activity div {
-      display: grid;
-      grid-template-columns: 8px minmax(0, 1fr);
-      gap: 8px;
-      align-items: start;
-    }
-
-    .system-activity div::before {
-      width: 8px;
-      height: 8px;
-      margin-top: 5px;
-      border-radius: 999px;
-      background: var(--brand);
-      content: "";
-    }
-
-    .brand {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      margin-bottom: 16px;
-    }
-
-    .app-head .brand {
-      margin-bottom: 0;
-    }
-
-    .logo {
-      display: grid;
-      width: 38px;
-      height: 38px;
-      place-items: center;
-      border-radius: 8px;
-      background: var(--brand);
-      color: #ffffff;
-      font-weight: 900;
-    }
-
-    .brand strong { display: block; font-size: 14px; }
-    .brand span, .muted { color: var(--muted); font-size: 13px; }
-
-    h1 {
-      max-width: 760px;
-      font-size: 42px;
-      line-height: 1.05;
-      letter-spacing: 0;
-    }
-
-    .lede {
-      max-width: 720px;
-      margin-top: 12px;
-      color: var(--muted);
-      font-size: 16px;
-    }
-
-    .mode-grid, .steps, .summary {
-      display: grid;
-      gap: 12px;
-      margin-top: 18px;
-    }
-
-    .mode-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .steps { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-    .summary { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-
-    .app-head .mode-grid {
-      width: min(100%, 340px);
-      grid-template-columns: repeat(2, minmax(120px, 1fr));
-      margin-top: 0;
-    }
-
-    .mode, .step, .node, .summary-card {
-      padding: 14px;
-      box-shadow: none;
-    }
-
-    .mode[aria-pressed="true"] {
-      border-color: var(--brand);
-      background: var(--brand-soft);
-    }
-
-    .mode strong, .step strong, .node strong {
-      display: block;
-      color: var(--text);
-      font-size: 14px;
-    }
-
-    .mode p, .step p, .node p {
-      margin-top: 5px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .step span {
-      display: inline-flex;
-      margin-bottom: 8px;
-      border-radius: 999px;
-      padding: 4px 7px;
-      background: var(--brand-soft);
-      color: var(--brand);
-      font-size: 11px;
-      font-weight: 900;
-    }
-
-    .coach {
-      display: grid;
-      gap: 12px;
-      height: 100%;
-      padding: 16px;
-    }
-
-    .coach-section {
-      border-top: 1px solid var(--line);
-      padding-top: 12px;
-    }
-
-    .coach-section:first-child {
-      border-top: 0;
-      padding-top: 0;
-    }
-
-    .coach p { color: var(--muted); }
-
-    .button-row, .actions, .examples {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      align-items: center;
-    }
-
-    .actions { justify-content: flex-end; }
-
-    .panel { margin-top: 18px; }
-
-    .panel-header {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .panel-header p { color: var(--muted); }
-    .panel-body { padding: 16px; }
-
-    label {
-      display: block;
-      margin: 0 0 7px;
-      color: var(--text);
-      font-size: 13px;
-      font-weight: 900;
-    }
-
-    textarea, select {
-      width: 100%;
-      border: 1px solid #cdd6e7;
-      border-radius: 8px;
-      background: #ffffff;
-      color: var(--text);
-      padding: 11px;
-      outline: none;
-    }
-
-    textarea:focus, select:focus {
-      border-color: var(--brand);
-      box-shadow: 0 0 0 3px rgba(37, 87, 214, 0.12);
-    }
-
-    textarea {
-      min-height: 230px;
-      resize: vertical;
-      font-size: 15px;
-    }
-
-    .examples { margin-top: 12px; }
-    .examples button { min-height: 34px; padding: 7px 10px; }
-
-    .controls {
-      display: grid;
-      grid-template-columns: minmax(180px, 250px) minmax(0, 1fr);
-      gap: 10px;
-      align-items: end;
-      margin-top: 12px;
-    }
-
-    .kit-panel {
-      display: block;
-      margin-top: 14px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: #fbfcff;
-      padding: 13px;
-    }
-
-    .kit-panel summary {
-      cursor: pointer;
-      color: var(--text);
-      font-weight: 900;
-    }
-
-    .kit-panel p {
-      margin-top: 8px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .kit-panel .button-row {
-      margin-top: 12px;
-    }
-
-    button, .button {
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 38px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: #ffffff;
-      color: var(--text);
-      cursor: pointer;
-      font-size: 13px;
-      font-weight: 850;
-      padding: 9px 12px;
-    }
-
-    button.primary, .button.primary {
-      border-color: var(--brand);
-      background: var(--brand);
-      color: #ffffff;
-    }
-
-    button:disabled { cursor: not-allowed; opacity: 0.6; }
-
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      border-radius: 999px;
-      padding: 5px 9px;
-      background: #eef1f7;
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 900;
-      white-space: nowrap;
-    }
-
-    .pill.good { background: #e8f7ef; color: var(--good); }
-    .pill.warn { background: #fff4df; color: var(--warn); }
-
-    .results { margin-top: 18px; }
-    .result { overflow: hidden; }
-
-    .result-header {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .result-header p { color: var(--muted); }
-
-    .preview {
-      max-height: 142px;
-      overflow: hidden;
-      padding: 16px;
-      color: var(--muted);
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
-
-    .preview.expanded {
-      max-height: none;
-      overflow: visible;
-      color: var(--text);
-    }
-
-    .tabs {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      padding: 16px 16px 0;
-    }
-
-    .tab[aria-selected="true"] {
-      border-color: var(--brand);
-      background: var(--brand);
-      color: #ffffff;
-    }
-
-    .view { padding: 16px; }
-    .hidden { display: none; }
-
-    pre {
-      overflow: auto;
-      max-height: 52vh;
-      margin: 0;
-      border-radius: 8px;
-      background: #111827;
-      color: #e5e7eb;
-      padding: 16px;
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
-
-    .graph {
-      display: grid;
-      grid-template-columns: repeat(5, minmax(130px, 1fr));
-      gap: 10px;
-    }
-
-    .node {
-      position: relative;
-      min-height: 116px;
-    }
-
-    .node span {
-      color: var(--brand);
-      font-size: 12px;
-      font-weight: 900;
-    }
-
-    .node:not(:last-child)::after {
-      content: "->";
-      position: absolute;
-      top: 18px;
-      right: -10px;
-      color: var(--brand);
-      font-weight: 900;
-    }
-
-    .summary-card {
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: #fbfcff;
-    }
-
-    .summary-card span {
-      display: block;
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 900;
-    }
-
-    .summary-card strong {
-      display: block;
-      margin-top: 6px;
-      color: var(--text);
-      font-size: 20px;
-    }
-
-    .toast {
-      position: fixed;
-      right: 18px;
-      bottom: 64px;
-      z-index: 30;
-      max-width: 320px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: var(--panel);
-      box-shadow: var(--shadow);
-      color: var(--text);
-      padding: 10px 12px;
-      transform: translateY(12px);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.18s ease, transform 0.18s ease;
-    }
-
-    .toast.show { transform: translateY(0); opacity: 1; }
-
-    :root[data-theme="dark"] .page-nav,
-    :root[data-theme="dark"] .status {
-      background: rgba(11, 15, 20, 0.96);
-    }
-
-    :root[data-theme="dark"] .page-nav a,
-    :root[data-theme="dark"] button,
-    :root[data-theme="dark"] .button,
-    :root[data-theme="dark"] textarea,
-    :root[data-theme="dark"] select,
-    :root[data-theme="dark"] .kit-panel,
-    :root[data-theme="dark"] .wrapper-preview,
-    :root[data-theme="dark"] .system-meter,
-    :root[data-theme="dark"] .summary-card {
-      background: var(--panel);
-      border-color: var(--line);
-      color: var(--text);
-    }
-
-    :root[data-theme="dark"] .page-nav a[aria-current="page"],
-    :root[data-theme="dark"] button.primary,
-    :root[data-theme="dark"] .button.primary,
-    :root[data-theme="dark"] .tab[aria-selected="true"] {
-      background: var(--brand);
-      color: #ffffff;
-    }
-
-    @media (max-width: 980px) {
-      body { padding-top: 150px; }
-      .status, .hero, .app-shell, .controls, .mode-grid, .steps, .summary, .graph { grid-template-columns: 1fr; }
-      .status.top { top: 140px; }
-      .status-right { display: none; }
-      h1 { font-size: 32px; }
-      .system-grid { grid-template-columns: 1fr; }
-      .guide-rail { position: static; }
-      .node:not(:last-child)::after { display: none; }
-    }
-  </style>
+  <link rel="stylesheet" href="/vendor/tabler/tabler-icons.min.css">
+  <link rel="stylesheet" href="/workspace.css">
+  <script defer src="/vendor/marked/marked.umd.js"></script>
+  <script defer src="/vendor/dompurify/purify.min.js"></script>
+  <script defer src="/workspace.js"></script>
 </head>
 <body>
-  <nav class="page-nav" aria-label="Token optimizer pages">
-    <a href="/">Home</a>
-    <a href="/workspace" aria-current="page">Workspace</a>
-    <a href="/optimized-ide">Optimized IDE</a>
-    <a href="/agent-structure">Agents</a>
-    <a href="/open-source">Open Source</a>
-    <a href="/stats">Stats</a>
-    <a href="/prompt-history">History</a>
-    <a href="/settings">Settings</a>
-  </nav>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Token Optimizer home">
+      <span class="brand-mark" aria-hidden="true">T</span>
+      <strong>Token Optimizer</strong>
+    </a>
+    <nav class="primary-nav" aria-label="Primary navigation">
+      <a href="/workspace" aria-current="page">Workspace</a>
+      <a href="/prompt-history">Runs</a>
+      <a href="/stats">Insights</a>
+      <a href="/agent-structure">Architecture</a>
+    </nav>
+    <a class="icon-button" href="/settings" aria-label="Settings" title="Settings">
+      <i class="ti ti-settings" aria-hidden="true"></i>
+    </a>
+  </header>
 
-  <div class="status top" role="status" aria-live="polite">
-    <div class="status-left">
-      <span class="dot" id="topDot"></span>
-      <span class="phase" id="topPhase">Ready</span>
-    </div>
-    <div class="status-main">
-      <strong id="topTitle">Paste once. Token Optimizer handles the workflow.</strong>
-      <span id="topDetail">Use it as your main LLM workspace or as a background optimizer beside another tool.</span>
-    </div>
-    <div class="status-right">
-      <span>Mode</span>
-      <strong id="topMode">Primary LLM</strong>
-    </div>
-  </div>
+  <main class="workspace">
+    <section class="workspace-intro" aria-labelledby="workspaceTitle">
+      <div>
+        <h1 id="workspaceTitle">Turn the rough idea into the finished work.</h1>
+      </div>
+      <div class="service-state" id="serviceState" role="status">
+        <span class="service-dot" aria-hidden="true"></span>
+        <span>Ready</span>
+      </div>
+    </section>
 
-  <main class="page">
-    <section class="app-shell" aria-label="Optimizer workspace">
-      <div class="workspace-card">
-        <div class="app-head">
-          <div class="brand">
-            <div class="logo">T</div>
-            <div>
-              <strong>Token Optimizer</strong>
-              <span>One-shot prompt workspace</span>
-            </div>
-          </div>
-          <div class="mode-grid" aria-label="Use mode">
-            <button class="mode" id="primaryMode" type="button" aria-pressed="true">
-              <strong>Main app</strong>
-              <p>Run here.</p>
-            </button>
-            <button class="mode" id="backgroundMode" type="button" aria-pressed="false">
-              <strong>Background</strong>
-              <p>Copy elsewhere.</p>
-            </button>
-          </div>
+    <section class="composer" aria-label="Prompt composer">
+      <label class="sr-only" for="prompt">Describe what you want done</label>
+      <textarea id="prompt" rows="1" maxlength="80000" placeholder="Describe the outcome in your own words. Add rough notes, constraints, code, or context. No cleanup needed."></textarea>
+      <div class="attachment-row hidden" id="attachmentRow" aria-live="polite">
+        <span class="attachment-chip">
+          <i class="ti ti-file-text" aria-hidden="true"></i>
+          <span id="attachmentName">Attached file</span>
+          <button class="chip-remove" id="removeAttachment" type="button" aria-label="Remove attachment" title="Remove attachment">
+            <i class="ti ti-x" aria-hidden="true"></i>
+          </button>
+        </span>
+      </div>
+      <div class="composer-footer">
+        <div class="composer-tools">
+          <label class="tool-button" for="fileInput" aria-label="Attach text file" title="Attach text file">
+            <i class="ti ti-paperclip" aria-hidden="true"></i>
+            <span>Attach text file</span>
+          </label>
+          <input id="fileInput" class="sr-only" type="file" accept=".txt,.md,.json,.yaml,.yml,.csv,.xml,.js,.ts,.jsx,.tsx,.py,.html,.css,.c,.cpp,.java,.go,.rs,.sql">
+          <button class="tool-button" id="exampleButton" type="button" aria-label="Load example" title="Load example">
+            <i class="ti ti-wand" aria-hidden="true"></i>
+            <span>Example</span>
+          </button>
         </div>
-
-        <div class="prompt-stage">
-          <h1>What do you want done?</h1>
-          <p class="lede">Paste the rough version. The app chooses the leanest valid route, runs the contract workflow, and keeps the final result collapsed until you choose to open it.</p>
-          <div class="prompt-card">
-            <div class="prompt-meta">
-              <label for="prompt">Messy prompt</label>
-              <span class="pill good" id="runPill">Ready</span>
-            </div>
-            <textarea id="prompt" placeholder="Paste anything here: a rough product idea, coding request, research task, transcript, or long prompt. No cleanup needed."></textarea>
-          </div>
-          <div class="examples">
-            <button data-example="I want to build a browser extension that watches my prompt before I send it to another LLM, removes repeated context, creates a compact contract, and lets me copy the optimized prompt.">Try background helper</button>
-            <button data-example="Turn this messy product idea into an optimized workflow: intake user prompt, choose the route, create a contract when useful, route to executor, verify final answer, save prompt history, and show a node graph of the flow.">Try product workflow</button>
-            <button data-example="Optimize a long prompt into smaller staged prompts. Run the optimized workflow, show token savings, and only reveal the final answer when I expand it.">Try staged prompt run</button>
-          </div>
-          <div class="controls">
-            <div>
-              <label for="intent">Output goal</label>
-              <select id="intent">
-                <option value="answer">Optimized final answer</option>
-                <option value="prompt">Prompt to paste elsewhere</option>
-                <option value="contract">Handoff contract</option>
-              </select>
-            </div>
-            <div class="actions">
-              <button id="contractOnly">Contract Only</button>
-              <button class="primary" id="runWorkflow">Optimize & Run</button>
-            </div>
-          </div>
-          <details class="kit-panel" id="agentKit">
-            <summary>Advanced Agent Kit</summary>
-            <p>Run the same prompt through the contract workflow kit when you want a more IDE-like agent experiment.</p>
-            <div class="button-row">
-              <button id="runKit">Run Agent Kit</button>
-              <a class="button" href="/open-source">See workings</a>
-            </div>
-          </details>
+        <div class="run-controls">
+          <span class="token-estimate" id="tokenEstimate">About 0 input tokens</span>
+          <label class="sr-only" for="routePreference">Run preference</label>
+          <select id="routePreference" title="Run preference">
+            <option value="auto">Automatic route</option>
+            <option value="fast">Fastest</option>
+            <option value="thorough">Thorough</option>
+            <option value="verified">Always verify</option>
+          </select>
+          <button class="primary-button" id="runButton" type="button">
+            <i class="ti ti-player-play" aria-hidden="true"></i>
+            <span>Run</span>
+          </button>
+          <button class="danger-button hidden" id="cancelButton" type="button">
+            <i class="ti ti-square" aria-hidden="true"></i>
+            <span>Cancel</span>
+          </button>
         </div>
       </div>
+    </section>
 
-      <aside class="guide-rail panel">
-        <div class="coach-section">
-          <h2>No token thinking required</h2>
-          <p id="coachMode">Paste here first. The app optimizes, runs, verifies, and saves prompts without making you manage tokens manually.</p>
+    <section class="run-grid" aria-label="Current run">
+      <aside class="timeline-panel" aria-label="Run activity">
+        <ol class="timeline" id="timeline">
+          <li class="timeline-step" data-step="understand" data-status="ready">
+            <span class="step-marker"><i class="ti ti-check" aria-hidden="true"></i></span>
+            <div>
+              <div class="step-heading"><strong>Understand</strong><time>--:--</time></div>
+              <p>Capture the goal and required details.</p>
+            </div>
+          </li>
+          <li class="timeline-step" data-step="simplify" data-status="ready">
+            <span class="step-marker"><i class="ti ti-check" aria-hidden="true"></i></span>
+            <div>
+              <div class="step-heading"><strong>Simplify</strong><time>--:--</time></div>
+              <p>Choose a direct or compact route.</p>
+            </div>
+          </li>
+          <li class="timeline-step" data-step="execute" data-status="ready">
+            <span class="step-marker"><i class="ti ti-check" aria-hidden="true"></i></span>
+            <div>
+              <div class="step-heading"><strong>Execute</strong><time>--:--</time></div>
+              <p>Generate the requested work.</p>
+            </div>
+          </li>
+          <li class="timeline-step" data-step="validate" data-status="ready">
+            <span class="step-marker"><i class="ti ti-check" aria-hidden="true"></i></span>
+            <div>
+              <div class="step-heading"><strong>Validate</strong><time>--:--</time></div>
+              <p>Check completeness and constraints.</p>
+            </div>
+          </li>
+        </ol>
+        <div class="timeline-summary" id="timelineSummary">
+          <span class="summary-state"><i class="ti ti-point-filled" aria-hidden="true"></i> Ready</span>
+          <strong>Waiting for a prompt</strong>
         </div>
-        <div class="guide-card">
-          <strong>What happens after Run</strong>
-          <div class="mini-flow">
-            <div><span>1</span><div><strong>Read once</strong><p>The full prompt only enters at intake.</p></div></div>
-            <div><span>2</span><div><strong>Choose route</strong><p>Simple prompts stay direct; complex prompts use contracts.</p></div></div>
-            <div><span>3</span><div><strong>Verify</strong><p>The final answer is checked and collapsed.</p></div></div>
-          </div>
-        </div>
-        <div class="guide-card" id="systemEngineCard">
-          <strong>System engine</strong>
-          <p class="muted" id="systemSummary">Background preflight is ready.</p>
-          <div class="system-grid" aria-label="System processing snapshot">
-            <div class="system-meter"><span>Tokens</span><strong id="systemTokens">0</strong></div>
-            <div class="system-meter"><span>Route</span><strong id="systemRoute">Ready</strong></div>
-            <div class="system-meter"><span>Stage</span><strong id="systemStage">Idle</strong></div>
-          </div>
-          <div class="progress-bar" aria-label="System run progress"><div id="systemProgress"></div></div>
-          <div class="system-activity" id="systemActivity">
-            <div>Paste a prompt and the background worker will preflight it.</div>
-          </div>
-        </div>
-        <div class="guide-card" id="wrapperCard">
-          <strong>Active LLM sidecar</strong>
-          <p class="muted">Use Token Optimizer beside a live chat tab, Google-style LLM, or IDE prompt box.</p>
-          <div class="wrapper-options" role="group" aria-label="Wrapper target">
-            <button class="wrapper-chip" type="button" data-wrapper="browser" aria-pressed="true">Browser</button>
-            <button class="wrapper-chip" type="button" data-wrapper="google" aria-pressed="false">Google</button>
-            <button class="wrapper-chip" type="button" data-wrapper="ide" aria-pressed="false">IDE</button>
-          </div>
-          <div class="wrapper-preview" id="wrapperPreview"></div>
-          <div class="button-row" style="margin-top: 12px">
-            <button id="copyWrapperPrompt">Copy Prompt</button>
-            <button id="copyWrapperKit">Copy Kit</button>
-          </div>
-        </div>
-        <div class="guide-card">
-          <strong>Open source confidence</strong>
-          <p class="muted">Agents, contracts, routes, files, and contribution notes live on the workings page.</p>
-          <div class="button-row" style="margin-top: 12px">
-            <a class="button" href="/open-source">Open Source</a>
-            <button id="focusKit">Agent Kit</button>
-          </div>
-        </div>
-        <button id="copyBackgroundGuide">Copy Background Guide</button>
+        <details class="route-details" id="routeDetails">
+          <summary>Why this route?</summary>
+          <p id="routeReason">Automatic mode chooses the least expensive route that can still cover the request.</p>
+          <dl id="routeFacts">
+            <div><dt>Route</dt><dd>Automatic</dd></div>
+            <div><dt>Comparison</dt><dd>Not run</dd></div>
+          </dl>
+        </details>
       </aside>
-    </section>
 
-    <section class="steps" aria-label="Workflow steps">
-      <article class="step"><span>1</span><strong>Paste once</strong><p>Use full context only at intake.</p></article>
-      <article class="step"><span>2</span><strong>Adaptive route</strong><p>Direct, contract, or full verification.</p></article>
-      <article class="step"><span>3</span><strong>Run lean</strong><p>Provider adapters use the smallest valid payload.</p></article>
-      <article class="step"><span>4</span><strong>Expand if needed</strong><p>Results stay collapsed by default.</p></article>
-    </section>
+      <div class="result-column">
+        <section class="metrics-strip" aria-label="Measured run usage">
+          <div><span>Input tokens</span><strong id="inputTokens">--</strong><small id="inputTokenSource">Measured after run</small></div>
+          <div><span>Output tokens</span><strong id="outputTokens">--</strong><small>Provider reported</small></div>
+          <div><span>Estimated cost</span><strong id="estimatedCost">--</strong><small id="costSource">When pricing is configured</small></div>
+          <div><span>Elapsed time</span><strong id="elapsedTime">00:00</strong><small>End to end</small></div>
+          <div><span>Status</span><strong class="metric-status" id="runStatus"><i class="ti ti-point-filled" aria-hidden="true"></i> Ready</strong><small id="modelCallCount">No calls yet</small></div>
+        </section>
 
-    <section class="results hidden" id="results">
-      <div class="summary" id="summaryGrid"></div>
-      <div class="result">
-        <div class="result-header">
-          <div>
-            <h2>Final result</h2>
-            <p id="resultMeta">Collapsed preview. Expand only when you need the full answer.</p>
+        <section class="result-surface" id="resultSurface" aria-live="polite">
+          <div class="empty-result" id="emptyResult">
+            <span class="empty-icon"><i class="ti ti-sparkles" aria-hidden="true"></i></span>
+            <h2>Your result will appear here.</h2>
+            <p>The final work stays compact until you choose to open it.</p>
           </div>
-          <div class="actions">
-            <button id="copyFinal">Copy Final</button>
-            <button id="toggleFinal">Extend to View</button>
+
+          <div class="running-result hidden" id="runningResult">
+            <div class="loading-line wide"></div>
+            <div class="loading-line medium"></div>
+            <div class="loading-line short"></div>
+            <p id="runningMessage">Understanding the request...</p>
           </div>
-        </div>
-        <div class="preview" id="finalPreview">Run the workflow to create a final result.</div>
-      </div>
-      <div class="result" style="margin-top: 14px">
-        <div class="tabs" role="tablist" aria-label="Run details">
-          <button class="tab" data-tab="overview" aria-selected="true">Overview</button>
-          <button class="tab" data-tab="agents" aria-selected="false">Agents</button>
-          <button class="tab" data-tab="prompts" aria-selected="false">Prompts</button>
-          <button class="tab" data-tab="contract" aria-selected="false">Contract</button>
-          <button class="tab" data-tab="audit" aria-selected="false">Audit</button>
-          <button class="tab" data-tab="wrapper" aria-selected="false">Wrapper</button>
-          <button class="tab" data-tab="background" aria-selected="false">Background Use</button>
-        </div>
-        <div class="view" id="overviewView"></div>
-        <div class="view hidden" id="agentsView"></div>
-        <div class="view hidden" id="promptsView"></div>
-        <div class="view hidden" id="contractView"></div>
-        <div class="view hidden" id="auditView"></div>
-        <div class="view hidden" id="wrapperView"></div>
-        <div class="view hidden" id="backgroundView"></div>
+
+          <div class="completed-result hidden" id="completedResult">
+            <div class="result-header">
+              <div>
+                <span class="result-kicker"><i class="ti ti-circle-check-filled" aria-hidden="true"></i> Result ready</span>
+                <h2 id="resultTitle">Completed result</h2>
+              </div>
+              <div class="result-actions">
+                <button id="copyResult" type="button" aria-label="Copy result" title="Copy result"><i class="ti ti-copy" aria-hidden="true"></i><span>Copy</span></button>
+                <button id="openResult" type="button" aria-label="Open full result dialog" title="Open full result"><i class="ti ti-maximize" aria-hidden="true"></i><span>Open full result</span></button>
+                <button id="downloadResult" type="button" aria-label="Download result" title="Download result"><i class="ti ti-download" aria-hidden="true"></i><span>Download</span></button>
+                <button class="secondary-primary" id="continueButton" type="button"><span>Continue</span><i class="ti ti-arrow-right" aria-hidden="true"></i></button>
+              </div>
+            </div>
+            <article class="markdown-result is-collapsed" id="resultPreview"></article>
+            <button class="expand-result" id="expandResult" type="button">
+              <span>Open full result</span>
+              <i class="ti ti-chevron-down" aria-hidden="true"></i>
+            </button>
+            <div class="result-footnote" id="resultFootnote"></div>
+          </div>
+
+          <div class="error-result hidden" id="errorResult">
+            <span class="error-icon"><i class="ti ti-alert-circle" aria-hidden="true"></i></span>
+            <div>
+              <h2>Execution could not finish.</h2>
+              <p id="errorMessage">The model route was unavailable.</p>
+              <div class="error-actions">
+                <button id="retryButton" type="button"><i class="ti ti-refresh" aria-hidden="true"></i><span>Retry</span></button>
+                <button id="copyOptimizedPrompt" type="button"><i class="ti ti-copy" aria-hidden="true"></i><span>Copy prepared prompt</span></button>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
     </section>
   </main>
 
-  <div class="status bottom" role="status" aria-live="polite">
-    <div class="status-left">
-      <span class="dot" id="bottomDot"></span>
-      <span class="phase" id="bottomPhase">Idle</span>
+  <footer class="live-bar" role="status" aria-live="polite">
+    <div class="live-message">
+      <span class="live-dot" id="liveDot" aria-hidden="true"></span>
+      <strong id="liveLabel">Ready</strong>
+      <span id="liveDetail">Paste a prompt to begin.</span>
     </div>
-    <div class="status-main">
-      <strong id="bottomTitle">Waiting for prompt</strong>
-      <span id="bottomDetail">Nothing is running yet. Paste once and click Optimize & Run.</span>
-      <div class="status-track" aria-label="Sidecar workflow stages">
-        <button class="track-step" type="button" data-rail="capture" aria-current="step">Capture</button>
-        <button class="track-step" type="button" data-rail="compress">Compress</button>
-        <button class="track-step" type="button" data-rail="route">Route</button>
-        <button class="track-step" type="button" data-rail="paste">Paste</button>
-        <button class="track-step" type="button" data-rail="review">Review</button>
+    <div class="live-stages" aria-label="Run progress">
+      <span data-live-step="understand">Understand</span>
+      <span data-live-step="simplify">Route</span>
+      <span data-live-step="execute">Run</span>
+      <span data-live-step="validate">Check</span>
+    </div>
+    <time id="liveClock">00:00</time>
+  </footer>
+
+  <dialog class="result-dialog" id="resultDialog" aria-labelledby="dialogTitle">
+    <div class="dialog-header">
+      <div>
+        <span class="result-kicker">Full result</span>
+        <h2 id="dialogTitle">Completed result</h2>
       </div>
+      <button class="icon-button" id="closeDialog" type="button" aria-label="Close result" title="Close">
+        <i class="ti ti-x" aria-hidden="true"></i>
+      </button>
     </div>
-    <div class="status-right">
-      <span id="clock">Updated --:--:--</span>
-      <strong id="artifactName">contract-workflow.json</strong>
+    <article class="markdown-result dialog-content" id="dialogResult"></article>
+    <div class="dialog-actions">
+      <button id="dialogCopy" type="button"><i class="ti ti-copy" aria-hidden="true"></i><span>Copy result</span></button>
+      <button class="secondary-primary" id="dialogContinue" type="button"><span>Continue</span><i class="ti ti-arrow-right" aria-hidden="true"></i></button>
     </div>
-  </div>
+  </dialog>
+
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-
-  <script>
-    const sessionIdKey = "tokenOptimizerSessionId";
-    const sessionStartKey = "tokenOptimizerSessionStart";
-
-    function ensureUsageSession() {
-      let id = sessionStorage.getItem(sessionIdKey);
-      let startedAt = sessionStorage.getItem(sessionStartKey);
-      if (!id || !startedAt) {
-        id = Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
-        startedAt = new Date().toISOString();
-        sessionStorage.setItem(sessionIdKey, id);
-        sessionStorage.setItem(sessionStartKey, startedAt);
-      }
-      return { id, startedAt };
-    }
-
-    const usageSession = ensureUsageSession();
-    const state = {
-      mode: localStorage.getItem("tokenOptimizerUseMode") || "primary",
-      wrapperTarget: localStorage.getItem("tokenOptimizerWrapperTarget") || "browser",
-      lastResult: null,
-      finalExpanded: false,
-      activeTab: "overview",
-      worker: null,
-      preflightTimer: null,
-      preflightRequestId: 0,
-      systemRunId: null
-    };
-    const historyKey = "tokenOptimizerPromptHistory";
-    const auditKey = "tokenOptimizerAuditLog";
-    const AUTO_ROUTE = "auto";
-    const AUTO_API_ROUTE = "groq-openai-fallback";
-    const KIT_API_ROUTE = "groq";
-    const el = (id) => document.getElementById(id);
-    const wrapperTargets = {
-      browser: {
-        label: "Browser side panel",
-        artifact: "sidecar-browser-kit.md",
-        detail: "Keep this app beside a chat tab. Copy the compact prompt into the active message box.",
-        insert: "Paste into the active LLM chat box after the original prompt has been compacted here.",
-        files: [
-          ["sidecar/instructions.md", "Human-readable wrapper steps."],
-          ["sidecar/contract-workflow.json", "The compact contract payload to pass forward."],
-          ["sidecar/content-script-notes.md", "Notes for a future browser extension or userscript."]
-        ]
-      },
-      google: {
-        label: "Google wrapper",
-        artifact: "google-wrapper-kit.md",
-        detail: "Use a split-screen or side-panel flow for Google/Gemini-style prompt boxes.",
-        insert: "Paste into the Google/Gemini prompt box, then bring the response back here for verification if needed.",
-        files: [
-          ["google-wrapper/instructions.md", "Side-by-side use directions."],
-          ["google-wrapper/handoff.yaml", "Nested prompt state for reuse."],
-          ["google-wrapper/verification.md", "Checklist for checking the target response."]
-        ]
-      },
-      ide: {
-        label: "IDE wrapper",
-        artifact: "ide-wrapper-kit.md",
-        detail: "Use this as a coding sidecar next to Cursor, VS Code, Codex, or another IDE agent.",
-        insert: "Paste into the IDE agent prompt box with the relevant files selected or attached.",
-        files: [
-          [".token-optimizer/instructions.md", "Repository-local agent instructions."],
-          [".token-optimizer/handoff.yaml", "Reusable contract workflow state for the task."],
-          [".token-optimizer/api-payload.json", "Structured payload for local tools or extensions."]
-        ]
-      }
-    };
-    const railStatusMap = {
-      ready: "capture",
-      idle: "capture",
-      example: "capture",
-      "needs input": "capture",
-      running: "capture",
-      contract: "compress",
-      optimizing: "compress",
-      executing: "route",
-      "agent kit": "route",
-      done: "review",
-      fallback: "review",
-      viewing: "review",
-      output: "paste",
-      sidecar: "paste",
-      capture: "capture",
-      compress: "compress",
-      route: "route",
-      handoff: "route",
-      paste: "paste",
-      review: "review"
-    };
-
-    function setStatus(phase, title, detail, running = false) {
-      for (const prefix of ["top", "bottom"]) {
-        el(prefix + "Phase").textContent = phase;
-        el(prefix + "Title").textContent = title;
-        el(prefix + "Detail").textContent = detail;
-        el(prefix + "Dot").classList.toggle("running", running);
-      }
-      el("runPill").textContent = phase;
-      el("runPill").className = running ? "pill warn" : "pill good";
-      syncStatusRail(phase);
-    }
-
-    function syncStatusRail(phase) {
-      const key = railStatusMap[String(phase || "").toLowerCase()] || "capture";
-      document.querySelectorAll("[data-rail]").forEach((button) => {
-        if (button.dataset.rail === key) {
-          button.setAttribute("aria-current", "step");
-        } else {
-          button.removeAttribute("aria-current");
-        }
-      });
-    }
-
-    function toast(message) {
-      const node = el("toast");
-      node.textContent = message;
-      node.classList.add("show");
-      clearTimeout(toast.timer);
-      toast.timer = setTimeout(() => node.classList.remove("show"), 2200);
-    }
-
-    function renderSystemActivity(items) {
-      const entries = (items || []).filter(Boolean).slice(0, 5);
-      el("systemActivity").innerHTML = entries.length
-        ? entries.map((item) => `<div>${escapeHtml(item)}</div>`).join("")
-        : "<div>System engine is idle.</div>";
-    }
-
-    function setSystemProgress(value) {
-      el("systemProgress").style.setProperty("--progress", Math.max(0, Math.min(100, Number(value) || 0)) + "%");
-    }
-
-    function renderPreflight(analysis) {
-      if (!analysis) return;
-      el("systemTokens").textContent = prettyTokens(analysis.rawTokens);
-      const routeLabel = analysis.workflowRoute === "full"
-        ? "Full verify"
-        : analysis.workflowRoute === "contract"
-          ? "Contract"
-          : "Direct";
-      el("systemRoute").textContent = routeLabel;
-      el("systemStage").textContent = analysis.ready ? "Preflight" : "Idle";
-      const savingsLabel = analysis.estimatedSavingsPercent > 0
-        ? `${analysis.estimatedSavingsPercent}% estimated savings`
-        : routeLabel;
-      el("systemSummary").textContent = analysis.ready
-        ? `${analysis.outputStyle} output, ${analysis.constraintsFound} constraints, ${savingsLabel}.`
-        : "Background preflight is ready.";
-      setSystemProgress(analysis.ready ? 18 : 0);
-      renderSystemActivity(analysis.activity);
-    }
-
-    function renderSystemRun(run) {
-      if (!run) return;
-      state.systemRunId = run.id;
-      const current = run.currentStage || {};
-      el("systemTokens").textContent = prettyTokens(run.tokenEstimate || 0);
-      el("systemRoute").textContent = run.runType === "kit" ? "Kit" : "System";
-      el("systemStage").textContent = current.label || run.phase || "Run";
-      el("systemSummary").textContent = run.status === "completed"
-        ? "Run completed in the system engine."
-        : run.status === "failed"
-          ? run.error || "System run failed."
-          : current.detail || "System run is active.";
-      setSystemProgress(run.progress || 0);
-      renderSystemActivity((run.stages || []).map((stage) => `${stage.label}: ${stage.status}`));
-      setStatus(
-        current.label || run.phase || "System",
-        run.status === "completed" ? "System run completed" : run.status === "failed" ? "System run failed" : "System run active",
-        current.detail || run.error || "The backend runner is processing the workflow.",
-        run.status === "queued" || run.status === "running"
-      );
-    }
-
-    function fallbackPreflight(prompt) {
-      const contract = makeContract(prompt);
-      renderPreflight({
-        ready: Boolean(prompt),
-        rawTokens: estimateTokens(prompt),
-        constraintsFound: contract.constraints.length,
-        outputStyle: "answer",
-        workflowRoute: estimateTokens(prompt) > 360 ? "full" : estimateTokens(prompt) > 120 ? "contract" : "direct",
-        recommendedRoute: estimateTokens(prompt) > 120 ? "system-runner" : "compact-direct",
-        estimatedSavingsPercent: 40,
-        activity: [
-          prompt ? "Prompt captured by inline preflight." : "Waiting for prompt input.",
-          `${estimateTokens(prompt)} estimated raw tokens.`,
-          `${contract.constraints.length} constraints detected.`
-        ]
-      });
-    }
-
-    function schedulePreflight() {
-      const prompt = currentPrompt();
-      clearTimeout(state.preflightTimer);
-      state.preflightTimer = setTimeout(() => {
-        if (!state.worker) {
-          fallbackPreflight(prompt);
-          return;
-        }
-        const requestId = ++state.preflightRequestId;
-        state.worker.postMessage({
-          type: "preflight",
-          requestId,
-          prompt,
-          mode: state.mode,
-          wrapperTarget: state.wrapperTarget
-        });
-      }, 140);
-    }
-
-    function initSystemWorker() {
-      if (!("Worker" in window)) {
-        renderSystemActivity(["Inline preflight active."]);
-        return;
-      }
-      try {
-        state.worker = new Worker("/system-worker.js");
-        state.worker.onmessage = (event) => {
-          const message = event.data || {};
-          if (message.type === "preflight-result" && message.requestId === state.preflightRequestId) {
-            renderPreflight(message.analysis);
-          }
-        };
-        state.worker.onerror = () => {
-          state.worker = null;
-          fallbackPreflight(currentPrompt());
-        };
-        renderSystemActivity(["Background worker connected.", "Preflight runs while you type."]);
-      } catch {
-        state.worker = null;
-        renderSystemActivity(["Inline preflight active."]);
-      }
-    }
-
-    function estimateTokens(text) {
-      return Math.max(1, Math.ceil(String(text || "").length / 4));
-    }
-
-    function prettyTokens(value) {
-      return value >= 1000 ? (value / 1000).toFixed(1) + "k" : String(value || 0);
-    }
-
-    function escapeHtml(value) {
-      return String(value || "").replace(/[&<>"]/g, (char) => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        "\"": "&quot;"
-      }[char]));
-    }
-
-    function renderPre(id, text) {
-      el(id).innerHTML = `<pre>${escapeHtml(text)}</pre>`;
-    }
-
-    function loadHistory() {
-      try {
-        const parsed = JSON.parse(localStorage.getItem(historyKey) || "[]");
-        return Array.isArray(parsed) ? parsed : [];
-      } catch {
-        return [];
-      }
-    }
-
-    function rememberPrompt(prompt, provider, mode) {
-      if (!prompt.trim()) return;
-      const normalizedGoal = prompt.replace(/\s+/g, " ").trim();
-      const history = loadHistory().filter((item) => item.normalizedGoal !== normalizedGoal);
-      history.unshift({
-        id: Date.now().toString(36),
-        goal: prompt,
-        normalizedGoal,
-        mode,
-        provider,
-        platform: mode === "background" ? "background" : "primary",
-        fileType: "run",
-        depth: "auto",
-        tokens: estimateTokens(prompt),
-        sessionId: usageSession.id,
-        sessionStartedAt: usageSession.startedAt,
-        createdAt: new Date().toISOString()
-      });
-      localStorage.setItem(historyKey, JSON.stringify(history.slice(0, 25)));
-    }
-
-    function promptTitle(prompt) {
-      const compact = String(prompt || "").replace(/\s+/g, " ").trim();
-      if (!compact) return "Untitled prompt";
-      return compact.length > 82 ? compact.slice(0, 79) + "..." : compact;
-    }
-
-    function loadAuditLog() {
-      try {
-        const parsed = JSON.parse(localStorage.getItem(auditKey) || "[]");
-        return Array.isArray(parsed) ? parsed : [];
-      } catch {
-        return [];
-      }
-    }
-
-    function routeDisplay(result, route = AUTO_ROUTE) {
-      if (route === "contract") return "Contract";
-      const adaptive = result?.tokenReport?.adaptiveRoute || result?.workflowShape?.route;
-      if (adaptive === "direct") return "Direct";
-      if (adaptive === "contract") return "Contract";
-      if (adaptive === "full") return "Full Verify";
-      if (result?.providerError || result?.provider === "offline") return "Fallback";
-      return "Auto";
-    }
-
-    function saveAudit(prompt, route, result, status) {
-      const report = result?.tokenReport || {};
-      const rawTokens = report.rawInputTokens || estimateTokens(prompt);
-      const optimizedTokens = report.optimizedPromptTokens || 0;
-      const naiveTokens = report.estimatedNaiveThreeStepTokens || rawTokens * 3;
-      const savedTokens = report.estimatedSavingsTokens ?? Math.max(0, naiveTokens - optimizedTokens);
-      const item = {
-        id: Date.now().toString(36),
-        title: promptTitle(prompt),
-        mode: state.mode,
-        provider: routeDisplay(result, route),
-        status,
-        rawTokens,
-        optimizedTokens,
-        naiveTokens,
-        savedTokens,
-        savingsPercent: report.estimatedSavingsPercent ?? null,
-        sessionId: usageSession.id,
-        sessionStartedAt: usageSession.startedAt,
-        phases: (result?.trace || []).map((step) => ({
-          agent: step.agent,
-          phase: step.phase,
-          status: step.status,
-          detail: step.detail
-        })),
-        createdAt: new Date().toISOString()
-      };
-      const log = loadAuditLog();
-      log.unshift(item);
-      localStorage.setItem(auditKey, JSON.stringify(log.slice(0, 50)));
-    }
-
-    function updateMode(mode) {
-      state.mode = mode;
-      localStorage.setItem("tokenOptimizerUseMode", mode);
-      el("primaryMode").setAttribute("aria-pressed", String(mode === "primary"));
-      el("backgroundMode").setAttribute("aria-pressed", String(mode === "background"));
-      el("topMode").textContent = mode === "background" ? "Background Optimizer" : "Primary LLM";
-      el("coachMode").textContent = mode === "background"
-        ? "Keep Token Optimizer open beside another LLM or IDE. Paste the messy prompt here, then copy the compact output into the tool you already use."
-        : "Use Token Optimizer as the main workspace. Paste the messy prompt here, run it, and expand the final result only when needed.";
-      refreshWrapperPreview();
-      setStatus(
-        "Ready",
-        (mode === "background" ? "Background Optimizer" : "Primary LLM") + " selected",
-        mode === "background"
-          ? "The app will prepare copyable outputs for another LLM or IDE."
-          : "The app will run the optimized workflow as the primary answer source.",
-        false
-      );
-      schedulePreflight();
-    }
-
-    function backgroundGuide(prompt) {
-      const target = wrapperTargets[state.wrapperTarget];
-      return [
-        "Use Token Optimizer in the background:",
-        "1. Paste the full messy prompt into Token Optimizer first.",
-        "2. Run Optimize & Run so raw context is read once and compacted.",
-        "3. Expand only the output you need: final answer, prompts, or contract.",
-        `4. Use the ${target.label} path: ${target.insert}`,
-        "5. Do not paste the full original context again unless the target LLM truly needs it.",
-        prompt ? "\nCurrent prompt:\n" + prompt : ""
-      ].join("\n");
-    }
-
-    function currentPrompt() {
-      return el("prompt").value.trim();
-    }
-
-    function ensurePrompt(label = "wrapper") {
-      const prompt = currentPrompt();
-      if (!prompt) {
-        setStatus("Needs input", "Paste a prompt first", "The " + label + " needs raw context before it can create a compact contract.", false);
-        el("prompt").focus();
-        return null;
-      }
-      return prompt;
-    }
-
-    function currentContract(prompt, result = state.lastResult) {
-      return result?.handoffContract || result?.contractOutput || result?.kit || makeContract(prompt);
-    }
-
-    function contractText(prompt, result = state.lastResult) {
-      const payload = currentContract(prompt, result);
-      return typeof payload === "string" ? payload : JSON.stringify(payload, null, 2);
-    }
-
-    function wrapperPromptText(prompt = currentPrompt(), result = state.lastResult) {
-      const target = wrapperTargets[state.wrapperTarget];
-      const finalAnswer = result?.finalAnswer;
-      return [
-        `# Token Optimizer Sidecar Prompt`,
-        "",
-        `Target: ${target.label}`,
-        `Where to insert: ${target.insert}`,
-        "",
-        "Use this compact prompt instead of the original long prompt. Do not ask for the full transcript unless execution is impossible.",
-        "",
-        "## Contract",
-        contractText(prompt, result),
-        "",
-        "## Run Instructions",
-        "- Preserve the goal, facts, and constraints.",
-        "- Avoid repeating setup text back to the user.",
-        "- Ask at most one clarifying question only if execution is blocked.",
-        "- Return the result in the requested format.",
-        finalAnswer ? "\n## Verified Output From Token Optimizer\n" + finalAnswer : ""
-      ].filter(Boolean).join("\n");
-    }
-
-    function wrapperKitText(prompt = currentPrompt(), result = state.lastResult) {
-      const target = wrapperTargets[state.wrapperTarget];
-      const payload = contractText(prompt, result);
-      const files = target.files.map(([file, purpose]) => `- ${file}: ${purpose}`).join("\n");
-      return [
-        `# Token Optimizer Sidecar Kit - ${target.label}`,
-        "",
-        "Purpose: run Token Optimizer beside an active LLM, Google-style prompt box, or IDE agent without sending the full messy prompt over and over.",
-        "",
-        "## Put These Files Here",
-        files,
-        "",
-        "## instructions.md",
-        "1. Capture the messy prompt from the active tool.",
-        "2. Paste it into Token Optimizer and run Optimize & Run.",
-        "3. Copy the sidecar prompt or contract.",
-        `4. ${target.insert}`,
-        "5. Bring the target response back into Token Optimizer only when you want verification or an audit trail.",
-        "",
-        "## contract",
-        "```json",
-        payload,
-        "```",
-        "",
-        "## sidecar prompt",
-        "```md",
-        wrapperPromptText(prompt, result),
-        "```",
-        "",
-        "## active status loop",
-        "- Capture: read the active prompt once.",
-        "- Compress: create the compact contract.",
-        "- Handoff: copy the sidecar prompt.",
-        "- Paste: insert into the active LLM or IDE.",
-        "- Review: verify the result and save audit notes."
-      ].join("\n");
-    }
-
-    function refreshWrapperPreview() {
-      const target = wrapperTargets[state.wrapperTarget];
-      const prompt = currentPrompt();
-      const tokenLabel = prompt ? `${prettyTokens(estimateTokens(prompt))} raw tokens ready` : "Waiting for prompt";
-      el("wrapperPreview").innerHTML = [
-        `<strong>${escapeHtml(target.label)}</strong>`,
-        `<p>${escapeHtml(target.detail)}</p>`,
-        `<p>${escapeHtml(tokenLabel)}. Copy the prompt for a quick sidecar route, or copy the kit for file directions.</p>`,
-        `<code>${escapeHtml(target.artifact)}</code>`
-      ].join("");
-      if (state.mode === "background") el("artifactName").textContent = target.artifact;
-    }
-
-    function updateWrapperTarget(target, announce = true) {
-      if (!wrapperTargets[target]) return;
-      state.wrapperTarget = target;
-      localStorage.setItem("tokenOptimizerWrapperTarget", target);
-      document.querySelectorAll("[data-wrapper]").forEach((button) => {
-        button.setAttribute("aria-pressed", String(button.dataset.wrapper === target));
-      });
-      refreshWrapperPreview();
-      schedulePreflight();
-      if (announce) {
-        const selected = wrapperTargets[target];
-        setStatus("Sidecar", `${selected.label} selected`, selected.detail, false);
-      }
-    }
-
-    async function copyText(text, label) {
-      await navigator.clipboard.writeText(text || "");
-      toast(label + " copied");
-    }
-
-    function makeContract(prompt) {
-      const lines = prompt.split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
-      const goal = lines[0] || "Complete the user's requested task.";
-      return {
-        contract_id: "optimizer.frontend_contract_workflow.v2",
-        use_mode: state.mode,
-        goal: goal.length > 180 ? goal.slice(0, 177) + "..." : goal,
-        facts: lines.slice(0, 6),
-        constraints: lines.filter((line) => /(must|should|need|want|avoid|do not|don't|use|without|with)/i.test(line)).slice(0, 6),
-        agents: ["Intake", "Adaptive Router", "Contract Builder", "Provider Adapter", "Executor", "Verifier", "Output"],
-        wrapper_target: state.wrapperTarget,
-        rule: "Read raw input once. Use the leanest valid route. Pass compact state after intake. Expand details only on request.",
-        next_action: state.mode === "background" ? `Create compact output for ${wrapperTargets[state.wrapperTarget].label}.` : "Run optimized workflow and return final answer.",
-        token_budget: {
-          raw_input_estimate: estimateTokens(prompt),
-          contract_target: 700,
-          final_target: 1200
-        }
-      };
-    }
-
-    function summaryCards(result, prompt) {
-      const report = result?.tokenReport || {};
-      const cards = [
-        ["Raw Tokens", prettyTokens(report.rawInputTokens || estimateTokens(prompt))],
-        ["Optimized Tokens", prettyTokens(report.optimizedPromptTokens || estimateTokens(JSON.stringify(makeContract(prompt))))],
-        ["Est. Savings", report.estimatedSavingsPercent != null ? report.estimatedSavingsPercent + "%" : "auto"],
-        ["Route", routeDisplay(result)]
-      ];
-      el("summaryGrid").innerHTML = cards.map(([label, value]) => `<article class="summary-card"><span>${label}</span><strong>${value}</strong></article>`).join("");
-    }
-
-    function traceHtml(result) {
-      const trace = result?.trace || [
-        { agent: "Intake Agent", phase: "intake", detail: "Reads the full prompt once." },
-        { agent: "Adaptive Router", phase: "route", detail: "Chooses direct, contract, or full verification." },
-        { agent: "Contract Builder", phase: "contract", detail: "Creates compact typed state when useful." },
-        { agent: "Provider Adapter", phase: "adapter", detail: "Prepares the model-ready payload." },
-        { agent: "Executor Agent", phase: "execute", detail: "Works from the smallest valid context." },
-        { agent: "Verifier Agent", phase: "verify", detail: "Checks constraints and trims output." },
-        { agent: "Output Agent", phase: "final", detail: "Returns copyable result." }
-      ];
-      return `<div class="graph">${trace.map((item, index) => `
-        <article class="node">
-          <span>${index + 1}. ${item.phase || "step"}</span>
-          <strong>${item.agent || "Agent"}</strong>
-          <p>${item.detail || "Processes compact state."}</p>
-        </article>
-      `).join("")}</div>`;
-    }
-
-    function promptsText(result) {
-      if (result?.optimizedPrompts?.length) {
-        return result.optimizedPrompts.map((item, index) => [
-          `# ${index + 1}. ${item.agent}`,
-          item.purpose,
-          `Estimated tokens: ${item.tokens}`,
-          "",
-          item.prompt
-        ].join("\n")).join("\n\n---\n\n");
-      }
-      return "Run the workflow to see generated prompts.";
-    }
-
-    function overviewText(result, prompt) {
-      const contract = result?.handoffContract || makeContract(prompt);
-      return [
-        "Recommended use:",
-        state.mode === "background"
-          ? "Keep this page open beside your primary LLM. Copy compact output instead of resending the full original prompt."
-          : "Use this page as your primary LLM workspace. Paste once, run, then expand only the final result you need.",
-        "",
-        "Goal:",
-        contract.goal,
-        "",
-        "Why this saves tokens:",
-        "The workflow avoids unnecessary stages for simple prompts and uses a smaller contract only when the task needs structure."
-      ].join("\n");
-    }
-
-    function auditText(result, prompt) {
-      const report = result?.tokenReport || {};
-      const trace = result?.trace || [];
-      return [
-        "Audit summary:",
-        `Mode: ${state.mode}`,
-        `Route: ${routeDisplay(result)}`,
-        `Raw tokens: ${report.rawInputTokens || estimateTokens(prompt)}`,
-        `Optimized tokens: ${report.optimizedPromptTokens || "n/a"}`,
-        `Estimated savings: ${report.estimatedSavingsPercent != null ? report.estimatedSavingsPercent + "%" : "n/a"}`,
-        "",
-        "Trace:",
-        ...(trace.length ? trace.map((step, index) => `${index + 1}. ${step.agent || "Agent"} - ${step.detail || step.phase || "Processed compact state."}`) : ["Fallback contract was generated."]),
-        "",
-        "Saved to Audit Log for later review."
-      ].join("\n");
-    }
-
-    function renderResult(result, prompt) {
-      state.lastResult = result;
-      state.finalExpanded = false;
-      el("results").classList.remove("hidden");
-      const finalAnswer = result?.finalAnswer || JSON.stringify(makeContract(prompt), null, 2);
-      el("finalPreview").textContent = finalAnswer;
-      el("finalPreview").classList.remove("expanded");
-      el("toggleFinal").textContent = "Extend to View";
-      el("resultMeta").textContent = state.mode === "background"
-        ? "Collapsed preview. Copy it into another LLM or expand to inspect."
-        : "Collapsed preview. Expand only when you need the full answer.";
-      summaryCards(result, prompt);
-      renderPre("overviewView", overviewText(result, prompt));
-      el("agentsView").innerHTML = traceHtml(result);
-      renderPre("promptsView", promptsText(result));
-      const contractPayload = result?.handoffContract || result?.contractOutput || result?.kit || makeContract(prompt);
-      renderPre("contractView", typeof contractPayload === "string" ? contractPayload : JSON.stringify(contractPayload, null, 2));
-      renderPre("auditView", auditText(result, prompt));
-      renderPre("wrapperView", wrapperKitText(prompt, result));
-      renderPre("backgroundView", backgroundGuide(prompt) + "\n\nCompact output to paste elsewhere:\n" + wrapperPromptText(prompt, result));
-      setActiveTab("overview");
-      el("artifactName").textContent = state.mode === "background" ? wrapperTargets[state.wrapperTarget].artifact : "optimized-final-answer.md";
-    }
-
-    function wait(ms) {
-      return new Promise((resolve) => setTimeout(resolve, ms));
-    }
-
-    async function pollSystemRun(id) {
-      for (let attempt = 0; attempt < 180; attempt += 1) {
-        await wait(650);
-        const response = await fetch(`/api/system-runs/${encodeURIComponent(id)}`);
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.error || "System run polling failed");
-        renderSystemRun(data.run);
-        if (data.run.status === "completed") return data.run.result;
-        if (data.run.status === "failed") throw new Error(data.run.error || "System run failed");
-      }
-      throw new Error("System run timed out");
-    }
-
-    async function startSystemRun(payload) {
-      const response = await fetch("/api/system-runs", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(payload)
-      });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error || "System run request failed");
-      if (!data.run) throw new Error("System run returned no run snapshot");
-      renderSystemRun(data.run);
-      if (data.run.status === "completed") return data.run.result;
-      if (data.run.status === "failed") throw new Error(data.run.error || "System run failed");
-      return pollSystemRun(data.run.id);
-    }
-
-    function setActiveTab(tab) {
-      state.activeTab = tab;
-      document.querySelectorAll(".tab").forEach((button) => button.setAttribute("aria-selected", String(button.dataset.tab === tab)));
-      for (const name of ["overview", "agents", "prompts", "contract", "audit", "wrapper", "background"]) {
-        el(name + "View").classList.toggle("hidden", name !== tab);
-      }
-      setStatus(
-        "Viewing",
-        "Showing " + tab,
-        tab === "wrapper"
-          ? "Copy the sidecar prompt or file kit into the active LLM or IDE wrapper."
-          : tab === "agents"
-            ? "Agent nodes explain responsibility and data flow."
-            : "Details are available without moving the main optimizer controls.",
-        false
-      );
-    }
-
-    async function runWorkflow(contractOnly = false) {
-      const prompt = el("prompt").value.trim();
-      if (!prompt) {
-        setStatus("Needs input", "Paste a prompt first", "The optimizer needs raw context before it can choose a route.", false);
-        el("prompt").focus();
-        return;
-      }
-
-      const route = contractOnly ? "contract" : AUTO_ROUTE;
-      rememberPrompt(prompt, routeDisplay(null, route), state.mode);
-      setStatus(contractOnly ? "Contract" : "Running", contractOnly ? "Generating compact contract" : "Starting adaptive contract workflow", "Intake is reading the raw prompt once.", true);
-      el("runWorkflow").disabled = true;
-      el("contractOnly").disabled = true;
-
-      if (contractOnly) {
-        const contract = makeContract(prompt);
-        renderResult({
-          provider: "contract",
-          model: "frontend-template",
-          finalAnswer: JSON.stringify(contract, null, 2),
-          handoffContract: contract,
-          tokenReport: {
-            rawInputTokens: estimateTokens(prompt),
-            optimizedPromptTokens: estimateTokens(JSON.stringify(contract)),
-            estimatedSavingsPercent: 45
-          }
-        }, prompt);
-        saveAudit(prompt, route, state.lastResult, "contract");
-        setStatus("Done", "Contract ready", "Copy the contract or open Agent Structure for the graph view.", false);
-        el("runWorkflow").disabled = false;
-        el("contractOnly").disabled = false;
-        return;
-      }
-
-      try {
-        const data = await startSystemRun({
-          input: prompt,
-          runType: "optimizer",
-          provider: AUTO_API_ROUTE,
-          source: state.mode,
-          sessionId: usageSession.id
-        });
-        renderResult(data, prompt);
-        rememberPrompt(prompt, routeDisplay(data, route), state.mode);
-        saveAudit(prompt, route, data, data.providerError ? "fallback" : "done");
-        setStatus("Done", "Optimized result ready", data.providerError ? "The fallback route completed the result." : "Final answer is collapsed. Expand it only when needed.", false);
-      } catch (error) {
-        const contract = makeContract(prompt);
-        renderResult({
-          provider: "fallback",
-          model: "frontend-template",
-          providerError: error.message,
-          finalAnswer: JSON.stringify(contract, null, 2),
-          handoffContract: contract,
-          tokenReport: {
-            rawInputTokens: estimateTokens(prompt),
-            optimizedPromptTokens: estimateTokens(JSON.stringify(contract)),
-            estimatedSavingsPercent: 40
-          }
-        }, prompt);
-        saveAudit(prompt, route, state.lastResult, "fallback");
-        setStatus("Fallback", "Fallback route completed", "Returned a compact contract so the workflow still has a useful output.", false);
-      } finally {
-        el("runWorkflow").disabled = false;
-        el("contractOnly").disabled = false;
-      }
-    }
-
-    async function runAgentKit() {
-      const prompt = el("prompt").value.trim();
-      if (!prompt) {
-        setStatus("Needs input", "Paste a prompt first", "The agent kit uses the same prompt box as the main workspace.", false);
-        el("prompt").focus();
-        return;
-      }
-      setStatus("Agent Kit", "Running contract workflow kit", "Router, Contract Builder, Executor, and Verifier are working from the smallest valid payload.", true);
-      el("runKit").disabled = true;
-      try {
-        const data = await startSystemRun({
-          input: prompt,
-          runType: "kit",
-          providerConfig: { provider: KIT_API_ROUTE },
-          options: { mode: "one-shot" },
-          source: state.mode,
-          sessionId: usageSession.id
-        });
-        renderResult(data, prompt);
-        rememberPrompt(prompt, routeDisplay(data), state.mode);
-        saveAudit(prompt, AUTO_ROUTE, data, data.providerError ? "fallback" : "agent-kit");
-        setStatus("Done", data.providerError ? "Agent kit completed through fallback" : "Contract kit run ready", "Open the Prompts, Contract, or Audit tabs to inspect the run.", false);
-      } catch (error) {
-        const contract = makeContract(prompt);
-        renderResult({
-          provider: "fallback",
-          model: "frontend-template",
-          providerError: error.message,
-          finalAnswer: JSON.stringify(contract, null, 2),
-          handoffContract: contract,
-          tokenReport: {
-            rawInputTokens: estimateTokens(prompt),
-            optimizedPromptTokens: estimateTokens(JSON.stringify(contract)),
-            estimatedSavingsPercent: 40
-          }
-        }, prompt);
-        saveAudit(prompt, AUTO_ROUTE, state.lastResult, "fallback");
-        setStatus("Fallback", "Agent kit fallback completed", "The fallback contract is ready to inspect.", false);
-      } finally {
-        el("runKit").disabled = false;
-      }
-    }
-
-    function startClock() {
-      const tick = () => {
-        el("clock").textContent = "Updated " + new Date().toLocaleTimeString();
-      };
-      tick();
-      setInterval(tick, 1000);
-    }
-
-    function bindEvents() {
-      el("primaryMode").addEventListener("click", () => updateMode("primary"));
-      el("backgroundMode").addEventListener("click", () => updateMode("background"));
-      el("runWorkflow").addEventListener("click", () => runWorkflow(false));
-      el("contractOnly").addEventListener("click", () => runWorkflow(true));
-      el("runKit").addEventListener("click", runAgentKit);
-      el("focusKit").addEventListener("click", () => {
-        el("agentKit").open = true;
-        el("agentKit").scrollIntoView({ behavior: "smooth", block: "center" });
-        setStatus("Agent Kit", "Advanced kit is ready", "Paste once, then run the contract workflow kit from this workspace.", false);
-      });
-      el("copyBackgroundGuide").addEventListener("click", () => copyText(backgroundGuide(el("prompt").value.trim()), "Background guide"));
-      el("copyWrapperPrompt").addEventListener("click", () => {
-        const prompt = ensurePrompt("sidecar prompt");
-        if (prompt) copyText(wrapperPromptText(prompt), "Sidecar prompt");
-      });
-      el("copyWrapperKit").addEventListener("click", () => {
-        const prompt = ensurePrompt("wrapper kit");
-        if (prompt) copyText(wrapperKitText(prompt), "Wrapper kit");
-      });
-      el("copyFinal").addEventListener("click", () => copyText(state.lastResult?.finalAnswer || el("finalPreview").textContent, "Final result"));
-      el("toggleFinal").addEventListener("click", () => {
-        state.finalExpanded = !state.finalExpanded;
-        el("finalPreview").classList.toggle("expanded", state.finalExpanded);
-        el("toggleFinal").textContent = state.finalExpanded ? "Collapse" : "Extend to View";
-        setStatus("Viewing", state.finalExpanded ? "Full result expanded" : "Final result collapsed", state.finalExpanded ? "The complete answer is visible now." : "The full result is hidden again to keep the page calm.", false);
-      });
-      document.querySelectorAll(".tab").forEach((button) => button.addEventListener("click", () => setActiveTab(button.dataset.tab)));
-      document.querySelectorAll("[data-example]").forEach((button) => button.addEventListener("click", () => {
-        el("prompt").value = button.dataset.example;
-        refreshWrapperPreview();
-        if (/browser|extension|helper/i.test(button.dataset.example)) updateWrapperTarget("browser");
-        setStatus("Example", "Example prompt loaded", "Click Optimize & Run when ready.", false);
-      }));
-      el("intent").addEventListener("change", () => setStatus("Output", "Output goal updated", el("intent").selectedOptions[0].textContent, false));
-      el("prompt").addEventListener("input", () => {
-        refreshWrapperPreview();
-        schedulePreflight();
-      });
-      document.querySelectorAll("[data-wrapper]").forEach((button) => button.addEventListener("click", () => {
-        if (state.mode !== "background") updateMode("background");
-        updateWrapperTarget(button.dataset.wrapper);
-        el("wrapperCard").scrollIntoView({ behavior: "smooth", block: "center" });
-      }));
-      const railMessages = {
-        capture: ["Capture", "Capture active prompt", "Paste the messy prompt from the current LLM or IDE into Token Optimizer."],
-        compress: ["Compress", "Compress once", "Run the optimizer so repeated context becomes compact state."],
-        route: ["Route", "Choose leanest path", "The workflow can stay direct or use contract and verification stages."],
-        paste: ["Paste", "Paste into active tool", ""],
-        review: ["Review", "Review and audit", "Bring the response back only when you want verification, history, or audit notes."]
-      };
-      document.querySelectorAll("[data-rail]").forEach((button) => button.addEventListener("click", () => {
-        const message = [...(railMessages[button.dataset.rail] || railMessages.capture)];
-        if (button.dataset.rail === "paste") message[2] = wrapperTargets[state.wrapperTarget].insert;
-        syncStatusRail(message[0]);
-        setStatus(message[0], message[1], message[2], false);
-        if (button.dataset.rail === "route" || button.dataset.rail === "paste") {
-          el("wrapperCard").scrollIntoView({ behavior: "smooth", block: "center" });
-        }
-      }));
-    }
-
-    startClock();
-    initSystemWorker();
-    bindEvents();
-    updateWrapperTarget(state.wrapperTarget, false);
-    updateMode(state.mode);
-  </script>
 </body>
 </html>

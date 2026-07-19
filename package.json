@@ -1,7 +1,14 @@
 {
   "scripts": {
     "start": "node server.cjs",
+    "test": "npm run test:core && npm run test:extension",
+    "test:core": "node tests/optimizer-core.test.cjs",
     "test:extension": "node extensions/gemini-token-optimizer/tests/sidepanel-logic.test.cjs && node extensions/gemini-token-optimizer/tests/content-gemini.test.cjs"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@tabler/icons-webfont": "^3.45.0",
+    "dompurify": "^3.4.12",
+    "marked": "^18.0.6",
+    "zod": "^4.4.3"
+  }
 }

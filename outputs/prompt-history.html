@@ -352,45 +352,33 @@
       }
     }
   </style>
+  <link rel="stylesheet" href="/vendor/tabler/tabler-icons.min.css">
+  <link rel="stylesheet" href="/app-nav.css">
 </head>
-<body>
-  <nav class="page-nav" aria-label="Token optimizer pages">
-    <a href="/">Home</a>
-    <a href="/workspace">Workspace</a>
-    <a href="/optimized-ide">Optimized IDE</a>
-    <a href="/agent-structure">Agents</a>
-    <a href="/open-source">Open Source</a>
-    <a href="/stats">Stats</a>
-    <a href="/prompt-history" aria-current="page">History</a>
-    <a href="/settings">Settings</a>
+<body class="has-app-nav">
+  <nav class="app-topbar" aria-label="Primary navigation">
+    <a class="app-brand" href="/" aria-label="Token Optimizer home"><span class="app-brand-mark" aria-hidden="true">T</span><strong>Token Optimizer</strong></a>
+    <div class="app-primary-nav">
+      <a href="/workspace">Workspace</a>
+      <a href="/prompt-history" aria-current="page">Runs</a>
+      <a href="/stats">Insights</a>
+      <a href="/agent-structure">Architecture</a>
+    </div>
+    <a class="app-settings" href="/settings" aria-label="Settings" title="Settings"><i class="ti ti-settings" aria-hidden="true"></i></a>
   </nav>
-
-  <header class="topbar">
-    <a class="brand" href="/">
-      <span class="logo">H</span>
-      <span>
-        <strong>Prompt History</strong>
-        <span>Saved prompts from this browser</span>
-      </span>
-    </a>
-    <div class="status" role="status" aria-live="polite">
-      <strong id="statusTitle">History ready</strong>
-      <span id="statusDetail">Load an old prompt into the workspace, Optimized IDE, or workflow structure page.</span>
-    </div>
-    <div class="actions" aria-label="Token optimizer pages">
-      <button id="exportHistory">Copy History</button>
-    </div>
-  </header>
 
   <main class="page">
     <div class="history-shell">
       <section class="panel">
         <div class="panel-header">
           <div>
-            <h1>Past Prompts</h1>
-            <p>Stored locally in this browser. Nothing here is sent to a server until you choose to run it.</p>
+            <h1>Prompt History</h1>
+            <p id="statusDetail">No prompts stored in this browser yet.</p>
           </div>
-          <button id="clearHistory">Clear All</button>
+          <div class="actions">
+            <button id="exportHistory">Copy History</button>
+            <button id="clearHistory">Clear All</button>
+          </div>
         </div>
         <div id="historyList" class="history-list"></div>
       </section>
@@ -398,7 +386,7 @@
       <aside class="panel audit-panel" aria-label="Audit log">
         <div class="panel-header">
           <div>
-            <h2>Audit Trail</h2>
+            <h2>Audit Log</h2>
             <p id="auditSummary">No runs yet.</p>
           </div>
           <div class="actions">
@@ -476,21 +464,21 @@
       return compact.length > 88 ? compact.slice(0, 85) + "..." : compact || "Untitled prompt";
     }
 
+    function promptText(item) {
+      return String(item?.prompt || item?.goal || "").trim();
+    }
+
     function fmtDate(value) {
       const date = new Date(value);
       return Number.isNaN(date.getTime()) ? "Unknown time" : date.toLocaleString();
     }
 
     function sendPrompt(destination, item) {
-      const payload = { prompt: item.goal, goal: item.goal };
-      if (destination === "optimizer") {
+      const prompt = promptText(item);
+      const payload = { prompt, goal: prompt };
+      if (destination === "workspace") {
         localStorage.setItem("tokenOptimizerLandingInput", JSON.stringify(payload));
-        window.location.href = "/";
-        return;
-      }
-      if (destination === "a2a") {
-        localStorage.setItem("tokenOptimizerA2AInput", JSON.stringify(payload));
-        window.location.href = "/optimized-ide";
+        window.location.href = "/workspace";
         return;
       }
       localStorage.setItem("tokenOptimizerStructureInput", JSON.stringify({
@@ -522,7 +510,9 @@
         return;
       }
       el("auditList").innerHTML = audit.slice(0, 12).map((item) => {
-        const savings = item.savingsPercent == null ? "n/a" : item.savingsPercent + "%";
+        const savings = item.savingsPercent == null ? "n/a" : item.savingsPercent + "% est.";
+        const inputTokens = item.actualInputTokens || item.rawTokens || 0;
+        const outputTokens = item.actualOutputTokens || item.optimizedTokens || 0;
         return `
           <article class="audit-card">
             <div>
@@ -532,8 +522,10 @@
                 <span>${escapeHtml(item.mode || "mode")}</span>
                 <span>${escapeHtml(item.provider || "route")}</span>
                 <span>${escapeHtml(item.status || "status")}</span>
-                <span>${item.rawTokens || 0} raw</span>
-                <span>${savings} saved</span>
+                <span>${inputTokens} input</span>
+                <span>${outputTokens} output</span>
+                <span>${savings} context reduction</span>
+                <span>${item.elapsedMs ? Math.round(item.elapsedMs / 100) / 10 + "s" : "time n/a"}</span>
               </div>
               <details>
                 <summary>Trace</summary>
@@ -563,21 +555,19 @@
       el("historyList").innerHTML = history.map((item) => `
         <article class="history-card">
           <div>
-            <strong>${escapeHtml(title(item.goal))}</strong>
-            <p>${escapeHtml(item.goal)}</p>
+            <strong>${escapeHtml(title(promptText(item)))}</strong>
+            <p>${escapeHtml(promptText(item))}</p>
             <div class="meta">
-              <span>${escapeHtml(item.mode || "optimizer")}</span>
-              <span>${escapeHtml(providerLabels[item.provider] || item.provider || "route")}</span>
-              <span>${escapeHtml(platformNames[item.platform] || item.platform || "destination")}</span>
-              <span>${escapeHtml(item.depth || "medium")}</span>
-              <span>${item.tokens || Math.ceil(String(item.goal || "").length / 4)} tokens</span>
+              <span>${escapeHtml(item.mode || "workspace")}</span>
+              <span>${escapeHtml(item.route || providerLabels[item.provider] || item.provider || "automatic")}</span>
+              <span>${escapeHtml(item.status || "saved")}</span>
+              <span>${item.tokens || Math.ceil(promptText(item).length / 4)} tokens</span>
               <span>${escapeHtml(new Date(item.createdAt || Date.now()).toLocaleString())}</span>
             </div>
           </div>
           <div class="actions">
-            <button data-action="optimizer" data-id="${item.id}">Optimizer</button>
-            <button data-action="a2a" data-id="${item.id}">Optimized IDE</button>
-            <button data-action="agents" data-id="${item.id}">Agents</button>
+            <button data-action="workspace" data-id="${item.id}">Open in Workspace</button>
+            <button data-action="agents" data-id="${item.id}">View Route</button>
             <button data-action="delete" data-id="${item.id}">Delete</button>
           </div>
         </article>
@@ -600,6 +590,7 @@
     });
 
     el("clearHistory").addEventListener("click", () => {
+      if (!window.confirm("Clear all saved prompts from this browser?")) return;
       saveHistory([]);
       render();
     });
@@ -607,7 +598,7 @@
     el("exportHistory").addEventListener("click", async () => {
       const history = loadHistory();
       const text = history.length
-        ? history.map((item, index) => `${index + 1}. ${title(item.goal)}\n${item.goal}`).join("\n\n")
+        ? history.map((item, index) => `${index + 1}. ${title(promptText(item))}\n${promptText(item)}`).join("\n\n")
         : "No saved prompts.";
       await navigator.clipboard.writeText(text);
       el("exportHistory").textContent = "Copied";
@@ -624,8 +615,9 @@
           `Mode: ${item.mode || "n/a"}`,
           `Route: ${item.provider || "n/a"}`,
           `Status: ${item.status || "n/a"}`,
-          `Raw tokens: ${item.rawTokens || 0}`,
-          `Savings: ${item.savingsPercent == null ? "n/a" : item.savingsPercent + "%"}`,
+          `Input tokens: ${item.actualInputTokens || item.rawTokens || 0}`,
+          `Output tokens: ${item.actualOutputTokens || item.optimizedTokens || 0}`,
+          `Estimated context reduction: ${item.savingsPercent == null ? "n/a" : item.savingsPercent + "%"}`,
           traceText(item)
         ].join("\n")).join("\n\n")
         : "No audit entries.";
@@ -637,6 +629,7 @@
     });
 
     el("clearAudit").addEventListener("click", () => {
+      if (!window.confirm("Clear the local audit log?")) return;
       saveAudit([]);
       renderAudit();
     });

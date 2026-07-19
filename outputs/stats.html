@@ -413,25 +413,27 @@
       .recent-card { grid-template-columns: 1fr; }
     }
   </style>
+  <link rel="stylesheet" href="/vendor/tabler/tabler-icons.min.css">
+  <link rel="stylesheet" href="/app-nav.css">
 </head>
-<body>
-  <nav class="page-nav" aria-label="Token optimizer pages">
-    <a href="/">Home</a>
-    <a href="/workspace">Workspace</a>
-    <a href="/optimized-ide">Optimized IDE</a>
-    <a href="/agent-structure">Agents</a>
-    <a href="/open-source">Open Source</a>
-    <a href="/stats" aria-current="page">Stats</a>
-    <a href="/prompt-history">History</a>
-    <a href="/settings">Settings</a>
+<body class="has-app-nav">
+  <nav class="app-topbar" aria-label="Primary navigation">
+    <a class="app-brand" href="/" aria-label="Token Optimizer home"><span class="app-brand-mark" aria-hidden="true">T</span><strong>Token Optimizer</strong></a>
+    <div class="app-primary-nav">
+      <a href="/workspace">Workspace</a>
+      <a href="/prompt-history">Runs</a>
+      <a href="/stats" aria-current="page">Insights</a>
+      <a href="/agent-structure">Architecture</a>
+    </div>
+    <a class="app-settings" href="/settings" aria-label="Settings" title="Settings"><i class="ti ti-settings" aria-hidden="true"></i></a>
   </nav>
 
   <main class="page">
     <section class="hero">
       <div>
-        <span class="eyebrow">Personal Usage Hub</span>
-        <h1>Stats</h1>
-        <p>See local usage, token savings, prompt volume, and workflow routes for this browser. All-time stats come from saved audit entries; current-session stats reset when you start a new browser session or press Reset Session.</p>
+        <span class="eyebrow">Personal usage</span>
+        <h1>Insights</h1>
+        <p>See what each run used, which route it took, and how much repeated context the app avoided. Provider totals are labeled as measured; context savings remain estimates.</p>
       </div>
       <div class="actions">
         <button id="copyStats">Copy Stats</button>
@@ -450,10 +452,10 @@
       </div>
       <div class="metrics">
         <article class="metric"><span>Runs</span><strong id="allRuns">0</strong><p>Saved audit entries</p></article>
-        <article class="metric"><span>Raw tokens</span><strong id="allRaw">0</strong><p>Original prompt input</p></article>
-        <article class="metric"><span>Optimized tokens</span><strong id="allOptimized">0</strong><p>Compact prompt usage</p></article>
-        <article class="metric"><span>Saved tokens</span><strong id="allSaved">0</strong><p>Estimated avoided tokens</p></article>
-        <article class="metric"><span>Avg savings</span><strong id="allSavingsPct">0%</strong><p>Against naive repeated-prompt flow</p></article>
+        <article class="metric"><span>Input tokens</span><strong id="allRaw">0</strong><p>Provider measured when available</p></article>
+        <article class="metric"><span>Output tokens</span><strong id="allOptimized">0</strong><p>Provider measured when available</p></article>
+        <article class="metric"><span>Context saved</span><strong id="allSaved">0</strong><p>Estimated avoided repetition</p></article>
+        <article class="metric"><span>Context reduction</span><strong id="allSavingsPct">0%</strong><p>Against the estimated baseline</p></article>
       </div>
     </section>
 
@@ -467,10 +469,10 @@
       </div>
       <div class="metrics">
         <article class="metric"><span>Runs</span><strong id="sessionRuns">0</strong><p>This browser session</p></article>
-        <article class="metric"><span>Raw tokens</span><strong id="sessionRaw">0</strong><p>Prompt input this session</p></article>
-        <article class="metric"><span>Optimized tokens</span><strong id="sessionOptimized">0</strong><p>Compact prompt usage</p></article>
-        <article class="metric"><span>Saved tokens</span><strong id="sessionSaved">0</strong><p>Estimated avoided tokens</p></article>
-        <article class="metric"><span>Avg savings</span><strong id="sessionSavingsPct">0%</strong><p>Current-session efficiency</p></article>
+        <article class="metric"><span>Input tokens</span><strong id="sessionRaw">0</strong><p>Provider measured when available</p></article>
+        <article class="metric"><span>Output tokens</span><strong id="sessionOptimized">0</strong><p>Provider measured when available</p></article>
+        <article class="metric"><span>Context saved</span><strong id="sessionSaved">0</strong><p>Estimated avoided repetition</p></article>
+        <article class="metric"><span>Context reduction</span><strong id="sessionSavingsPct">0%</strong><p>Against the estimated baseline</p></article>
       </div>
     </section>
 
@@ -479,17 +481,17 @@
         <div class="panel-head">
           <div>
             <h3>Token Split</h3>
-            <p class="muted">Saved versus optimized token usage.</p>
+            <p class="muted">Provider-reported when available; otherwise estimated.</p>
           </div>
         </div>
         <div class="donuts">
           <div class="donut-wrap">
             <div class="donut" id="allDonut"><div><strong id="allDonutPct">0%</strong><span>all time</span></div></div>
-            <div class="legend"><span><i style="background: var(--good)"></i>Saved</span><span><i style="background: var(--brand)"></i>Optimized</span></div>
+            <div class="legend"><span><i style="background: var(--good)"></i>Input</span><span><i style="background: var(--brand)"></i>Output</span></div>
           </div>
           <div class="donut-wrap">
             <div class="donut" id="sessionDonut"><div><strong id="sessionDonutPct">0%</strong><span>session</span></div></div>
-            <div class="legend"><span><i style="background: var(--good)"></i>Saved</span><span><i style="background: var(--brand)"></i>Optimized</span></div>
+            <div class="legend"><span><i style="background: var(--good)"></i>Input</span><span><i style="background: var(--brand)"></i>Output</span></div>
           </div>
         </div>
       </article>
@@ -498,9 +500,9 @@
         <div class="panel-head">
           <div>
             <h3>Run Trend</h3>
-            <p class="muted">Last 10 runs: raw input tokens versus optimized prompt tokens.</p>
+            <p class="muted">Last 10 runs: measured or estimated input versus output.</p>
           </div>
-          <span class="pill">Raw / Optimized</span>
+          <span class="pill">Input / Output</span>
         </div>
         <div id="trendChart" class="trend"></div>
       </article>
@@ -598,9 +600,11 @@
     }
 
     function normalizeRun(item) {
-      const rawTokens = safeNumber(item.rawTokens);
-      let optimizedTokens = safeNumber(item.optimizedTokens);
-      const naiveTokens = safeNumber(item.naiveTokens) || rawTokens * 3;
+      const measuredInput = safeNumber(item.actualInputTokens);
+      const measuredOutput = safeNumber(item.actualOutputTokens);
+      const rawTokens = measuredInput || safeNumber(item.rawTokens);
+      let optimizedTokens = measuredOutput || safeNumber(item.optimizedTokens);
+      const naiveTokens = safeNumber(item.naiveTokens);
       let savedTokens = safeNumber(item.savedTokens);
       const savingsPercent = item.savingsPercent == null ? null : Math.max(0, Math.min(100, Number(item.savingsPercent)));
       if (!savedTokens && Number.isFinite(savingsPercent) && naiveTokens) savedTokens = Math.round((naiveTokens * savingsPercent) / 100);
@@ -613,6 +617,10 @@
         naiveTokens,
         savedTokens,
         savingsPercent: Number.isFinite(savingsPercent) ? savingsPercent : percent(savedTokens, naiveTokens),
+        usageSource: measuredInput || measuredOutput ? "provider" : (item.usageSource || "estimated"),
+        estimatedCostUsd: item.estimatedCostUsd == null ? null : Number(item.estimatedCostUsd),
+        elapsedMs: safeNumber(item.elapsedMs),
+        modelCalls: safeNumber(item.modelCalls),
         createdAt: item.createdAt || new Date(0).toISOString()
       };
     }
@@ -629,6 +637,7 @@
       const optimizedTokens = runs.reduce((sum, item) => sum + item.optimizedTokens, 0);
       const naiveTokens = runs.reduce((sum, item) => sum + item.naiveTokens, 0);
       const savedTokens = runs.reduce((sum, item) => sum + item.savedTokens, 0);
+      const estimatedCostUsd = runs.reduce((sum, item) => sum + (Number.isFinite(item.estimatedCostUsd) ? item.estimatedCostUsd : 0), 0);
       return {
         runs: runs.length,
         prompts: prompts.length,
@@ -636,7 +645,8 @@
         optimizedTokens,
         naiveTokens,
         savedTokens,
-        savingsPercent: percent(savedTokens, naiveTokens)
+        savingsPercent: percent(savedTokens, naiveTokens),
+        estimatedCostUsd
       };
     }
 
@@ -657,11 +667,11 @@
     }
 
     function renderDonut(id, pctId, stats) {
-      const total = stats.savedTokens + stats.optimizedTokens;
-      const savedPct = percent(stats.savedTokens, total);
-      const degrees = Math.round((savedPct / 100) * 360);
+      const total = stats.rawTokens + stats.optimizedTokens;
+      const inputPct = percent(stats.rawTokens, total);
+      const degrees = Math.round((inputPct / 100) * 360);
       el(id).style.background = `conic-gradient(var(--good) 0deg ${degrees}deg, var(--brand) ${degrees}deg 360deg)`;
-      el(pctId).textContent = savedPct + "%";
+      el(pctId).textContent = inputPct + "%";
     }
 
     function renderBars(id, values) {
@@ -709,16 +719,16 @@
         `;
       }).join("");
       el("trendChart").innerHTML = `
-        <svg viewBox="0 0 ${width} ${height}" role="img" aria-label="Raw and optimized token trend">
+        <svg viewBox="0 0 ${width} ${height}" role="img" aria-label="Measured input and output token trend">
           <line x1="${pad}" y1="${height - pad}" x2="${width - pad}" y2="${height - pad}" stroke="var(--line)" stroke-width="1"></line>
           <line x1="${pad}" y1="${pad}" x2="${pad}" y2="${height - pad}" stroke="var(--line)" stroke-width="1"></line>
           <text x="${pad}" y="20" fill="var(--muted)" font-size="12">max ${compact(maxValue)} tokens</text>
           ${bars}
           <g transform="translate(${width - 210}, 18)">
             <rect width="10" height="10" rx="2" fill="var(--brand)"></rect>
-            <text x="16" y="10" fill="var(--muted)" font-size="12">Raw</text>
+            <text x="16" y="10" fill="var(--muted)" font-size="12">Input</text>
             <rect x="66" width="10" height="10" rx="2" fill="var(--good)"></rect>
-            <text x="82" y="10" fill="var(--muted)" font-size="12">Optimized</text>
+            <text x="82" y="10" fill="var(--muted)" font-size="12">Output</text>
           </g>
         </svg>
       `;
@@ -741,11 +751,12 @@
               <span>${escapeHtml(item.mode || "mode")}</span>
               <span>${escapeHtml(item.provider || "route")}</span>
               <span>${escapeHtml(item.status || "status")}</span>
-              <span>${compact(item.rawTokens)} raw</span>
-              <span>${compact(item.savedTokens)} saved</span>
+              <span>${compact(item.rawTokens)} input</span>
+              <span>${compact(item.optimizedTokens)} output</span>
+              <span>${compact(item.savedTokens)} context saved est.</span>
             </div>
           </div>
-          <span class="pill">${item.savingsPercent}% saved</span>
+          <span class="pill">${item.usageSource === "provider" ? "Measured" : "Estimated"}</span>
         </article>
       `).join("");
     }
@@ -793,17 +804,19 @@
         "",
         "All time:",
         `- Runs: ${allStats.runs}`,
-        `- Raw tokens: ${Math.round(allStats.rawTokens)}`,
-        `- Optimized tokens: ${Math.round(allStats.optimizedTokens)}`,
-        `- Saved tokens: ${Math.round(allStats.savedTokens)}`,
-        `- Average savings: ${allStats.savingsPercent}%`,
+        `- Measured input tokens: ${Math.round(allStats.rawTokens)}`,
+        `- Measured output tokens: ${Math.round(allStats.optimizedTokens)}`,
+        `- Estimated context saved: ${Math.round(allStats.savedTokens)}`,
+        `- Estimated context reduction: ${allStats.savingsPercent}%`,
+        `- Estimated cost: $${allStats.estimatedCostUsd.toFixed(4)}`,
         "",
         "Current session:",
         `- Runs: ${sessionStats.runs}`,
-        `- Raw tokens: ${Math.round(sessionStats.rawTokens)}`,
-        `- Optimized tokens: ${Math.round(sessionStats.optimizedTokens)}`,
-        `- Saved tokens: ${Math.round(sessionStats.savedTokens)}`,
-        `- Average savings: ${sessionStats.savingsPercent}%`
+        `- Measured input tokens: ${Math.round(sessionStats.rawTokens)}`,
+        `- Measured output tokens: ${Math.round(sessionStats.optimizedTokens)}`,
+        `- Estimated context saved: ${Math.round(sessionStats.savedTokens)}`,
+        `- Estimated context reduction: ${sessionStats.savingsPercent}%`,
+        `- Estimated cost: $${sessionStats.estimatedCostUsd.toFixed(4)}`
       ].join("\n");
     }
 
