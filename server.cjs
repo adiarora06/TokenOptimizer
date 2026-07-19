@@ -13,18 +13,126 @@ const {
   runSelfOptimizingWorkflow
 } = require("./optimizer-core.cjs");
 const { createOptimizerSystem } = require("./optimizer-system.cjs");
-const {
-  commonHeaders,
-  publicError,
-  takeRateLimit,
-  validateA2APayload,
-  validateGeneratePayload,
-  validateOptimizerPayload
-} = require("./request-guard.cjs");
 
 loadEnvFile(path.join(rootDir, ".env.local"));
 
 const optimizerSystem = createOptimizerSystem();
+const maxInputChars = Number(process.env.TOKEN_OPTIMIZER_MAX_INPUT_CHARS || 80_000);
+const rateWindowMs = Number(process.env.TOKEN_OPTIMIZER_RATE_WINDOW_MS || 60_000);
+const rateMax = Number(process.env.TOKEN_OPTIMIZER_RATE_MAX || 20);
+const rateBuckets = new Map();
+const optimizerProviders = new Set(["groq-openai-fallback", "groq", "openai", "offline"]);
+const kitProviders = new Set(["groq", "openai", "openrouter", "xai", "litellm", "custom", "offline"]);
+const routePreferences = new Set(["auto", "fast", "thorough", "verified"]);
+
+function commonHeaders(rate) {
+  return {
+    "cache-control": "no-store",
+    "x-content-type-options": "nosniff",
+    "referrer-policy": "no-referrer",
+    ...(rate ? {
+      "x-ratelimit-limit": String(rate.limit),
+      "x-ratelimit-remaining": String(rate.remaining),
+      "x-ratelimit-reset": String(Math.ceil(rate.resetAt / 1_000))
+    } : {})
+  };
+}
+
+function publicError(error) {
+  if (!error) return "Unexpected error";
+  if (error.name === "AbortError") return "The model request timed out or was cancelled";
+  return String(error.message || error).slice(0, 500);
+}
+
+function takeRateLimit(req) {
+  const now = Date.now();
+  const forwarded = String(req.headers?.["x-forwarded-for"] || "").split(",")[0].trim();
+  const remote = req.socket?.remoteAddress || "unknown";
+  const device = String(req.headers?.["x-token-optimizer-device"] || "anonymous").slice(0, 80);
+  const key = `${forwarded || remote}:${device}`;
+  const current = rateBuckets.get(key);
+  const bucket = !current || current.resetAt <= now
+    ? { count: 0, resetAt: now + rateWindowMs }
+    : current;
+  bucket.count += 1;
+  rateBuckets.set(key, bucket);
+  return {
+    allowed: bucket.count <= rateMax,
+    limit: rateMax,
+    remaining: Math.max(0, rateMax - bucket.count),
+    resetAt: bucket.resetAt,
+    retryAfterSeconds: Math.max(1, Math.ceil((bucket.resetAt - now) / 1_000))
+  };
+}
+
+function validateText(value, label) {
+  if (typeof value !== "string" || !value.trim()) return { ok: false, error: `Missing ${label}` };
+  const text = value.trim();
+  if (text.length > maxInputChars) return { ok: false, error: `${label} exceeds ${maxInputChars.toLocaleString()} characters` };
+  return { ok: true, text };
+}
+
+function validateOptions(value) {
+  if (value == null) return { ok: true, value: {} };
+  if (typeof value !== "object" || Array.isArray(value)) return { ok: false, error: "Invalid options" };
+  if (value.routePreference && !routePreferences.has(value.routePreference)) return { ok: false, error: "Invalid route preference" };
+  if (value.timeoutMs != null && (!Number.isInteger(value.timeoutMs) || value.timeoutMs < 5_000 || value.timeoutMs > 120_000)) {
+    return { ok: false, error: "Invalid timeout" };
+  }
+  return { ok: true, value };
+}
+
+function validateProviderConfig(value) {
+  if (value == null) return { ok: true, value: {} };
+  if (typeof value !== "object" || Array.isArray(value)) return { ok: false, error: "Invalid provider configuration" };
+  if (value.provider && !kitProviders.has(value.provider)) return { ok: false, error: "Invalid provider configuration" };
+  for (const [key, max] of [["label", 80], ["baseUrl", 2_048], ["model", 200], ["apiKey", 4_000]]) {
+    if (value[key] != null && (typeof value[key] !== "string" || value[key].length > max)) {
+      return { ok: false, error: "Invalid provider configuration" };
+    }
+  }
+  return { ok: true, value };
+}
+
+function validateOptimizerPayload(body = {}) {
+  const input = validateText(body.input, "input");
+  if (!input.ok) return input;
+  if (body.provider && !optimizerProviders.has(body.provider)) return { ok: false, error: "Invalid provider" };
+  const options = validateOptions(body.options);
+  if (!options.ok) return options;
+  const providerConfig = validateProviderConfig(body.providerConfig);
+  if (!providerConfig.ok) return providerConfig;
+  return {
+    ok: true,
+    data: {
+      input: input.text,
+      provider: body.provider,
+      source: typeof body.source === "string" ? body.source.slice(0, 80) : undefined,
+      sessionId: typeof body.sessionId === "string" ? body.sessionId.slice(0, 120) : null,
+      runType: body.runType === "kit" ? "kit" : "optimizer",
+      options: options.value,
+      providerConfig: providerConfig.value
+    }
+  };
+}
+
+function validateA2APayload(body = {}) {
+  const input = validateText(body.input, "input");
+  if (!input.ok) return input;
+  const options = validateOptions(body.options);
+  if (!options.ok) return options;
+  const providerConfig = validateProviderConfig(body.providerConfig);
+  if (!providerConfig.ok) return providerConfig;
+  return { ok: true, data: { input: input.text, options: options.value, providerConfig: providerConfig.value } };
+}
+
+function validateGeneratePayload(body = {}) {
+  const prompt = validateText(body.prompt, "prompt");
+  if (!prompt.ok) return prompt;
+  const provider = body.provider || "groq-openai-fallback";
+  if (!new Set(["groq-openai-fallback", "groq", "openai"]).has(provider)) return { ok: false, error: "Invalid provider" };
+  return { ok: true, data: { prompt: prompt.text, provider } };
+}
 
 function loadEnvFile(filePath) {
   if (!fs.existsSync(filePath)) return;
