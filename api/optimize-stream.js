@@ -4,7 +4,7 @@ const {
   publicError,
   takeRateLimit,
   validateOptimizerPayload
-} = require("../api-guard.cjs");
+} = require("../request-guard.cjs");
 
 function writeEvent(res, event, data) {
   if (res.writableEnded) return;

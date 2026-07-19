@@ -20,7 +20,7 @@ const {
   validateA2APayload,
   validateGeneratePayload,
   validateOptimizerPayload
-} = require("./api-guard.cjs");
+} = require("./request-guard.cjs");
 
 loadEnvFile(path.join(rootDir, ".env.local"));
 
