@@ -11,6 +11,8 @@ const {
   runBlankA2AKit,
   runSelfOptimizingWorkflow
 } = require("../optimizer-core.cjs");
+const { assertSafeProviderEndpoint } = require("../core/security.cjs");
+const { takeRateLimit } = require("../request-guard.cjs");
 
 async function run() {
   const secret = ["gsk", "abcdefghijklmnopqrstuvwxyz123456"].join("_");
@@ -33,6 +35,40 @@ async function run() {
   for (const value of modernSecrets) {
     assert.equal(modernRedacted.text.includes(value), false, value.slice(0, 12));
   }
+
+  assert.throws(() => assertSafeProviderEndpoint("not a url"), /valid URL/);
+  assert.throws(() => assertSafeProviderEndpoint("ftp://example.com/v1"), /HTTP or HTTPS/);
+  assert.throws(() => assertSafeProviderEndpoint("https://user:pass@example.com/v1"), /URL credentials/);
+  assert.equal(assertSafeProviderEndpoint("http://localhost:4000/v1"), "http://localhost:4000/v1");
+  const priorEnv = process.env.NODE_ENV;
+  process.env.NODE_ENV = "production";
+  try {
+    for (const blocked of [
+      "http://localhost:4000/v1",
+      "https://169.254.169.254/latest/meta-data",
+      "https://10.0.0.5/v1",
+      "https://192.168.1.10/v1",
+      "https://172.16.0.1/v1",
+      "http://[::1]/v1"
+    ]) {
+      assert.throws(() => assertSafeProviderEndpoint(blocked), /disabled in production/, blocked);
+    }
+    assert.throws(() => assertSafeProviderEndpoint("http://api.example.com/v1"), /HTTPS in production/);
+    assert.equal(assertSafeProviderEndpoint("https://api.example.com/v1"), "https://api.example.com/v1");
+  } finally {
+    process.env.NODE_ENV = priorEnv;
+  }
+
+  const rateRequest = (ip, device) => ({
+    headers: device ? { "x-token-optimizer-device": device } : {},
+    socket: { remoteAddress: ip }
+  });
+  let lastRate = null;
+  for (let i = 0; i < 21; i += 1) {
+    lastRate = takeRateLimit(rateRequest("203.0.113.9", `device_${i}`));
+  }
+  assert.equal(lastRate.allowed, false, "rotating device headers must not mint fresh rate buckets");
+  assert.equal(takeRateLimit(rateRequest("203.0.113.10")).allowed, true, "a different IP gets its own bucket");
 
   const direct = analyzeWorkflowShape("Summarize this paragraph in three bullets.");
   assert.equal(direct.route, "direct");

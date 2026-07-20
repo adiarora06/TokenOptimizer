@@ -69,6 +69,7 @@
     "1": [
       "api_provider_status",
       "api_provider_status_providerstatus",
+      "core_handoff_prepareportablehandoff",
       "core_prompts",
       "core_prompts_builda2acontractprompt",
       "core_prompts_builda2aexecutorprompt",
@@ -89,6 +90,12 @@
       "core_providers_providerstatus",
       "core_providers_resolveprovider",
       "core_providers_testcompletion",
+      "core_routing",
+      "core_routing_analyzeworkflowshape",
+      "core_routing_buildofflinecontract",
+      "core_routing_compactlines",
+      "core_routing_estimatetokens",
+      "core_routing_outputstylefor",
       "core_security",
       "core_security_assertsafeproviderendpoint",
       "core_security_redactsensitivetext",
@@ -96,6 +103,7 @@
       "core_usage",
       "core_usage_combineusage",
       "core_usage_createtraceid",
+      "core_usage_estimatetokens",
       "core_usage_generationrecord",
       "core_usage_modelcost",
       "core_usage_normalizeusage",
@@ -199,34 +207,6 @@
       "ref_storage"
     ],
     "4": [
-      "core_handoff",
-      "core_handoff_analyzeworkflowshape_buildofflinecontract",
-      "core_handoff_buildportableprompt",
-      "core_handoff_cleandirectrequest",
-      "core_handoff_cleanprompttext_compactlines_dedupenaturallanguagelines_promptsection_striplistprefix_withouttrailingellipsis",
-      "core_handoff_estimatetokens",
-      "core_handoff_islikelyoriginaltask",
-      "core_handoff_ispreparedwrapper",
-      "core_handoff_originaltaskscore",
-      "core_handoff_prepareportablehandoff",
-      "core_handoff_redactsensitivetext",
-      "core_handoff_unwrappreparedprompt",
-      "core_routing",
-      "core_routing_analyzeworkflowshape",
-      "core_routing_buildofflinecontract",
-      "core_routing_compactlines",
-      "core_routing_estimatetokens",
-      "core_routing_outputstylefor",
-      "core_text",
-      "core_text_cleanprompttext",
-      "core_text_compactlines",
-      "core_text_dedupenaturallanguagelines",
-      "core_text_promptsection",
-      "core_text_striplistprefix",
-      "core_text_withouttrailingellipsis",
-      "core_usage_estimatetokens"
-    ],
-    "5": [
       "extensions_gemini_token_optimizer_tests_content_gemini_test",
       "extensions_gemini_token_optimizer_tests_content_gemini_test_adaptercode",
       "extensions_gemini_token_optimizer_tests_content_gemini_test_addrange",
@@ -254,7 +234,7 @@
       "extensions_gemini_token_optimizer_tests_content_gemini_test_richtextarea",
       "extensions_gemini_token_optimizer_tests_content_gemini_test_vm"
     ],
-    "6": [
+    "5": [
       "extensions_gemini_token_optimizer_sidepanel",
       "extensions_gemini_token_optimizer_sidepanel_bindevents",
       "extensions_gemini_token_optimizer_sidepanel_captureprompt",
@@ -281,7 +261,7 @@
       "extensions_gemini_token_optimizer_sidepanel_toast",
       "extensions_gemini_token_optimizer_sidepanel_updatedrafttokenpill"
     ],
-    "7": [
+    "6": [
       "dompurify",
       "marked",
       "package",
@@ -304,6 +284,26 @@
       "package_version",
       "tabler_icons_webfont",
       "zod"
+    ],
+    "7": [
+      "core_handoff",
+      "core_handoff_analyzeworkflowshape_buildofflinecontract",
+      "core_handoff_buildportableprompt",
+      "core_handoff_cleandirectrequest",
+      "core_handoff_cleanprompttext_compactlines_dedupenaturallanguagelines_promptsection_striplistprefix_withouttrailingellipsis",
+      "core_handoff_estimatetokens",
+      "core_handoff_islikelyoriginaltask",
+      "core_handoff_ispreparedwrapper",
+      "core_handoff_originaltaskscore",
+      "core_handoff_redactsensitivetext",
+      "core_handoff_unwrappreparedprompt",
+      "core_text",
+      "core_text_cleanprompttext",
+      "core_text_compactlines",
+      "core_text_dedupenaturallanguagelines",
+      "core_text_promptsection",
+      "core_text_striplistprefix",
+      "core_text_withouttrailingellipsis"
     ],
     "8": [
       "optimizer_system",
@@ -370,16 +370,18 @@
       "outputs_system_worker_uniquelines"
     ],
     "13": [
+      "tests_optimizer_core_test",
+      "tests_optimizer_core_test_analyzeworkflowshape_combineusage_prepareportablehandoff_redactsensitivetext_runblanka2akit_runselfoptimizingworkflow",
+      "tests_optimizer_core_test_assert",
+      "tests_optimizer_core_test_assertsafeproviderendpoint",
+      "tests_optimizer_core_test_run",
+      "tests_optimizer_core_test_takeratelimit"
+    ],
+    "14": [
       "scripts_canonical_graph",
       "scripts_canonical_graph_fs",
       "scripts_canonical_graph_graph",
       "scripts_canonical_graph_sortdeep"
-    ],
-    "14": [
-      "tests_optimizer_core_test",
-      "tests_optimizer_core_test_analyzeworkflowshape_combineusage_prepareportablehandoff_redactsensitivetext_runblanka2akit_runselfoptimizingworkflow",
-      "tests_optimizer_core_test_assert",
-      "tests_optimizer_core_test_run"
     ],
     "15": [
       "mcp",
@@ -405,19 +407,19 @@
   },
   "cohesion": {
     "0": 0.05555555555555555,
-    "1": 0.09485815602836879,
+    "1": 0.09025974025974026,
     "2": 0.11207729468599034,
     "3": 0.0625,
-    "4": 0.21846153846153846,
-    "5": 0.07692307692307693,
-    "6": 0.24,
-    "7": 0.09090909090909091,
+    "4": 0.07692307692307693,
+    "5": 0.24,
+    "6": 0.09090909090909091,
+    "7": 0.29411764705882354,
     "8": 0.2857142857142857,
     "9": 0.16666666666666666,
     "10": 0.38181818181818183,
     "11": 0.3333333333333333,
     "12": 0.5238095238095238,
-    "13": 0.5,
+    "13": 0.3333333333333333,
     "14": 0.5,
     "15": 0.6666666666666666,
     "16": 0.6666666666666666,
@@ -538,7 +540,7 @@
     {
       "type": "isolated_nodes",
       "question": "What connects `uvx`, `{ preparePortableHandoff }`, `{\n  commonHeaders,\n  publicError,\n  takeRateLimit,\n  validateOptimizerPayload\n}` to the rest of the system?",
-      "why": "126 weakly-connected nodes found - possible documentation gaps or missing edges."
+      "why": "128 weakly-connected nodes found - possible documentation gaps or missing edges."
     },
     {
       "type": "low_cohesion",
@@ -548,7 +550,7 @@
     {
       "type": "low_cohesion",
       "question": "Should `workflow.cjs` be split into smaller, more focused modules?",
-      "why": "Cohesion score 0.09485815602836879 - nodes in this community are weakly interconnected."
+      "why": "Cohesion score 0.09025974025974026 - nodes in this community are weakly interconnected."
     },
     {
       "type": "low_cohesion",
