@@ -65,11 +65,25 @@ Rules:
   4. Optimized Executor Prompt
   5. Token-Saving Notes
 
-Offline pre-analysis:
-${JSON.stringify(offlineContract, null, 2)}
+Offline hints:
+${JSON.stringify(scaffoldHints(offlineContract), null, 2)}
 
 Raw user input:
 ${rawInput}`;
+}
+
+// The raw input is already present verbatim below, so the offline analysis is
+// trimmed to the fields that actually guide the builder. Sending the full
+// contract would re-embed the raw text (its `facts` are raw-derived) plus
+// static boilerplate, inflating the prompt past the naive baseline.
+function scaffoldHints(offlineContract) {
+  const cap = (value) => (value.length > 160 ? `${value.slice(0, 159).trimEnd()}…` : value);
+  return {
+    goal: offlineContract.goal,
+    constraints: (offlineContract.constraints || []).map(cap),
+    output_style: offlineContract.output_style,
+    executor_target: offlineContract.token_budget?.executor_target
+  };
 }
 
 function buildExecutorPrompt(contractText, offlineContract) {
