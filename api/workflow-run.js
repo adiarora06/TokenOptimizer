@@ -26,10 +26,15 @@ module.exports = async function handler(req, res) {
       return;
     }
 
+    const controller = new AbortController();
+    res.on?.("close", () => {
+      if (!res.writableEnded) controller.abort();
+    });
     const result = await runBlankA2AKit({
       rawInput: parsed.data.input,
       providerConfig: parsed.data.providerConfig || {},
-      options: parsed.data.options || {}
+      options: parsed.data.options || {},
+      signal: controller.signal
     });
     res.status(200).json(result);
   } catch (error) {

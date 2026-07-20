@@ -46,7 +46,12 @@ module.exports = async function handler(req, res) {
 
   const controller = new AbortController();
   const traceId = createTraceId();
-  req.on?.("aborted", () => controller.abort());
+  res.on?.("close", () => {
+    if (!res.writableEnded) controller.abort();
+  });
+  const heartbeat = setInterval(() => {
+    if (!res.writableEnded) res.write(": ping\n\n");
+  }, 15_000);
   writeEvent(res, "run", { type: "run", traceId, agent: "Coordinator", status: "running", detail: "Run accepted." });
 
   try {
@@ -57,13 +62,14 @@ module.exports = async function handler(req, res) {
       traceId,
       signal: controller.signal,
       onEvent(event) {
-        writeEvent(res, event.type === "complete" ? "progress" : "progress", event);
+        writeEvent(res, "progress", event);
       }
     });
     writeEvent(res, "result", { result });
   } catch (error) {
     writeEvent(res, "error", { error: publicError(error) });
   } finally {
+    clearInterval(heartbeat);
     res.end();
   }
 };
