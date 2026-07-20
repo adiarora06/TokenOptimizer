@@ -4,18 +4,18 @@
 - cluster-only mode — file stats not available
 
 ## Summary
-- 360 nodes · 692 edges · 19 communities (16 shown, 3 thin omitted)
+- 362 nodes · 684 edges · 20 communities (16 shown, 4 thin omitted)
 - Extraction: 91% EXTRACTED · 9% INFERRED · 0% AMBIGUOUS · INFERRED: 59 edges (avg confidence: 0.51)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `c1764c71`
+- Built from commit: `368c1815`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
-- server.cjs
-- optimizer-core.cjs
+- request-guard.cjs
+- workflow.cjs
 - workspace.js
 - manifest.json
 - handoff.cjs
@@ -28,6 +28,7 @@
 - api-endpoints.test.cjs
 - system-worker.js
 - canonical-graph.cjs
+- optimizer-core.test.cjs
 - graphify
 - vercel.json
 
@@ -35,34 +36,34 @@
 1. `run()` - 18 edges
 2. `runSelfOptimizingWorkflow()` - 14 edges
 3. `estimateTokens()` - 13 edges
-4. `handleApi()` - 12 edges
-5. `runBlankA2AKit()` - 12 edges
-6. `el()` - 11 edges
-7. `preparePrompt()` - 11 edges
-8. `FakeElement` - 11 edges
-9. `takeRateLimit()` - 11 edges
-10. `commonHeaders()` - 11 edges
+4. `runBlankA2AKit()` - 12 edges
+5. `el()` - 11 edges
+6. `preparePrompt()` - 11 edges
+7. `FakeElement` - 11 edges
+8. `takeRateLimit()` - 11 edges
+9. `commonHeaders()` - 11 edges
+10. `handleApi()` - 11 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `handleApi()` --calls--> `{ preparePortableHandoff }`  [EXTRACTED]
-  server.cjs → optimizer-core.cjs
-- `run()` --calls--> `{ analyzeWorkflowShape }`  [EXTRACTED]
-  tests/optimizer-core.test.cjs → optimizer-core.cjs
-- `run()` --calls--> `{ preparePortableHandoff }`  [EXTRACTED]
-  tests/optimizer-core.test.cjs → optimizer-core.cjs
-- `run()` --calls--> `{ redactSensitiveText }`  [EXTRACTED]
-  tests/optimizer-core.test.cjs → optimizer-core.cjs
 - `handleApi()` --calls--> `takeRateLimit()`  [EXTRACTED]
+  server.cjs → request-guard.cjs
+- `handleApi()` --calls--> `validateOptimizerPayload()`  [EXTRACTED]
+  server.cjs → request-guard.cjs
+- `handleApi()` --calls--> `validateA2APayload()`  [EXTRACTED]
+  server.cjs → request-guard.cjs
+- `handleApi()` --calls--> `validateGeneratePayload()`  [EXTRACTED]
+  server.cjs → request-guard.cjs
+- `handleApi()` --calls--> `publicError()`  [EXTRACTED]
   server.cjs → request-guard.cjs
 
 ## Import Cycles
 - None detected.
 
-## Communities (19 total, 3 thin omitted)
+## Communities (20 total, 4 thin omitted)
 
-### Community 0 - "server.cjs"
+### Community 0 - "request-guard.cjs"
 Cohesion: 0.06
-Nodes (50): {
+Nodes (52): {
   commonHeaders,
   publicError,
   takeRateLimit,
@@ -82,11 +83,11 @@ Nodes (50): {
   publicError,
   takeRateLimit,
   validateOptimizerPayload
-}, { createTraceId, runSelfOptimizingWorkflow } (+42 more)
+}, { createTraceId, runSelfOptimizingWorkflow } (+44 more)
 
-### Community 1 - "optimizer-core.cjs"
+### Community 1 - "workflow.cjs"
 Cohesion: 0.09
-Nodes (44): { providerStatus }, buildA2AContractPrompt(), buildA2AExecutorPrompt(), buildA2AVerifierPrompt(), buildDirectExecutorPrompt(), buildExecutorPrompt(), buildOptimizerPrompt(), buildVerifierPrompt() (+36 more)
+Nodes (41): { providerStatus }, buildA2AContractPrompt(), buildA2AExecutorPrompt(), buildA2AVerifierPrompt(), buildDirectExecutorPrompt(), buildExecutorPrompt(), buildOptimizerPrompt(), buildVerifierPrompt() (+33 more)
 
 ### Community 2 - "workspace.js"
 Cohesion: 0.11
@@ -97,15 +98,15 @@ Cohesion: 0.06
 Nodes (31): action, default_icon, default_title, background, service_worker, type, content_scripts, content_security_policy (+23 more)
 
 ### Community 4 - "handoff.cjs"
-Cohesion: 0.21
-Nodes (24): { analyzeWorkflowShape, buildOfflineContract }, buildPortablePrompt(), cleanDirectRequest(), {
+Cohesion: 0.22
+Nodes (23): { analyzeWorkflowShape, buildOfflineContract }, buildPortablePrompt(), cleanDirectRequest(), {
   cleanPromptText,
   compactLines,
   dedupeNaturalLanguageLines,
   promptSection,
   stripListPrefix,
   withoutTrailingEllipsis
-}, { estimateTokens }, isLikelyOriginalTask(), isPreparedWrapper(), originalTaskScore() (+16 more)
+}, { estimateTokens }, isLikelyOriginalTask(), isPreparedWrapper(), originalTaskScore() (+15 more)
 
 ### Community 5 - "content-gemini.test.cjs"
 Cohesion: 0.08
@@ -144,34 +145,34 @@ Cohesion: 0.52
 Nodes (6): analyzePrompt(), complexityScore(), estimateTokens(), lines(), outputStyle(), uniqueLines()
 
 ## Knowledge Gaps
-- **122 isolated node(s):** `uvx`, `{ preparePortableHandoff }`, `{
+- **126 isolated node(s):** `uvx`, `{ preparePortableHandoff }`, `{
   commonHeaders,
   publicError,
   takeRateLimit,
   validateOptimizerPayload
-}`, `{ providerStatus }`, `{ SYSTEM_ARCHITECTURE, runSystemRunInline }` (+117 more)
+}`, `{ providerStatus }`, `{ SYSTEM_ARCHITECTURE, runSystemRunInline }` (+121 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **3 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **4 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `runSelfOptimizingWorkflow()` connect `optimizer-core.cjs` to `handoff.cjs`?**
-  _High betweenness centrality (0.006) - this node is a cross-community bridge._
-- **Why does `runBlankA2AKit()` connect `optimizer-core.cjs` to `handoff.cjs`?**
-  _High betweenness centrality (0.005) - this node is a cross-community bridge._
-- **Why does `estimateTokens()` connect `handoff.cjs` to `optimizer-core.cjs`?**
-  _High betweenness centrality (0.004) - this node is a cross-community bridge._
 - **What connects `uvx`, `{ preparePortableHandoff }`, `{
   commonHeaders,
   publicError,
   takeRateLimit,
   validateOptimizerPayload
 }` to the rest of the system?**
-  _122 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `server.cjs` be split into smaller, more focused modules?**
-  _Cohesion score 0.05817028027498678 - nodes in this community are weakly interconnected._
-- **Should `optimizer-core.cjs` be split into smaller, more focused modules?**
-  _Cohesion score 0.08521870286576169 - nodes in this community are weakly interconnected._
+  _126 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Should `request-guard.cjs` be split into smaller, more focused modules?**
+  _Cohesion score 0.05555555555555555 - nodes in this community are weakly interconnected._
+- **Should `workflow.cjs` be split into smaller, more focused modules?**
+  _Cohesion score 0.09485815602836879 - nodes in this community are weakly interconnected._
 - **Should `workspace.js` be split into smaller, more focused modules?**
   _Cohesion score 0.11207729468599034 - nodes in this community are weakly interconnected._
+- **Should `manifest.json` be split into smaller, more focused modules?**
+  _Cohesion score 0.0625 - nodes in this community are weakly interconnected._
+- **Should `content-gemini.test.cjs` be split into smaller, more focused modules?**
+  _Cohesion score 0.07692307692307693 - nodes in this community are weakly interconnected._
+- **Should `package.json` be split into smaller, more focused modules?**
+  _Cohesion score 0.09090909090909091 - nodes in this community are weakly interconnected._

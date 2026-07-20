@@ -24,6 +24,7 @@
       "api_workflow_run",
       "api_workflow_run_commonheaders_publicerror_takeratelimit_validatea2apayload",
       "api_workflow_run_runblanka2akit",
+      "optimizer_core_prepareportablehandoff",
       "optimizer_system_system_architecture",
       "request_guard",
       "request_guard_a2apayloadschema",
@@ -62,6 +63,7 @@
       "server_sendjson",
       "server_server",
       "server_servestatic",
+      "server_staticsecurityheaders",
       "server_writesse"
     ],
     "1": [
@@ -89,6 +91,7 @@
       "core_providers_testcompletion",
       "core_security",
       "core_security_assertsafeproviderendpoint",
+      "core_security_redactsensitivetext",
       "core_security_secret_patterns",
       "core_usage",
       "core_usage_combineusage",
@@ -110,13 +113,8 @@
       "optimizer_core_analyzeworkflowshape",
       "optimizer_core_callchatcompletion_generatewithfallback_providerstatus",
       "optimizer_core_combineusage_createtraceid_estimatetokens",
-      "optimizer_core_prepareportablehandoff",
       "optimizer_core_redactsensitivetext",
-      "optimizer_core_runblanka2akit_runselfoptimizingworkflow",
-      "tests_optimizer_core_test",
-      "tests_optimizer_core_test_analyzeworkflowshape_combineusage_prepareportablehandoff_redactsensitivetext_runblanka2akit_runselfoptimizingworkflow",
-      "tests_optimizer_core_test_assert",
-      "tests_optimizer_core_test_run"
+      "optimizer_core_runblanka2akit_runselfoptimizingworkflow"
     ],
     "2": [
       "outputs_workspace",
@@ -219,7 +217,6 @@
       "core_routing_compactlines",
       "core_routing_estimatetokens",
       "core_routing_outputstylefor",
-      "core_security_redactsensitivetext",
       "core_text",
       "core_text_cleanprompttext",
       "core_text_compactlines",
@@ -379,32 +376,39 @@
       "scripts_canonical_graph_sortdeep"
     ],
     "14": [
+      "tests_optimizer_core_test",
+      "tests_optimizer_core_test_analyzeworkflowshape_combineusage_prepareportablehandoff_redactsensitivetext_runblanka2akit_runselfoptimizingworkflow",
+      "tests_optimizer_core_test_assert",
+      "tests_optimizer_core_test_run"
+    ],
+    "15": [
       "mcp",
       "mcp_command_uvx",
       "mcp_mcp_server_graphify"
     ],
-    "15": [
+    "16": [
+      "vercel",
+      "vercel_headers",
+      "vercel_rewrites"
+    ],
+    "17": [
       "extensions_gemini_token_optimizer_platforms",
       "extensions_gemini_token_optimizer_platforms_forurl"
     ],
-    "16": [
+    "18": [
       "extensions_gemini_token_optimizer_service_worker",
       "extensions_gemini_token_optimizer_service_worker_setpanelfortab"
     ],
-    "17": [
-      "vercel",
-      "vercel_rewrites"
-    ],
-    "18": [
+    "19": [
       "extensions_gemini_token_optimizer_content_bridge"
     ]
   },
   "cohesion": {
-    "0": 0.05817028027498678,
-    "1": 0.08521870286576169,
+    "0": 0.05555555555555555,
+    "1": 0.09485815602836879,
     "2": 0.11207729468599034,
     "3": 0.0625,
-    "4": 0.20797720797720798,
+    "4": 0.21846153846153846,
     "5": 0.07692307692307693,
     "6": 0.24,
     "7": 0.09090909090909091,
@@ -414,11 +418,12 @@
     "11": 0.3333333333333333,
     "12": 0.5238095238095238,
     "13": 0.5,
-    "14": 0.6666666666666666,
-    "15": 1.0,
-    "16": 1.0,
+    "14": 0.5,
+    "15": 0.6666666666666666,
+    "16": 0.6666666666666666,
     "17": 1.0,
-    "18": 1.0
+    "18": 1.0,
+    "19": 1.0
   },
   "gods": [
     {
@@ -435,11 +440,6 @@
       "id": "core_usage_estimatetokens",
       "label": "estimateTokens()",
       "degree": 13
-    },
-    {
-      "id": "server_handleapi",
-      "label": "handleApi()",
-      "degree": 12
     },
     {
       "id": "core_workflow_runblanka2akit",
@@ -470,48 +470,20 @@
       "id": "request_guard_commonheaders",
       "label": "commonHeaders()",
       "degree": 11
+    },
+    {
+      "id": "server_handleapi",
+      "label": "handleApi()",
+      "degree": 11
     }
   ],
   "surprises": [
     {
       "source": "handleApi()",
-      "target": "{ preparePortableHandoff }",
+      "target": "takeRateLimit()",
       "source_files": [
         "server.cjs",
-        "optimizer-core.cjs"
-      ],
-      "confidence": "EXTRACTED",
-      "relation": "calls",
-      "why": "connects across different repos/directories; bridges separate communities"
-    },
-    {
-      "source": "run()",
-      "target": "{ analyzeWorkflowShape }",
-      "source_files": [
-        "tests/optimizer-core.test.cjs",
-        "optimizer-core.cjs"
-      ],
-      "confidence": "EXTRACTED",
-      "relation": "calls",
-      "why": "connects across different repos/directories"
-    },
-    {
-      "source": "run()",
-      "target": "{ preparePortableHandoff }",
-      "source_files": [
-        "tests/optimizer-core.test.cjs",
-        "optimizer-core.cjs"
-      ],
-      "confidence": "EXTRACTED",
-      "relation": "calls",
-      "why": "connects across different repos/directories"
-    },
-    {
-      "source": "run()",
-      "target": "{ redactSensitiveText }",
-      "source_files": [
-        "tests/optimizer-core.test.cjs",
-        "optimizer-core.cjs"
+        "request-guard.cjs"
       ],
       "confidence": "EXTRACTED",
       "relation": "calls",
@@ -519,7 +491,40 @@
     },
     {
       "source": "handleApi()",
-      "target": "takeRateLimit()",
+      "target": "validateOptimizerPayload()",
+      "source_files": [
+        "server.cjs",
+        "request-guard.cjs"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories"
+    },
+    {
+      "source": "handleApi()",
+      "target": "validateA2APayload()",
+      "source_files": [
+        "server.cjs",
+        "request-guard.cjs"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories"
+    },
+    {
+      "source": "handleApi()",
+      "target": "validateGeneratePayload()",
+      "source_files": [
+        "server.cjs",
+        "request-guard.cjs"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories"
+    },
+    {
+      "source": "handleApi()",
+      "target": "publicError()",
       "source_files": [
         "server.cjs",
         "request-guard.cjs"
@@ -531,39 +536,39 @@
   ],
   "questions": [
     {
-      "type": "bridge_node",
-      "question": "Why does `runSelfOptimizingWorkflow()` connect `optimizer-core.cjs` to `handoff.cjs`?",
-      "why": "High betweenness centrality (0.006) - this node is a cross-community bridge."
-    },
-    {
-      "type": "bridge_node",
-      "question": "Why does `runBlankA2AKit()` connect `optimizer-core.cjs` to `handoff.cjs`?",
-      "why": "High betweenness centrality (0.005) - this node is a cross-community bridge."
-    },
-    {
-      "type": "bridge_node",
-      "question": "Why does `estimateTokens()` connect `handoff.cjs` to `optimizer-core.cjs`?",
-      "why": "High betweenness centrality (0.004) - this node is a cross-community bridge."
-    },
-    {
       "type": "isolated_nodes",
       "question": "What connects `uvx`, `{ preparePortableHandoff }`, `{\n  commonHeaders,\n  publicError,\n  takeRateLimit,\n  validateOptimizerPayload\n}` to the rest of the system?",
-      "why": "122 weakly-connected nodes found - possible documentation gaps or missing edges."
+      "why": "126 weakly-connected nodes found - possible documentation gaps or missing edges."
     },
     {
       "type": "low_cohesion",
-      "question": "Should `server.cjs` be split into smaller, more focused modules?",
-      "why": "Cohesion score 0.05817028027498678 - nodes in this community are weakly interconnected."
+      "question": "Should `request-guard.cjs` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.05555555555555555 - nodes in this community are weakly interconnected."
     },
     {
       "type": "low_cohesion",
-      "question": "Should `optimizer-core.cjs` be split into smaller, more focused modules?",
-      "why": "Cohesion score 0.08521870286576169 - nodes in this community are weakly interconnected."
+      "question": "Should `workflow.cjs` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.09485815602836879 - nodes in this community are weakly interconnected."
     },
     {
       "type": "low_cohesion",
       "question": "Should `workspace.js` be split into smaller, more focused modules?",
       "why": "Cohesion score 0.11207729468599034 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `manifest.json` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.0625 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `content-gemini.test.cjs` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.07692307692307693 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `package.json` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.09090909090909091 - nodes in this community are weakly interconnected."
     }
   ]
 }

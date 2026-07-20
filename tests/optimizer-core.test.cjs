@@ -19,6 +19,21 @@ async function run() {
   assert.equal(redacted.text.includes(secret), false);
   assert.match(redacted.text, /\[REDACTED_SECRET\]/);
 
+  const modernSecrets = [
+    ["AKIA", "ABCDEFGHIJKLMNOP"].join(""),
+    ["ghp", "abcdefghijklmnopqrstuvwxyz0123456789"].join("_"),
+    ["xoxb", "1234567890-abcdefghijklmnop"].join("-"),
+    ["sk_live", "abcdefghijklmnop0123"].join("_"),
+    ["eyJhbGciOiJIUzI1NiJ9", "eyJzdWIiOiIxMjM0NTY3ODkwIn0", "TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ"].join("."),
+    "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBg\n-----END PRIVATE KEY-----"
+  ];
+  const modernRedacted = redactSensitiveText(modernSecrets.join("\n"));
+  assert.equal(modernRedacted.count, 6);
+  assert.equal(modernRedacted.types.length, 6);
+  for (const value of modernSecrets) {
+    assert.equal(modernRedacted.text.includes(value), false, value.slice(0, 12));
+  }
+
   const direct = analyzeWorkflowShape("Summarize this paragraph in three bullets.");
   assert.equal(direct.route, "direct");
   assert.equal(direct.verificationNeeded, false);
