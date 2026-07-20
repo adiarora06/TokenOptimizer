@@ -37,6 +37,18 @@
       "destination": "/outputs/agent-structure.html"
     },
     {
+      "source": "/code-graph",
+      "destination": "/graphify-out/graph.html"
+    },
+    {
+      "source": "/code-graph.json",
+      "destination": "/graphify-out/graph.json"
+    },
+    {
+      "source": "/code-graph-report",
+      "destination": "/graphify-out/GRAPH_REPORT.md"
+    },
+    {
       "source": "/optimized-ide",
       "destination": "/outputs/a2a-kit.html"
     },

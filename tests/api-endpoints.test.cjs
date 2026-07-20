@@ -101,6 +101,7 @@ async function run() {
       "/prompt-history",
       "/stats",
       "/agent-structure",
+      "/code-graph",
       "/open-source",
       "/settings",
       "/privacy",
@@ -112,6 +113,16 @@ async function run() {
       assert.equal(response.status, 200, path);
       assert.match(response.headers.get("content-type") || "", /text\/html/, path);
     }
+
+    const codeGraph = await jsonRequest(baseUrl, "/code-graph.json");
+    assert.equal(codeGraph.response.status, 200);
+    assert.ok(codeGraph.data.nodes.length > 0);
+    assert.ok(codeGraph.data.links.length > 0);
+
+    const graphReport = await fetch(`${baseUrl}/code-graph-report`);
+    assert.equal(graphReport.status, 200);
+    assert.match(graphReport.headers.get("content-type") || "", /text\/markdown/);
+    assert.match(await graphReport.text(), /Graph Report/);
 
     const status = await jsonRequest(baseUrl, "/api/provider-status");
     assert.equal(status.response.status, 200);

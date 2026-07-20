@@ -124,6 +124,7 @@
     :root[data-theme="dark"] textarea,
     :root[data-theme="dark"] .node-flow-graph,
     :root[data-theme="dark"] .agents-view,
+    :root[data-theme="dark"] .code-map-view,
     :root[data-theme="dark"] .card,
     :root[data-theme="dark"] .relation,
     :root[data-theme="dark"] .side-item {
@@ -323,13 +324,43 @@
     }
 
     .node-flow-graph,
-    .agents-view {
+    .agents-view,
+    .code-map-view {
       overflow: auto;
       min-height: 560px;
       border: 1px solid var(--line);
       border-radius: 8px;
       background: #fbfcff;
       padding: 16px;
+    }
+
+    .code-map-view {
+      overflow: hidden;
+      padding: 0;
+    }
+
+    .code-map-toolbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      background: var(--panel);
+    }
+
+    .code-map-toolbar p {
+      margin-top: 3px;
+      font-size: 12px;
+    }
+
+    .code-map-frame {
+      display: block;
+      width: 100%;
+      height: min(760px, calc(100vh - 220px));
+      min-height: 600px;
+      border: 0;
+      background: #0f0f1a;
     }
 
     .structure-title {
@@ -790,6 +821,7 @@
         </div>
         <div class="actions">
           <span class="pill" id="routePill">Auto route</span>
+          <a class="button" href="/code-graph" target="_blank" rel="noopener">Open Code Map</a>
           <button id="copyLink">Copy Link</button>
         </div>
       </div>
@@ -832,10 +864,21 @@
         <div class="tabs" role="tablist" aria-label="Agent structure views">
           <button class="tab" data-view="agents" aria-selected="true">Agents</button>
           <button class="tab" data-view="graph" aria-selected="false">Workflow Graph</button>
+          <button class="tab" data-view="code" aria-selected="false">Code Map</button>
         </div>
         <div class="canvas">
           <div id="graphView" class="node-flow-graph"></div>
           <div id="agentsView" class="agents-view hidden"></div>
+          <div id="codeView" class="code-map-view hidden">
+            <div class="code-map-toolbar">
+              <div>
+                <strong>Graphify Repository Map</strong>
+                <p>Search, filter, and inspect real files, functions, calls, and communities extracted from the public codebase.</p>
+              </div>
+              <a class="button" href="/code-graph" target="_blank" rel="noopener">Full screen</a>
+            </div>
+            <iframe id="codeMapFrame" class="code-map-frame" title="Interactive Graphify code knowledge graph" loading="lazy"></iframe>
+          </div>
         </div>
       </div>
 
@@ -892,7 +935,7 @@
         const value = params.get(key);
         if (value) state[key] = value;
       });
-      if (!["graph", "agents"].includes(state.view)) state.view = "agents";
+      if (!["graph", "agents", "code"].includes(state.view)) state.view = "agents";
       if (!platformNames[state.platform]) state.platform = "codex";
       if (!["light", "medium", "aggressive"].includes(state.depth)) state.depth = "medium";
     }
@@ -908,6 +951,10 @@
       el("navAgents").setAttribute("aria-current", "page");
       el("graphView").classList.toggle("hidden", state.view !== "graph");
       el("agentsView").classList.toggle("hidden", state.view !== "agents");
+      el("codeView").classList.toggle("hidden", state.view !== "code");
+      if (state.view === "code" && !el("codeMapFrame").getAttribute("src")) {
+        el("codeMapFrame").setAttribute("src", "/code-graph");
+      }
     }
 
     function readControls() {
@@ -1076,6 +1123,7 @@
         ["Contract payload", "Downstream transfers use goal, facts, constraints, decisions, sources, questions, next action, and budget."],
         ["Provider adapters", "Model-specific calls sit behind one adapter layer so the UI stays provider-agnostic."],
         ["Validation", "Secrets, raw transcript replay, missing required fields, and over-budget context are blocked."],
+        ["Graphify code map", "The Code Map is generated from the repository AST and links real files, functions, calls, and dependencies."],
         ["Connected route", `This page is callable directly and connected back to the optimizer with ${platformNames[state.platform]} settings.`]
       ];
       el("rules").innerHTML = rules.map((item) => `

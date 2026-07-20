@@ -4,6 +4,7 @@ const path = require("node:path");
 
 const rootDir = __dirname;
 const outputDir = path.join(rootDir, "outputs");
+const graphifyDir = path.join(rootDir, "graphify-out");
 const port = Number(process.env.PORT || 8787);
 const {
   callChatCompletion,
@@ -431,9 +432,16 @@ function serveStatic(req, res) {
     "/settings": "/settings.html",
     "/privacy": "/privacy.html"
   };
-  const pathname = routeMap[requestUrl.pathname] || requestUrl.pathname;
-  const filePath = path.normalize(path.join(outputDir, pathname));
-  if (!filePath.startsWith(outputDir)) {
+  const graphRouteMap = {
+    "/code-graph": "/graph.html",
+    "/code-graph.json": "/graph.json",
+    "/code-graph-report": "/GRAPH_REPORT.md"
+  };
+  const isGraphRoute = Boolean(graphRouteMap[requestUrl.pathname]);
+  const baseDir = isGraphRoute ? graphifyDir : outputDir;
+  const pathname = graphRouteMap[requestUrl.pathname] || routeMap[requestUrl.pathname] || requestUrl.pathname;
+  const filePath = path.normalize(path.join(baseDir, pathname));
+  if (!filePath.startsWith(baseDir)) {
     res.writeHead(403);
     res.end("Forbidden");
     return;
@@ -450,6 +458,7 @@ function serveStatic(req, res) {
       ".js": "text/javascript; charset=utf-8",
       ".css": "text/css; charset=utf-8",
       ".json": "application/json; charset=utf-8",
+      ".md": "text/markdown; charset=utf-8",
       ".png": "image/png"
     };
     const contentType = contentTypes[ext] || "application/octet-stream";
