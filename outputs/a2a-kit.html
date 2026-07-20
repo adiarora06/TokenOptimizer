@@ -686,9 +686,9 @@ ${result.finalAnswer || "No final answer returned."}
 ## Token Report
 - Raw input tokens: ${report.rawInputTokens || 0}
 - Workflow prompt tokens: ${report.optimizedPromptTokens || 0}
-- Estimated naive three-step tokens: ${report.estimatedNaiveThreeStepTokens || 0}
-- Estimated saved tokens: ${report.estimatedSavingsTokens || 0}
-- Estimated savings: ${report.estimatedSavingsPercent || 0}%
+- Repeated-context baseline tokens: ${report.estimatedNaiveThreeStepTokens || 0}
+- Estimated context delta tokens: ${report.estimatedContextDeltaTokens ?? report.estimatedSavingsTokens || 0}
+- Estimated context reduction: ${report.estimatedSavingsPercent || 0}%
 
 ## Route
 - Status: ${result.executionStatus || "unknown"}

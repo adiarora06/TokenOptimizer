@@ -93,10 +93,11 @@ function preparePortableHandoff({ rawInput, options = {}, target = "ai-assistant
   const optimizedPrompt = buildPortablePrompt(safeInput, handoffContract, workflowShape);
   const rawInputTokens = estimateTokens(original);
   const optimizedPromptTokens = estimateTokens(optimizedPrompt);
-  const estimatedSavingsTokens = Math.max(0, rawInputTokens - optimizedPromptTokens);
-  const estimatedSavingsPercent = rawInputTokens
-    ? Math.max(0, Math.round((estimatedSavingsTokens / rawInputTokens) * 100))
-    : 0;
+  // Signed: negative when framing a short prompt costs more than the raw text.
+  const deltaTokens = rawInputTokens - optimizedPromptTokens;
+  const deltaPercent = rawInputTokens ? Math.round((deltaTokens / rawInputTokens) * 100) : 0;
+  const estimatedSavingsTokens = Math.max(0, deltaTokens);
+  const estimatedSavingsPercent = Math.max(0, deltaPercent);
   const wrapperRemoved = unwrapped !== original;
   const strategy = wrapperRemoved
     ? "recursive-wrapper-cleanup"
@@ -137,6 +138,9 @@ function preparePortableHandoff({ rawInput, options = {}, target = "ai-assistant
       optimizedPromptTokens,
       estimatedSavingsTokens,
       estimatedSavingsPercent,
+      estimatedContextDeltaTokens: deltaTokens,
+      estimatedContextDeltaPercent: deltaPercent,
+      addsFramingOverhead: deltaTokens < 0,
       adaptiveRoute: workflowShape.route,
       routeReason: workflowShape.routeReason,
       modelCalls: 0,
