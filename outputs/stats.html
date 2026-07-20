@@ -668,6 +668,11 @@
 
     function renderDonut(id, pctId, stats) {
       const total = stats.rawTokens + stats.optimizedTokens;
+      if (!total) {
+        el(id).style.background = "conic-gradient(var(--line) 0deg 360deg)";
+        el(pctId).textContent = "--";
+        return;
+      }
       const inputPct = percent(stats.rawTokens, total);
       const degrees = Math.round((inputPct / 100) * 360);
       el(id).style.background = `conic-gradient(var(--good) 0deg ${degrees}deg, var(--brand) ${degrees}deg 360deg)`;

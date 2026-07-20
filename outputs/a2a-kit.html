@@ -463,7 +463,7 @@
   <nav class="app-topbar" aria-label="Primary navigation">
     <a class="app-brand" href="/" aria-label="Token Optimizer home"><span class="app-brand-mark" aria-hidden="true">T</span><strong>Token Optimizer</strong></a>
     <div class="app-primary-nav">
-      <a href="/workspace" aria-current="page">Workspace</a>
+      <a href="/workspace">Workspace</a>
       <a href="/prompt-history">Runs</a>
       <a href="/stats">Insights</a>
       <a href="/agent-structure">Architecture</a>
@@ -627,7 +627,7 @@
           prompt = "";
         }
       }
-      el("prompt").value = prompt || "Take this messy prompt and produce the optimized end result using the adaptive contract workflow kit.";
+      el("prompt").value = prompt || "";
     }
 
     function selectedProviderConfig() {

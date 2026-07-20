@@ -180,8 +180,12 @@
     }
 
     .mode-card {
+      display: grid;
+      gap: 4px;
+      justify-items: start;
       padding: 16px;
       box-shadow: none;
+      text-align: left;
     }
 
     .mode-card strong, .panel strong, .metric strong {
@@ -469,6 +473,10 @@
       color: #ffffff;
     }
 
+    :root[data-theme="dark"] .final-cta {
+      background: var(--panel);
+    }
+
     @media (max-width: 960px) {
       .hero,
       .metrics,
@@ -501,10 +509,10 @@
       <a href="/" aria-current="page">Home</a>
       <a href="/workspace">Workspace</a>
       <a href="/optimized-ide">Optimized IDE</a>
-      <a href="/agent-structure">Agents</a>
+      <a href="/agent-structure">Architecture</a>
       <a href="/open-source">Open Source</a>
-      <a href="/stats">Stats</a>
-      <a href="/prompt-history">History</a>
+      <a href="/stats">Insights</a>
+      <a href="/prompt-history">Runs</a>
       <a href="/settings">Settings</a>
     </div>
     <div class="actions">

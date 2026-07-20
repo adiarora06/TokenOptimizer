@@ -255,12 +255,16 @@
     .history-card,
     .audit-card {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-columns: minmax(0, 1fr);
       gap: 12px;
       border: 1px solid var(--line);
       border-radius: 8px;
       background: #ffffff;
       padding: 12px;
+    }
+
+    .history-card .actions {
+      justify-content: flex-start;
     }
 
     .audit-panel {
@@ -695,7 +699,7 @@
         <article class="history-card">
           <div>
             <strong>${escapeHtml(title(promptText(item)))}</strong>
-            <p>${escapeHtml(promptText(item))}</p>
+            ${title(promptText(item)) === promptText(item) ? "" : `<p>${escapeHtml(promptText(item))}</p>`}
             <div class="meta">
               <span>${escapeHtml(item.mode || "workspace")}</span>
               <span>${escapeHtml(item.route || providerLabels[item.provider] || item.provider || "automatic")}</span>
