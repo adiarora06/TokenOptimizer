@@ -273,6 +273,53 @@
       padding: 16px;
     }
 
+    .graphify-panel {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 300px;
+      gap: 14px;
+      align-items: start;
+      padding: 18px;
+    }
+
+    .graphify-panel h3 {
+      font-size: 18px;
+    }
+
+    .graphify-panel p {
+      margin-top: 7px;
+      color: var(--muted);
+    }
+
+    .graphify-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .graphify-stat {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--bg);
+      padding: 12px;
+    }
+
+    .graphify-stat strong,
+    .graphify-stat span {
+      display: block;
+    }
+
+    .graphify-stat strong {
+      font-size: 20px;
+    }
+
+    .graphify-stat span {
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
     .toast {
       position: fixed;
       right: 18px;
@@ -313,7 +360,7 @@
 
     @media (max-width: 920px) {
       body { padding-top: 86px; }
-      .hero, .section-head, .grid-3, .grid-2, .file, .contract-panel {
+      .hero, .section-head, .grid-3, .grid-2, .file, .contract-panel, .graphify-panel {
         grid-template-columns: 1fr;
       }
       .page { width: min(100% - 28px, 720px); }
@@ -343,6 +390,7 @@
         <div class="actions">
           <a class="button primary" href="/workspace">Back to workspace</a>
           <a class="button" href="https://github.com/adiarora06/TokenOptimizer">GitHub repo</a>
+          <a class="button" href="/code-graph">Explore code map</a>
           <button id="copyContract">Copy contract example</button>
         </div>
       </div>
@@ -383,8 +431,34 @@
         <div class="file"><strong><code>api/system-runs.js</code></strong><p>Hosted system-run endpoint that returns the same snapshot shape as local background runs.</p></div>
         <div class="file"><strong><code>api/*.js</code></strong><p>Vercel function entrypoints for hosted optimize, generate, provider status, and compatibility routes.</p></div>
         <div class="file"><strong><code>outputs/agent-structure.html</code></strong><p>Agent roles and the hub-and-spoke graph that explains flow of information.</p></div>
+        <div class="file"><strong><code>graphify-out</code></strong><p>Graphify's interactive repository map, architecture report, and machine-readable code graph.</p></div>
+        <div class="file"><strong><code>CLAUDE.md</code></strong><p>Claude collaboration guide with architecture entry points, checks, and Graphify-first navigation.</p></div>
         <div class="file"><strong><code>extensions/gemini-token-optimizer</code></strong><p>Manifest V3 side-panel MVP for capturing, optimizing, and inserting prompts on Gemini.</p></div>
         <div class="file"><strong><code>README.md</code></strong><p>Local run steps, environment setup, project overview, and contribution notes.</p></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>Explore the real code graph</h2>
+        <p>Graphify maps the repository locally from its syntax trees, then publishes an inspectable graph that coding assistants can query without repeatedly loading every file.</p>
+      </div>
+      <div class="graphify-panel panel">
+        <div>
+          <span class="tag">Graphify</span>
+          <h3>Files, functions, calls, and dependencies in one map</h3>
+          <p>Search for a symbol, select a node to inspect its source file and neighbors, or filter communities to focus on the optimizer core, workspace, APIs, extension, tests, and deployment routes.</p>
+          <div class="actions">
+            <a class="button primary" href="/code-graph">Open interactive map</a>
+            <a class="button" href="/code-graph.json">Open graph data</a>
+            <a class="button" href="/code-graph-report">Read architecture report</a>
+          </div>
+        </div>
+        <div class="graphify-stats" aria-label="Graphify graph summary">
+          <div class="graphify-stat"><strong>339</strong><span>code nodes</span></div>
+          <div class="graphify-stat"><strong>652</strong><span>relations</span></div>
+          <div class="graphify-stat"><strong>18</strong><span>communities</span></div>
+        </div>
       </div>
     </section>
 

@@ -21,6 +21,7 @@ http://127.0.0.1:8787
 - **Provider-agnostic UI**: model routing, fallback, timeouts, usage normalization, and optional cost estimates stay on the server.
 - **Runs and Insights**: local prompt history, audit traces, session totals, all-time totals, route mix, status mix, and token charts.
 - **Inspectable architecture**: agent responsibilities and the hub-and-spoke contract graph share one Architecture page.
+- **Graphify code map**: the public app includes a searchable knowledge graph of real files, functions, calls, tests, adapters, and deployment routes.
 - **Gemini wrapper**: a Manifest V3 side panel prepares and inserts prompts with zero duplicate provider calls.
 
 ## Source Map
@@ -31,6 +32,9 @@ http://127.0.0.1:8787
 - `outputs/app-nav.css`: shared stable navigation for internal product pages.
 - `outputs/open-source.html`: readable workings page for architecture and contribution context.
 - `outputs/agent-structure.html`: agent roles plus hub-and-spoke information graph.
+- `graphify-out/graph.html`: interactive Graphify repository map published at `/code-graph`.
+- `graphify-out/graph.json`: machine-readable repository graph for assistants and MCP tools.
+- `graphify-out/GRAPH_REPORT.md`: generated architecture report with hubs, communities, and high-impact connections.
 - `outputs/prompt-history.html`: prompt history and side-panel audit log.
 - `outputs/stats.html`: session and all-time usage insights.
 - `extensions/gemini-token-optimizer`: local unpacked Chrome extension MVP for Gemini.
@@ -95,6 +99,25 @@ The background mode is for working beside an active LLM or IDE:
 3. Review the measured original and prepared token counts.
 4. Insert the compact prompt into the target chat box or IDE agent.
 5. Review the result and save an audit trail when needed.
+
+## Graphify And Claude
+
+The repository ships with a generated Graphify knowledge graph and project-level Claude guidance. After cloning the repository, Claude can use the graph to locate relevant files and relationships before loading source code.
+
+Open the published graph:
+
+```text
+https://tok-pi-gilt.vercel.app/code-graph
+```
+
+Regenerate the graph after architecture changes:
+
+```bash
+uvx --from graphifyy graphify extract . --code-only
+uvx --from graphifyy graphify cluster-only .
+```
+
+Optional MCP support for Claude Code is declared in `.mcp.json`. It uses `uvx` to provide Graphify's query, node, neighbor, path, community, and graph-stat tools against `graphify-out/graph.json`.
 
 ## Gemini Extension MVP
 
