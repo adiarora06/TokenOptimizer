@@ -12,7 +12,7 @@
         "mcp_kind": "mcp_config_file"
       },
       "_origin": "ast",
-      "community": 15,
+      "community": 19,
       "norm_label": ".mcp.json",
       "community_name": "graphify",
       "id": "mcp"
@@ -26,7 +26,7 @@
         "mcp_kind": "mcp_server"
       },
       "_origin": "ast",
-      "community": 15,
+      "community": 19,
       "norm_label": "graphify",
       "community_name": "graphify",
       "id": "mcp_mcp_server_graphify"
@@ -40,7 +40,7 @@
         "mcp_kind": "mcp_command"
       },
       "_origin": "ast",
-      "community": 15,
+      "community": 19,
       "norm_label": "uvx",
       "community_name": "graphify",
       "id": "mcp_command_uvx"
@@ -106,9 +106,9 @@
       "source_file": "api/system-runs.js",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 0,
+      "community": 8,
       "norm_label": "system-runs.js",
-      "community_name": "request-guard.cjs",
+      "community_name": "optimizer-system.cjs",
       "id": "api_system_runs"
     },
     {
@@ -117,9 +117,9 @@
       "source_file": "api/system-runs.js",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 0,
+      "community": 8,
       "norm_label": "{ system_architecture, runsystemruninline }",
-      "community_name": "request-guard.cjs",
+      "community_name": "optimizer-system.cjs",
       "id": "api_system_runs_system_architecture_runsystemruninline"
     },
     {
@@ -128,9 +128,9 @@
       "source_file": "api/system-runs.js",
       "source_location": "L2",
       "_origin": "ast",
-      "community": 0,
+      "community": 8,
       "norm_label": "{\n  commonheaders,\n  publicerror,\n  takeratelimit,\n  validateoptimizerpayload\n}",
-      "community_name": "request-guard.cjs",
+      "community_name": "optimizer-system.cjs",
       "id": "api_system_runs_commonheaders_publicerror_takeratelimit_validateoptimizerpayload"
     },
     {
@@ -139,7 +139,7 @@
       "source_file": "extensions/gemini-token-optimizer/adapters/gemini.js",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 10,
+      "community": 12,
       "norm_label": "gemini.js",
       "community_name": "gemini.js",
       "id": "extensions_gemini_token_optimizer_adapters_gemini"
@@ -150,7 +150,7 @@
       "source_file": "extensions/gemini-token-optimizer/adapters/gemini.js",
       "source_location": "L12",
       "_origin": "ast",
-      "community": 10,
+      "community": 12,
       "norm_label": "normalizepromptnode()",
       "community_name": "gemini.js",
       "id": "extensions_gemini_token_optimizer_adapters_gemini_normalizepromptnode"
@@ -161,7 +161,7 @@
       "source_file": "extensions/gemini-token-optimizer/adapters/gemini.js",
       "source_location": "L18",
       "_origin": "ast",
-      "community": 10,
+      "community": 12,
       "norm_label": "isvisible()",
       "community_name": "gemini.js",
       "id": "extensions_gemini_token_optimizer_adapters_gemini_isvisible"
@@ -172,7 +172,7 @@
       "source_file": "extensions/gemini-token-optimizer/adapters/gemini.js",
       "source_location": "L27",
       "_origin": "ast",
-      "community": 10,
+      "community": 12,
       "norm_label": "haspromptlabel()",
       "community_name": "gemini.js",
       "id": "extensions_gemini_token_optimizer_adapters_gemini_haspromptlabel"
@@ -183,7 +183,7 @@
       "source_file": "extensions/gemini-token-optimizer/adapters/gemini.js",
       "source_location": "L36",
       "_origin": "ast",
-      "community": 10,
+      "community": 12,
       "norm_label": "isnearpromptarea()",
       "community_name": "gemini.js",
       "id": "extensions_gemini_token_optimizer_adapters_gemini_isnearpromptarea"
@@ -194,7 +194,7 @@
       "source_file": "extensions/gemini-token-optimizer/adapters/gemini.js",
       "source_location": "L41",
       "_origin": "ast",
-      "community": 10,
+      "community": 12,
       "norm_label": "ishugeeditable()",
       "community_name": "gemini.js",
       "id": "extensions_gemini_token_optimizer_adapters_gemini_ishugeeditable"
@@ -205,7 +205,7 @@
       "source_file": "extensions/gemini-token-optimizer/adapters/gemini.js",
       "source_location": "L48",
       "_origin": "ast",
-      "community": 10,
+      "community": 12,
       "norm_label": "ispromptcandidate()",
       "community_name": "gemini.js",
       "id": "extensions_gemini_token_optimizer_adapters_gemini_ispromptcandidate"
@@ -216,7 +216,7 @@
       "source_file": "extensions/gemini-token-optimizer/adapters/gemini.js",
       "source_location": "L56",
       "_origin": "ast",
-      "community": 10,
+      "community": 12,
       "norm_label": "promptscore()",
       "community_name": "gemini.js",
       "id": "extensions_gemini_token_optimizer_adapters_gemini_promptscore"
@@ -227,7 +227,7 @@
       "source_file": "extensions/gemini-token-optimizer/adapters/gemini.js",
       "source_location": "L68",
       "_origin": "ast",
-      "community": 10,
+      "community": 12,
       "norm_label": "findpromptbox()",
       "community_name": "gemini.js",
       "id": "extensions_gemini_token_optimizer_adapters_gemini_findpromptbox"
@@ -238,7 +238,7 @@
       "source_file": "extensions/gemini-token-optimizer/adapters/gemini.js",
       "source_location": "L83",
       "_origin": "ast",
-      "community": 10,
+      "community": 12,
       "norm_label": "captureprompt()",
       "community_name": "gemini.js",
       "id": "extensions_gemini_token_optimizer_adapters_gemini_captureprompt"
@@ -249,7 +249,7 @@
       "source_file": "extensions/gemini-token-optimizer/adapters/gemini.js",
       "source_location": "L93",
       "_origin": "ast",
-      "community": 10,
+      "community": 12,
       "norm_label": "insertprompt()",
       "community_name": "gemini.js",
       "id": "extensions_gemini_token_optimizer_adapters_gemini_insertprompt"
@@ -260,384 +260,10 @@
       "source_file": "extensions/gemini-token-optimizer/content-bridge.js",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 19,
+      "community": 23,
       "norm_label": "content-bridge.js",
       "community_name": "content-bridge.js",
       "id": "extensions_gemini_token_optimizer_content_bridge"
-    },
-    {
-      "label": "manifest.json",
-      "file_type": "code",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "manifest.json",
-      "community_name": "manifest.json",
-      "id": "extensions_gemini_token_optimizer_manifest"
-    },
-    {
-      "label": "manifest_version",
-      "file_type": "code",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L2",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "manifest_version",
-      "community_name": "manifest.json",
-      "id": "extensions_gemini_token_optimizer_manifest_manifest_version"
-    },
-    {
-      "label": "name",
-      "file_type": "code",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L3",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "name",
-      "community_name": "manifest.json",
-      "id": "extensions_gemini_token_optimizer_manifest_name"
-    },
-    {
-      "label": "version",
-      "file_type": "code",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L4",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "version",
-      "community_name": "manifest.json",
-      "id": "extensions_gemini_token_optimizer_manifest_version"
-    },
-    {
-      "label": "description",
-      "file_type": "code",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L5",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "description",
-      "community_name": "manifest.json",
-      "id": "extensions_gemini_token_optimizer_manifest_description"
-    },
-    {
-      "label": "minimum_chrome_version",
-      "file_type": "code",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L6",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "minimum_chrome_version",
-      "community_name": "manifest.json",
-      "id": "extensions_gemini_token_optimizer_manifest_minimum_chrome_version"
-    },
-    {
-      "label": "icons",
-      "file_type": "code",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L7",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "icons",
-      "community_name": "manifest.json",
-      "id": "extensions_gemini_token_optimizer_manifest_icons"
-    },
-    {
-      "label": "16",
-      "file_type": "code",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L8",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "16",
-      "community_name": "manifest.json",
-      "id": "extensions_gemini_token_optimizer_manifest_icons_16"
-    },
-    {
-      "label": "32",
-      "file_type": "code",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L9",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "32",
-      "community_name": "manifest.json",
-      "id": "extensions_gemini_token_optimizer_manifest_icons_32"
-    },
-    {
-      "label": "48",
-      "file_type": "code",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L10",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "48",
-      "community_name": "manifest.json",
-      "id": "extensions_gemini_token_optimizer_manifest_icons_48"
-    },
-    {
-      "label": "128",
-      "file_type": "code",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L11",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "128",
-      "community_name": "manifest.json",
-      "id": "extensions_gemini_token_optimizer_manifest_icons_128"
-    },
-    {
-      "label": "action",
-      "file_type": "code",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L13",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "action",
-      "community_name": "manifest.json",
-      "id": "extensions_gemini_token_optimizer_manifest_action"
-    },
-    {
-      "label": "default_title",
-      "file_type": "code",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L14",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "default_title",
-      "community_name": "manifest.json",
-      "id": "extensions_gemini_token_optimizer_manifest_action_default_title"
-    },
-    {
-      "label": "default_icon",
-      "file_type": "code",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L15",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "default_icon",
-      "community_name": "manifest.json",
-      "id": "extensions_gemini_token_optimizer_manifest_action_default_icon"
-    },
-    {
-      "label": "16",
-      "file_type": "code",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L16",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "16",
-      "community_name": "manifest.json",
-      "id": "extensions_gemini_token_optimizer_manifest_default_icon_16"
-    },
-    {
-      "label": "32",
-      "file_type": "code",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L17",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "32",
-      "community_name": "manifest.json",
-      "id": "extensions_gemini_token_optimizer_manifest_default_icon_32"
-    },
-    {
-      "label": "48",
-      "file_type": "code",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L18",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "48",
-      "community_name": "manifest.json",
-      "id": "extensions_gemini_token_optimizer_manifest_default_icon_48"
-    },
-    {
-      "label": "128",
-      "file_type": "code",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L19",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "128",
-      "community_name": "manifest.json",
-      "id": "extensions_gemini_token_optimizer_manifest_default_icon_128"
-    },
-    {
-      "label": "background",
-      "file_type": "code",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L22",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "background",
-      "community_name": "manifest.json",
-      "id": "extensions_gemini_token_optimizer_manifest_background"
-    },
-    {
-      "label": "service_worker",
-      "file_type": "code",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L23",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "service_worker",
-      "community_name": "manifest.json",
-      "id": "extensions_gemini_token_optimizer_manifest_background_service_worker"
-    },
-    {
-      "label": "type",
-      "file_type": "code",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L24",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "type",
-      "community_name": "manifest.json",
-      "id": "extensions_gemini_token_optimizer_manifest_background_type"
-    },
-    {
-      "label": "content_security_policy",
-      "file_type": "code",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L26",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "content_security_policy",
-      "community_name": "manifest.json",
-      "id": "extensions_gemini_token_optimizer_manifest_content_security_policy"
-    },
-    {
-      "label": "extension_pages",
-      "file_type": "code",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L27",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "extension_pages",
-      "community_name": "manifest.json",
-      "id": "extensions_gemini_token_optimizer_manifest_content_security_policy_extension_pages"
-    },
-    {
-      "label": "permissions",
-      "file_type": "code",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L29",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "permissions",
-      "community_name": "manifest.json",
-      "id": "extensions_gemini_token_optimizer_manifest_permissions"
-    },
-    {
-      "label": "sidePanel",
-      "file_type": "concept",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L29",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "sidepanel",
-      "community_name": "manifest.json",
-      "id": "ref_sidepanel"
-    },
-    {
-      "label": "storage",
-      "file_type": "concept",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L29",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "storage",
-      "community_name": "manifest.json",
-      "id": "ref_storage"
-    },
-    {
-      "label": "host_permissions",
-      "file_type": "code",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L33",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "host_permissions",
-      "community_name": "manifest.json",
-      "id": "extensions_gemini_token_optimizer_manifest_host_permissions"
-    },
-    {
-      "label": "https://gemini.google.com/*",
-      "file_type": "concept",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L33",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "https://gemini.google.com/*",
-      "community_name": "manifest.json",
-      "id": "ref_https_gemini_google_com"
-    },
-    {
-      "label": "https://tok-pi-gilt.vercel.app/*",
-      "file_type": "concept",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L33",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "https://tok-pi-gilt.vercel.app/*",
-      "community_name": "manifest.json",
-      "id": "ref_https_tok_pi_gilt_vercel_app"
-    },
-    {
-      "label": "side_panel",
-      "file_type": "code",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L37",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "side_panel",
-      "community_name": "manifest.json",
-      "id": "extensions_gemini_token_optimizer_manifest_side_panel"
-    },
-    {
-      "label": "default_path",
-      "file_type": "code",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L38",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "default_path",
-      "community_name": "manifest.json",
-      "id": "extensions_gemini_token_optimizer_manifest_side_panel_default_path"
-    },
-    {
-      "label": "content_scripts",
-      "file_type": "code",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L40",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "content_scripts",
-      "community_name": "manifest.json",
-      "id": "extensions_gemini_token_optimizer_manifest_content_scripts"
-    },
-    {
-      "label": "platforms.js",
-      "file_type": "code",
-      "source_file": "extensions/gemini-token-optimizer/platforms.js",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 17,
-      "norm_label": "platforms.js",
-      "community_name": "platforms.js",
-      "id": "extensions_gemini_token_optimizer_platforms"
-    },
-    {
-      "label": "forUrl()",
-      "file_type": "code",
-      "source_file": "extensions/gemini-token-optimizer/platforms.js",
-      "source_location": "L11",
-      "_origin": "ast",
-      "community": 17,
-      "norm_label": "forurl()",
-      "community_name": "platforms.js",
-      "id": "extensions_gemini_token_optimizer_platforms_forurl"
     },
     {
       "label": "service-worker.js",
@@ -645,7 +271,7 @@
       "source_file": "extensions/gemini-token-optimizer/service-worker.js",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 18,
+      "community": 22,
       "norm_label": "service-worker.js",
       "community_name": "service-worker.js",
       "id": "extensions_gemini_token_optimizer_service_worker"
@@ -656,7 +282,7 @@
       "source_file": "extensions/gemini-token-optimizer/service-worker.js",
       "source_location": "L23",
       "_origin": "ast",
-      "community": 18,
+      "community": 22,
       "norm_label": "setpanelfortab()",
       "community_name": "service-worker.js",
       "id": "extensions_gemini_token_optimizer_service_worker_setpanelfortab"
@@ -1228,7 +854,7 @@
       "source_file": "extensions/gemini-token-optimizer/tests/sidepanel-logic.test.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 9,
+      "community": 10,
       "norm_label": "sidepanel-logic.test.cjs",
       "community_name": "sidepanel-logic.test.cjs",
       "id": "extensions_gemini_token_optimizer_tests_sidepanel_logic_test"
@@ -1239,7 +865,7 @@
       "source_file": "extensions/gemini-token-optimizer/tests/sidepanel-logic.test.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 9,
+      "community": 10,
       "norm_label": "assert",
       "community_name": "sidepanel-logic.test.cjs",
       "id": "extensions_gemini_token_optimizer_tests_sidepanel_logic_test_assert"
@@ -1250,7 +876,7 @@
       "source_file": "extensions/gemini-token-optimizer/tests/sidepanel-logic.test.cjs",
       "source_location": "L2",
       "_origin": "ast",
-      "community": 9,
+      "community": 10,
       "norm_label": "fs",
       "community_name": "sidepanel-logic.test.cjs",
       "id": "extensions_gemini_token_optimizer_tests_sidepanel_logic_test_fs"
@@ -1261,7 +887,7 @@
       "source_file": "extensions/gemini-token-optimizer/tests/sidepanel-logic.test.cjs",
       "source_location": "L3",
       "_origin": "ast",
-      "community": 9,
+      "community": 10,
       "norm_label": "path",
       "community_name": "sidepanel-logic.test.cjs",
       "id": "extensions_gemini_token_optimizer_tests_sidepanel_logic_test_path"
@@ -1272,7 +898,7 @@
       "source_file": "extensions/gemini-token-optimizer/tests/sidepanel-logic.test.cjs",
       "source_location": "L4",
       "_origin": "ast",
-      "community": 9,
+      "community": 10,
       "norm_label": "vm",
       "community_name": "sidepanel-logic.test.cjs",
       "id": "extensions_gemini_token_optimizer_tests_sidepanel_logic_test_vm"
@@ -1283,7 +909,7 @@
       "source_file": "extensions/gemini-token-optimizer/tests/sidepanel-logic.test.cjs",
       "source_location": "L6",
       "_origin": "ast",
-      "community": 9,
+      "community": 10,
       "norm_label": "extensiondir",
       "community_name": "sidepanel-logic.test.cjs",
       "id": "extensions_gemini_token_optimizer_tests_sidepanel_logic_test_extensiondir"
@@ -1294,7 +920,7 @@
       "source_file": "extensions/gemini-token-optimizer/tests/sidepanel-logic.test.cjs",
       "source_location": "L7",
       "_origin": "ast",
-      "community": 9,
+      "community": 10,
       "norm_label": "elements",
       "community_name": "sidepanel-logic.test.cjs",
       "id": "extensions_gemini_token_optimizer_tests_sidepanel_logic_test_elements"
@@ -1305,7 +931,7 @@
       "source_file": "extensions/gemini-token-optimizer/tests/sidepanel-logic.test.cjs",
       "source_location": "L9",
       "_origin": "ast",
-      "community": 9,
+      "community": 10,
       "norm_label": "element()",
       "community_name": "sidepanel-logic.test.cjs",
       "id": "extensions_gemini_token_optimizer_tests_sidepanel_logic_test_element"
@@ -1316,7 +942,7 @@
       "source_file": "extensions/gemini-token-optimizer/tests/sidepanel-logic.test.cjs",
       "source_location": "L27",
       "_origin": "ast",
-      "community": 9,
+      "community": 10,
       "norm_label": "preparedresponse",
       "community_name": "sidepanel-logic.test.cjs",
       "id": "extensions_gemini_token_optimizer_tests_sidepanel_logic_test_preparedresponse"
@@ -1327,7 +953,7 @@
       "source_file": "extensions/gemini-token-optimizer/tests/sidepanel-logic.test.cjs",
       "source_location": "L39",
       "_origin": "ast",
-      "community": 9,
+      "community": 10,
       "norm_label": "context",
       "community_name": "sidepanel-logic.test.cjs",
       "id": "extensions_gemini_token_optimizer_tests_sidepanel_logic_test_context"
@@ -1338,7 +964,7 @@
       "source_file": "extensions/gemini-token-optimizer/tests/sidepanel-logic.test.cjs",
       "source_location": "L60",
       "_origin": "ast",
-      "community": 9,
+      "community": 10,
       "norm_label": "platformscode",
       "community_name": "sidepanel-logic.test.cjs",
       "id": "extensions_gemini_token_optimizer_tests_sidepanel_logic_test_platformscode"
@@ -1349,7 +975,7 @@
       "source_file": "extensions/gemini-token-optimizer/tests/sidepanel-logic.test.cjs",
       "source_location": "L61",
       "_origin": "ast",
-      "community": 9,
+      "community": 10,
       "norm_label": "sidepanelcode",
       "community_name": "sidepanel-logic.test.cjs",
       "id": "extensions_gemini_token_optimizer_tests_sidepanel_logic_test_sidepanelcode"
@@ -1360,7 +986,7 @@
       "source_file": "outputs/system-worker.js",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 13,
+      "community": 15,
       "norm_label": "system-worker.js",
       "community_name": "system-worker.js",
       "id": "outputs_system_worker"
@@ -1371,7 +997,7 @@
       "source_file": "outputs/system-worker.js",
       "source_location": "L18",
       "_origin": "ast",
-      "community": 13,
+      "community": 15,
       "norm_label": "estimatetokens()",
       "community_name": "system-worker.js",
       "id": "outputs_system_worker_estimatetokens"
@@ -1382,7 +1008,7 @@
       "source_file": "outputs/system-worker.js",
       "source_location": "L22",
       "_origin": "ast",
-      "community": 13,
+      "community": 15,
       "norm_label": "lines()",
       "community_name": "system-worker.js",
       "id": "outputs_system_worker_lines"
@@ -1393,7 +1019,7 @@
       "source_file": "outputs/system-worker.js",
       "source_location": "L29",
       "_origin": "ast",
-      "community": 13,
+      "community": 15,
       "norm_label": "uniquelines()",
       "community_name": "system-worker.js",
       "id": "outputs_system_worker_uniquelines"
@@ -1404,7 +1030,7 @@
       "source_file": "outputs/system-worker.js",
       "source_location": "L41",
       "_origin": "ast",
-      "community": 13,
+      "community": 15,
       "norm_label": "outputstyle()",
       "community_name": "system-worker.js",
       "id": "outputs_system_worker_outputstyle"
@@ -1415,7 +1041,7 @@
       "source_file": "outputs/system-worker.js",
       "source_location": "L49",
       "_origin": "ast",
-      "community": 13,
+      "community": 15,
       "norm_label": "complexityscore()",
       "community_name": "system-worker.js",
       "id": "outputs_system_worker_complexityscore"
@@ -1426,7 +1052,7 @@
       "source_file": "outputs/system-worker.js",
       "source_location": "L58",
       "_origin": "ast",
-      "community": 13,
+      "community": 15,
       "norm_label": "analyzeprompt()",
       "community_name": "system-worker.js",
       "id": "outputs_system_worker_analyzeprompt"
@@ -1619,254 +1245,12 @@
       "id": "api_workflow_run_commonheaders_publicerror_takeratelimit_validatea2apayload"
     },
     {
-      "label": "package.json",
-      "file_type": "code",
-      "source_file": "package.json",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "package.json",
-      "community_name": "package.json",
-      "id": "package"
-    },
-    {
-      "label": "name",
-      "file_type": "code",
-      "source_file": "package.json",
-      "source_location": "L2",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "name",
-      "community_name": "package.json",
-      "id": "package_name"
-    },
-    {
-      "label": "version",
-      "file_type": "code",
-      "source_file": "package.json",
-      "source_location": "L3",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "version",
-      "community_name": "package.json",
-      "id": "package_version"
-    },
-    {
-      "label": "description",
-      "file_type": "code",
-      "source_file": "package.json",
-      "source_location": "L4",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "description",
-      "community_name": "package.json",
-      "id": "package_description"
-    },
-    {
-      "label": "private",
-      "file_type": "code",
-      "source_file": "package.json",
-      "source_location": "L5",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "private",
-      "community_name": "package.json",
-      "id": "package_private"
-    },
-    {
-      "label": "engines",
-      "file_type": "code",
-      "source_file": "package.json",
-      "source_location": "L6",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "engines",
-      "community_name": "package.json",
-      "id": "package_engines"
-    },
-    {
-      "label": "node",
-      "file_type": "code",
-      "source_file": "package.json",
-      "source_location": "L7",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "node",
-      "community_name": "package.json",
-      "id": "package_engines_node"
-    },
-    {
-      "label": "scripts",
-      "file_type": "code",
-      "source_file": "package.json",
-      "source_location": "L9",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "scripts",
-      "community_name": "package.json",
-      "id": "package_scripts"
-    },
-    {
-      "label": "start",
-      "file_type": "code",
-      "source_file": "package.json",
-      "source_location": "L10",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "start",
-      "community_name": "package.json",
-      "id": "package_scripts_start"
-    },
-    {
-      "label": "test",
-      "file_type": "code",
-      "source_file": "package.json",
-      "source_location": "L11",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "test",
-      "community_name": "package.json",
-      "id": "package_scripts_test"
-    },
-    {
-      "label": "test:core",
-      "file_type": "code",
-      "source_file": "package.json",
-      "source_location": "L12",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "test:core",
-      "community_name": "package.json",
-      "id": "package_scripts_test_core"
-    },
-    {
-      "label": "test:api",
-      "file_type": "code",
-      "source_file": "package.json",
-      "source_location": "L13",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "test:api",
-      "community_name": "package.json",
-      "id": "package_scripts_test_api"
-    },
-    {
-      "label": "test:extension",
-      "file_type": "code",
-      "source_file": "package.json",
-      "source_location": "L14",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "test:extension",
-      "community_name": "package.json",
-      "id": "package_scripts_test_extension"
-    },
-    {
-      "label": "dependencies",
-      "file_type": "code",
-      "source_file": "package.json",
-      "source_location": "L16",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "dependencies",
-      "community_name": "package.json",
-      "id": "package_dependencies"
-    },
-    {
-      "label": "@tabler/icons-webfont",
-      "file_type": "code",
-      "source_file": "package.json",
-      "source_location": "L17",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "@tabler/icons-webfont",
-      "community_name": "package.json",
-      "id": "package_dependencies_tabler_icons_webfont"
-    },
-    {
-      "label": "@tabler/icons-webfont",
-      "file_type": "concept",
-      "source_file": "package.json",
-      "source_location": "L17",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "@tabler/icons-webfont",
-      "community_name": "package.json",
-      "id": "tabler_icons_webfont"
-    },
-    {
-      "label": "dompurify",
-      "file_type": "code",
-      "source_file": "package.json",
-      "source_location": "L18",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "dompurify",
-      "community_name": "package.json",
-      "id": "package_dependencies_dompurify"
-    },
-    {
-      "label": "dompurify",
-      "file_type": "concept",
-      "source_file": "package.json",
-      "source_location": "L18",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "dompurify",
-      "community_name": "package.json",
-      "id": "dompurify"
-    },
-    {
-      "label": "marked",
-      "file_type": "code",
-      "source_file": "package.json",
-      "source_location": "L19",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "marked",
-      "community_name": "package.json",
-      "id": "package_dependencies_marked"
-    },
-    {
-      "label": "marked",
-      "file_type": "concept",
-      "source_file": "package.json",
-      "source_location": "L19",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "marked",
-      "community_name": "package.json",
-      "id": "marked"
-    },
-    {
-      "label": "zod",
-      "file_type": "code",
-      "source_file": "package.json",
-      "source_location": "L20",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "zod",
-      "community_name": "package.json",
-      "id": "package_dependencies_zod"
-    },
-    {
-      "label": "zod",
-      "file_type": "concept",
-      "source_file": "package.json",
-      "source_location": "L20",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "zod",
-      "community_name": "package.json",
-      "id": "zod"
-    },
-    {
       "label": "canonical-graph.cjs",
       "file_type": "code",
       "source_file": "scripts/canonical-graph.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 14,
+      "community": 18,
       "norm_label": "canonical-graph.cjs",
       "community_name": "canonical-graph.cjs",
       "id": "scripts_canonical_graph"
@@ -1877,7 +1261,7 @@
       "source_file": "scripts/canonical-graph.cjs",
       "source_location": "L8",
       "_origin": "ast",
-      "community": 14,
+      "community": 18,
       "norm_label": "fs",
       "community_name": "canonical-graph.cjs",
       "id": "scripts_canonical_graph_fs"
@@ -1888,7 +1272,7 @@
       "source_file": "scripts/canonical-graph.cjs",
       "source_location": "L10",
       "_origin": "ast",
-      "community": 14,
+      "community": 18,
       "norm_label": "sortdeep()",
       "community_name": "canonical-graph.cjs",
       "id": "scripts_canonical_graph_sortdeep"
@@ -1899,98 +1283,10 @@
       "source_file": "scripts/canonical-graph.cjs",
       "source_location": "L26",
       "_origin": "ast",
-      "community": 14,
+      "community": 18,
       "norm_label": "graph",
       "community_name": "canonical-graph.cjs",
       "id": "scripts_canonical_graph_graph"
-    },
-    {
-      "label": "prompts.cjs",
-      "file_type": "code",
-      "source_file": "core/prompts.cjs",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 12,
-      "norm_label": "prompts.cjs",
-      "community_name": "prompts.cjs",
-      "id": "core_prompts"
-    },
-    {
-      "label": "buildA2AContractPrompt()",
-      "file_type": "code",
-      "source_file": "core/prompts.cjs",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 12,
-      "norm_label": "builda2acontractprompt()",
-      "community_name": "prompts.cjs",
-      "id": "core_prompts_builda2acontractprompt"
-    },
-    {
-      "label": "buildA2AExecutorPrompt()",
-      "file_type": "code",
-      "source_file": "core/prompts.cjs",
-      "source_location": "L19",
-      "_origin": "ast",
-      "community": 12,
-      "norm_label": "builda2aexecutorprompt()",
-      "community_name": "prompts.cjs",
-      "id": "core_prompts_builda2aexecutorprompt"
-    },
-    {
-      "label": "buildA2AVerifierPrompt()",
-      "file_type": "code",
-      "source_file": "core/prompts.cjs",
-      "source_location": "L34",
-      "_origin": "ast",
-      "community": 12,
-      "norm_label": "builda2averifierprompt()",
-      "community_name": "prompts.cjs",
-      "id": "core_prompts_builda2averifierprompt"
-    },
-    {
-      "label": "buildOptimizerPrompt()",
-      "file_type": "code",
-      "source_file": "core/prompts.cjs",
-      "source_location": "L52",
-      "_origin": "ast",
-      "community": 12,
-      "norm_label": "buildoptimizerprompt()",
-      "community_name": "prompts.cjs",
-      "id": "core_prompts_buildoptimizerprompt"
-    },
-    {
-      "label": "buildExecutorPrompt()",
-      "file_type": "code",
-      "source_file": "core/prompts.cjs",
-      "source_location": "L75",
-      "_origin": "ast",
-      "community": 12,
-      "norm_label": "buildexecutorprompt()",
-      "community_name": "prompts.cjs",
-      "id": "core_prompts_buildexecutorprompt"
-    },
-    {
-      "label": "buildVerifierPrompt()",
-      "file_type": "code",
-      "source_file": "core/prompts.cjs",
-      "source_location": "L90",
-      "_origin": "ast",
-      "community": 12,
-      "norm_label": "buildverifierprompt()",
-      "community_name": "prompts.cjs",
-      "id": "core_prompts_buildverifierprompt"
-    },
-    {
-      "label": "buildDirectExecutorPrompt()",
-      "file_type": "code",
-      "source_file": "core/prompts.cjs",
-      "source_location": "L107",
-      "_origin": "ast",
-      "community": 12,
-      "norm_label": "builddirectexecutorprompt()",
-      "community_name": "prompts.cjs",
-      "id": "core_prompts_builddirectexecutorprompt"
     },
     {
       "label": "providers.cjs",
@@ -2130,9 +1426,9 @@
       "source_file": "core/routing.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 4,
+      "community": 1,
       "norm_label": "routing.cjs",
-      "community_name": "handoff.cjs",
+      "community_name": "optimizer-core.cjs",
       "id": "core_routing"
     },
     {
@@ -2141,9 +1437,9 @@
       "source_file": "core/routing.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 4,
+      "community": 1,
       "norm_label": "{ estimatetokens }",
-      "community_name": "handoff.cjs",
+      "community_name": "optimizer-core.cjs",
       "id": "core_routing_estimatetokens"
     },
     {
@@ -2152,9 +1448,9 @@
       "source_file": "core/routing.cjs",
       "source_location": "L2",
       "_origin": "ast",
-      "community": 4,
+      "community": 1,
       "norm_label": "{ compactlines }",
-      "community_name": "handoff.cjs",
+      "community_name": "optimizer-core.cjs",
       "id": "core_routing_compactlines"
     },
     {
@@ -2163,9 +1459,9 @@
       "source_file": "core/routing.cjs",
       "source_location": "L4",
       "_origin": "ast",
-      "community": 4,
+      "community": 1,
       "norm_label": "outputstylefor()",
-      "community_name": "handoff.cjs",
+      "community_name": "optimizer-core.cjs",
       "id": "core_routing_outputstylefor"
     },
     {
@@ -2174,9 +1470,9 @@
       "source_file": "core/routing.cjs",
       "source_location": "L12",
       "_origin": "ast",
-      "community": 4,
+      "community": 1,
       "norm_label": "analyzeworkflowshape()",
-      "community_name": "handoff.cjs",
+      "community_name": "optimizer-core.cjs",
       "id": "core_routing_analyzeworkflowshape"
     },
     {
@@ -2185,9 +1481,9 @@
       "source_file": "core/routing.cjs",
       "source_location": "L72",
       "_origin": "ast",
-      "community": 4,
+      "community": 1,
       "norm_label": "buildofflinecontract()",
-      "community_name": "handoff.cjs",
+      "community_name": "optimizer-core.cjs",
       "id": "core_routing_buildofflinecontract"
     },
     {
@@ -2196,9 +1492,9 @@
       "source_file": "core/text.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 4,
+      "community": 17,
       "norm_label": "text.cjs",
-      "community_name": "handoff.cjs",
+      "community_name": "text.cjs",
       "id": "core_text"
     },
     {
@@ -2207,9 +1503,9 @@
       "source_file": "core/text.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 4,
+      "community": 1,
       "norm_label": "compactlines()",
-      "community_name": "handoff.cjs",
+      "community_name": "optimizer-core.cjs",
       "id": "core_text_compactlines"
     },
     {
@@ -2218,9 +1514,9 @@
       "source_file": "core/text.cjs",
       "source_location": "L9",
       "_origin": "ast",
-      "community": 4,
+      "community": 17,
       "norm_label": "cleanprompttext()",
-      "community_name": "handoff.cjs",
+      "community_name": "text.cjs",
       "id": "core_text_cleanprompttext"
     },
     {
@@ -2229,9 +1525,9 @@
       "source_file": "core/text.cjs",
       "source_location": "L16",
       "_origin": "ast",
-      "community": 4,
+      "community": 17,
       "norm_label": "striplistprefix()",
-      "community_name": "handoff.cjs",
+      "community_name": "text.cjs",
       "id": "core_text_striplistprefix"
     },
     {
@@ -2240,9 +1536,9 @@
       "source_file": "core/text.cjs",
       "source_location": "L20",
       "_origin": "ast",
-      "community": 4,
+      "community": 17,
       "norm_label": "withouttrailingellipsis()",
-      "community_name": "handoff.cjs",
+      "community_name": "text.cjs",
       "id": "core_text_withouttrailingellipsis"
     },
     {
@@ -2251,9 +1547,9 @@
       "source_file": "core/text.cjs",
       "source_location": "L24",
       "_origin": "ast",
-      "community": 4,
+      "community": 17,
       "norm_label": "promptsection()",
-      "community_name": "handoff.cjs",
+      "community_name": "text.cjs",
       "id": "core_text_promptsection"
     },
     {
@@ -2262,9 +1558,9 @@
       "source_file": "core/text.cjs",
       "source_location": "L35",
       "_origin": "ast",
-      "community": 4,
+      "community": 17,
       "norm_label": "dedupenaturallanguagelines()",
-      "community_name": "handoff.cjs",
+      "community_name": "text.cjs",
       "id": "core_text_dedupenaturallanguagelines"
     },
     {
@@ -2372,9 +1668,9 @@
       "source_file": "optimizer-system.cjs",
       "source_location": "L9",
       "_origin": "ast",
-      "community": 0,
+      "community": 8,
       "norm_label": "system_architecture",
-      "community_name": "request-guard.cjs",
+      "community_name": "optimizer-system.cjs",
       "id": "optimizer_system_system_architecture"
     },
     {
@@ -2988,7 +2284,7 @@
       "source_file": "vercel.json",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 16,
+      "community": 20,
       "norm_label": "vercel.json",
       "community_name": "vercel.json",
       "id": "vercel"
@@ -2999,7 +2295,7 @@
       "source_file": "vercel.json",
       "source_location": "L2",
       "_origin": "ast",
-      "community": 16,
+      "community": 20,
       "norm_label": "headers",
       "community_name": "vercel.json",
       "id": "vercel_headers"
@@ -3010,7 +2306,7 @@
       "source_file": "vercel.json",
       "source_location": "L15",
       "_origin": "ast",
-      "community": 16,
+      "community": 20,
       "norm_label": "rewrites",
       "community_name": "vercel.json",
       "id": "vercel_rewrites"
@@ -3021,7 +2317,7 @@
       "source_file": "tests/api-endpoints.test.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 11,
+      "community": 13,
       "norm_label": "api-endpoints.test.cjs",
       "community_name": "api-endpoints.test.cjs",
       "id": "tests_api_endpoints_test"
@@ -3032,7 +2328,7 @@
       "source_file": "tests/api-endpoints.test.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 11,
+      "community": 13,
       "norm_label": "assert",
       "community_name": "api-endpoints.test.cjs",
       "id": "tests_api_endpoints_test_assert"
@@ -3043,7 +2339,7 @@
       "source_file": "tests/api-endpoints.test.cjs",
       "source_location": "L2",
       "_origin": "ast",
-      "community": 11,
+      "community": 13,
       "norm_label": "http",
       "community_name": "api-endpoints.test.cjs",
       "id": "tests_api_endpoints_test_http"
@@ -3054,7 +2350,7 @@
       "source_file": "tests/api-endpoints.test.cjs",
       "source_location": "L3",
       "_origin": "ast",
-      "community": 11,
+      "community": 13,
       "norm_label": "{ spawn }",
       "community_name": "api-endpoints.test.cjs",
       "id": "tests_api_endpoints_test_spawn"
@@ -3065,7 +2361,7 @@
       "source_file": "tests/api-endpoints.test.cjs",
       "source_location": "L5",
       "_origin": "ast",
-      "community": 11,
+      "community": 13,
       "norm_label": "listen()",
       "community_name": "api-endpoints.test.cjs",
       "id": "tests_api_endpoints_test_listen"
@@ -3076,7 +2372,7 @@
       "source_file": "tests/api-endpoints.test.cjs",
       "source_location": "L12",
       "_origin": "ast",
-      "community": 11,
+      "community": 13,
       "norm_label": "freeport()",
       "community_name": "api-endpoints.test.cjs",
       "id": "tests_api_endpoints_test_freeport"
@@ -3087,7 +2383,7 @@
       "source_file": "tests/api-endpoints.test.cjs",
       "source_location": "L19",
       "_origin": "ast",
-      "community": 11,
+      "community": 13,
       "norm_label": "waitforserver()",
       "community_name": "api-endpoints.test.cjs",
       "id": "tests_api_endpoints_test_waitforserver"
@@ -3098,7 +2394,7 @@
       "source_file": "tests/api-endpoints.test.cjs",
       "source_location": "L34",
       "_origin": "ast",
-      "community": 11,
+      "community": 13,
       "norm_label": "jsonrequest()",
       "community_name": "api-endpoints.test.cjs",
       "id": "tests_api_endpoints_test_jsonrequest"
@@ -3109,7 +2405,7 @@
       "source_file": "tests/api-endpoints.test.cjs",
       "source_location": "L46",
       "_origin": "ast",
-      "community": 11,
+      "community": 13,
       "norm_label": "post()",
       "community_name": "api-endpoints.test.cjs",
       "id": "tests_api_endpoints_test_post"
@@ -3120,7 +2416,7 @@
       "source_file": "tests/api-endpoints.test.cjs",
       "source_location": "L54",
       "_origin": "ast",
-      "community": 11,
+      "community": 13,
       "norm_label": "run()",
       "community_name": "api-endpoints.test.cjs",
       "id": "tests_api_endpoints_test_run"
@@ -3131,10 +2427,10 @@
       "source_file": "core/handoff.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 4,
+      "community": 9,
       "norm_label": "handoff.cjs",
-      "id": "core_handoff",
-      "community_name": "handoff.cjs"
+      "community_name": "handoff.cjs",
+      "id": "core_handoff"
     },
     {
       "label": "{ estimateTokens }",
@@ -3142,10 +2438,10 @@
       "source_file": "core/handoff.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 4,
+      "community": 9,
       "norm_label": "{ estimatetokens }",
-      "id": "core_handoff_estimatetokens",
-      "community_name": "handoff.cjs"
+      "community_name": "handoff.cjs",
+      "id": "core_handoff_estimatetokens"
     },
     {
       "label": "{ redactSensitiveText }",
@@ -3153,10 +2449,10 @@
       "source_file": "core/handoff.cjs",
       "source_location": "L2",
       "_origin": "ast",
-      "community": 4,
+      "community": 9,
       "norm_label": "{ redactsensitivetext }",
-      "id": "core_handoff_redactsensitivetext",
-      "community_name": "handoff.cjs"
+      "community_name": "handoff.cjs",
+      "id": "core_handoff_redactsensitivetext"
     },
     {
       "label": "{ analyzeWorkflowShape, buildOfflineContract }",
@@ -3164,10 +2460,10 @@
       "source_file": "core/handoff.cjs",
       "source_location": "L3",
       "_origin": "ast",
-      "community": 4,
+      "community": 9,
       "norm_label": "{ analyzeworkflowshape, buildofflinecontract }",
-      "id": "core_handoff_analyzeworkflowshape_buildofflinecontract",
-      "community_name": "handoff.cjs"
+      "community_name": "handoff.cjs",
+      "id": "core_handoff_analyzeworkflowshape_buildofflinecontract"
     },
     {
       "label": "{\n  cleanPromptText,\n  compactLines,\n  dedupeNaturalLanguageLines,\n  promptSection,\n  stripListPrefix,\n  withoutTrailingEllipsis\n}",
@@ -3175,10 +2471,10 @@
       "source_file": "core/handoff.cjs",
       "source_location": "L4",
       "_origin": "ast",
-      "community": 4,
+      "community": 9,
       "norm_label": "{\n  cleanprompttext,\n  compactlines,\n  dedupenaturallanguagelines,\n  promptsection,\n  striplistprefix,\n  withouttrailingellipsis\n}",
-      "id": "core_handoff_cleanprompttext_compactlines_dedupenaturallanguagelines_promptsection_striplistprefix_withouttrailingellipsis",
-      "community_name": "handoff.cjs"
+      "community_name": "handoff.cjs",
+      "id": "core_handoff_cleanprompttext_compactlines_dedupenaturallanguagelines_promptsection_striplistprefix_withouttrailingellipsis"
     },
     {
       "label": "isPreparedWrapper()",
@@ -3186,10 +2482,10 @@
       "source_file": "core/handoff.cjs",
       "source_location": "L13",
       "_origin": "ast",
-      "community": 4,
+      "community": 9,
       "norm_label": "ispreparedwrapper()",
-      "id": "core_handoff_ispreparedwrapper",
-      "community_name": "handoff.cjs"
+      "community_name": "handoff.cjs",
+      "id": "core_handoff_ispreparedwrapper"
     },
     {
       "label": "isLikelyOriginalTask()",
@@ -3197,10 +2493,10 @@
       "source_file": "core/handoff.cjs",
       "source_location": "L21",
       "_origin": "ast",
-      "community": 4,
+      "community": 9,
       "norm_label": "islikelyoriginaltask()",
-      "id": "core_handoff_islikelyoriginaltask",
-      "community_name": "handoff.cjs"
+      "community_name": "handoff.cjs",
+      "id": "core_handoff_islikelyoriginaltask"
     },
     {
       "label": "originalTaskScore()",
@@ -3208,10 +2504,10 @@
       "source_file": "core/handoff.cjs",
       "source_location": "L30",
       "_origin": "ast",
-      "community": 4,
+      "community": 9,
       "norm_label": "originaltaskscore()",
-      "id": "core_handoff_originaltaskscore",
-      "community_name": "handoff.cjs"
+      "community_name": "handoff.cjs",
+      "id": "core_handoff_originaltaskscore"
     },
     {
       "label": "unwrapPreparedPrompt()",
@@ -3219,10 +2515,10 @@
       "source_file": "core/handoff.cjs",
       "source_location": "L41",
       "_origin": "ast",
-      "community": 4,
+      "community": 9,
       "norm_label": "unwrappreparedprompt()",
-      "id": "core_handoff_unwrappreparedprompt",
-      "community_name": "handoff.cjs"
+      "community_name": "handoff.cjs",
+      "id": "core_handoff_unwrappreparedprompt"
     },
     {
       "label": "cleanDirectRequest()",
@@ -3230,10 +2526,10 @@
       "source_file": "core/handoff.cjs",
       "source_location": "L58",
       "_origin": "ast",
-      "community": 4,
+      "community": 9,
       "norm_label": "cleandirectrequest()",
-      "id": "core_handoff_cleandirectrequest",
-      "community_name": "handoff.cjs"
+      "community_name": "handoff.cjs",
+      "id": "core_handoff_cleandirectrequest"
     },
     {
       "label": "buildPortablePrompt()",
@@ -3241,10 +2537,10 @@
       "source_file": "core/handoff.cjs",
       "source_location": "L65",
       "_origin": "ast",
-      "community": 4,
+      "community": 9,
       "norm_label": "buildportableprompt()",
-      "id": "core_handoff_buildportableprompt",
-      "community_name": "handoff.cjs"
+      "community_name": "handoff.cjs",
+      "id": "core_handoff_buildportableprompt"
     },
     {
       "label": "preparePortableHandoff()",
@@ -3252,10 +2548,10 @@
       "source_file": "core/handoff.cjs",
       "source_location": "L86",
       "_origin": "ast",
-      "community": 4,
+      "community": 9,
       "norm_label": "prepareportablehandoff()",
-      "id": "core_handoff_prepareportablehandoff",
-      "community_name": "handoff.cjs"
+      "community_name": "handoff.cjs",
+      "id": "core_handoff_prepareportablehandoff"
     },
     {
       "label": "usage.cjs",
@@ -3265,8 +2561,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "usage.cjs",
-      "id": "core_usage",
-      "community_name": "optimizer-core.cjs"
+      "community_name": "optimizer-core.cjs",
+      "id": "core_usage"
     },
     {
       "label": "estimateTokens()",
@@ -3274,10 +2570,10 @@
       "source_file": "core/usage.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 4,
+      "community": 1,
       "norm_label": "estimatetokens()",
-      "id": "core_usage_estimatetokens",
-      "community_name": "handoff.cjs"
+      "community_name": "optimizer-core.cjs",
+      "id": "core_usage_estimatetokens"
     },
     {
       "label": "createTraceId()",
@@ -3287,8 +2583,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "createtraceid()",
-      "id": "core_usage_createtraceid",
-      "community_name": "optimizer-core.cjs"
+      "community_name": "optimizer-core.cjs",
+      "id": "core_usage_createtraceid"
     },
     {
       "label": "normalizeUsage()",
@@ -3298,8 +2594,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "normalizeusage()",
-      "id": "core_usage_normalizeusage",
-      "community_name": "optimizer-core.cjs"
+      "community_name": "optimizer-core.cjs",
+      "id": "core_usage_normalizeusage"
     },
     {
       "label": "modelCost()",
@@ -3309,8 +2605,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "modelcost()",
-      "id": "core_usage_modelcost",
-      "community_name": "optimizer-core.cjs"
+      "community_name": "optimizer-core.cjs",
+      "id": "core_usage_modelcost"
     },
     {
       "label": "combineUsage()",
@@ -3320,8 +2616,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "combineusage()",
-      "id": "core_usage_combineusage",
-      "community_name": "optimizer-core.cjs"
+      "community_name": "optimizer-core.cjs",
+      "id": "core_usage_combineusage"
     },
     {
       "label": "generationRecord()",
@@ -3331,8 +2627,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "generationrecord()",
-      "id": "core_usage_generationrecord",
-      "community_name": "optimizer-core.cjs"
+      "community_name": "optimizer-core.cjs",
+      "id": "core_usage_generationrecord"
     },
     {
       "label": "contextComparison()",
@@ -3342,8 +2638,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "contextcomparison()",
-      "id": "core_usage_contextcomparison",
-      "community_name": "optimizer-core.cjs"
+      "community_name": "optimizer-core.cjs",
+      "id": "core_usage_contextcomparison"
     },
     {
       "label": "workflow.cjs",
@@ -3353,8 +2649,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "workflow.cjs",
-      "id": "core_workflow",
-      "community_name": "optimizer-core.cjs"
+      "community_name": "optimizer-core.cjs",
+      "id": "core_workflow"
     },
     {
       "label": "{ combineUsage, contextComparison, createTraceId, estimateTokens, generationRecord }",
@@ -3364,8 +2660,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "{ combineusage, contextcomparison, createtraceid, estimatetokens, generationrecord }",
-      "id": "core_workflow_combineusage_contextcomparison_createtraceid_estimatetokens_generationrecord",
-      "community_name": "optimizer-core.cjs"
+      "community_name": "optimizer-core.cjs",
+      "id": "core_workflow_combineusage_contextcomparison_createtraceid_estimatetokens_generationrecord"
     },
     {
       "label": "{ redactSensitiveText }",
@@ -3375,8 +2671,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "{ redactsensitivetext }",
-      "id": "core_workflow_redactsensitivetext",
-      "community_name": "optimizer-core.cjs"
+      "community_name": "optimizer-core.cjs",
+      "id": "core_workflow_redactsensitivetext"
     },
     {
       "label": "{ callModel, callWorkflowProvider, resolveProvider }",
@@ -3386,8 +2682,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "{ callmodel, callworkflowprovider, resolveprovider }",
-      "id": "core_workflow_callmodel_callworkflowprovider_resolveprovider",
-      "community_name": "optimizer-core.cjs"
+      "community_name": "optimizer-core.cjs",
+      "id": "core_workflow_callmodel_callworkflowprovider_resolveprovider"
     },
     {
       "label": "{ analyzeWorkflowShape, buildOfflineContract }",
@@ -3397,8 +2693,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "{ analyzeworkflowshape, buildofflinecontract }",
-      "id": "core_workflow_analyzeworkflowshape_buildofflinecontract",
-      "community_name": "optimizer-core.cjs"
+      "community_name": "optimizer-core.cjs",
+      "id": "core_workflow_analyzeworkflowshape_buildofflinecontract"
     },
     {
       "label": "{\n  buildA2AContractPrompt,\n  buildA2AExecutorPrompt,\n  buildA2AVerifierPrompt,\n  buildDirectExecutorPrompt,\n  buildExecutorPrompt,\n  buildOptimizerPrompt,\n  buildVerifierPrompt\n}",
@@ -3408,8 +2704,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "{\n  builda2acontractprompt,\n  builda2aexecutorprompt,\n  builda2averifierprompt,\n  builddirectexecutorprompt,\n  buildexecutorprompt,\n  buildoptimizerprompt,\n  buildverifierprompt\n}",
-      "id": "core_workflow_builda2acontractprompt_builda2aexecutorprompt_builda2averifierprompt_builddirectexecutorprompt_buildexecutorprompt_buildoptimizerprompt_buildverifierprompt",
-      "community_name": "optimizer-core.cjs"
+      "community_name": "optimizer-core.cjs",
+      "id": "core_workflow_builda2acontractprompt_builda2aexecutorprompt_builda2averifierprompt_builddirectexecutorprompt_buildexecutorprompt_buildoptimizerprompt_buildverifierprompt"
     },
     {
       "label": "emitWorkflowEvent()",
@@ -3419,8 +2715,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "emitworkflowevent()",
-      "id": "core_workflow_emitworkflowevent",
-      "community_name": "optimizer-core.cjs"
+      "community_name": "optimizer-core.cjs",
+      "id": "core_workflow_emitworkflowevent"
     },
     {
       "label": "buildBlankA2AKit()",
@@ -3430,8 +2726,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "buildblanka2akit()",
-      "id": "core_workflow_buildblanka2akit",
-      "community_name": "optimizer-core.cjs"
+      "community_name": "optimizer-core.cjs",
+      "id": "core_workflow_buildblanka2akit"
     },
     {
       "label": "runBlankA2AKit()",
@@ -3441,8 +2737,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "runblanka2akit()",
-      "id": "core_workflow_runblanka2akit",
-      "community_name": "optimizer-core.cjs"
+      "community_name": "optimizer-core.cjs",
+      "id": "core_workflow_runblanka2akit"
     },
     {
       "label": "runSelfOptimizingWorkflow()",
@@ -3452,8 +2748,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "runselfoptimizingworkflow()",
-      "id": "core_workflow_runselfoptimizingworkflow",
-      "community_name": "optimizer-core.cjs"
+      "community_name": "optimizer-core.cjs",
+      "id": "core_workflow_runselfoptimizingworkflow"
     },
     {
       "label": "workspace.js",
@@ -3463,8 +2759,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "workspace.js",
-      "id": "outputs_workspace",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace"
     },
     {
       "label": "makeId()",
@@ -3474,8 +2770,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "makeid()",
-      "id": "outputs_workspace_makeid",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_makeid"
     },
     {
       "label": "ensureSession()",
@@ -3485,8 +2781,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "ensuresession()",
-      "id": "outputs_workspace_ensuresession",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_ensuresession"
     },
     {
       "label": "ensureDeviceId()",
@@ -3496,8 +2792,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "ensuredeviceid()",
-      "id": "outputs_workspace_ensuredeviceid",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_ensuredeviceid"
     },
     {
       "label": "estimateTokens()",
@@ -3507,8 +2803,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "estimatetokens()",
-      "id": "outputs_workspace_estimatetokens",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_estimatetokens"
     },
     {
       "label": "compactNumber()",
@@ -3518,8 +2814,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "compactnumber()",
-      "id": "outputs_workspace_compactnumber",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_compactnumber"
     },
     {
       "label": "formatDuration()",
@@ -3529,8 +2825,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "formatduration()",
-      "id": "outputs_workspace_formatduration",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_formatduration"
     },
     {
       "label": "formatCost()",
@@ -3540,8 +2836,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "formatcost()",
-      "id": "outputs_workspace_formatcost",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_formatcost"
     },
     {
       "label": "toast()",
@@ -3551,8 +2847,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "toast()",
-      "id": "outputs_workspace_toast",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_toast"
     },
     {
       "label": "setServiceState()",
@@ -3562,8 +2858,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "setservicestate()",
-      "id": "outputs_workspace_setservicestate",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_setservicestate"
     },
     {
       "label": "setLiveStatus()",
@@ -3573,8 +2869,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "setlivestatus()",
-      "id": "outputs_workspace_setlivestatus",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_setlivestatus"
     },
     {
       "label": "routeAnalysis()",
@@ -3584,8 +2880,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "routeanalysis()",
-      "id": "outputs_workspace_routeanalysis",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_routeanalysis"
     },
     {
       "label": "contextInput()",
@@ -3595,8 +2891,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "contextinput()",
-      "id": "outputs_workspace_contextinput",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_contextinput"
     },
     {
       "label": "refreshContextChip()",
@@ -3606,8 +2902,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "refreshcontextchip()",
-      "id": "outputs_workspace_refreshcontextchip",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_refreshcontextchip"
     },
     {
       "label": "refreshPreflight()",
@@ -3617,8 +2913,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "refreshpreflight()",
-      "id": "outputs_workspace_refreshpreflight",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_refreshpreflight"
     },
     {
       "label": "routeLabel()",
@@ -3628,8 +2924,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "routelabel()",
-      "id": "outputs_workspace_routelabel",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_routelabel"
     },
     {
       "label": "timelineStepFor()",
@@ -3639,8 +2935,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "timelinestepfor()",
-      "id": "outputs_workspace_timelinestepfor",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_timelinestepfor"
     },
     {
       "label": "resetTimeline()",
@@ -3650,8 +2946,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "resettimeline()",
-      "id": "outputs_workspace_resettimeline",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_resettimeline"
     },
     {
       "label": "updateTimeline()",
@@ -3661,8 +2957,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "updatetimeline()",
-      "id": "outputs_workspace_updatetimeline",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_updatetimeline"
     },
     {
       "label": "setRunView()",
@@ -3672,8 +2968,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "setrunview()",
-      "id": "outputs_workspace_setrunview",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_setrunview"
     },
     {
       "label": "setRunning()",
@@ -3683,8 +2979,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "setrunning()",
-      "id": "outputs_workspace_setrunning",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_setrunning"
     },
     {
       "label": "resetMetrics()",
@@ -3694,8 +2990,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "resetmetrics()",
-      "id": "outputs_workspace_resetmetrics",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_resetmetrics"
     },
     {
       "label": "renderMarkdown()",
@@ -3705,8 +3001,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "rendermarkdown()",
-      "id": "outputs_workspace_rendermarkdown",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_rendermarkdown"
     },
     {
       "label": "resultTitle()",
@@ -3716,8 +3012,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "resulttitle()",
-      "id": "outputs_workspace_resulttitle",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_resulttitle"
     },
     {
       "label": "contextComparisonText()",
@@ -3727,8 +3023,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "contextcomparisontext()",
-      "id": "outputs_workspace_contextcomparisontext",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_contextcomparisontext"
     },
     {
       "label": "renderMetrics()",
@@ -3738,8 +3034,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "rendermetrics()",
-      "id": "outputs_workspace_rendermetrics",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_rendermetrics"
     },
     {
       "label": "renderRouteDetails()",
@@ -3749,8 +3045,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "renderroutedetails()",
-      "id": "outputs_workspace_renderroutedetails",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_renderroutedetails"
     },
     {
       "label": "renderCompleted()",
@@ -3760,8 +3056,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "rendercompleted()",
-      "id": "outputs_workspace_rendercompleted",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_rendercompleted"
     },
     {
       "label": "renderError()",
@@ -3771,8 +3067,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "rendererror()",
-      "id": "outputs_workspace_rendererror",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_rendererror"
     },
     {
       "label": "escapeHtml()",
@@ -3782,8 +3078,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "escapehtml()",
-      "id": "outputs_workspace_escapehtml",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_escapehtml"
     },
     {
       "label": "loadArray()",
@@ -3793,8 +3089,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "loadarray()",
-      "id": "outputs_workspace_loadarray",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_loadarray"
     },
     {
       "label": "runOutcome()",
@@ -3804,8 +3100,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "runoutcome()",
-      "id": "outputs_workspace_runoutcome",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_runoutcome"
     },
     {
       "label": "coordinatorActions()",
@@ -3815,8 +3111,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "coordinatoractions()",
-      "id": "outputs_workspace_coordinatoractions",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_coordinatoractions"
     },
     {
       "label": "saveRun()",
@@ -3826,8 +3122,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "saverun()",
-      "id": "outputs_workspace_saverun",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_saverun"
     },
     {
       "label": "parseEventStream()",
@@ -3837,8 +3133,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "parseeventstream()",
-      "id": "outputs_workspace_parseeventstream",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_parseeventstream"
     },
     {
       "label": "run()",
@@ -3848,8 +3144,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "run()",
-      "id": "outputs_workspace_run",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_run"
     },
     {
       "label": "copyText()",
@@ -3859,8 +3155,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "copytext()",
-      "id": "outputs_workspace_copytext",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_copytext"
     },
     {
       "label": "suggestedFilename()",
@@ -3870,8 +3166,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "suggestedfilename()",
-      "id": "outputs_workspace_suggestedfilename",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_suggestedfilename"
     },
     {
       "label": "downloadResult()",
@@ -3881,8 +3177,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "downloadresult()",
-      "id": "outputs_workspace_downloadresult",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_downloadresult"
     },
     {
       "label": "continueFromResult()",
@@ -3892,8 +3188,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "continuefromresult()",
-      "id": "outputs_workspace_continuefromresult",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_continuefromresult"
     },
     {
       "label": "toggleInlineResult()",
@@ -3903,8 +3199,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "toggleinlineresult()",
-      "id": "outputs_workspace_toggleinlineresult",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_toggleinlineresult"
     },
     {
       "label": "handleAttachment()",
@@ -3914,8 +3210,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "handleattachment()",
-      "id": "outputs_workspace_handleattachment",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_handleattachment"
     },
     {
       "label": "removeContext()",
@@ -3925,8 +3221,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "removecontext()",
-      "id": "outputs_workspace_removecontext",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_removecontext"
     },
     {
       "label": "checkService()",
@@ -3936,8 +3232,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "checkservice()",
-      "id": "outputs_workspace_checkservice",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_checkservice"
     },
     {
       "label": "restoreInput()",
@@ -3947,8 +3243,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "restoreinput()",
-      "id": "outputs_workspace_restoreinput",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_restoreinput"
     },
     {
       "label": "bindEvents()",
@@ -3958,8 +3254,8 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "bindevents()",
-      "id": "outputs_workspace_bindevents",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_bindevents"
     },
     {
       "label": "startClock()",
@@ -3969,8 +3265,1163 @@
       "_origin": "ast",
       "community": 2,
       "norm_label": "startclock()",
-      "id": "outputs_workspace_startclock",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_startclock"
+    },
+    {
+      "label": "prompts.cjs",
+      "file_type": "code",
+      "source_file": "core/prompts.cjs",
+      "source_location": "L1",
+      "_origin": "ast",
+      "community": 14,
+      "norm_label": "prompts.cjs",
+      "id": "core_prompts",
+      "community_name": "prompts.cjs"
+    },
+    {
+      "label": "buildA2AContractPrompt()",
+      "file_type": "code",
+      "source_file": "core/prompts.cjs",
+      "source_location": "L1",
+      "_origin": "ast",
+      "community": 14,
+      "norm_label": "builda2acontractprompt()",
+      "id": "core_prompts_builda2acontractprompt",
+      "community_name": "prompts.cjs"
+    },
+    {
+      "label": "buildA2AExecutorPrompt()",
+      "file_type": "code",
+      "source_file": "core/prompts.cjs",
+      "source_location": "L19",
+      "_origin": "ast",
+      "community": 14,
+      "norm_label": "builda2aexecutorprompt()",
+      "id": "core_prompts_builda2aexecutorprompt",
+      "community_name": "prompts.cjs"
+    },
+    {
+      "label": "buildA2AVerifierPrompt()",
+      "file_type": "code",
+      "source_file": "core/prompts.cjs",
+      "source_location": "L34",
+      "_origin": "ast",
+      "community": 14,
+      "norm_label": "builda2averifierprompt()",
+      "id": "core_prompts_builda2averifierprompt",
+      "community_name": "prompts.cjs"
+    },
+    {
+      "label": "buildOptimizerPrompt()",
+      "file_type": "code",
+      "source_file": "core/prompts.cjs",
+      "source_location": "L52",
+      "_origin": "ast",
+      "community": 14,
+      "norm_label": "buildoptimizerprompt()",
+      "id": "core_prompts_buildoptimizerprompt",
+      "community_name": "prompts.cjs"
+    },
+    {
+      "label": "scaffoldHints()",
+      "file_type": "code",
+      "source_file": "core/prompts.cjs",
+      "source_location": "L79",
+      "_origin": "ast",
+      "community": 14,
+      "norm_label": "scaffoldhints()",
+      "id": "core_prompts_scaffoldhints",
+      "community_name": "prompts.cjs"
+    },
+    {
+      "label": "buildExecutorPrompt()",
+      "file_type": "code",
+      "source_file": "core/prompts.cjs",
+      "source_location": "L89",
+      "_origin": "ast",
+      "community": 14,
+      "norm_label": "buildexecutorprompt()",
+      "id": "core_prompts_buildexecutorprompt",
+      "community_name": "prompts.cjs"
+    },
+    {
+      "label": "buildVerifierPrompt()",
+      "file_type": "code",
+      "source_file": "core/prompts.cjs",
+      "source_location": "L104",
+      "_origin": "ast",
+      "community": 14,
+      "norm_label": "buildverifierprompt()",
+      "id": "core_prompts_buildverifierprompt",
+      "community_name": "prompts.cjs"
+    },
+    {
+      "label": "buildDirectExecutorPrompt()",
+      "file_type": "code",
+      "source_file": "core/prompts.cjs",
+      "source_location": "L121",
+      "_origin": "ast",
+      "community": 14,
+      "norm_label": "builddirectexecutorprompt()",
+      "id": "core_prompts_builddirectexecutorprompt",
+      "community_name": "prompts.cjs"
+    },
+    {
+      "label": "chatgpt.js",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/adapters/chatgpt.js",
+      "source_location": "L1",
+      "_origin": "ast",
+      "community": 11,
+      "norm_label": "chatgpt.js",
+      "id": "extensions_gemini_token_optimizer_adapters_chatgpt",
+      "community_name": "chatgpt.js"
+    },
+    {
+      "label": "normalizePromptNode()",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/adapters/chatgpt.js",
+      "source_location": "L14",
+      "_origin": "ast",
+      "community": 11,
+      "norm_label": "normalizepromptnode()",
+      "id": "extensions_gemini_token_optimizer_adapters_chatgpt_normalizepromptnode",
+      "community_name": "chatgpt.js"
+    },
+    {
+      "label": "isVisible()",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/adapters/chatgpt.js",
+      "source_location": "L20",
+      "_origin": "ast",
+      "community": 11,
+      "norm_label": "isvisible()",
+      "id": "extensions_gemini_token_optimizer_adapters_chatgpt_isvisible",
+      "community_name": "chatgpt.js"
+    },
+    {
+      "label": "hasPromptLabel()",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/adapters/chatgpt.js",
+      "source_location": "L29",
+      "_origin": "ast",
+      "community": 11,
+      "norm_label": "haspromptlabel()",
+      "id": "extensions_gemini_token_optimizer_adapters_chatgpt_haspromptlabel",
+      "community_name": "chatgpt.js"
+    },
+    {
+      "label": "isNearPromptArea()",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/adapters/chatgpt.js",
+      "source_location": "L39",
+      "_origin": "ast",
+      "community": 11,
+      "norm_label": "isnearpromptarea()",
+      "id": "extensions_gemini_token_optimizer_adapters_chatgpt_isnearpromptarea",
+      "community_name": "chatgpt.js"
+    },
+    {
+      "label": "isHugeEditable()",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/adapters/chatgpt.js",
+      "source_location": "L44",
+      "_origin": "ast",
+      "community": 11,
+      "norm_label": "ishugeeditable()",
+      "id": "extensions_gemini_token_optimizer_adapters_chatgpt_ishugeeditable",
+      "community_name": "chatgpt.js"
+    },
+    {
+      "label": "isPromptCandidate()",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/adapters/chatgpt.js",
+      "source_location": "L51",
+      "_origin": "ast",
+      "community": 11,
+      "norm_label": "ispromptcandidate()",
+      "id": "extensions_gemini_token_optimizer_adapters_chatgpt_ispromptcandidate",
+      "community_name": "chatgpt.js"
+    },
+    {
+      "label": "promptScore()",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/adapters/chatgpt.js",
+      "source_location": "L59",
+      "_origin": "ast",
+      "community": 11,
+      "norm_label": "promptscore()",
+      "id": "extensions_gemini_token_optimizer_adapters_chatgpt_promptscore",
+      "community_name": "chatgpt.js"
+    },
+    {
+      "label": "findPromptBox()",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/adapters/chatgpt.js",
+      "source_location": "L71",
+      "_origin": "ast",
+      "community": 11,
+      "norm_label": "findpromptbox()",
+      "id": "extensions_gemini_token_optimizer_adapters_chatgpt_findpromptbox",
+      "community_name": "chatgpt.js"
+    },
+    {
+      "label": "capturePrompt()",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/adapters/chatgpt.js",
+      "source_location": "L86",
+      "_origin": "ast",
+      "community": 11,
+      "norm_label": "captureprompt()",
+      "id": "extensions_gemini_token_optimizer_adapters_chatgpt_captureprompt",
+      "community_name": "chatgpt.js"
+    },
+    {
+      "label": "insertPrompt()",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/adapters/chatgpt.js",
+      "source_location": "L96",
+      "_origin": "ast",
+      "community": 11,
+      "norm_label": "insertprompt()",
+      "id": "extensions_gemini_token_optimizer_adapters_chatgpt_insertprompt",
+      "community_name": "chatgpt.js"
+    },
+    {
+      "label": "manifest.json",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L1",
+      "_origin": "ast",
+      "community": 3,
+      "norm_label": "manifest.json",
+      "id": "extensions_gemini_token_optimizer_manifest",
+      "community_name": "manifest.json"
+    },
+    {
+      "label": "manifest_version",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L2",
+      "_origin": "ast",
+      "community": 3,
+      "norm_label": "manifest_version",
+      "id": "extensions_gemini_token_optimizer_manifest_manifest_version",
+      "community_name": "manifest.json"
+    },
+    {
+      "label": "name",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L3",
+      "_origin": "ast",
+      "community": 3,
+      "norm_label": "name",
+      "id": "extensions_gemini_token_optimizer_manifest_name",
+      "community_name": "manifest.json"
+    },
+    {
+      "label": "version",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L4",
+      "_origin": "ast",
+      "community": 3,
+      "norm_label": "version",
+      "id": "extensions_gemini_token_optimizer_manifest_version",
+      "community_name": "manifest.json"
+    },
+    {
+      "label": "description",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L5",
+      "_origin": "ast",
+      "community": 3,
+      "norm_label": "description",
+      "id": "extensions_gemini_token_optimizer_manifest_description",
+      "community_name": "manifest.json"
+    },
+    {
+      "label": "minimum_chrome_version",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L6",
+      "_origin": "ast",
+      "community": 3,
+      "norm_label": "minimum_chrome_version",
+      "id": "extensions_gemini_token_optimizer_manifest_minimum_chrome_version",
+      "community_name": "manifest.json"
+    },
+    {
+      "label": "icons",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L7",
+      "_origin": "ast",
+      "community": 3,
+      "norm_label": "icons",
+      "id": "extensions_gemini_token_optimizer_manifest_icons",
+      "community_name": "manifest.json"
+    },
+    {
+      "label": "16",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L8",
+      "_origin": "ast",
+      "community": 3,
+      "norm_label": "16",
+      "id": "extensions_gemini_token_optimizer_manifest_icons_16",
+      "community_name": "manifest.json"
+    },
+    {
+      "label": "32",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L9",
+      "_origin": "ast",
+      "community": 3,
+      "norm_label": "32",
+      "id": "extensions_gemini_token_optimizer_manifest_icons_32",
+      "community_name": "manifest.json"
+    },
+    {
+      "label": "48",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L10",
+      "_origin": "ast",
+      "community": 3,
+      "norm_label": "48",
+      "id": "extensions_gemini_token_optimizer_manifest_icons_48",
+      "community_name": "manifest.json"
+    },
+    {
+      "label": "128",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L11",
+      "_origin": "ast",
+      "community": 3,
+      "norm_label": "128",
+      "id": "extensions_gemini_token_optimizer_manifest_icons_128",
+      "community_name": "manifest.json"
+    },
+    {
+      "label": "action",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L13",
+      "_origin": "ast",
+      "community": 3,
+      "norm_label": "action",
+      "id": "extensions_gemini_token_optimizer_manifest_action",
+      "community_name": "manifest.json"
+    },
+    {
+      "label": "default_title",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L14",
+      "_origin": "ast",
+      "community": 3,
+      "norm_label": "default_title",
+      "id": "extensions_gemini_token_optimizer_manifest_action_default_title",
+      "community_name": "manifest.json"
+    },
+    {
+      "label": "default_icon",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L15",
+      "_origin": "ast",
+      "community": 3,
+      "norm_label": "default_icon",
+      "id": "extensions_gemini_token_optimizer_manifest_action_default_icon",
+      "community_name": "manifest.json"
+    },
+    {
+      "label": "16",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L16",
+      "_origin": "ast",
+      "community": 3,
+      "norm_label": "16",
+      "id": "extensions_gemini_token_optimizer_manifest_default_icon_16",
+      "community_name": "manifest.json"
+    },
+    {
+      "label": "32",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L17",
+      "_origin": "ast",
+      "community": 3,
+      "norm_label": "32",
+      "id": "extensions_gemini_token_optimizer_manifest_default_icon_32",
+      "community_name": "manifest.json"
+    },
+    {
+      "label": "48",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L18",
+      "_origin": "ast",
+      "community": 3,
+      "norm_label": "48",
+      "id": "extensions_gemini_token_optimizer_manifest_default_icon_48",
+      "community_name": "manifest.json"
+    },
+    {
+      "label": "128",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L19",
+      "_origin": "ast",
+      "community": 3,
+      "norm_label": "128",
+      "id": "extensions_gemini_token_optimizer_manifest_default_icon_128",
+      "community_name": "manifest.json"
+    },
+    {
+      "label": "background",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L22",
+      "_origin": "ast",
+      "community": 3,
+      "norm_label": "background",
+      "id": "extensions_gemini_token_optimizer_manifest_background",
+      "community_name": "manifest.json"
+    },
+    {
+      "label": "service_worker",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L23",
+      "_origin": "ast",
+      "community": 3,
+      "norm_label": "service_worker",
+      "id": "extensions_gemini_token_optimizer_manifest_background_service_worker",
+      "community_name": "manifest.json"
+    },
+    {
+      "label": "type",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L24",
+      "_origin": "ast",
+      "community": 3,
+      "norm_label": "type",
+      "id": "extensions_gemini_token_optimizer_manifest_background_type",
+      "community_name": "manifest.json"
+    },
+    {
+      "label": "content_security_policy",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L26",
+      "_origin": "ast",
+      "community": 3,
+      "norm_label": "content_security_policy",
+      "id": "extensions_gemini_token_optimizer_manifest_content_security_policy",
+      "community_name": "manifest.json"
+    },
+    {
+      "label": "extension_pages",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L27",
+      "_origin": "ast",
+      "community": 3,
+      "norm_label": "extension_pages",
+      "id": "extensions_gemini_token_optimizer_manifest_content_security_policy_extension_pages",
+      "community_name": "manifest.json"
+    },
+    {
+      "label": "permissions",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L29",
+      "_origin": "ast",
+      "community": 3,
+      "norm_label": "permissions",
+      "id": "extensions_gemini_token_optimizer_manifest_permissions",
+      "community_name": "manifest.json"
+    },
+    {
+      "label": "sidePanel",
+      "file_type": "concept",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L29",
+      "_origin": "ast",
+      "community": 3,
+      "norm_label": "sidepanel",
+      "id": "ref_sidepanel",
+      "community_name": "manifest.json"
+    },
+    {
+      "label": "storage",
+      "file_type": "concept",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L29",
+      "_origin": "ast",
+      "community": 3,
+      "norm_label": "storage",
+      "id": "ref_storage",
+      "community_name": "manifest.json"
+    },
+    {
+      "label": "host_permissions",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L33",
+      "_origin": "ast",
+      "community": 3,
+      "norm_label": "host_permissions",
+      "id": "extensions_gemini_token_optimizer_manifest_host_permissions",
+      "community_name": "manifest.json"
+    },
+    {
+      "label": "https://gemini.google.com/*",
+      "file_type": "concept",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L33",
+      "_origin": "ast",
+      "community": 3,
+      "norm_label": "https://gemini.google.com/*",
+      "id": "ref_https_gemini_google_com",
+      "community_name": "manifest.json"
+    },
+    {
+      "label": "https://chatgpt.com/*",
+      "file_type": "concept",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L33",
+      "_origin": "ast",
+      "community": 3,
+      "norm_label": "https://chatgpt.com/*",
+      "id": "ref_https_chatgpt_com",
+      "community_name": "manifest.json"
+    },
+    {
+      "label": "https://chat.openai.com/*",
+      "file_type": "concept",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L33",
+      "_origin": "ast",
+      "community": 3,
+      "norm_label": "https://chat.openai.com/*",
+      "id": "ref_https_chat_openai_com",
+      "community_name": "manifest.json"
+    },
+    {
+      "label": "https://tok-pi-gilt.vercel.app/*",
+      "file_type": "concept",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L33",
+      "_origin": "ast",
+      "community": 3,
+      "norm_label": "https://tok-pi-gilt.vercel.app/*",
+      "id": "ref_https_tok_pi_gilt_vercel_app",
+      "community_name": "manifest.json"
+    },
+    {
+      "label": "side_panel",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L39",
+      "_origin": "ast",
+      "community": 3,
+      "norm_label": "side_panel",
+      "id": "extensions_gemini_token_optimizer_manifest_side_panel",
+      "community_name": "manifest.json"
+    },
+    {
+      "label": "default_path",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L40",
+      "_origin": "ast",
+      "community": 3,
+      "norm_label": "default_path",
+      "id": "extensions_gemini_token_optimizer_manifest_side_panel_default_path",
+      "community_name": "manifest.json"
+    },
+    {
+      "label": "content_scripts",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L42",
+      "_origin": "ast",
+      "community": 3,
+      "norm_label": "content_scripts",
+      "id": "extensions_gemini_token_optimizer_manifest_content_scripts",
+      "community_name": "manifest.json"
+    },
+    {
+      "label": "platforms.js",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/platforms.js",
+      "source_location": "L1",
+      "_origin": "ast",
+      "community": 21,
+      "norm_label": "platforms.js",
+      "id": "extensions_gemini_token_optimizer_platforms",
+      "community_name": "platforms.js"
+    },
+    {
+      "label": "forUrl()",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/platforms.js",
+      "source_location": "L17",
+      "_origin": "ast",
+      "community": 21,
+      "norm_label": "forurl()",
+      "id": "extensions_gemini_token_optimizer_platforms_forurl",
+      "community_name": "platforms.js"
+    },
+    {
+      "label": "content-chatgpt.test.cjs",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L1",
+      "_origin": "ast",
+      "community": 4,
+      "norm_label": "content-chatgpt.test.cjs",
+      "id": "extensions_gemini_token_optimizer_tests_content_chatgpt_test",
+      "community_name": "content-chatgpt.test.cjs"
+    },
+    {
+      "label": "assert",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L1",
+      "_origin": "ast",
+      "community": 4,
+      "norm_label": "assert",
+      "id": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_assert",
+      "community_name": "content-chatgpt.test.cjs"
+    },
+    {
+      "label": "fs",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L2",
+      "_origin": "ast",
+      "community": 4,
+      "norm_label": "fs",
+      "id": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fs",
+      "community_name": "content-chatgpt.test.cjs"
+    },
+    {
+      "label": "path",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L3",
+      "_origin": "ast",
+      "community": 4,
+      "norm_label": "path",
+      "id": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_path",
+      "community_name": "content-chatgpt.test.cjs"
+    },
+    {
+      "label": "vm",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L4",
+      "_origin": "ast",
+      "community": 4,
+      "norm_label": "vm",
+      "id": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_vm",
+      "community_name": "content-chatgpt.test.cjs"
+    },
+    {
+      "label": "FakeElement",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L6",
+      "_origin": "ast",
+      "community": 4,
+      "norm_label": "fakeelement",
+      "id": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement",
+      "community_name": "content-chatgpt.test.cjs"
+    },
+    {
+      "label": ".constructor()",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L7",
+      "_origin": "ast",
+      "community": 4,
+      "norm_label": ".constructor()",
+      "id": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement_constructor",
+      "community_name": "content-chatgpt.test.cjs"
+    },
+    {
+      "label": ".getAttribute()",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L27",
+      "_origin": "ast",
+      "community": 4,
+      "norm_label": ".getattribute()",
+      "id": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement_getattribute",
+      "community_name": "content-chatgpt.test.cjs"
+    },
+    {
+      "label": ".closest()",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L31",
+      "_origin": "ast",
+      "community": 4,
+      "norm_label": ".closest()",
+      "id": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement_closest",
+      "community_name": "content-chatgpt.test.cjs"
+    },
+    {
+      "label": ".querySelector()",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L41",
+      "_origin": "ast",
+      "community": 4,
+      "norm_label": ".queryselector()",
+      "id": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement_queryselector",
+      "community_name": "content-chatgpt.test.cjs"
+    },
+    {
+      "label": ".getBoundingClientRect()",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L48",
+      "_origin": "ast",
+      "community": 4,
+      "norm_label": ".getboundingclientrect()",
+      "id": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement_getboundingclientrect",
+      "community_name": "content-chatgpt.test.cjs"
+    },
+    {
+      "label": ".focus()",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L52",
+      "_origin": "ast",
+      "community": 4,
+      "norm_label": ".focus()",
+      "id": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement_focus",
+      "community_name": "content-chatgpt.test.cjs"
+    },
+    {
+      "label": ".scrollIntoView()",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L56",
+      "_origin": "ast",
+      "community": 4,
+      "norm_label": ".scrollintoview()",
+      "id": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement_scrollintoview",
+      "community_name": "content-chatgpt.test.cjs"
+    },
+    {
+      "label": ".dispatchEvent()",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L58",
+      "_origin": "ast",
+      "community": 4,
+      "norm_label": ".dispatchevent()",
+      "id": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement_dispatchevent",
+      "community_name": "content-chatgpt.test.cjs"
+    },
+    {
+      "label": ".replaceChildren()",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L62",
+      "_origin": "ast",
+      "community": 4,
+      "norm_label": ".replacechildren()",
+      "id": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement_replacechildren",
+      "community_name": "content-chatgpt.test.cjs"
+    },
+    {
+      "label": ".append()",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L68",
+      "_origin": "ast",
+      "community": 4,
+      "norm_label": ".append()",
+      "id": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement_append",
+      "community_name": "content-chatgpt.test.cjs"
+    },
+    {
+      "label": "promptBox",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L75",
+      "_origin": "ast",
+      "community": 4,
+      "norm_label": "promptbox",
+      "id": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_promptbox",
+      "community_name": "content-chatgpt.test.cjs"
+    },
+    {
+      "label": "composerForm",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L82",
+      "_origin": "ast",
+      "community": 4,
+      "norm_label": "composerform",
+      "id": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_composerform",
+      "community_name": "content-chatgpt.test.cjs"
+    },
+    {
+      "label": "hugeEditor",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L88",
+      "_origin": "ast",
+      "community": 4,
+      "norm_label": "hugeeditor",
+      "id": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_hugeeditor",
+      "community_name": "content-chatgpt.test.cjs"
+    },
+    {
+      "label": "nodes",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L95",
+      "_origin": "ast",
+      "community": 4,
+      "norm_label": "nodes",
+      "id": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_nodes",
+      "community_name": "content-chatgpt.test.cjs"
+    },
+    {
+      "label": "context",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L97",
+      "_origin": "ast",
+      "community": 4,
+      "norm_label": "context",
+      "id": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_context",
+      "community_name": "content-chatgpt.test.cjs"
+    },
+    {
+      "label": "removeAllRanges()",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L135",
+      "_origin": "ast",
+      "community": 4,
+      "norm_label": "removeallranges()",
+      "id": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_removeallranges",
+      "community_name": "content-chatgpt.test.cjs"
+    },
+    {
+      "label": "addRange()",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L136",
+      "_origin": "ast",
+      "community": 4,
+      "norm_label": "addrange()",
+      "id": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_addrange",
+      "community_name": "content-chatgpt.test.cjs"
+    },
+    {
+      "label": "adapterCode",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L140",
+      "_origin": "ast",
+      "community": 4,
+      "norm_label": "adaptercode",
+      "id": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_adaptercode",
+      "community_name": "content-chatgpt.test.cjs"
+    },
+    {
+      "label": "bridgeCode",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L141",
+      "_origin": "ast",
+      "community": 4,
+      "norm_label": "bridgecode",
+      "id": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_bridgecode",
+      "community_name": "content-chatgpt.test.cjs"
+    },
+    {
+      "label": "inserted",
+      "file_type": "code",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L150",
+      "_origin": "ast",
+      "community": 4,
+      "norm_label": "inserted",
+      "id": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_inserted",
+      "community_name": "content-chatgpt.test.cjs"
+    },
+    {
+      "label": "package.json",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L1",
+      "_origin": "ast",
+      "community": 7,
+      "norm_label": "package.json",
+      "id": "package",
+      "community_name": "package.json"
+    },
+    {
+      "label": "name",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L2",
+      "_origin": "ast",
+      "community": 7,
+      "norm_label": "name",
+      "id": "package_name",
+      "community_name": "package.json"
+    },
+    {
+      "label": "version",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L3",
+      "_origin": "ast",
+      "community": 7,
+      "norm_label": "version",
+      "id": "package_version",
+      "community_name": "package.json"
+    },
+    {
+      "label": "description",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L4",
+      "_origin": "ast",
+      "community": 7,
+      "norm_label": "description",
+      "id": "package_description",
+      "community_name": "package.json"
+    },
+    {
+      "label": "private",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L5",
+      "_origin": "ast",
+      "community": 7,
+      "norm_label": "private",
+      "id": "package_private",
+      "community_name": "package.json"
+    },
+    {
+      "label": "license",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L6",
+      "_origin": "ast",
+      "community": 7,
+      "norm_label": "license",
+      "id": "package_license",
+      "community_name": "package.json"
+    },
+    {
+      "label": "engines",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L7",
+      "_origin": "ast",
+      "community": 7,
+      "norm_label": "engines",
+      "id": "package_engines",
+      "community_name": "package.json"
+    },
+    {
+      "label": "node",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L8",
+      "_origin": "ast",
+      "community": 7,
+      "norm_label": "node",
+      "id": "package_engines_node",
+      "community_name": "package.json"
+    },
+    {
+      "label": "scripts",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L10",
+      "_origin": "ast",
+      "community": 7,
+      "norm_label": "scripts",
+      "id": "package_scripts",
+      "community_name": "package.json"
+    },
+    {
+      "label": "start",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L11",
+      "_origin": "ast",
+      "community": 7,
+      "norm_label": "start",
+      "id": "package_scripts_start",
+      "community_name": "package.json"
+    },
+    {
+      "label": "test",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L12",
+      "_origin": "ast",
+      "community": 7,
+      "norm_label": "test",
+      "id": "package_scripts_test",
+      "community_name": "package.json"
+    },
+    {
+      "label": "test:core",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L13",
+      "_origin": "ast",
+      "community": 7,
+      "norm_label": "test:core",
+      "id": "package_scripts_test_core",
+      "community_name": "package.json"
+    },
+    {
+      "label": "test:api",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L14",
+      "_origin": "ast",
+      "community": 7,
+      "norm_label": "test:api",
+      "id": "package_scripts_test_api",
+      "community_name": "package.json"
+    },
+    {
+      "label": "test:extension",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L15",
+      "_origin": "ast",
+      "community": 7,
+      "norm_label": "test:extension",
+      "id": "package_scripts_test_extension",
+      "community_name": "package.json"
+    },
+    {
+      "label": "dependencies",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L17",
+      "_origin": "ast",
+      "community": 7,
+      "norm_label": "dependencies",
+      "id": "package_dependencies",
+      "community_name": "package.json"
+    },
+    {
+      "label": "@tabler/icons-webfont",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L18",
+      "_origin": "ast",
+      "community": 7,
+      "norm_label": "@tabler/icons-webfont",
+      "id": "package_dependencies_tabler_icons_webfont",
+      "community_name": "package.json"
+    },
+    {
+      "label": "@tabler/icons-webfont",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L18",
+      "_origin": "ast",
+      "community": 7,
+      "norm_label": "@tabler/icons-webfont",
+      "id": "tabler_icons_webfont",
+      "community_name": "package.json"
+    },
+    {
+      "label": "dompurify",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L19",
+      "_origin": "ast",
+      "community": 7,
+      "norm_label": "dompurify",
+      "id": "package_dependencies_dompurify",
+      "community_name": "package.json"
+    },
+    {
+      "label": "dompurify",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L19",
+      "_origin": "ast",
+      "community": 7,
+      "norm_label": "dompurify",
+      "id": "dompurify",
+      "community_name": "package.json"
+    },
+    {
+      "label": "marked",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L20",
+      "_origin": "ast",
+      "community": 7,
+      "norm_label": "marked",
+      "id": "package_dependencies_marked",
+      "community_name": "package.json"
+    },
+    {
+      "label": "marked",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L20",
+      "_origin": "ast",
+      "community": 7,
+      "norm_label": "marked",
+      "id": "marked",
+      "community_name": "package.json"
+    },
+    {
+      "label": "zod",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L21",
+      "_origin": "ast",
+      "community": 7,
+      "norm_label": "zod",
+      "id": "package_dependencies_zod",
+      "community_name": "package.json"
+    },
+    {
+      "label": "zod",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L21",
+      "_origin": "ast",
+      "community": 7,
+      "norm_label": "zod",
+      "id": "zod",
+      "community_name": "package.json"
     },
     {
       "label": "optimizer-core.test.cjs",
@@ -3978,10 +4429,10 @@
       "source_file": "tests/optimizer-core.test.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 1,
+      "community": 16,
       "norm_label": "optimizer-core.test.cjs",
       "id": "tests_optimizer_core_test",
-      "community_name": "optimizer-core.cjs"
+      "community_name": "optimizer-core.test.cjs"
     },
     {
       "label": "assert",
@@ -3989,10 +4440,10 @@
       "source_file": "tests/optimizer-core.test.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 1,
+      "community": 16,
       "norm_label": "assert",
       "id": "tests_optimizer_core_test_assert",
-      "community_name": "optimizer-core.cjs"
+      "community_name": "optimizer-core.test.cjs"
     },
     {
       "label": "{\n  analyzeWorkflowShape,\n  combineUsage,\n  preparePortableHandoff,\n  redactSensitiveText,\n  runBlankA2AKit,\n  runSelfOptimizingWorkflow\n}",
@@ -4000,10 +4451,10 @@
       "source_file": "tests/optimizer-core.test.cjs",
       "source_location": "L6",
       "_origin": "ast",
-      "community": 1,
+      "community": 16,
       "norm_label": "{\n  analyzeworkflowshape,\n  combineusage,\n  prepareportablehandoff,\n  redactsensitivetext,\n  runblanka2akit,\n  runselfoptimizingworkflow\n}",
       "id": "tests_optimizer_core_test_analyzeworkflowshape_combineusage_prepareportablehandoff_redactsensitivetext_runblanka2akit_runselfoptimizingworkflow",
-      "community_name": "optimizer-core.cjs"
+      "community_name": "optimizer-core.test.cjs"
     },
     {
       "label": "{ assertSafeProviderEndpoint }",
@@ -4011,10 +4462,10 @@
       "source_file": "tests/optimizer-core.test.cjs",
       "source_location": "L14",
       "_origin": "ast",
-      "community": 1,
+      "community": 16,
       "norm_label": "{ assertsafeproviderendpoint }",
       "id": "tests_optimizer_core_test_assertsafeproviderendpoint",
-      "community_name": "optimizer-core.cjs"
+      "community_name": "optimizer-core.test.cjs"
     },
     {
       "label": "{ contextComparison }",
@@ -4022,10 +4473,10 @@
       "source_file": "tests/optimizer-core.test.cjs",
       "source_location": "L15",
       "_origin": "ast",
-      "community": 1,
+      "community": 16,
       "norm_label": "{ contextcomparison }",
       "id": "tests_optimizer_core_test_contextcomparison",
-      "community_name": "optimizer-core.cjs"
+      "community_name": "optimizer-core.test.cjs"
     },
     {
       "label": "{ takeRateLimit }",
@@ -4033,10 +4484,10 @@
       "source_file": "tests/optimizer-core.test.cjs",
       "source_location": "L16",
       "_origin": "ast",
-      "community": 1,
+      "community": 16,
       "norm_label": "{ takeratelimit }",
       "id": "tests_optimizer_core_test_takeratelimit",
-      "community_name": "optimizer-core.cjs"
+      "community_name": "optimizer-core.test.cjs"
     },
     {
       "label": "run()",
@@ -4044,10 +4495,10 @@
       "source_file": "tests/optimizer-core.test.cjs",
       "source_location": "L18",
       "_origin": "ast",
-      "community": 1,
+      "community": 16,
       "norm_label": "run()",
       "id": "tests_optimizer_core_test_run",
-      "community_name": "optimizer-core.cjs"
+      "community_name": "optimizer-core.test.cjs"
     }
   ],
   "links": [
@@ -4562,362 +5013,6 @@
       "confidence_score": 1.0,
       "source": "extensions_gemini_token_optimizer_adapters_gemini_insertprompt",
       "target": "extensions_gemini_token_optimizer_adapters_gemini_findpromptbox"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L13",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "extensions_gemini_token_optimizer_manifest",
-      "target": "extensions_gemini_token_optimizer_manifest_action"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L22",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "extensions_gemini_token_optimizer_manifest",
-      "target": "extensions_gemini_token_optimizer_manifest_background"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L40",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "extensions_gemini_token_optimizer_manifest",
-      "target": "extensions_gemini_token_optimizer_manifest_content_scripts"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L26",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "extensions_gemini_token_optimizer_manifest",
-      "target": "extensions_gemini_token_optimizer_manifest_content_security_policy"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L5",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "extensions_gemini_token_optimizer_manifest",
-      "target": "extensions_gemini_token_optimizer_manifest_description"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L33",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "extensions_gemini_token_optimizer_manifest",
-      "target": "extensions_gemini_token_optimizer_manifest_host_permissions"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L7",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "extensions_gemini_token_optimizer_manifest",
-      "target": "extensions_gemini_token_optimizer_manifest_icons"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L2",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "extensions_gemini_token_optimizer_manifest",
-      "target": "extensions_gemini_token_optimizer_manifest_manifest_version"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L6",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "extensions_gemini_token_optimizer_manifest",
-      "target": "extensions_gemini_token_optimizer_manifest_minimum_chrome_version"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L3",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "extensions_gemini_token_optimizer_manifest",
-      "target": "extensions_gemini_token_optimizer_manifest_name"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L29",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "extensions_gemini_token_optimizer_manifest",
-      "target": "extensions_gemini_token_optimizer_manifest_permissions"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L37",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "extensions_gemini_token_optimizer_manifest",
-      "target": "extensions_gemini_token_optimizer_manifest_side_panel"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L4",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "extensions_gemini_token_optimizer_manifest",
-      "target": "extensions_gemini_token_optimizer_manifest_version"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L11",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "extensions_gemini_token_optimizer_manifest_icons",
-      "target": "extensions_gemini_token_optimizer_manifest_icons_128"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L8",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "extensions_gemini_token_optimizer_manifest_icons",
-      "target": "extensions_gemini_token_optimizer_manifest_icons_16"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L9",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "extensions_gemini_token_optimizer_manifest_icons",
-      "target": "extensions_gemini_token_optimizer_manifest_icons_32"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L10",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "extensions_gemini_token_optimizer_manifest_icons",
-      "target": "extensions_gemini_token_optimizer_manifest_icons_48"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L15",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "extensions_gemini_token_optimizer_manifest_action",
-      "target": "extensions_gemini_token_optimizer_manifest_action_default_icon"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L14",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "extensions_gemini_token_optimizer_manifest_action",
-      "target": "extensions_gemini_token_optimizer_manifest_action_default_title"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L19",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "extensions_gemini_token_optimizer_manifest_action_default_icon",
-      "target": "extensions_gemini_token_optimizer_manifest_default_icon_128"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L16",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "extensions_gemini_token_optimizer_manifest_action_default_icon",
-      "target": "extensions_gemini_token_optimizer_manifest_default_icon_16"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L17",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "extensions_gemini_token_optimizer_manifest_action_default_icon",
-      "target": "extensions_gemini_token_optimizer_manifest_default_icon_32"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L18",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "extensions_gemini_token_optimizer_manifest_action_default_icon",
-      "target": "extensions_gemini_token_optimizer_manifest_default_icon_48"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L23",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "extensions_gemini_token_optimizer_manifest_background",
-      "target": "extensions_gemini_token_optimizer_manifest_background_service_worker"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L24",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "extensions_gemini_token_optimizer_manifest_background",
-      "target": "extensions_gemini_token_optimizer_manifest_background_type"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L27",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "extensions_gemini_token_optimizer_manifest_content_security_policy",
-      "target": "extensions_gemini_token_optimizer_manifest_content_security_policy_extension_pages"
-    },
-    {
-      "relation": "extends",
-      "confidence": "EXTRACTED",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L29",
-      "weight": 1.0,
-      "context": "import",
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "extensions_gemini_token_optimizer_manifest_permissions",
-      "target": "ref_sidepanel"
-    },
-    {
-      "relation": "extends",
-      "confidence": "EXTRACTED",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L29",
-      "weight": 1.0,
-      "context": "import",
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "extensions_gemini_token_optimizer_manifest_permissions",
-      "target": "ref_storage"
-    },
-    {
-      "relation": "extends",
-      "confidence": "EXTRACTED",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L33",
-      "weight": 1.0,
-      "context": "import",
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "extensions_gemini_token_optimizer_manifest_host_permissions",
-      "target": "ref_https_gemini_google_com"
-    },
-    {
-      "relation": "extends",
-      "confidence": "EXTRACTED",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L33",
-      "weight": 1.0,
-      "context": "import",
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "extensions_gemini_token_optimizer_manifest_host_permissions",
-      "target": "ref_https_tok_pi_gilt_vercel_app"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "extensions/gemini-token-optimizer/manifest.json",
-      "source_location": "L38",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "extensions_gemini_token_optimizer_manifest_side_panel",
-      "target": "extensions_gemini_token_optimizer_manifest_side_panel_default_path"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "extensions/gemini-token-optimizer/platforms.js",
-      "source_location": "L11",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "extensions_gemini_token_optimizer_platforms",
-      "target": "extensions_gemini_token_optimizer_platforms_forurl"
     },
     {
       "relation": "contains",
@@ -6801,241 +6896,6 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L16",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "package",
-      "target": "package_dependencies"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L4",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "package",
-      "target": "package_description"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L6",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "package",
-      "target": "package_engines"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L2",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "package",
-      "target": "package_name"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L5",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "package",
-      "target": "package_private"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L9",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "package",
-      "target": "package_scripts"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L3",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "package",
-      "target": "package_version"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L7",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "package_engines",
-      "target": "package_engines_node"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L10",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "package_scripts",
-      "target": "package_scripts_start"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L11",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "package_scripts",
-      "target": "package_scripts_test"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L13",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "package_scripts",
-      "target": "package_scripts_test_api"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L12",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "package_scripts",
-      "target": "package_scripts_test_core"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L14",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "package_scripts",
-      "target": "package_scripts_test_extension"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L18",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "package_dependencies",
-      "target": "package_dependencies_dompurify"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L19",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "package_dependencies",
-      "target": "package_dependencies_marked"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L17",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "package_dependencies",
-      "target": "package_dependencies_tabler_icons_webfont"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L20",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "package_dependencies",
-      "target": "package_dependencies_zod"
-    },
-    {
-      "relation": "imports",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L17",
-      "weight": 1.0,
-      "context": "import",
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "package_dependencies_tabler_icons_webfont",
-      "target": "tabler_icons_webfont"
-    },
-    {
-      "relation": "imports",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L18",
-      "weight": 1.0,
-      "context": "import",
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "package_dependencies_dompurify",
-      "target": "dompurify"
-    },
-    {
-      "relation": "imports",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L19",
-      "weight": 1.0,
-      "context": "import",
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "package_dependencies_marked",
-      "target": "marked"
-    },
-    {
-      "relation": "imports",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L20",
-      "weight": 1.0,
-      "context": "import",
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "package_dependencies_zod",
-      "target": "zod"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
       "source_file": "scripts/canonical-graph.cjs",
       "source_location": "L8",
       "weight": 1.0,
@@ -7065,90 +6925,6 @@
       "confidence_score": 1.0,
       "source": "scripts_canonical_graph",
       "target": "scripts_canonical_graph_sortdeep"
-    },
-    {
-      "relation": "indirect_call",
-      "confidence": "INFERRED",
-      "source_file": "core/prompts.cjs",
-      "source_location": "L118",
-      "weight": 1.0,
-      "_origin": "ast",
-      "context": "collection",
-      "confidence_score": 0.5,
-      "source": "core_prompts",
-      "target": "core_prompts_builda2acontractprompt"
-    },
-    {
-      "relation": "indirect_call",
-      "confidence": "INFERRED",
-      "source_file": "core/prompts.cjs",
-      "source_location": "L119",
-      "weight": 1.0,
-      "_origin": "ast",
-      "context": "collection",
-      "confidence_score": 0.5,
-      "source": "core_prompts",
-      "target": "core_prompts_builda2aexecutorprompt"
-    },
-    {
-      "relation": "indirect_call",
-      "confidence": "INFERRED",
-      "source_file": "core/prompts.cjs",
-      "source_location": "L120",
-      "weight": 1.0,
-      "_origin": "ast",
-      "context": "collection",
-      "confidence_score": 0.5,
-      "source": "core_prompts",
-      "target": "core_prompts_builda2averifierprompt"
-    },
-    {
-      "relation": "indirect_call",
-      "confidence": "INFERRED",
-      "source_file": "core/prompts.cjs",
-      "source_location": "L121",
-      "weight": 1.0,
-      "_origin": "ast",
-      "context": "collection",
-      "confidence_score": 0.5,
-      "source": "core_prompts",
-      "target": "core_prompts_builddirectexecutorprompt"
-    },
-    {
-      "relation": "indirect_call",
-      "confidence": "INFERRED",
-      "source_file": "core/prompts.cjs",
-      "source_location": "L122",
-      "weight": 1.0,
-      "_origin": "ast",
-      "context": "collection",
-      "confidence_score": 0.5,
-      "source": "core_prompts",
-      "target": "core_prompts_buildexecutorprompt"
-    },
-    {
-      "relation": "indirect_call",
-      "confidence": "INFERRED",
-      "source_file": "core/prompts.cjs",
-      "source_location": "L123",
-      "weight": 1.0,
-      "_origin": "ast",
-      "context": "collection",
-      "confidence_score": 0.5,
-      "source": "core_prompts",
-      "target": "core_prompts_buildoptimizerprompt"
-    },
-    {
-      "relation": "indirect_call",
-      "confidence": "INFERRED",
-      "source_file": "core/prompts.cjs",
-      "source_location": "L124",
-      "weight": 1.0,
-      "_origin": "ast",
-      "context": "collection",
-      "confidence_score": 0.5,
-      "source": "core_prompts",
-      "target": "core_prompts_buildverifierprompt"
     },
     {
       "relation": "contains",
@@ -9611,18 +9387,6 @@
       "target": "core_usage"
     },
     {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "tests/optimizer-core.test.cjs",
-      "source_location": "L15",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "tests_optimizer_core_test",
-      "target": "core_usage"
-    },
-    {
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -9719,18 +9483,6 @@
       "target": "core_usage_combineusage"
     },
     {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "tests/optimizer-core.test.cjs",
-      "source_location": "L195",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "tests_optimizer_core_test_run",
-      "target": "core_usage_combineusage"
-    },
-    {
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -9800,30 +9552,6 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "core_workflow_runselfoptimizingworkflow",
-      "target": "core_usage_contextcomparison"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "tests/optimizer-core.test.cjs",
-      "source_location": "L15",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "tests_optimizer_core_test",
-      "target": "core_usage_contextcomparison"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "tests/optimizer-core.test.cjs",
-      "source_location": "L133",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "tests_optimizer_core_test_run",
       "target": "core_usage_contextcomparison"
     },
     {
@@ -11359,6 +11087,1257 @@
       "target": "outputs_workspace_removecontext"
     },
     {
+      "relation": "indirect_call",
+      "confidence": "INFERRED",
+      "source_file": "core/prompts.cjs",
+      "source_location": "L132",
+      "weight": 1.0,
+      "_origin": "ast",
+      "context": "collection",
+      "confidence_score": 0.5,
+      "source": "core_prompts",
+      "target": "core_prompts_builda2acontractprompt"
+    },
+    {
+      "relation": "indirect_call",
+      "confidence": "INFERRED",
+      "source_file": "core/prompts.cjs",
+      "source_location": "L133",
+      "weight": 1.0,
+      "_origin": "ast",
+      "context": "collection",
+      "confidence_score": 0.5,
+      "source": "core_prompts",
+      "target": "core_prompts_builda2aexecutorprompt"
+    },
+    {
+      "relation": "indirect_call",
+      "confidence": "INFERRED",
+      "source_file": "core/prompts.cjs",
+      "source_location": "L134",
+      "weight": 1.0,
+      "_origin": "ast",
+      "context": "collection",
+      "confidence_score": 0.5,
+      "source": "core_prompts",
+      "target": "core_prompts_builda2averifierprompt"
+    },
+    {
+      "relation": "indirect_call",
+      "confidence": "INFERRED",
+      "source_file": "core/prompts.cjs",
+      "source_location": "L135",
+      "weight": 1.0,
+      "_origin": "ast",
+      "context": "collection",
+      "confidence_score": 0.5,
+      "source": "core_prompts",
+      "target": "core_prompts_builddirectexecutorprompt"
+    },
+    {
+      "relation": "indirect_call",
+      "confidence": "INFERRED",
+      "source_file": "core/prompts.cjs",
+      "source_location": "L136",
+      "weight": 1.0,
+      "_origin": "ast",
+      "context": "collection",
+      "confidence_score": 0.5,
+      "source": "core_prompts",
+      "target": "core_prompts_buildexecutorprompt"
+    },
+    {
+      "relation": "indirect_call",
+      "confidence": "INFERRED",
+      "source_file": "core/prompts.cjs",
+      "source_location": "L137",
+      "weight": 1.0,
+      "_origin": "ast",
+      "context": "collection",
+      "confidence_score": 0.5,
+      "source": "core_prompts",
+      "target": "core_prompts_buildoptimizerprompt"
+    },
+    {
+      "relation": "indirect_call",
+      "confidence": "INFERRED",
+      "source_file": "core/prompts.cjs",
+      "source_location": "L138",
+      "weight": 1.0,
+      "_origin": "ast",
+      "context": "collection",
+      "confidence_score": 0.5,
+      "source": "core_prompts",
+      "target": "core_prompts_buildverifierprompt"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "core/prompts.cjs",
+      "source_location": "L79",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "core_prompts",
+      "target": "core_prompts_scaffoldhints"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "core/prompts.cjs",
+      "source_location": "L69",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "core_prompts_buildoptimizerprompt",
+      "target": "core_prompts_scaffoldhints"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/adapters/chatgpt.js",
+      "source_location": "L86",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_adapters_chatgpt",
+      "target": "extensions_gemini_token_optimizer_adapters_chatgpt_captureprompt"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/adapters/chatgpt.js",
+      "source_location": "L71",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_adapters_chatgpt",
+      "target": "extensions_gemini_token_optimizer_adapters_chatgpt_findpromptbox"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/adapters/chatgpt.js",
+      "source_location": "L29",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_adapters_chatgpt",
+      "target": "extensions_gemini_token_optimizer_adapters_chatgpt_haspromptlabel"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/adapters/chatgpt.js",
+      "source_location": "L96",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_adapters_chatgpt",
+      "target": "extensions_gemini_token_optimizer_adapters_chatgpt_insertprompt"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/adapters/chatgpt.js",
+      "source_location": "L44",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_adapters_chatgpt",
+      "target": "extensions_gemini_token_optimizer_adapters_chatgpt_ishugeeditable"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/adapters/chatgpt.js",
+      "source_location": "L39",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_adapters_chatgpt",
+      "target": "extensions_gemini_token_optimizer_adapters_chatgpt_isnearpromptarea"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/adapters/chatgpt.js",
+      "source_location": "L51",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_adapters_chatgpt",
+      "target": "extensions_gemini_token_optimizer_adapters_chatgpt_ispromptcandidate"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/adapters/chatgpt.js",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_adapters_chatgpt",
+      "target": "extensions_gemini_token_optimizer_adapters_chatgpt_isvisible"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/adapters/chatgpt.js",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_adapters_chatgpt",
+      "target": "extensions_gemini_token_optimizer_adapters_chatgpt_normalizepromptnode"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/adapters/chatgpt.js",
+      "source_location": "L59",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_adapters_chatgpt",
+      "target": "extensions_gemini_token_optimizer_adapters_chatgpt_promptscore"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/adapters/chatgpt.js",
+      "source_location": "L73",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_adapters_chatgpt_findpromptbox",
+      "target": "extensions_gemini_token_optimizer_adapters_chatgpt_normalizepromptnode"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/adapters/chatgpt.js",
+      "source_location": "L52",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_adapters_chatgpt_ispromptcandidate",
+      "target": "extensions_gemini_token_optimizer_adapters_chatgpt_isvisible"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/adapters/chatgpt.js",
+      "source_location": "L55",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_adapters_chatgpt_ispromptcandidate",
+      "target": "extensions_gemini_token_optimizer_adapters_chatgpt_haspromptlabel"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/adapters/chatgpt.js",
+      "source_location": "L65",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_adapters_chatgpt_promptscore",
+      "target": "extensions_gemini_token_optimizer_adapters_chatgpt_haspromptlabel"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/adapters/chatgpt.js",
+      "source_location": "L56",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_adapters_chatgpt_ispromptcandidate",
+      "target": "extensions_gemini_token_optimizer_adapters_chatgpt_isnearpromptarea"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/adapters/chatgpt.js",
+      "source_location": "L66",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_adapters_chatgpt_promptscore",
+      "target": "extensions_gemini_token_optimizer_adapters_chatgpt_isnearpromptarea"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/adapters/chatgpt.js",
+      "source_location": "L52",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_adapters_chatgpt_ispromptcandidate",
+      "target": "extensions_gemini_token_optimizer_adapters_chatgpt_ishugeeditable"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/adapters/chatgpt.js",
+      "source_location": "L73",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_adapters_chatgpt_findpromptbox",
+      "target": "extensions_gemini_token_optimizer_adapters_chatgpt_ispromptcandidate"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/adapters/chatgpt.js",
+      "source_location": "L81",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_adapters_chatgpt_findpromptbox",
+      "target": "extensions_gemini_token_optimizer_adapters_chatgpt_promptscore"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/adapters/chatgpt.js",
+      "source_location": "L89",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_adapters_chatgpt_captureprompt",
+      "target": "extensions_gemini_token_optimizer_adapters_chatgpt_findpromptbox"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/adapters/chatgpt.js",
+      "source_location": "L99",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_adapters_chatgpt_insertprompt",
+      "target": "extensions_gemini_token_optimizer_adapters_chatgpt_findpromptbox"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L13",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_manifest",
+      "target": "extensions_gemini_token_optimizer_manifest_action"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L22",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_manifest",
+      "target": "extensions_gemini_token_optimizer_manifest_background"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L42",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_manifest",
+      "target": "extensions_gemini_token_optimizer_manifest_content_scripts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L26",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_manifest",
+      "target": "extensions_gemini_token_optimizer_manifest_content_security_policy"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_manifest",
+      "target": "extensions_gemini_token_optimizer_manifest_description"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L33",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_manifest",
+      "target": "extensions_gemini_token_optimizer_manifest_host_permissions"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_manifest",
+      "target": "extensions_gemini_token_optimizer_manifest_icons"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_manifest",
+      "target": "extensions_gemini_token_optimizer_manifest_manifest_version"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_manifest",
+      "target": "extensions_gemini_token_optimizer_manifest_minimum_chrome_version"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_manifest",
+      "target": "extensions_gemini_token_optimizer_manifest_name"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L29",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_manifest",
+      "target": "extensions_gemini_token_optimizer_manifest_permissions"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L39",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_manifest",
+      "target": "extensions_gemini_token_optimizer_manifest_side_panel"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_manifest",
+      "target": "extensions_gemini_token_optimizer_manifest_version"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_manifest_icons",
+      "target": "extensions_gemini_token_optimizer_manifest_icons_128"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_manifest_icons",
+      "target": "extensions_gemini_token_optimizer_manifest_icons_16"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_manifest_icons",
+      "target": "extensions_gemini_token_optimizer_manifest_icons_32"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_manifest_icons",
+      "target": "extensions_gemini_token_optimizer_manifest_icons_48"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_manifest_action",
+      "target": "extensions_gemini_token_optimizer_manifest_action_default_icon"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_manifest_action",
+      "target": "extensions_gemini_token_optimizer_manifest_action_default_title"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L19",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_manifest_action_default_icon",
+      "target": "extensions_gemini_token_optimizer_manifest_default_icon_128"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L16",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_manifest_action_default_icon",
+      "target": "extensions_gemini_token_optimizer_manifest_default_icon_16"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_manifest_action_default_icon",
+      "target": "extensions_gemini_token_optimizer_manifest_default_icon_32"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L18",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_manifest_action_default_icon",
+      "target": "extensions_gemini_token_optimizer_manifest_default_icon_48"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L23",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_manifest_background",
+      "target": "extensions_gemini_token_optimizer_manifest_background_service_worker"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L24",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_manifest_background",
+      "target": "extensions_gemini_token_optimizer_manifest_background_type"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L27",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_manifest_content_security_policy",
+      "target": "extensions_gemini_token_optimizer_manifest_content_security_policy_extension_pages"
+    },
+    {
+      "relation": "extends",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L29",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_manifest_permissions",
+      "target": "ref_sidepanel"
+    },
+    {
+      "relation": "extends",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L29",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_manifest_permissions",
+      "target": "ref_storage"
+    },
+    {
+      "relation": "extends",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L33",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_manifest_host_permissions",
+      "target": "ref_https_chat_openai_com"
+    },
+    {
+      "relation": "extends",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L33",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_manifest_host_permissions",
+      "target": "ref_https_chatgpt_com"
+    },
+    {
+      "relation": "extends",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L33",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_manifest_host_permissions",
+      "target": "ref_https_gemini_google_com"
+    },
+    {
+      "relation": "extends",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L33",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_manifest_host_permissions",
+      "target": "ref_https_tok_pi_gilt_vercel_app"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/manifest.json",
+      "source_location": "L40",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_manifest_side_panel",
+      "target": "extensions_gemini_token_optimizer_manifest_side_panel_default_path"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/platforms.js",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_platforms",
+      "target": "extensions_gemini_token_optimizer_platforms_forurl"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L140",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_tests_content_chatgpt_test",
+      "target": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_adaptercode"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L136",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_tests_content_chatgpt_test",
+      "target": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_addrange"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_tests_content_chatgpt_test",
+      "target": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_assert"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L141",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_tests_content_chatgpt_test",
+      "target": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_bridgecode"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L82",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_tests_content_chatgpt_test",
+      "target": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_composerform"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L97",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_tests_content_chatgpt_test",
+      "target": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_context"
+    },
+    {
+      "relation": "indirect_call",
+      "confidence": "INFERRED",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L99",
+      "weight": 1.0,
+      "_origin": "ast",
+      "context": "collection",
+      "confidence_score": 0.5,
+      "source": "extensions_gemini_token_optimizer_tests_content_chatgpt_test",
+      "target": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_tests_content_chatgpt_test",
+      "target": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fs"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L88",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_tests_content_chatgpt_test",
+      "target": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_hugeeditor"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L150",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_tests_content_chatgpt_test",
+      "target": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_inserted"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L95",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_tests_content_chatgpt_test",
+      "target": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_nodes"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_tests_content_chatgpt_test",
+      "target": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_path"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L75",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_tests_content_chatgpt_test",
+      "target": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_promptbox"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L135",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_tests_content_chatgpt_test",
+      "target": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_removeallranges"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_tests_content_chatgpt_test",
+      "target": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_vm"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L68",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement",
+      "target": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement_append"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L31",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement",
+      "target": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement_closest"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement",
+      "target": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement_constructor"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L58",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement",
+      "target": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement_dispatchevent"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L52",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement",
+      "target": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement_focus"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L27",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement",
+      "target": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement_getattribute"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L48",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement",
+      "target": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement_getboundingclientrect"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L41",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement",
+      "target": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement_queryselector"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L62",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement",
+      "target": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement_replacechildren"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs",
+      "source_location": "L56",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement",
+      "target": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement_scrollintoview"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "package",
+      "target": "package_dependencies"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "package",
+      "target": "package_description"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "package",
+      "target": "package_engines"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "package",
+      "target": "package_license"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "package",
+      "target": "package_name"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "package",
+      "target": "package_private"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "package",
+      "target": "package_scripts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "package",
+      "target": "package_version"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "package_engines",
+      "target": "package_engines_node"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "package_scripts",
+      "target": "package_scripts_start"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "package_scripts",
+      "target": "package_scripts_test"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "package_scripts",
+      "target": "package_scripts_test_api"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L13",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "package_scripts",
+      "target": "package_scripts_test_core"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "package_scripts",
+      "target": "package_scripts_test_extension"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L19",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "package_dependencies",
+      "target": "package_dependencies_dompurify"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "package_dependencies",
+      "target": "package_dependencies_marked"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L18",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "package_dependencies",
+      "target": "package_dependencies_tabler_icons_webfont"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L21",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "package_dependencies",
+      "target": "package_dependencies_zod"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "package_dependencies_tabler_icons_webfont",
+      "target": "tabler_icons_webfont"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L19",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "package_dependencies_dompurify",
+      "target": "dompurify"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L20",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "package_dependencies_marked",
+      "target": "marked"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L21",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "package_dependencies_zod",
+      "target": "zod"
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "tests/optimizer-core.test.cjs",
@@ -11426,5 +12405,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "000c6ce790689d88c8028792c39d959c9a9c3b35"
+  "built_at_commit": "deda1f807912fa1a07141f488635efaa398a3c7f"
 }

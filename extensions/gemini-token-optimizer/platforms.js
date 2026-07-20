@@ -5,6 +5,12 @@
       label: "Gemini",
       origins: Object.freeze(["https://gemini.google.com/"]),
       statusLabel: "Gemini ready"
+    }),
+    Object.freeze({
+      id: "chatgpt",
+      label: "ChatGPT",
+      origins: Object.freeze(["https://chatgpt.com/", "https://chat.openai.com/"]),
+      statusLabel: "ChatGPT ready"
     })
   ]);
 

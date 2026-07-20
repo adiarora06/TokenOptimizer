@@ -7,7 +7,8 @@ The extension keeps prompt preparation, side-panel UI, and site-specific DOM acc
 - `sidepanel.js`: provider-neutral prepare, copy, insert, metrics, and local history flow.
 - `platforms.js`: side-panel metadata used to recognize supported assistant URLs.
 - `content-bridge.js`: stable Chrome message contract shared by every site.
-- `adapters/gemini.js`: Gemini-only prompt discovery, capture, and insertion.
+- `adapters/gemini.js`: Gemini prompt discovery, capture, and insertion.
+- `adapters/chatgpt.js`: ChatGPT prompt discovery, capture, and insertion (second reference adapter).
 - `/api/prepare-handoff`: deterministic prompt preparation with zero model calls.
 
 ## Adapter Contract
