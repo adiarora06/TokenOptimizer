@@ -98,6 +98,7 @@ const edgesDS = new vis.DataSet(RAW_EDGES.map((e, i) => ({
 
 const container = document.getElementById('graph');
 const network = new vis.Network(container, { nodes: nodesDS, edges: edgesDS }, {
+  layout: { improvedLayout: false },
   physics: {
     enabled: true,
     solver: 'forceAtlas2Based',
