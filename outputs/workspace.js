@@ -269,6 +269,21 @@
     return raw.length > 72 ? `${raw.slice(0, 69)}...` : raw || "Completed result";
   }
 
+  // Honest, route-aware summary of the context comparison. A direct (single
+  // call) route has no repeated context to compress, so it never claims a
+  // reduction; a route whose compact framing costs more than one raw send
+  // reports that overhead instead of hiding it behind a clamped 0%.
+  function contextComparisonText(report) {
+    const comparison = report.comparison || {};
+    const calls = comparison.plannedModelCalls || 0;
+    const delta = comparison.estimatedContextDeltaTokens ?? report.estimatedContextDeltaTokens;
+    const savingsPct = comparison.estimatedContextSavingsPercent || 0;
+    if (calls <= 1 || delta == null) return "Single call — no repeated context";
+    if (delta > 0) return `${savingsPct}% leaner than repeating context (est.)`;
+    if (delta < 0) return `Compact state adds ${compactNumber(-delta)} framing tokens`;
+    return "About even with repeating context";
+  }
+
   function renderMetrics(result) {
     const report = result.tokenReport || {};
     const actual = report.actualUsageSource === "provider";
@@ -286,13 +301,12 @@
 
   function renderRouteDetails(result) {
     const report = result.tokenReport || {};
-    const comparison = report.comparison || {};
     el("routeReason").textContent = result.workflowShape?.routeReason || report.routeReason || "Automatic route selected.";
     el("routeFacts").innerHTML = `
       <div><dt>Route</dt><dd>${routeLabel(result.workflowShape?.route || report.adaptiveRoute)}</dd></div>
       <div><dt>Model calls</dt><dd>${report.modelCalls || 0}</dd></div>
       <div><dt>Usage source</dt><dd>${report.actualUsageSource === "provider" ? "Measured" : "Estimated"}</dd></div>
-      <div><dt>Context comparison</dt><dd>${comparison.estimatedContextSavingsPercent || 0}% estimated</dd></div>
+      <div><dt>Context comparison</dt><dd>${escapeHtml(contextComparisonText(report))}</dd></div>
     `;
   }
 
@@ -307,11 +321,10 @@
     el("expandResult").classList.remove("hidden");
     el("expandResult").innerHTML = '<span>Open full result</span><i class="ti ti-chevron-down" aria-hidden="true"></i>';
     const report = result.tokenReport || {};
-    const comparison = report.comparison || {};
     const notes = [
       `${routeLabel(result.workflowShape?.route || report.adaptiveRoute)} route`,
       report.actualUsageSource === "provider" ? `${compactNumber(report.actualTotalTokens)} measured total tokens` : "Usage estimated",
-      comparison.estimatedContextSavingsPercent > 0 ? `${comparison.estimatedContextSavingsPercent}% estimated context reduction` : "No context reduction claimed"
+      contextComparisonText(report)
     ];
     if (result.securityReport?.redactions) notes.push(`${result.securityReport.redactions} sensitive value${result.securityReport.redactions === 1 ? "" : "s"} removed`);
     el("resultFootnote").innerHTML = notes.map((note) => `<span>${escapeHtml(note)}</span>`).join("");

@@ -12,6 +12,7 @@ const {
   runSelfOptimizingWorkflow
 } = require("../optimizer-core.cjs");
 const { assertSafeProviderEndpoint } = require("../core/security.cjs");
+const { contextComparison } = require("../core/usage.cjs");
 const { takeRateLimit } = require("../request-guard.cjs");
 
 async function run() {
@@ -126,6 +127,24 @@ Output:
   assert.equal(portableSecret.securityReport.redactions, 1);
   assert.equal(portableSecret.optimizedPrompt.includes(secret), false);
 
+  // Honest context math: multi-call routes report real reductions; a single
+  // compact prompt that costs more than the raw baseline reports signed
+  // overhead instead of a clamped zero.
+  const saving = contextComparison(100, 60, 3);
+  assert.equal(saving.estimatedBaselineInputTokens, 300);
+  assert.equal(saving.estimatedContextDeltaTokens, 240);
+  assert.equal(saving.estimatedContextSavingsTokens, 240);
+  assert.equal(saving.estimatedContextSavingsPercent, 80);
+  assert.equal(saving.addsFramingOverhead, false);
+
+  const overhead = contextComparison(10, 40, 1);
+  assert.equal(overhead.estimatedContextDeltaTokens, -30);
+  assert.equal(overhead.estimatedContextDeltaPercent, -300);
+  assert.equal(overhead.estimatedContextSavingsTokens, 0, "overhead must never be reported as a saving");
+  assert.equal(overhead.estimatedContextSavingsPercent, 0);
+  assert.equal(overhead.addsFramingOverhead, true);
+  assert.equal(contextComparison(0, 0, 0).plannedModelCalls, 1);
+
   const events = [];
   const result = await runSelfOptimizingWorkflow({
     rawInput: `Create Python code that runs binary search for target 7 in range(0, 70). Secret: ${secret}`,
@@ -144,6 +163,12 @@ Output:
   assert.equal(result.tokenReport.modelCalls, 1);
   assert.ok(result.tokenReport.actualInputTokens > 0);
   assert.ok(result.tokenReport.actualOutputTokens > 0);
+  // Direct route: one call, so the wrapper is pure framing overhead and the
+  // report must not claim a context reduction.
+  assert.equal(result.tokenReport.comparison.plannedModelCalls, 1);
+  assert.ok(result.tokenReport.estimatedContextDeltaTokens <= 0, "direct route adds framing, cannot save context");
+  assert.equal(result.tokenReport.estimatedSavingsTokens, 0);
+  assert.equal(result.tokenReport.addsFramingOverhead, result.tokenReport.estimatedContextDeltaTokens < 0);
   assert.ok(events.some((event) => event.stage === "execute"));
   assert.ok(events.some((event) => event.type === "complete"));
   assert.ok(events.every((event) => event.traceId === result.traceId));
@@ -160,6 +185,12 @@ Output:
   assert.equal(verifiedResult.workflowShape.route, "full");
   assert.equal(verifiedResult.tokenReport.modelCalls, 3);
   assert.ok(verifiedResult.trace.some((item) => item.phase === "verify"));
+  // Full route plans three calls, so the repeated-context baseline is 3x raw.
+  assert.equal(verifiedResult.tokenReport.comparison.plannedModelCalls, 3);
+  assert.equal(
+    verifiedResult.tokenReport.estimatedNaiveThreeStepTokens,
+    verifiedResult.tokenReport.rawInputTokens * 3
+  );
 
   const combined = combineUsage(result.generations);
   assert.equal(combined.totalTokens, result.tokenReport.actualTotalTokens);
@@ -173,6 +204,13 @@ Output:
   assert.equal(prepared.finalAnswer, "");
   assert.equal(JSON.stringify(prepared.kit).includes(secret), false);
   assert.equal(prepared.securityReport.redactions, 1);
+  // Offline kit builds a single prompt, so its baseline is 1x raw, not a
+  // hardcoded three-step estimate.
+  assert.equal(prepared.tokenReport.comparison.plannedModelCalls, 1);
+  assert.equal(
+    prepared.tokenReport.estimatedNaiveThreeStepTokens,
+    prepared.tokenReport.rawInputTokens
+  );
 
   process.env.NODE_ENV = "production";
   process.env.TOKEN_OPTIMIZER_ALLOW_PRIVATE_ENDPOINTS = "0";

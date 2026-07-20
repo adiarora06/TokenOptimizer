@@ -1,4 +1,4 @@
-const { combineUsage, createTraceId, estimateTokens, generationRecord } = require("./usage.cjs");
+const { combineUsage, contextComparison, createTraceId, estimateTokens, generationRecord } = require("./usage.cjs");
 const { redactSensitiveText } = require("./security.cjs");
 const { callModel, callWorkflowProvider, resolveProvider } = require("./providers.cjs");
 const { analyzeWorkflowShape, buildOfflineContract } = require("./routing.cjs");
@@ -237,6 +237,7 @@ async function runBlankA2AKit({ rawInput, providerConfig = {}, options = {}, sig
   }
 
   const optimizedPromptTokens = optimizedPrompts.reduce((sum, item) => sum + item.tokens, 0);
+  const comparison = contextComparison(rawTokens, optimizedPromptTokens, optimizedPrompts.length);
   const providerUsage = combineUsage(generations);
   return {
     mode: "contract-workflow-kit-run",
@@ -266,11 +267,13 @@ async function runBlankA2AKit({ rawInput, providerConfig = {}, options = {}, sig
       actualUsageSource: providerUsage.source,
       estimatedCostUsd: providerUsage.estimatedCostUsd,
       modelCalls: providerUsage.modelCalls,
-      estimatedNaiveThreeStepTokens: rawTokens * 3,
-      estimatedSavingsTokens: Math.max(0, rawTokens * 3 - optimizedPromptTokens),
-      estimatedSavingsPercent: rawTokens
-        ? Math.max(0, Math.round(((rawTokens * 3 - optimizedPromptTokens) / (rawTokens * 3)) * 100))
-        : 0
+      estimatedNaiveThreeStepTokens: comparison.estimatedBaselineInputTokens,
+      estimatedSavingsTokens: comparison.estimatedContextSavingsTokens,
+      estimatedSavingsPercent: comparison.estimatedContextSavingsPercent,
+      estimatedContextDeltaTokens: comparison.estimatedContextDeltaTokens,
+      estimatedContextDeltaPercent: comparison.estimatedContextDeltaPercent,
+      addsFramingOverhead: comparison.addsFramingOverhead,
+      comparison
     },
     elapsedMs: Date.now() - startedAt
   };
@@ -467,12 +470,7 @@ async function runSelfOptimizingWorkflow({ rawInput, provider, options = {}, onE
   }
 
   const optimizedPromptTokens = optimizedPrompts.reduce((sum, item) => sum + item.tokens, 0);
-  const baselineCalls = Math.max(1, optimizedPrompts.length);
-  const baselineInputTokens = rawTokens * baselineCalls;
-  const contextSavingsTokens = Math.max(0, baselineInputTokens - optimizedPromptTokens);
-  const contextSavingsPercent = baselineInputTokens
-    ? Math.max(0, Math.round((contextSavingsTokens / baselineInputTokens) * 100))
-    : 0;
+  const comparison = contextComparison(rawTokens, optimizedPromptTokens, optimizedPrompts.length);
   const providerUsage = combineUsage(generations);
   const optimizedPrompt = optimizedPrompts[optimizedPrompts.length - 1]?.prompt || directPrompt;
 
@@ -515,17 +513,13 @@ async function runSelfOptimizingWorkflow({ rawInput, provider, options = {}, onE
       cachedTokens: providerUsage.cachedTokens,
       actualUsageSource: providerUsage.source,
       estimatedCostUsd: providerUsage.estimatedCostUsd,
-      estimatedNaiveThreeStepTokens: baselineInputTokens,
-      estimatedSavingsTokens: contextSavingsTokens,
-      estimatedSavingsPercent: contextSavingsPercent,
-      comparison: {
-        label: "Repeated raw-context estimate",
-        method: "raw input estimate multiplied by the number of planned model calls",
-        estimatedBaselineInputTokens: baselineInputTokens,
-        estimatedOptimizedInputTokens: optimizedPromptTokens,
-        estimatedContextSavingsTokens: contextSavingsTokens,
-        estimatedContextSavingsPercent: contextSavingsPercent
-      },
+      estimatedNaiveThreeStepTokens: comparison.estimatedBaselineInputTokens,
+      estimatedSavingsTokens: comparison.estimatedContextSavingsTokens,
+      estimatedSavingsPercent: comparison.estimatedContextSavingsPercent,
+      estimatedContextDeltaTokens: comparison.estimatedContextDeltaTokens,
+      estimatedContextDeltaPercent: comparison.estimatedContextDeltaPercent,
+      addsFramingOverhead: comparison.addsFramingOverhead,
+      comparison,
       adaptiveRoute: workflowShape.route,
       routeReason: workflowShape.routeReason,
       complexity: workflowShape.complexity,

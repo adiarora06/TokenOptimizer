@@ -76,8 +76,34 @@ function generationRecord(stage, result) {
   };
 }
 
+// Compares the optimized prompt total against the naive baseline of re-sending
+// the full raw input on every planned model call. The delta fields are SIGNED:
+// a negative delta means the compact framing costs more than one raw send (the
+// direct route adds a small wrapper), and that overhead is reported honestly
+// instead of being clamped to zero. The clamped savings fields are retained so
+// callers that only advertise reductions never show a negative number.
+function contextComparison(rawTokens, optimizedPromptTokens, plannedCalls) {
+  const baselineCalls = Math.max(1, plannedCalls || 1);
+  const baselineInputTokens = rawTokens * baselineCalls;
+  const deltaTokens = baselineInputTokens - optimizedPromptTokens;
+  const deltaPercent = baselineInputTokens ? Math.round((deltaTokens / baselineInputTokens) * 100) : 0;
+  return {
+    label: "Repeated raw-context estimate",
+    method: "raw input estimate multiplied by the number of planned model calls",
+    plannedModelCalls: baselineCalls,
+    estimatedBaselineInputTokens: baselineInputTokens,
+    estimatedOptimizedInputTokens: optimizedPromptTokens,
+    estimatedContextDeltaTokens: deltaTokens,
+    estimatedContextDeltaPercent: deltaPercent,
+    estimatedContextSavingsTokens: Math.max(0, deltaTokens),
+    estimatedContextSavingsPercent: Math.max(0, deltaPercent),
+    addsFramingOverhead: deltaTokens < 0
+  };
+}
+
 module.exports = {
   combineUsage,
+  contextComparison,
   createTraceId,
   estimateTokens,
   generationRecord,
