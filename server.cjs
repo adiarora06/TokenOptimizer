@@ -166,6 +166,22 @@ function writeSse(res, event, data) {
   res.write(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`);
 }
 
+function allowedApiMethods(pathname) {
+  const methods = {
+    "/api/provider-status": ["GET"],
+    "/api/system-overview": ["GET"],
+    "/api/system-runs": ["GET", "POST"],
+    "/api/generate": ["POST"],
+    "/api/prepare-handoff": ["POST"],
+    "/api/optimize-run": ["POST"],
+    "/api/optimize-stream": ["POST"],
+    "/api/workflow-run": ["POST"],
+    "/api/a2a-run": ["POST"]
+  };
+  if (pathname.startsWith("/api/system-runs/")) return ["GET"];
+  return methods[pathname] || null;
+}
+
 function readJson(req) {
   return new Promise((resolve, reject) => {
     let body = "";
@@ -384,6 +400,12 @@ async function handleApi(req, res) {
     } catch (error) {
       sendJson(res, 500, { error: publicError(error) });
     }
+    return;
+  }
+
+  const allowedMethods = allowedApiMethods(pathname);
+  if (allowedMethods) {
+    sendJson(res, 405, { error: "Method not allowed" }, { allow: allowedMethods.join(", ") });
     return;
   }
 

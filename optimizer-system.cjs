@@ -117,8 +117,19 @@ function applyResultTrace(run, result) {
       updateStage(run, stageId, item.status || "done", item.detail || item.phase);
     }
   }
+
+  const failed = result?.executionStatus === "provider_error" || result?.executionStatus === "cancelled";
   for (const stage of run.stages) {
-    if (stage.status === "pending") updateStage(run, stage.id, "done");
+    if (stage.status === "running") {
+      updateStage(
+        run,
+        stage.id,
+        failed ? "error" : "skipped",
+        failed ? result.providerError || "Run stopped before this stage completed." : "Not needed for the selected route."
+      );
+    } else if (stage.status === "pending") {
+      updateStage(run, stage.id, "skipped", "Not needed for the selected route.");
+    }
   }
 }
 
@@ -173,11 +184,18 @@ async function executeSystemRun(run, payload = {}) {
         options: payload.options || {}
       });
 
+    const succeeded = result.executionStatus === "completed" || result.executionStatus === "prompt_ready";
     run.result = result;
-    run.status = "completed";
+    run.status = succeeded ? "completed" : "failed";
+    run.error = succeeded ? null : result.providerError || "The workflow did not complete.";
     run.progress = 100;
     applyResultTrace(run, result);
-    updateStage(run, "save", "done", "Result ready for browser history, audit log, and stats.");
+    updateStage(
+      run,
+      "save",
+      succeeded ? "done" : "skipped",
+      succeeded ? "Result ready for browser history, audit log, and stats." : "No completed result was saved."
+    );
     run.finishedAt = nowIso();
     run.elapsedMs = Date.now() - started;
   } catch (error) {
