@@ -22,7 +22,7 @@ http://127.0.0.1:8787
 - **Runs and Insights**: local prompt history, audit traces, session totals, all-time totals, route mix, status mix, and token charts.
 - **Inspectable architecture**: agent responsibilities and the hub-and-spoke contract graph share one Architecture page.
 - **Graphify code map**: the public app includes a searchable knowledge graph of real files, functions, calls, tests, adapters, and deployment routes.
-- **Gemini wrapper**: a Manifest V3 side panel prepares and inserts prompts with zero duplicate provider calls.
+- **Assistant wrappers**: a Manifest V3 side panel prepares and inserts prompts for Gemini and ChatGPT with zero duplicate provider calls.
 
 ## Source Map
 
@@ -130,8 +130,12 @@ Load the extension locally:
 4. Select `extensions/gemini-token-optimizer`.
 5. Open `https://gemini.google.com` and click the extension icon.
 
-The extension uses a Chrome side panel. It does not auto-send Gemini messages and it does not run a provider model while preparing the prompt. Gemini is the only enabled site today; the internal adapter bridge can support additional assistants later without changing the core workflow.
+The extension uses a Chrome side panel. It does not auto-send messages and it does not run a provider model while preparing the prompt. Gemini and ChatGPT ship as reference adapters; the internal adapter bridge can support additional assistants by adding one `adapters/<site>.js` file and a `content_scripts` entry, without changing the core workflow.
 
 ## Contributing Principle
 
 Keep the default user path simple. Put complexity behind tabs, expandable panels, or the open-source workings page.
+
+## License
+
+Released under the [MIT License](LICENSE).

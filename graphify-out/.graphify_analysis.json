@@ -18,14 +18,10 @@
       "api_prepare_handoff",
       "api_prepare_handoff_commonheaders_publicerror_takeratelimit_validateoptimizerpayload",
       "api_prepare_handoff_prepareportablehandoff",
-      "api_system_runs",
-      "api_system_runs_commonheaders_publicerror_takeratelimit_validateoptimizerpayload",
-      "api_system_runs_system_architecture_runsystemruninline",
       "api_workflow_run",
       "api_workflow_run_commonheaders_publicerror_takeratelimit_validatea2apayload",
       "api_workflow_run_runblanka2akit",
       "optimizer_core_prepareportablehandoff",
-      "optimizer_system_system_architecture",
       "request_guard",
       "request_guard_a2apayloadschema",
       "request_guard_buckets",
@@ -81,14 +77,22 @@
       "core_providers_providerstatus",
       "core_providers_resolveprovider",
       "core_providers_testcompletion",
+      "core_routing",
+      "core_routing_analyzeworkflowshape",
+      "core_routing_buildofflinecontract",
+      "core_routing_compactlines",
+      "core_routing_estimatetokens",
+      "core_routing_outputstylefor",
       "core_security",
       "core_security_assertsafeproviderendpoint",
       "core_security_redactsensitivetext",
       "core_security_secret_patterns",
+      "core_text_compactlines",
       "core_usage",
       "core_usage_combineusage",
       "core_usage_contextcomparison",
       "core_usage_createtraceid",
+      "core_usage_estimatetokens",
       "core_usage_generationrecord",
       "core_usage_modelcost",
       "core_usage_normalizeusage",
@@ -107,14 +111,7 @@
       "optimizer_core_callchatcompletion_generatewithfallback_providerstatus",
       "optimizer_core_combineusage_createtraceid_estimatetokens",
       "optimizer_core_redactsensitivetext",
-      "optimizer_core_runblanka2akit_runselfoptimizingworkflow",
-      "tests_optimizer_core_test",
-      "tests_optimizer_core_test_analyzeworkflowshape_combineusage_prepareportablehandoff_redactsensitivetext_runblanka2akit_runselfoptimizingworkflow",
-      "tests_optimizer_core_test_assert",
-      "tests_optimizer_core_test_assertsafeproviderendpoint",
-      "tests_optimizer_core_test_contextcomparison",
-      "tests_optimizer_core_test_run",
-      "tests_optimizer_core_test_takeratelimit"
+      "optimizer_core_runblanka2akit_runselfoptimizingworkflow"
     ],
     "2": [
       "outputs_workspace",
@@ -194,38 +191,40 @@
       "extensions_gemini_token_optimizer_manifest_side_panel",
       "extensions_gemini_token_optimizer_manifest_side_panel_default_path",
       "extensions_gemini_token_optimizer_manifest_version",
+      "ref_https_chat_openai_com",
+      "ref_https_chatgpt_com",
       "ref_https_gemini_google_com",
       "ref_https_tok_pi_gilt_vercel_app",
       "ref_sidepanel",
       "ref_storage"
     ],
     "4": [
-      "core_handoff",
-      "core_handoff_analyzeworkflowshape_buildofflinecontract",
-      "core_handoff_buildportableprompt",
-      "core_handoff_cleandirectrequest",
-      "core_handoff_cleanprompttext_compactlines_dedupenaturallanguagelines_promptsection_striplistprefix_withouttrailingellipsis",
-      "core_handoff_estimatetokens",
-      "core_handoff_islikelyoriginaltask",
-      "core_handoff_ispreparedwrapper",
-      "core_handoff_originaltaskscore",
-      "core_handoff_prepareportablehandoff",
-      "core_handoff_redactsensitivetext",
-      "core_handoff_unwrappreparedprompt",
-      "core_routing",
-      "core_routing_analyzeworkflowshape",
-      "core_routing_buildofflinecontract",
-      "core_routing_compactlines",
-      "core_routing_estimatetokens",
-      "core_routing_outputstylefor",
-      "core_text",
-      "core_text_cleanprompttext",
-      "core_text_compactlines",
-      "core_text_dedupenaturallanguagelines",
-      "core_text_promptsection",
-      "core_text_striplistprefix",
-      "core_text_withouttrailingellipsis",
-      "core_usage_estimatetokens"
+      "extensions_gemini_token_optimizer_tests_content_chatgpt_test",
+      "extensions_gemini_token_optimizer_tests_content_chatgpt_test_adaptercode",
+      "extensions_gemini_token_optimizer_tests_content_chatgpt_test_addrange",
+      "extensions_gemini_token_optimizer_tests_content_chatgpt_test_assert",
+      "extensions_gemini_token_optimizer_tests_content_chatgpt_test_bridgecode",
+      "extensions_gemini_token_optimizer_tests_content_chatgpt_test_composerform",
+      "extensions_gemini_token_optimizer_tests_content_chatgpt_test_context",
+      "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement",
+      "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement_append",
+      "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement_closest",
+      "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement_constructor",
+      "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement_dispatchevent",
+      "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement_focus",
+      "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement_getattribute",
+      "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement_getboundingclientrect",
+      "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement_queryselector",
+      "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement_replacechildren",
+      "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement_scrollintoview",
+      "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fs",
+      "extensions_gemini_token_optimizer_tests_content_chatgpt_test_hugeeditor",
+      "extensions_gemini_token_optimizer_tests_content_chatgpt_test_inserted",
+      "extensions_gemini_token_optimizer_tests_content_chatgpt_test_nodes",
+      "extensions_gemini_token_optimizer_tests_content_chatgpt_test_path",
+      "extensions_gemini_token_optimizer_tests_content_chatgpt_test_promptbox",
+      "extensions_gemini_token_optimizer_tests_content_chatgpt_test_removeallranges",
+      "extensions_gemini_token_optimizer_tests_content_chatgpt_test_vm"
     ],
     "5": [
       "extensions_gemini_token_optimizer_tests_content_gemini_test",
@@ -294,6 +293,7 @@
       "package_description",
       "package_engines",
       "package_engines_node",
+      "package_license",
       "package_name",
       "package_private",
       "package_scripts",
@@ -307,6 +307,9 @@
       "zod"
     ],
     "8": [
+      "api_system_runs",
+      "api_system_runs_commonheaders_publicerror_takeratelimit_validateoptimizerpayload",
+      "api_system_runs_system_architecture_runsystemruninline",
       "optimizer_system",
       "optimizer_system_applyresulttrace",
       "optimizer_system_basestages",
@@ -320,9 +323,24 @@
       "optimizer_system_publicrun",
       "optimizer_system_runsystemruninline",
       "optimizer_system_stagefromtrace",
+      "optimizer_system_system_architecture",
       "optimizer_system_updatestage"
     ],
     "9": [
+      "core_handoff",
+      "core_handoff_analyzeworkflowshape_buildofflinecontract",
+      "core_handoff_buildportableprompt",
+      "core_handoff_cleandirectrequest",
+      "core_handoff_cleanprompttext_compactlines_dedupenaturallanguagelines_promptsection_striplistprefix_withouttrailingellipsis",
+      "core_handoff_estimatetokens",
+      "core_handoff_islikelyoriginaltask",
+      "core_handoff_ispreparedwrapper",
+      "core_handoff_originaltaskscore",
+      "core_handoff_prepareportablehandoff",
+      "core_handoff_redactsensitivetext",
+      "core_handoff_unwrappreparedprompt"
+    ],
+    "10": [
       "extensions_gemini_token_optimizer_tests_sidepanel_logic_test",
       "extensions_gemini_token_optimizer_tests_sidepanel_logic_test_assert",
       "extensions_gemini_token_optimizer_tests_sidepanel_logic_test_context",
@@ -336,7 +354,20 @@
       "extensions_gemini_token_optimizer_tests_sidepanel_logic_test_sidepanelcode",
       "extensions_gemini_token_optimizer_tests_sidepanel_logic_test_vm"
     ],
-    "10": [
+    "11": [
+      "extensions_gemini_token_optimizer_adapters_chatgpt",
+      "extensions_gemini_token_optimizer_adapters_chatgpt_captureprompt",
+      "extensions_gemini_token_optimizer_adapters_chatgpt_findpromptbox",
+      "extensions_gemini_token_optimizer_adapters_chatgpt_haspromptlabel",
+      "extensions_gemini_token_optimizer_adapters_chatgpt_insertprompt",
+      "extensions_gemini_token_optimizer_adapters_chatgpt_ishugeeditable",
+      "extensions_gemini_token_optimizer_adapters_chatgpt_isnearpromptarea",
+      "extensions_gemini_token_optimizer_adapters_chatgpt_ispromptcandidate",
+      "extensions_gemini_token_optimizer_adapters_chatgpt_isvisible",
+      "extensions_gemini_token_optimizer_adapters_chatgpt_normalizepromptnode",
+      "extensions_gemini_token_optimizer_adapters_chatgpt_promptscore"
+    ],
+    "12": [
       "extensions_gemini_token_optimizer_adapters_gemini",
       "extensions_gemini_token_optimizer_adapters_gemini_captureprompt",
       "extensions_gemini_token_optimizer_adapters_gemini_findpromptbox",
@@ -349,7 +380,7 @@
       "extensions_gemini_token_optimizer_adapters_gemini_normalizepromptnode",
       "extensions_gemini_token_optimizer_adapters_gemini_promptscore"
     ],
-    "11": [
+    "13": [
       "tests_api_endpoints_test",
       "tests_api_endpoints_test_assert",
       "tests_api_endpoints_test_freeport",
@@ -361,7 +392,7 @@
       "tests_api_endpoints_test_spawn",
       "tests_api_endpoints_test_waitforserver"
     ],
-    "12": [
+    "14": [
       "core_prompts",
       "core_prompts_builda2acontractprompt",
       "core_prompts_builda2aexecutorprompt",
@@ -369,9 +400,10 @@
       "core_prompts_builddirectexecutorprompt",
       "core_prompts_buildexecutorprompt",
       "core_prompts_buildoptimizerprompt",
-      "core_prompts_buildverifierprompt"
+      "core_prompts_buildverifierprompt",
+      "core_prompts_scaffoldhints"
     ],
-    "13": [
+    "15": [
       "outputs_system_worker",
       "outputs_system_worker_analyzeprompt",
       "outputs_system_worker_complexityscore",
@@ -380,55 +412,76 @@
       "outputs_system_worker_outputstyle",
       "outputs_system_worker_uniquelines"
     ],
-    "14": [
+    "16": [
+      "tests_optimizer_core_test",
+      "tests_optimizer_core_test_analyzeworkflowshape_combineusage_prepareportablehandoff_redactsensitivetext_runblanka2akit_runselfoptimizingworkflow",
+      "tests_optimizer_core_test_assert",
+      "tests_optimizer_core_test_assertsafeproviderendpoint",
+      "tests_optimizer_core_test_contextcomparison",
+      "tests_optimizer_core_test_run",
+      "tests_optimizer_core_test_takeratelimit"
+    ],
+    "17": [
+      "core_text",
+      "core_text_cleanprompttext",
+      "core_text_dedupenaturallanguagelines",
+      "core_text_promptsection",
+      "core_text_striplistprefix",
+      "core_text_withouttrailingellipsis"
+    ],
+    "18": [
       "scripts_canonical_graph",
       "scripts_canonical_graph_fs",
       "scripts_canonical_graph_graph",
       "scripts_canonical_graph_sortdeep"
     ],
-    "15": [
+    "19": [
       "mcp",
       "mcp_command_uvx",
       "mcp_mcp_server_graphify"
     ],
-    "16": [
+    "20": [
       "vercel",
       "vercel_headers",
       "vercel_rewrites"
     ],
-    "17": [
+    "21": [
       "extensions_gemini_token_optimizer_platforms",
       "extensions_gemini_token_optimizer_platforms_forurl"
     ],
-    "18": [
+    "22": [
       "extensions_gemini_token_optimizer_service_worker",
       "extensions_gemini_token_optimizer_service_worker_setpanelfortab"
     ],
-    "19": [
+    "23": [
       "extensions_gemini_token_optimizer_content_bridge"
     ]
   },
   "cohesion": {
-    "0": 0.05555555555555555,
-    "1": 0.07801418439716312,
+    "0": 0.05875706214689266,
+    "1": 0.08673469387755102,
     "2": 0.11193339500462535,
-    "3": 0.0625,
-    "4": 0.13230769230769232,
+    "3": 0.058823529411764705,
+    "4": 0.07692307692307693,
     "5": 0.07692307692307693,
     "6": 0.24,
-    "7": 0.09090909090909091,
-    "8": 0.2857142857142857,
-    "9": 0.16666666666666666,
-    "10": 0.38181818181818183,
-    "11": 0.3333333333333333,
-    "12": 0.25,
-    "13": 0.5238095238095238,
-    "14": 0.5,
-    "15": 0.6666666666666666,
-    "16": 0.6666666666666666,
-    "17": 1.0,
-    "18": 1.0,
-    "19": 1.0
+    "7": 0.08695652173913043,
+    "8": 0.20915032679738563,
+    "9": 0.25757575757575757,
+    "10": 0.16666666666666666,
+    "11": 0.38181818181818183,
+    "12": 0.38181818181818183,
+    "13": 0.3333333333333333,
+    "14": 0.25,
+    "15": 0.5238095238095238,
+    "16": 0.2857142857142857,
+    "17": 0.4666666666666667,
+    "18": 0.5,
+    "19": 0.6666666666666666,
+    "20": 0.6666666666666666,
+    "21": 1.0,
+    "22": 1.0,
+    "23": 1.0
   },
   "gods": [
     {
@@ -477,9 +530,9 @@
       "degree": 11
     },
     {
-      "id": "request_guard_publicerror",
-      "label": "publicError()",
-      "degree": 10
+      "id": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement",
+      "label": "FakeElement",
+      "degree": 11
     }
   ],
   "surprises": [
@@ -541,39 +594,39 @@
   ],
   "questions": [
     {
+      "type": "bridge_node",
+      "question": "Why does `commonHeaders()` connect `request-guard.cjs` to `optimizer-system.cjs`?",
+      "why": "High betweenness centrality (0.007) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `takeRateLimit()` connect `request-guard.cjs` to `optimizer-system.cjs`?",
+      "why": "High betweenness centrality (0.006) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `estimateTokens()` connect `optimizer-core.cjs` to `handoff.cjs`?",
+      "why": "High betweenness centrality (0.006) - this node is a cross-community bridge."
+    },
+    {
       "type": "isolated_nodes",
       "question": "What connects `uvx`, `{ preparePortableHandoff }`, `{\n  commonHeaders,\n  publicError,\n  takeRateLimit,\n  validateOptimizerPayload\n}` to the rest of the system?",
-      "why": "129 weakly-connected nodes found - possible documentation gaps or missing edges."
+      "why": "144 weakly-connected nodes found - possible documentation gaps or missing edges."
     },
     {
       "type": "low_cohesion",
       "question": "Should `request-guard.cjs` be split into smaller, more focused modules?",
-      "why": "Cohesion score 0.05555555555555555 - nodes in this community are weakly interconnected."
+      "why": "Cohesion score 0.05875706214689266 - nodes in this community are weakly interconnected."
     },
     {
       "type": "low_cohesion",
       "question": "Should `optimizer-core.cjs` be split into smaller, more focused modules?",
-      "why": "Cohesion score 0.07801418439716312 - nodes in this community are weakly interconnected."
+      "why": "Cohesion score 0.08673469387755102 - nodes in this community are weakly interconnected."
     },
     {
       "type": "low_cohesion",
       "question": "Should `workspace.js` be split into smaller, more focused modules?",
       "why": "Cohesion score 0.11193339500462535 - nodes in this community are weakly interconnected."
-    },
-    {
-      "type": "low_cohesion",
-      "question": "Should `manifest.json` be split into smaller, more focused modules?",
-      "why": "Cohesion score 0.0625 - nodes in this community are weakly interconnected."
-    },
-    {
-      "type": "low_cohesion",
-      "question": "Should `handoff.cjs` be split into smaller, more focused modules?",
-      "why": "Cohesion score 0.13230769230769232 - nodes in this community are weakly interconnected."
-    },
-    {
-      "type": "low_cohesion",
-      "question": "Should `content-gemini.test.cjs` be split into smaller, more focused modules?",
-      "why": "Cohesion score 0.07692307692307693 - nodes in this community are weakly interconnected."
     }
   ]
 }

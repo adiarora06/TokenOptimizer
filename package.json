@@ -3,6 +3,7 @@
   "version": "0.9.0",
   "description": "Browser-based AI workspace that turns one rough request into a completed result through adaptive routing, compact handoff contracts, and inspectable usage.",
   "private": true,
+  "license": "MIT",
   "engines": {
     "node": ">=18"
   },
@@ -11,7 +12,7 @@
     "test": "npm run test:core && npm run test:api && npm run test:extension",
     "test:core": "node tests/optimizer-core.test.cjs",
     "test:api": "node tests/api-endpoints.test.cjs",
-    "test:extension": "node extensions/gemini-token-optimizer/tests/sidepanel-logic.test.cjs && node extensions/gemini-token-optimizer/tests/content-gemini.test.cjs"
+    "test:extension": "node extensions/gemini-token-optimizer/tests/sidepanel-logic.test.cjs && node extensions/gemini-token-optimizer/tests/content-gemini.test.cjs && node extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs"
   },
   "dependencies": {
     "@tabler/icons-webfont": "^3.45.0",

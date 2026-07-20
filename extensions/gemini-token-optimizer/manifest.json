@@ -32,6 +32,8 @@
   ],
   "host_permissions": [
     "https://gemini.google.com/*",
+    "https://chatgpt.com/*",
+    "https://chat.openai.com/*",
     "https://tok-pi-gilt.vercel.app/*"
   ],
   "side_panel": {
@@ -44,6 +46,17 @@
       ],
       "js": [
         "adapters/gemini.js",
+        "content-bridge.js"
+      ],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "https://chatgpt.com/*",
+        "https://chat.openai.com/*"
+      ],
+      "js": [
+        "adapters/chatgpt.js",
         "content-bridge.js"
       ],
       "run_at": "document_idle"
