@@ -192,6 +192,23 @@ Output:
     verifiedResult.tokenReport.rawInputTokens * 3
   );
 
+  // With a large body, the compact workflow must beat the repeated-context
+  // baseline: the contract builder embeds the raw input once, not twice.
+  const largeBody = "Refactor the legacy billing service into a modular architecture with clear seams. "
+    .repeat(30);
+  const largeResult = await runSelfOptimizingWorkflow({
+    rawInput: `${largeBody}\nReturn the exact JSON migration plan, verify every constraint, and review for security.`,
+    provider: "groq-openai-fallback",
+    options: { routePreference: "verified" }
+  });
+  assert.equal(largeResult.workflowShape.route, "full");
+  assert.ok(
+    largeResult.tokenReport.estimatedContextDeltaTokens > 0,
+    "large multi-call route should genuinely save context, not add overhead"
+  );
+  assert.equal(largeResult.tokenReport.addsFramingOverhead, false);
+  assert.ok(largeResult.tokenReport.estimatedSavingsPercent > 0);
+
   const combined = combineUsage(result.generations);
   assert.equal(combined.totalTokens, result.tokenReport.actualTotalTokens);
   assert.equal(combined.modelCalls, 1);
