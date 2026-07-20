@@ -1,6 +1,73 @@
 {
   "communities": {
     "0": [
+      "api_a2a_run",
+      "api_a2a_run_commonheaders_publicerror_takeratelimit_validatea2apayload",
+      "api_a2a_run_runblanka2akit",
+      "api_generate",
+      "api_generate_callchatcompletion_generatewithfallback",
+      "api_generate_commonheaders_publicerror_takeratelimit_validategeneratepayload",
+      "api_optimize_run",
+      "api_optimize_run_commonheaders_publicerror_takeratelimit_validateoptimizerpayload",
+      "api_optimize_run_runselfoptimizingworkflow",
+      "api_optimize_stream",
+      "api_optimize_stream_commonheaders_publicerror_takeratelimit_validateoptimizerpayload",
+      "api_optimize_stream_createtraceid_runselfoptimizingworkflow",
+      "api_optimize_stream_onevent",
+      "api_optimize_stream_writeevent",
+      "api_prepare_handoff",
+      "api_prepare_handoff_commonheaders_publicerror_takeratelimit_validateoptimizerpayload",
+      "api_prepare_handoff_prepareportablehandoff",
+      "api_system_runs",
+      "api_system_runs_commonheaders_publicerror_takeratelimit_validateoptimizerpayload",
+      "api_system_runs_system_architecture_runsystemruninline",
+      "api_workflow_run",
+      "api_workflow_run_commonheaders_publicerror_takeratelimit_validatea2apayload",
+      "api_workflow_run_runblanka2akit",
+      "optimizer_core_createtraceid",
+      "optimizer_system_system_architecture",
+      "request_guard",
+      "request_guard_a2apayloadschema",
+      "request_guard_buckets",
+      "request_guard_clientkey",
+      "request_guard_commonheaders",
+      "request_guard_generatepayloadschema",
+      "request_guard_max_input_chars",
+      "request_guard_max_requests",
+      "request_guard_optimizerpayloadschema",
+      "request_guard_providerconfigschema",
+      "request_guard_publicerror",
+      "request_guard_requiredstring",
+      "request_guard_takeratelimit",
+      "request_guard_validatea2apayload",
+      "request_guard_validategeneratepayload",
+      "request_guard_validateoptimizerpayload",
+      "request_guard_validatewith",
+      "request_guard_window_ms",
+      "request_guard_z",
+      "server",
+      "server_allowedapimethods",
+      "server_callchatcompletion_createtraceid_generatewithfallback_prepareportablehandoff_providerstatus_runblanka2akit_runselfoptimizingworkflow",
+      "server_commonheaders_publicerror_takeratelimit_validatea2apayload_validategeneratepayload_validateoptimizerpayload",
+      "server_createoptimizersystem",
+      "server_fs",
+      "server_graphifydir",
+      "server_handleapi",
+      "server_http",
+      "server_loadenvfile",
+      "server_optimizersystem",
+      "server_outputdir",
+      "server_path",
+      "server_port",
+      "server_readjson",
+      "server_sendjson",
+      "server_server",
+      "server_servestatic",
+      "server_writesse"
+    ],
+    "1": [
+      "api_provider_status",
+      "api_provider_status_providerstatus",
       "optimizer_core",
       "optimizer_core_analyzeworkflowshape",
       "optimizer_core_assertsafeproviderendpoint",
@@ -37,6 +104,7 @@
       "optimizer_core_outputstylefor",
       "optimizer_core_prepareportablehandoff",
       "optimizer_core_promptsection",
+      "optimizer_core_providerstatus",
       "optimizer_core_redactsensitivetext",
       "optimizer_core_resolvea2aprovider",
       "optimizer_core_runblanka2akit",
@@ -51,7 +119,7 @@
       "tests_optimizer_core_test_assert",
       "tests_optimizer_core_test_run"
     ],
-    "1": [
+    "2": [
       "outputs_workspace",
       "outputs_workspace_bindevents",
       "outputs_workspace_checkservice",
@@ -99,91 +167,7 @@
       "outputs_workspace_toggleinlineresult",
       "outputs_workspace_updatetimeline"
     ],
-    "2": [
-      "api_a2a_run",
-      "api_a2a_run_commonheaders_publicerror_takeratelimit_validatea2apayload",
-      "api_a2a_run_runblanka2akit",
-      "api_generate",
-      "api_generate_callchatcompletion_generatewithfallback",
-      "api_generate_commonheaders_publicerror_takeratelimit_validategeneratepayload",
-      "api_optimize_run",
-      "api_optimize_run_commonheaders_publicerror_takeratelimit_validateoptimizerpayload",
-      "api_optimize_run_runselfoptimizingworkflow",
-      "api_optimize_stream",
-      "api_optimize_stream_commonheaders_publicerror_takeratelimit_validateoptimizerpayload",
-      "api_optimize_stream_createtraceid_runselfoptimizingworkflow",
-      "api_optimize_stream_onevent",
-      "api_optimize_stream_writeevent",
-      "api_prepare_handoff",
-      "api_prepare_handoff_commonheaders_publicerror_takeratelimit_validateoptimizerpayload",
-      "api_prepare_handoff_prepareportablehandoff",
-      "api_system_runs",
-      "api_system_runs_commonheaders_publicerror_takeratelimit_validateoptimizerpayload",
-      "api_system_runs_system_architecture_runsystemruninline",
-      "api_workflow_run",
-      "api_workflow_run_commonheaders_publicerror_takeratelimit_validatea2apayload",
-      "api_workflow_run_runblanka2akit",
-      "optimizer_core_createtraceid",
-      "optimizer_system_system_architecture",
-      "request_guard",
-      "request_guard_a2apayloadschema",
-      "request_guard_buckets",
-      "request_guard_clientkey",
-      "request_guard_commonheaders",
-      "request_guard_generatepayloadschema",
-      "request_guard_max_input_chars",
-      "request_guard_max_requests",
-      "request_guard_optimizerpayloadschema",
-      "request_guard_providerconfigschema",
-      "request_guard_publicerror",
-      "request_guard_takeratelimit",
-      "request_guard_validatea2apayload",
-      "request_guard_validategeneratepayload",
-      "request_guard_validateoptimizerpayload",
-      "request_guard_validatewith",
-      "request_guard_window_ms",
-      "request_guard_z"
-    ],
     "3": [
-      "api_provider_status",
-      "api_provider_status_providerstatus",
-      "optimizer_core_providerstatus",
-      "server",
-      "server_allowedapimethods",
-      "server_callchatcompletion_createtraceid_generatewithfallback_prepareportablehandoff_providerstatus_runblanka2akit_runselfoptimizingworkflow",
-      "server_commonheaders",
-      "server_createoptimizersystem",
-      "server_fs",
-      "server_graphifydir",
-      "server_handleapi",
-      "server_http",
-      "server_kitproviders",
-      "server_loadenvfile",
-      "server_maxinputchars",
-      "server_optimizerproviders",
-      "server_optimizersystem",
-      "server_outputdir",
-      "server_path",
-      "server_port",
-      "server_publicerror",
-      "server_ratebuckets",
-      "server_ratemax",
-      "server_ratewindowms",
-      "server_readjson",
-      "server_routepreferences",
-      "server_sendjson",
-      "server_server",
-      "server_servestatic",
-      "server_takeratelimit",
-      "server_validatea2apayload",
-      "server_validategeneratepayload",
-      "server_validateoptimizerpayload",
-      "server_validateoptions",
-      "server_validateproviderconfig",
-      "server_validatetext",
-      "server_writesse"
-    ],
-    "4": [
       "extensions_gemini_token_optimizer_manifest",
       "extensions_gemini_token_optimizer_manifest_action",
       "extensions_gemini_token_optimizer_manifest_action_default_icon",
@@ -217,7 +201,7 @@
       "ref_sidepanel",
       "ref_storage"
     ],
-    "5": [
+    "4": [
       "extensions_gemini_token_optimizer_tests_content_gemini_test",
       "extensions_gemini_token_optimizer_tests_content_gemini_test_adaptercode",
       "extensions_gemini_token_optimizer_tests_content_gemini_test_addrange",
@@ -245,7 +229,7 @@
       "extensions_gemini_token_optimizer_tests_content_gemini_test_richtextarea",
       "extensions_gemini_token_optimizer_tests_content_gemini_test_vm"
     ],
-    "6": [
+    "5": [
       "extensions_gemini_token_optimizer_sidepanel",
       "extensions_gemini_token_optimizer_sidepanel_bindevents",
       "extensions_gemini_token_optimizer_sidepanel_captureprompt",
@@ -272,7 +256,7 @@
       "extensions_gemini_token_optimizer_sidepanel_toast",
       "extensions_gemini_token_optimizer_sidepanel_updatedrafttokenpill"
     ],
-    "7": [
+    "6": [
       "dompurify",
       "marked",
       "package",
@@ -281,16 +265,22 @@
       "package_dependencies_marked",
       "package_dependencies_tabler_icons_webfont",
       "package_dependencies_zod",
+      "package_description",
+      "package_engines",
+      "package_engines_node",
+      "package_name",
+      "package_private",
       "package_scripts",
       "package_scripts_start",
       "package_scripts_test",
       "package_scripts_test_api",
       "package_scripts_test_core",
       "package_scripts_test_extension",
+      "package_version",
       "tabler_icons_webfont",
       "zod"
     ],
-    "8": [
+    "7": [
       "optimizer_system",
       "optimizer_system_applyresulttrace",
       "optimizer_system_basestages",
@@ -307,7 +297,7 @@
       "optimizer_system_stagefromtrace",
       "optimizer_system_updatestage"
     ],
-    "9": [
+    "8": [
       "extensions_gemini_token_optimizer_tests_sidepanel_logic_test",
       "extensions_gemini_token_optimizer_tests_sidepanel_logic_test_assert",
       "extensions_gemini_token_optimizer_tests_sidepanel_logic_test_context",
@@ -321,7 +311,7 @@
       "extensions_gemini_token_optimizer_tests_sidepanel_logic_test_sidepanelcode",
       "extensions_gemini_token_optimizer_tests_sidepanel_logic_test_vm"
     ],
-    "10": [
+    "9": [
       "extensions_gemini_token_optimizer_adapters_gemini",
       "extensions_gemini_token_optimizer_adapters_gemini_captureprompt",
       "extensions_gemini_token_optimizer_adapters_gemini_findpromptbox",
@@ -334,7 +324,7 @@
       "extensions_gemini_token_optimizer_adapters_gemini_normalizepromptnode",
       "extensions_gemini_token_optimizer_adapters_gemini_promptscore"
     ],
-    "11": [
+    "10": [
       "tests_api_endpoints_test",
       "tests_api_endpoints_test_assert",
       "tests_api_endpoints_test_freeport",
@@ -346,7 +336,7 @@
       "tests_api_endpoints_test_spawn",
       "tests_api_endpoints_test_waitforserver"
     ],
-    "12": [
+    "11": [
       "outputs_system_worker",
       "outputs_system_worker_analyzeprompt",
       "outputs_system_worker_complexityscore",
@@ -354,6 +344,12 @@
       "outputs_system_worker_lines",
       "outputs_system_worker_outputstyle",
       "outputs_system_worker_uniquelines"
+    ],
+    "12": [
+      "scripts_canonical_graph",
+      "scripts_canonical_graph_fs",
+      "scripts_canonical_graph_graph",
+      "scripts_canonical_graph_sortdeep"
     ],
     "13": [
       "mcp",
@@ -377,19 +373,19 @@
     ]
   },
   "cohesion": {
-    "0": 0.11394557823129252,
-    "1": 0.11207729468599034,
-    "2": 0.08194905869324474,
-    "3": 0.08258258258258258,
-    "4": 0.0625,
-    "5": 0.07692307692307693,
-    "6": 0.24,
-    "7": 0.125,
-    "8": 0.26666666666666666,
-    "9": 0.16666666666666666,
-    "10": 0.38181818181818183,
-    "11": 0.3333333333333333,
-    "12": 0.5238095238095238,
+    "0": 0.057859703020993344,
+    "1": 0.10407239819004525,
+    "2": 0.11207729468599034,
+    "3": 0.0625,
+    "4": 0.07692307692307693,
+    "5": 0.24,
+    "6": 0.09090909090909091,
+    "7": 0.26666666666666666,
+    "8": 0.16666666666666666,
+    "9": 0.38181818181818183,
+    "10": 0.3333333333333333,
+    "11": 0.5238095238095238,
+    "12": 0.5,
     "13": 0.6666666666666666,
     "14": 1.0,
     "15": 1.0,
@@ -438,22 +434,33 @@
       "degree": 11
     },
     {
-      "id": "optimizer_core_unwrappreparedprompt",
-      "label": "unwrapPreparedPrompt()",
-      "degree": 10
+      "id": "request_guard_takeratelimit",
+      "label": "takeRateLimit()",
+      "degree": 11
     },
     {
-      "id": "optimizer_core_callchatcompletion",
-      "label": "callChatCompletion()",
-      "degree": 10
+      "id": "request_guard_commonheaders",
+      "label": "commonHeaders()",
+      "degree": 11
     }
   ],
   "surprises": [
     {
-      "source": "handleApi()",
-      "target": "createTraceId()",
+      "source": "executeSystemRun()",
+      "target": "runBlankA2AKit()",
       "source_files": [
-        "server.cjs",
+        "optimizer-system.cjs",
+        "optimizer-core.cjs"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; bridges separate communities"
+    },
+    {
+      "source": "executeSystemRun()",
+      "target": "runSelfOptimizingWorkflow()",
+      "source_files": [
+        "optimizer-system.cjs",
         "optimizer-core.cjs"
       ],
       "confidence": "EXTRACTED",
@@ -473,7 +480,7 @@
     },
     {
       "source": "handleApi()",
-      "target": "callChatCompletion()",
+      "target": "providerStatus()",
       "source_files": [
         "server.cjs",
         "optimizer-core.cjs"
@@ -484,20 +491,9 @@
     },
     {
       "source": "handleApi()",
-      "target": "generateWithFallback()",
+      "target": "callChatCompletion()",
       "source_files": [
         "server.cjs",
-        "optimizer-core.cjs"
-      ],
-      "confidence": "EXTRACTED",
-      "relation": "calls",
-      "why": "connects across different repos/directories; bridges separate communities"
-    },
-    {
-      "source": "executeSystemRun()",
-      "target": "runBlankA2AKit()",
-      "source_files": [
-        "optimizer-system.cjs",
         "optimizer-core.cjs"
       ],
       "confidence": "EXTRACTED",
@@ -508,38 +504,38 @@
   "questions": [
     {
       "type": "bridge_node",
-      "question": "Why does `runSelfOptimizingWorkflow()` connect `Optimizer Core` to `Background Run System`, `APIs And Request Guard`, `Local Server And Providers`?",
-      "why": "High betweenness centrality (0.015) - this node is a cross-community bridge."
+      "question": "Why does `runSelfOptimizingWorkflow()` connect `optimizer-core.cjs` to `server.cjs`, `optimizer-system.cjs`?",
+      "why": "High betweenness centrality (0.012) - this node is a cross-community bridge."
     },
     {
       "type": "bridge_node",
-      "question": "Why does `runBlankA2AKit()` connect `Optimizer Core` to `Background Run System`, `APIs And Request Guard`, `Local Server And Providers`?",
-      "why": "High betweenness centrality (0.013) - this node is a cross-community bridge."
+      "question": "Why does `runBlankA2AKit()` connect `optimizer-core.cjs` to `server.cjs`, `optimizer-system.cjs`?",
+      "why": "High betweenness centrality (0.011) - this node is a cross-community bridge."
     },
     {
       "type": "bridge_node",
-      "question": "Why does `handleApi()` connect `Local Server And Providers` to `Optimizer Core`, `APIs And Request Guard`?",
-      "why": "High betweenness centrality (0.005) - this node is a cross-community bridge."
+      "question": "Why does `handleApi()` connect `server.cjs` to `optimizer-core.cjs`?",
+      "why": "High betweenness centrality (0.004) - this node is a cross-community bridge."
     },
     {
       "type": "isolated_nodes",
-      "question": "What connects `uvx`, `{ runBlankA2AKit }`, `{\n  commonHeaders,\n  publicError,\n  takeRateLimit,\n  validateA2APayload\n}` to the rest of the system?",
-      "why": "105 weakly-connected nodes found - possible documentation gaps or missing edges."
+      "question": "What connects `uvx`, `{ preparePortableHandoff }`, `{\n  commonHeaders,\n  publicError,\n  takeRateLimit,\n  validateOptimizerPayload\n}` to the rest of the system?",
+      "why": "106 weakly-connected nodes found - possible documentation gaps or missing edges."
     },
     {
       "type": "low_cohesion",
-      "question": "Should `Optimizer Core` be split into smaller, more focused modules?",
-      "why": "Cohesion score 0.11394557823129252 - nodes in this community are weakly interconnected."
+      "question": "Should `server.cjs` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.057859703020993344 - nodes in this community are weakly interconnected."
     },
     {
       "type": "low_cohesion",
-      "question": "Should `Workspace UI` be split into smaller, more focused modules?",
+      "question": "Should `optimizer-core.cjs` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.10407239819004525 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `workspace.js` be split into smaller, more focused modules?",
       "why": "Cohesion score 0.11207729468599034 - nodes in this community are weakly interconnected."
-    },
-    {
-      "type": "low_cohesion",
-      "question": "Should `APIs And Request Guard` be split into smaller, more focused modules?",
-      "why": "Cohesion score 0.08194905869324474 - nodes in this community are weakly interconnected."
     }
   ]
 }
