@@ -114,6 +114,23 @@ async function run() {
       assert.match(response.headers.get("content-type") || "", /text\/html/, path);
     }
 
+    for (const traversalPath of ["/../package.json", "/%2e%2e/package.json", "/..%2fpackage.json"]) {
+      const traversal = await new Promise((resolve, reject) => {
+        const request = http.request(
+          { host: "127.0.0.1", port: appPort, path: traversalPath, method: "GET" },
+          (response) => {
+            let body = "";
+            response.on("data", (chunk) => { body += chunk; });
+            response.on("end", () => resolve({ status: response.statusCode, body }));
+          }
+        );
+        request.on("error", reject);
+        request.end();
+      });
+      assert.equal(traversal.status >= 400, true, `${traversalPath} must not be served`);
+      assert.equal(traversal.body.includes("token-optimizer"), false, `${traversalPath} must not leak file content`);
+    }
+
     const codeGraph = await jsonRequest(baseUrl, "/code-graph.json");
     assert.equal(codeGraph.response.status, 200);
     assert.ok(codeGraph.data.nodes.length > 0);
