@@ -376,7 +376,7 @@
       <a href="/workspace">Workspace</a>
       <a href="/prompt-history">Runs</a>
       <a href="/stats">Insights</a>
-      <a href="/agent-structure" aria-current="page">Architecture</a>
+      <a href="/agent-structure">Architecture</a>
     </div>
     <a class="app-settings" href="/settings" aria-label="Settings" title="Settings"><i class="ti ti-settings" aria-hidden="true"></i></a>
   </nav>
@@ -426,7 +426,8 @@
         <div class="file"><strong><code>outputs/workspace.html</code></strong><p>Main app experience: prompt box, live status, run buttons, results, history, and audit writes.</p></div>
         <div class="file"><strong><code>outputs/system-worker.js</code></strong><p>Browser background worker for fast token estimates, constraint detection, contract preview, and route hints.</p></div>
         <div class="file"><strong><code>optimizer-system.cjs</code></strong><p>System runner for run IDs, stages, background local execution, and shared run snapshot formatting.</p></div>
-        <div class="file"><strong><code>optimizer-core.cjs</code></strong><p>Adaptive route selection, contract shaping, provider-ready prompts, staged agents, token estimates, and fallback behavior.</p></div>
+        <div class="file"><strong><code>optimizer-core.cjs</code></strong><p>Public entry point that re-exports the optimizer core API from the focused modules under <code>core/</code>.</p></div>
+        <div class="file"><strong><code>core/*.cjs</code></strong><p>Provider adapters, adaptive routing, handoff preparation, prompt templates, secret redaction, usage accounting, and the workflow runners.</p></div>
         <div class="file"><strong><code>server.cjs</code></strong><p>Thin local host for static routing, provider APIs, system-run endpoints, and run polling.</p></div>
         <div class="file"><strong><code>api/system-runs.js</code></strong><p>Hosted system-run endpoint that returns the same snapshot shape as local background runs.</p></div>
         <div class="file"><strong><code>api/*.js</code></strong><p>Vercel function entrypoints for hosted optimize, generate, provider status, and compatibility routes.</p></div>

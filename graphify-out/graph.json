@@ -3848,8 +3848,8 @@
       "_origin": "ast",
       "community": 11,
       "norm_label": "api-endpoints.test.cjs",
-      "id": "tests_api_endpoints_test",
-      "community_name": "api-endpoints.test.cjs"
+      "community_name": "api-endpoints.test.cjs",
+      "id": "tests_api_endpoints_test"
     },
     {
       "label": "assert",
@@ -3859,8 +3859,8 @@
       "_origin": "ast",
       "community": 11,
       "norm_label": "assert",
-      "id": "tests_api_endpoints_test_assert",
-      "community_name": "api-endpoints.test.cjs"
+      "community_name": "api-endpoints.test.cjs",
+      "id": "tests_api_endpoints_test_assert"
     },
     {
       "label": "http",
@@ -3870,8 +3870,8 @@
       "_origin": "ast",
       "community": 11,
       "norm_label": "http",
-      "id": "tests_api_endpoints_test_http",
-      "community_name": "api-endpoints.test.cjs"
+      "community_name": "api-endpoints.test.cjs",
+      "id": "tests_api_endpoints_test_http"
     },
     {
       "label": "{ spawn }",
@@ -3881,8 +3881,8 @@
       "_origin": "ast",
       "community": 11,
       "norm_label": "{ spawn }",
-      "id": "tests_api_endpoints_test_spawn",
-      "community_name": "api-endpoints.test.cjs"
+      "community_name": "api-endpoints.test.cjs",
+      "id": "tests_api_endpoints_test_spawn"
     },
     {
       "label": "listen()",
@@ -3892,8 +3892,8 @@
       "_origin": "ast",
       "community": 11,
       "norm_label": "listen()",
-      "id": "tests_api_endpoints_test_listen",
-      "community_name": "api-endpoints.test.cjs"
+      "community_name": "api-endpoints.test.cjs",
+      "id": "tests_api_endpoints_test_listen"
     },
     {
       "label": "freePort()",
@@ -3903,8 +3903,8 @@
       "_origin": "ast",
       "community": 11,
       "norm_label": "freeport()",
-      "id": "tests_api_endpoints_test_freeport",
-      "community_name": "api-endpoints.test.cjs"
+      "community_name": "api-endpoints.test.cjs",
+      "id": "tests_api_endpoints_test_freeport"
     },
     {
       "label": "waitForServer()",
@@ -3914,8 +3914,8 @@
       "_origin": "ast",
       "community": 11,
       "norm_label": "waitforserver()",
-      "id": "tests_api_endpoints_test_waitforserver",
-      "community_name": "api-endpoints.test.cjs"
+      "community_name": "api-endpoints.test.cjs",
+      "id": "tests_api_endpoints_test_waitforserver"
     },
     {
       "label": "jsonRequest()",
@@ -3925,8 +3925,8 @@
       "_origin": "ast",
       "community": 11,
       "norm_label": "jsonrequest()",
-      "id": "tests_api_endpoints_test_jsonrequest",
-      "community_name": "api-endpoints.test.cjs"
+      "community_name": "api-endpoints.test.cjs",
+      "id": "tests_api_endpoints_test_jsonrequest"
     },
     {
       "label": "post()",
@@ -3936,8 +3936,8 @@
       "_origin": "ast",
       "community": 11,
       "norm_label": "post()",
-      "id": "tests_api_endpoints_test_post",
-      "community_name": "api-endpoints.test.cjs"
+      "community_name": "api-endpoints.test.cjs",
+      "id": "tests_api_endpoints_test_post"
     },
     {
       "label": "run()",
@@ -3947,8 +3947,8 @@
       "_origin": "ast",
       "community": 11,
       "norm_label": "run()",
-      "id": "tests_api_endpoints_test_run",
-      "community_name": "api-endpoints.test.cjs"
+      "community_name": "api-endpoints.test.cjs",
+      "id": "tests_api_endpoints_test_run"
     },
     {
       "label": "optimizer-core.test.cjs",
@@ -3958,8 +3958,8 @@
       "_origin": "ast",
       "community": 13,
       "norm_label": "optimizer-core.test.cjs",
-      "id": "tests_optimizer_core_test",
-      "community_name": "optimizer-core.test.cjs"
+      "community_name": "optimizer-core.test.cjs",
+      "id": "tests_optimizer_core_test"
     },
     {
       "label": "assert",
@@ -3969,8 +3969,8 @@
       "_origin": "ast",
       "community": 13,
       "norm_label": "assert",
-      "id": "tests_optimizer_core_test_assert",
-      "community_name": "optimizer-core.test.cjs"
+      "community_name": "optimizer-core.test.cjs",
+      "id": "tests_optimizer_core_test_assert"
     },
     {
       "label": "{\n  analyzeWorkflowShape,\n  combineUsage,\n  preparePortableHandoff,\n  redactSensitiveText,\n  runBlankA2AKit,\n  runSelfOptimizingWorkflow\n}",
@@ -3980,8 +3980,8 @@
       "_origin": "ast",
       "community": 13,
       "norm_label": "{\n  analyzeworkflowshape,\n  combineusage,\n  prepareportablehandoff,\n  redactsensitivetext,\n  runblanka2akit,\n  runselfoptimizingworkflow\n}",
-      "id": "tests_optimizer_core_test_analyzeworkflowshape_combineusage_prepareportablehandoff_redactsensitivetext_runblanka2akit_runselfoptimizingworkflow",
-      "community_name": "optimizer-core.test.cjs"
+      "community_name": "optimizer-core.test.cjs",
+      "id": "tests_optimizer_core_test_analyzeworkflowshape_combineusage_prepareportablehandoff_redactsensitivetext_runblanka2akit_runselfoptimizingworkflow"
     },
     {
       "label": "{ assertSafeProviderEndpoint }",
@@ -3991,8 +3991,8 @@
       "_origin": "ast",
       "community": 13,
       "norm_label": "{ assertsafeproviderendpoint }",
-      "id": "tests_optimizer_core_test_assertsafeproviderendpoint",
-      "community_name": "optimizer-core.test.cjs"
+      "community_name": "optimizer-core.test.cjs",
+      "id": "tests_optimizer_core_test_assertsafeproviderendpoint"
     },
     {
       "label": "{ takeRateLimit }",
@@ -4002,8 +4002,8 @@
       "_origin": "ast",
       "community": 13,
       "norm_label": "{ takeratelimit }",
-      "id": "tests_optimizer_core_test_takeratelimit",
-      "community_name": "optimizer-core.test.cjs"
+      "community_name": "optimizer-core.test.cjs",
+      "id": "tests_optimizer_core_test_takeratelimit"
     },
     {
       "label": "run()",
@@ -4013,8 +4013,8 @@
       "_origin": "ast",
       "community": 13,
       "norm_label": "run()",
-      "id": "tests_optimizer_core_test_run",
-      "community_name": "optimizer-core.test.cjs"
+      "community_name": "optimizer-core.test.cjs",
+      "id": "tests_optimizer_core_test_run"
     }
   ],
   "links": [
@@ -11983,5 +11983,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "827374e52146f7201d0f7b3c5d26e28871bdb49d"
+  "built_at_commit": "1509911e4754faff8ecd42e40ad26d063f6eac23"
 }
