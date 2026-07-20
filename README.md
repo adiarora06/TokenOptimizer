@@ -40,7 +40,8 @@ http://127.0.0.1:8787
 - `extensions/gemini-token-optimizer`: local unpacked Chrome extension MVP for Gemini.
 - `extensions/gemini-token-optimizer/ADAPTERS.md`: reusable site-adapter contract for future AI assistants.
 - `extensions/gemini-token-optimizer/PUBLISHING.md`: Chrome Web Store readiness checklist.
-- `optimizer-core.cjs`: adaptive route selection, secret removal, contract shaping, staged execution, usage accounting, and fallback behavior.
+- `optimizer-core.cjs`: public entry point for the optimizer core modules.
+- `core/`: focused modules for provider adapters, adaptive routing, handoff preparation, the prompt library, secret removal, usage accounting, and the workflow runners.
 - `request-guard.cjs`: payload validation, public error shaping, response hardening, and request throttling.
 - `api/optimize-stream.js`: hosted server-sent event endpoint for live run progress.
 - `api/prepare-handoff.js`: deterministic, zero-model-call prompt preparation for wrappers.

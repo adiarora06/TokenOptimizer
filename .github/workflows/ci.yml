@@ -21,8 +21,8 @@ jobs:
       matrix:
         node: ["20", "22"]
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: ${{ matrix.node }}
           cache: npm
@@ -33,19 +33,19 @@ jobs:
 
   # Regenerates the committed Graphify code map with the same commands that
   # produced it (AST-only, no API cost) and fails when graphify-out/graph.json
-  # no longer matches the source. Graphify's serialization order is unstable
-  # between runs, so both versions are canonicalized before comparing.
-  # Soft check for now (continue-on-error): promote to blocking once it has
-  # proven stable on Linux runners.
+  # no longer matches the source. Graphify's serialization order and community
+  # detection are unstable between runs, so both versions are canonicalized
+  # before comparing.
   graph-freshness:
     name: Graphify code map freshness
     runs-on: ubuntu-latest
-    continue-on-error: true
     env:
       GRAPHIFYY_VERSION: 0.9.22
     steps:
-      - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v5
+      - uses: actions/checkout@v5
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: false
       - name: Save committed graph
         run: cp graphify-out/graph.json /tmp/committed-graph.json
       - name: Regenerate graph

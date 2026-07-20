@@ -1,4 +1,5 @@
 const {
+  estimateTokens,
   runBlankA2AKit,
   runSelfOptimizingWorkflow
 } = require("./optimizer-core.cjs");
@@ -49,10 +50,6 @@ const SYSTEM_ARCHITECTURE = {
     ["workspace", "local-storage"]
   ]
 };
-
-function estimateTokens(text) {
-  return Math.max(1, Math.ceil(String(text || "").length / 4));
-}
 
 function compactTitle(text) {
   const compact = String(text || "").replace(/\s+/g, " ").trim();

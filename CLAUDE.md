@@ -27,7 +27,10 @@ uv tool install "graphifyy[mcp]"
 
 ## Architecture Entry Points
 
-- `optimizer-core.cjs`: adaptive routing, typed handoff contracts, provider calls, validation, traces, and usage normalization.
+- `optimizer-core.cjs`: public entry point that re-exports the optimizer core API.
+- `core/providers.cjs`: single provider caller, presets, fallback, and provider status.
+- `core/workflow.cjs`: the adaptive workflow and contract-kit runners.
+- `core/routing.cjs`, `core/handoff.cjs`, `core/prompts.cjs`, `core/security.cjs`, `core/usage.cjs`, `core/text.cjs`: routing analysis, portable handoffs, prompt templates, secret redaction, and usage accounting.
 - `optimizer-system.cjs`: run lifecycle and stage snapshots.
 - `outputs/workspace.js`: streaming workspace client, history, usage, and coordinator audit persistence.
 - `api/optimize-stream.js`: production SSE workflow endpoint.
