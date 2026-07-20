@@ -332,6 +332,16 @@ async function handleApi(req, res) {
   sendJson(res, 404, { error: "Not found" });
 }
 
+// Kept in sync with the headers section of vercel.json so local pages behave
+// like production (HSTS is omitted because local serving is plain HTTP).
+const staticSecurityHeaders = {
+  "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'",
+  "x-content-type-options": "nosniff",
+  "referrer-policy": "no-referrer",
+  "x-frame-options": "DENY",
+  "permissions-policy": "camera=(), microphone=(), geolocation=()"
+};
+
 function serveStatic(req, res) {
   const requestUrl = new URL(req.url, `http://127.0.0.1:${port}`);
   const routeMap = {
@@ -379,6 +389,7 @@ function serveStatic(req, res) {
     };
     const contentType = contentTypes[ext] || "application/octet-stream";
     res.writeHead(200, {
+      ...staticSecurityHeaders,
       "content-type": contentType,
       "content-length": data.length
     });

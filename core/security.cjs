@@ -1,7 +1,13 @@
 const SECRET_PATTERNS = [
+  { label: "Private key block", pattern: /-----BEGIN [A-Z ]*PRIVATE KEY-----[\s\S]*?-----END [A-Z ]*PRIVATE KEY-----/g },
   { label: "OpenAI-style API key", pattern: /\bsk-(?:proj-)?[A-Za-z0-9_-]{20,}\b/g },
   { label: "Groq API key", pattern: /\bgsk_[A-Za-z0-9_-]{20,}\b/g },
   { label: "Google API key", pattern: /\bAIza[A-Za-z0-9_-]{24,}\b/g },
+  { label: "AWS access key ID", pattern: /\bAKIA[0-9A-Z]{16}\b/g },
+  { label: "GitHub token", pattern: /\b(?:(?:ghp|gho|ghu|ghs|ghr)_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,})\b/g },
+  { label: "Slack token", pattern: /\bxox[abprs]-[A-Za-z0-9-]{10,}\b/g },
+  { label: "Stripe secret key", pattern: /\b[sr]k_live_[A-Za-z0-9]{16,}\b/g },
+  { label: "JSON Web Token", pattern: /\beyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}\b/g },
   { label: "Bearer token", pattern: /\bBearer\s+[A-Za-z0-9._~+/-]{20,}=*\b/gi },
   { label: "Environment secret", pattern: /\b([A-Z][A-Z0-9_]*(?:KEY|TOKEN|SECRET|PASSWORD))\s*=\s*([^\s"']{12,})/g }
 ];
@@ -23,6 +29,8 @@ function redactSensitiveText(value) {
   };
 }
 
+// String-level guard only: a public hostname that resolves to a private IP
+// (DNS rebinding) is not caught here. A full fix resolves DNS before checking.
 function assertSafeProviderEndpoint(value) {
   let endpoint;
   try {

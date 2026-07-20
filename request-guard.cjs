@@ -46,11 +46,11 @@ const generatePayloadSchema = z.object({
   provider: z.enum(["groq-openai-fallback", "groq", "openai"]).optional()
 }).passthrough();
 
+// Keyed by IP only. Client-supplied identifiers (like the optional device
+// header) must not shape the key, or a client could mint fresh buckets at will.
 function clientKey(req) {
   const forwarded = String(req.headers?.["x-forwarded-for"] || "").split(",")[0].trim();
-  const remote = req.socket?.remoteAddress || "unknown";
-  const device = String(req.headers?.["x-token-optimizer-device"] || "anonymous").slice(0, 80);
-  return `${forwarded || remote}:${device}`;
+  return forwarded || req.socket?.remoteAddress || "unknown";
 }
 
 function takeRateLimit(req) {
