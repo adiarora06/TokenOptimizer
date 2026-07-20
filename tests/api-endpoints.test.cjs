@@ -142,6 +142,8 @@ async function run() {
     }));
     assert.equal(optimized.response.status, 200);
     assert.equal(optimized.data.executionStatus, "completed");
+    assert.match(optimized.data.traceId, /^trace_/);
+    assert.ok(optimized.data.trace.every((item) => item.agent && item.actionId));
 
     const streamed = await jsonRequest(baseUrl, "/api/optimize-stream", post({
       input: "Reply with OK",
@@ -151,6 +153,8 @@ async function run() {
     assert.match(streamed.response.headers.get("content-type") || "", /text\/event-stream/);
     assert.match(streamed.text, /event: result/);
     assert.match(streamed.text, /"executionStatus":"completed"/);
+    assert.match(streamed.text, /"traceId":"trace_/);
+    assert.match(streamed.text, /"agent":"Coordinator"/);
 
     const providerConfig = {
       provider: "custom",

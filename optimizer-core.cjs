@@ -2,6 +2,10 @@ function estimateTokens(text) {
   return Math.max(1, Math.ceil(String(text || "").length / 4));
 }
 
+function createTraceId() {
+  return `trace_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 10)}`;
+}
+
 const SECRET_PATTERNS = [
   { label: "OpenAI-style API key", pattern: /\bsk-(?:proj-)?[A-Za-z0-9_-]{20,}\b/g },
   { label: "Groq API key", pattern: /\bgsk_[A-Za-z0-9_-]{20,}\b/g },
@@ -1164,7 +1168,7 @@ function generationRecord(stage, result) {
   };
 }
 
-async function runSelfOptimizingWorkflow({ rawInput, provider, options = {}, onEvent, signal }) {
+async function runSelfOptimizingWorkflow({ rawInput, provider, options = {}, onEvent, signal, traceId = createTraceId() }) {
   const startedAt = Date.now();
   const selectedProvider = provider || "groq-openai-fallback";
   const security = redactSensitiveText(rawInput);
@@ -1175,16 +1179,48 @@ async function runSelfOptimizingWorkflow({ rawInput, provider, options = {}, onE
   const trace = [];
 
   const addTrace = async (phase, status, detail, label) => {
-    const item = { phase, agent: label || phase, status, detail };
+    const at = new Date().toISOString();
+    const item = {
+      actionId: `${traceId}.${trace.length + 1}`,
+      phase,
+      agent: label || phase,
+      status,
+      detail,
+      at,
+      startedAt: at,
+      finishedAt: status === "running" ? null : at,
+      durationMs: 0
+    };
     trace.push(item);
     await emitWorkflowEvent(onEvent, {
       type: "stage",
+      traceId,
+      actionId: item.actionId,
       stage: phase,
+      agent: item.agent,
       status,
       detail,
       route: workflowShape.route
     });
     return item;
+  };
+
+  const finishTrace = async (item, status, detail) => {
+    item.status = status;
+    item.detail = detail || item.detail;
+    item.finishedAt = new Date().toISOString();
+    item.durationMs = Math.max(0, new Date(item.finishedAt).getTime() - new Date(item.startedAt).getTime());
+    await emitWorkflowEvent(onEvent, {
+      type: "stage",
+      traceId,
+      actionId: item.actionId,
+      stage: item.phase,
+      agent: item.agent,
+      status: item.status,
+      detail: item.detail,
+      durationMs: item.durationMs,
+      route: workflowShape.route
+    });
   };
 
   await addTrace(
@@ -1247,9 +1283,7 @@ async function runSelfOptimizingWorkflow({ rawInput, provider, options = {}, onE
         providerUsed = directResult.provider;
         modelUsed = directResult.model;
         executionStatus = "completed";
-        executionTrace.status = "done";
-        executionTrace.detail = "Generated the result in one model call.";
-        await emitWorkflowEvent(onEvent, { type: "stage", stage: "execute", status: "done", detail: executionTrace.detail });
+        await finishTrace(executionTrace, "done", "Generated the result in one model call.");
         await addTrace("verify", "done", "Checked response completeness without another model call.", "Local Validator");
       } else {
         const contractTrace = await addTrace("contract", "running", "Converting the request into compact execution context.", "Contract Builder");
@@ -1263,9 +1297,7 @@ async function runSelfOptimizingWorkflow({ rawInput, provider, options = {}, onE
         optimizerOutput = optimizerResult.content;
         providerUsed = optimizerResult.provider;
         modelUsed = optimizerResult.model;
-        contractTrace.status = "done";
-        contractTrace.detail = "Compact execution context is ready.";
-        await emitWorkflowEvent(onEvent, { type: "stage", stage: "contract", status: "done", detail: contractTrace.detail });
+        await finishTrace(contractTrace, "done", "Compact execution context is ready.");
 
         const executorPrompt = buildExecutorPrompt(optimizerOutput, offlineContract);
         optimizedPrompts.push({
@@ -1287,9 +1319,7 @@ async function runSelfOptimizingWorkflow({ rawInput, provider, options = {}, onE
         providerUsed = executorResult.provider;
         modelUsed = executorResult.model;
         executionStatus = "completed";
-        executionTrace.status = "done";
-        executionTrace.detail = "Generated the requested result.";
-        await emitWorkflowEvent(onEvent, { type: "stage", stage: "execute", status: "done", detail: executionTrace.detail });
+        await finishTrace(executionTrace, "done", "Generated the requested result.");
 
         if (workflowShape.route === "full") {
           const verifierPrompt = buildVerifierPrompt(optimizerOutput, executorOutput);
@@ -1310,9 +1340,7 @@ async function runSelfOptimizingWorkflow({ rawInput, provider, options = {}, onE
           finalAnswer = verifierResult.content;
           providerUsed = verifierResult.provider;
           modelUsed = verifierResult.model;
-          verifierTrace.status = "done";
-          verifierTrace.detail = "Validated the result against the request.";
-          await emitWorkflowEvent(onEvent, { type: "stage", stage: "verify", status: "done", detail: verifierTrace.detail });
+          await finishTrace(verifierTrace, "done", "Validated the result against the request.");
         } else {
           await addTrace("verify", "done", "Checked required sections without another model call.", "Local Validator");
         }
@@ -1322,6 +1350,8 @@ async function runSelfOptimizingWorkflow({ rawInput, provider, options = {}, onE
       executionStatus = signal?.aborted ? "cancelled" : "provider_error";
       finalAnswer = "";
       executorOutput = "";
+      const activeTrace = [...trace].reverse().find((item) => item.status === "running");
+      if (activeTrace) await finishTrace(activeTrace, "error", providerError);
       await addTrace("execute", "error", providerError, "Provider Adapter");
     }
   } else {
@@ -1340,12 +1370,15 @@ async function runSelfOptimizingWorkflow({ rawInput, provider, options = {}, onE
 
   await emitWorkflowEvent(onEvent, {
     type: "complete",
+    traceId,
+    agent: "Coordinator",
     stage: executionStatus === "completed" ? "complete" : "execute",
     status: executionStatus,
     detail: executionStatus === "completed" ? "Result ready." : providerError || "Optimized prompt ready."
   });
 
   return {
+    traceId,
     mode: "adaptive-contract-workflow-run",
     provider: providerUsed,
     model: modelUsed,
@@ -1398,6 +1431,7 @@ module.exports = {
   analyzeWorkflowShape,
   callChatCompletion,
   combineUsage,
+  createTraceId,
   estimateTokens,
   generateWithFallback,
   preparePortableHandoff,

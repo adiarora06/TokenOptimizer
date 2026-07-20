@@ -18,6 +18,11 @@
       --brand: #2557d6;
       --brand-soft: #eaf0ff;
       --good: #0b7a4b;
+      --good-soft: #e8f6ef;
+      --danger: #b42318;
+      --danger-soft: #fff0ee;
+      --warning: #9a6700;
+      --surface-soft: #f5f7fb;
       --shadow: 0 10px 30px rgba(24, 32, 47, 0.08);
     }
 
@@ -31,6 +36,11 @@
       --brand: #3b82f6;
       --brand-soft: #172554;
       --good: #22c55e;
+      --good-soft: #123224;
+      --danger: #f87171;
+      --danger-soft: #3b171b;
+      --warning: #fbbf24;
+      --surface-soft: #182130;
       --shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
     }
 
@@ -186,7 +196,7 @@
 
     .history-shell {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(300px, 0.38fr);
+      grid-template-columns: minmax(0, 0.9fr) minmax(430px, 1.1fr);
       gap: 14px;
       align-items: start;
     }
@@ -268,8 +278,57 @@
 
     .audit-card {
       grid-template-columns: 1fr;
+      gap: 10px;
       box-shadow: none;
     }
+
+    .audit-card[data-outcome="failed"] { border-color: color-mix(in srgb, var(--danger) 38%, var(--line)); }
+
+    .audit-card-head,
+    .audit-outcome,
+    .trace-row,
+    .agent-action-head,
+    .agent-action-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .audit-card-head { justify-content: space-between; }
+    .audit-outcome { font-size: 12px; font-weight: 900; }
+    .outcome-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--good); }
+    [data-outcome="failed"] .audit-outcome { color: var(--danger); }
+    [data-outcome="failed"] .outcome-dot { background: var(--danger); }
+    [data-outcome="cancelled"] .audit-outcome { color: var(--warning); }
+    [data-outcome="cancelled"] .outcome-dot { background: var(--warning); }
+    .run-duration { color: var(--muted); font-size: 11px; font-weight: 800; font-variant-numeric: tabular-nums; }
+
+    .trace-row {
+      justify-content: space-between;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: var(--surface-soft);
+      padding: 7px 8px;
+    }
+
+    .trace-row code { overflow: hidden; color: var(--muted); font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
+    .trace-row button { min-height: 28px; flex: 0 0 auto; padding: 4px 7px; font-size: 11px; }
+
+    .audit-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: var(--line);
+    }
+
+    .audit-metrics div { min-width: 0; background: var(--panel); padding: 8px; }
+    .audit-metrics span { display: block; color: var(--muted); font-size: 10px; font-weight: 800; text-transform: uppercase; }
+    .audit-metrics strong { margin-top: 2px; overflow: hidden; font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
+
+    .failure-note { border-radius: 7px; background: var(--danger-soft); color: var(--danger) !important; padding: 8px 10px; }
 
     .history-card strong,
     .audit-card strong {
@@ -310,6 +369,23 @@
       font-size: 12px;
       font-weight: 900;
     }
+
+    .audit-card summary { display: flex; justify-content: space-between; gap: 12px; }
+    .audit-card summary span:last-child { color: var(--muted); font-weight: 750; }
+
+    .agent-trace { display: grid; gap: 0; margin: 10px 0 0; padding: 0; list-style: none; }
+    .agent-action { position: relative; display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 9px; padding-bottom: 12px; }
+    .agent-action:not(:last-child)::after { position: absolute; top: 21px; bottom: 0; left: 11px; width: 1px; background: var(--line); content: ""; }
+    .agent-marker { z-index: 1; display: grid; width: 24px; height: 24px; place-items: center; border: 1px solid color-mix(in srgb, var(--good) 35%, var(--line)); border-radius: 50%; background: var(--good-soft); color: var(--good); font-size: 10px; font-weight: 900; }
+    .agent-action[data-status="failed"] .agent-marker { border-color: color-mix(in srgb, var(--danger) 45%, var(--line)); background: var(--danger-soft); color: var(--danger); }
+    .agent-action[data-status="incomplete"] .agent-marker { border-color: color-mix(in srgb, var(--warning) 45%, var(--line)); background: var(--surface-soft); color: var(--warning); }
+    .agent-action[data-status="skipped"] .agent-marker { background: var(--surface-soft); color: var(--muted); }
+    .agent-action-body { min-width: 0; padding-top: 2px; }
+    .agent-action-head { justify-content: space-between; align-items: flex-start; }
+    .agent-action-head strong { font-size: 12px; }
+    .agent-action-meta { flex-wrap: wrap; margin-top: 2px; color: var(--muted); font-size: 10px; }
+    .agent-action-meta span { text-transform: capitalize; }
+    .agent-action-body p { margin-top: 4px; line-height: 1.45; }
 
     pre {
       overflow: auto;
@@ -383,10 +459,10 @@
         <div id="historyList" class="history-list"></div>
       </section>
 
-      <aside class="panel audit-panel" aria-label="Audit log">
+      <aside class="panel audit-panel" aria-label="Coordinator audit log">
         <div class="panel-header">
           <div>
-            <h2>Audit Log</h2>
+            <h2>Coordinator Audit</h2>
             <p id="auditSummary">No runs yet.</p>
           </div>
           <div class="actions">
@@ -473,6 +549,64 @@
       return Number.isNaN(date.getTime()) ? "Unknown time" : date.toLocaleString();
     }
 
+    function fmtDuration(value) {
+      const milliseconds = Math.max(0, Number(value || 0));
+      if (milliseconds < 1_000) return milliseconds ? `${Math.round(milliseconds)}ms` : "0ms";
+      if (milliseconds < 60_000) return `${(milliseconds / 1_000).toFixed(milliseconds < 10_000 ? 1 : 0)}s`;
+      const minutes = Math.floor(milliseconds / 60_000);
+      const seconds = Math.round((milliseconds % 60_000) / 1_000);
+      return `${minutes}m ${seconds}s`;
+    }
+
+    function outcomeFor(item) {
+      if (item.outcome) return item.outcome;
+      if (item.status === "completed" || item.status === "prompt_ready") return "succeeded";
+      if (item.status === "cancelled") return "cancelled";
+      return "failed";
+    }
+
+    function outcomeLabel(outcome) {
+      return outcome === "succeeded" ? "Task succeeded" : outcome === "cancelled" ? "Task cancelled" : "Task failed";
+    }
+
+    function actionStatus(status) {
+      if (["error", "failed", "provider_error", "cancelled"].includes(status)) return "failed";
+      if (status === "skipped") return "skipped";
+      if (status === "running" || status === "active") return "incomplete";
+      return "succeeded";
+    }
+
+    function actionsFor(item) {
+      const source = item.agentActions?.length ? item.agentActions : item.phases?.length ? item.phases : [];
+      return source.map((step, index) => ({
+        sequence: step.sequence || index + 1,
+        agent: step.agent || "Coordinator",
+        phase: step.phase || step.stage || "execute",
+        status: step.status || "done",
+        detail: step.detail || "Processed workflow state.",
+        at: step.at || step.finishedAt || item.createdAt,
+        durationMs: Number(step.durationMs || 0)
+      }));
+    }
+
+    function renderAgentActions(item) {
+      const actions = actionsFor(item);
+      if (!actions.length) return '<p>No agent actions were recorded for this legacy run.</p>';
+      return `<ol class="agent-trace">${actions.map((step) => {
+        const status = actionStatus(step.status);
+        return `
+          <li class="agent-action" data-status="${status}">
+            <span class="agent-marker">${step.sequence}</span>
+            <div class="agent-action-body">
+              <div class="agent-action-head"><strong>${escapeHtml(step.agent)}</strong><span class="run-duration">${escapeHtml(fmtDuration(step.durationMs))}</span></div>
+              <div class="agent-action-meta"><span>${escapeHtml(step.phase)}</span><span>${escapeHtml(status)}</span><time>${escapeHtml(fmtDate(step.at))}</time></div>
+              <p>${escapeHtml(step.detail)}</p>
+            </div>
+          </li>
+        `;
+      }).join("")}</ol>`;
+    }
+
     function sendPrompt(destination, item) {
       const prompt = promptText(item);
       const payload = { prompt, goal: prompt };
@@ -489,15 +623,17 @@
     }
 
     function traceText(item) {
-      const trace = item.phases?.length ? item.phases : [];
+      const trace = actionsFor(item);
       return trace.length
-        ? trace.map((step, index) => `${index + 1}. ${step.agent || "Agent"} - ${step.detail || step.phase || "Processed state."}`).join("\n")
+        ? trace.map((step, index) => `${index + 1}. [${actionStatus(step.status).toUpperCase()}] ${step.agent} / ${step.phase} / ${fmtDuration(step.durationMs)} - ${step.detail}`).join("\n")
         : "No trace steps recorded.";
     }
 
     function renderAudit() {
       const audit = loadAudit();
-      el("auditSummary").textContent = audit.length ? `${audit.length} saved run${audit.length === 1 ? "" : "s"}` : "No runs yet.";
+      const succeeded = audit.filter((item) => outcomeFor(item) === "succeeded").length;
+      const failed = audit.filter((item) => outcomeFor(item) === "failed").length;
+      el("auditSummary").textContent = audit.length ? `${audit.length} traces · ${succeeded} succeeded${failed ? ` · ${failed} failed` : ""}` : "No runs yet.";
       if (!audit.length) {
         el("auditList").innerHTML = `
           <div class="empty">
@@ -509,29 +645,32 @@
         `;
         return;
       }
-      el("auditList").innerHTML = audit.slice(0, 12).map((item) => {
-        const savings = item.savingsPercent == null ? "n/a" : item.savingsPercent + "% est.";
+      el("auditList").innerHTML = audit.slice(0, 20).map((item, index) => {
         const inputTokens = item.actualInputTokens || item.rawTokens || 0;
-        const outputTokens = item.actualOutputTokens || item.optimizedTokens || 0;
+        const outcome = outcomeFor(item);
+        const traceId = item.traceId || item.id || "legacy-trace";
+        const actions = actionsFor(item);
         return `
-          <article class="audit-card">
+          <article class="audit-card" data-outcome="${escapeHtml(outcome)}">
+            <div class="audit-card-head">
+              <span class="audit-outcome"><span class="outcome-dot"></span>${escapeHtml(outcomeLabel(outcome))}</span>
+              <span class="run-duration">${escapeHtml(fmtDuration(item.elapsedMs))}</span>
+            </div>
             <div>
               <strong>${escapeHtml(item.title || "Untitled run")}</strong>
               <p>${escapeHtml(fmtDate(item.createdAt))}</p>
-              <div class="meta">
-                <span>${escapeHtml(item.mode || "mode")}</span>
-                <span>${escapeHtml(item.provider || "route")}</span>
-                <span>${escapeHtml(item.status || "status")}</span>
-                <span>${inputTokens} input</span>
-                <span>${outputTokens} output</span>
-                <span>${savings} context reduction</span>
-                <span>${item.elapsedMs ? Math.round(item.elapsedMs / 100) / 10 + "s" : "time n/a"}</span>
-              </div>
-              <details>
-                <summary>Trace</summary>
-                <pre>${escapeHtml(traceText(item))}</pre>
-              </details>
             </div>
+            <div class="trace-row"><code title="${escapeHtml(traceId)}">${escapeHtml(traceId)}</code><button type="button" data-copy-trace="${escapeHtml(traceId)}">Copy ID</button></div>
+            <div class="audit-metrics">
+              <div><span>Route</span><strong>${escapeHtml(item.route || item.provider || "automatic")}</strong></div>
+              <div><span>Model calls</span><strong>${Number(item.modelCalls || 0)}</strong></div>
+              <div><span>Input tokens</span><strong>${Number(inputTokens)}</strong></div>
+            </div>
+            ${item.failureReason ? `<p class="failure-note">${escapeHtml(item.failureReason)}</p>` : ""}
+            <details ${index === 0 ? "open" : ""}>
+              <summary><span>Agent activity</span><span>${actions.length} action${actions.length === 1 ? "" : "s"}</span></summary>
+              ${renderAgentActions(item)}
+            </details>
           </article>
         `;
       }).join("");
@@ -589,6 +728,14 @@
       sendPrompt(button.dataset.action, item);
     });
 
+    el("auditList").addEventListener("click", async (event) => {
+      const button = event.target.closest("button[data-copy-trace]");
+      if (!button) return;
+      await navigator.clipboard.writeText(button.dataset.copyTrace);
+      button.textContent = "Copied";
+      setTimeout(() => { button.textContent = "Copy ID"; }, 1000);
+    });
+
     el("clearHistory").addEventListener("click", () => {
       if (!window.confirm("Clear all saved prompts from this browser?")) return;
       saveHistory([]);
@@ -612,14 +759,18 @@
       const text = audit.length
         ? audit.map((item, index) => [
           `${index + 1}. ${item.title || "Untitled run"}`,
+          `Trace ID: ${item.traceId || item.id || "legacy-trace"}`,
+          `Outcome: ${outcomeLabel(outcomeFor(item))}`,
+          `Duration: ${fmtDuration(item.elapsedMs)}`,
           `Mode: ${item.mode || "n/a"}`,
           `Route: ${item.provider || "n/a"}`,
           `Status: ${item.status || "n/a"}`,
           `Input tokens: ${item.actualInputTokens || item.rawTokens || 0}`,
           `Output tokens: ${item.actualOutputTokens || item.optimizedTokens || 0}`,
           `Estimated context reduction: ${item.savingsPercent == null ? "n/a" : item.savingsPercent + "%"}`,
+          item.failureReason ? `Failure: ${item.failureReason}` : null,
           traceText(item)
-        ].join("\n")).join("\n\n")
+        ].filter(Boolean).join("\n")).join("\n\n")
         : "No audit entries.";
       await navigator.clipboard.writeText(text);
       el("copyAudit").textContent = "Copied";

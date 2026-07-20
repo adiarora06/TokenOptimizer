@@ -84,6 +84,7 @@ Output:
   });
 
   assert.equal(result.executionStatus, "completed");
+  assert.match(result.traceId, /^trace_[a-z0-9]+_[a-z0-9]+$/);
   assert.equal(result.workflowShape.route, "direct");
   assert.equal(result.securityReport.redactions, 1);
   assert.equal(result.optimizedPrompt.includes(secret), false);
@@ -94,6 +95,10 @@ Output:
   assert.ok(result.tokenReport.actualOutputTokens > 0);
   assert.ok(events.some((event) => event.stage === "execute"));
   assert.ok(events.some((event) => event.type === "complete"));
+  assert.ok(events.every((event) => event.traceId === result.traceId));
+  assert.ok(result.trace.every((item) => item.actionId.startsWith(result.traceId)));
+  assert.ok(result.trace.every((item) => item.agent && item.at && Number.isFinite(item.durationMs)));
+  assert.ok(result.trace.find((item) => item.phase === "execute").finishedAt);
 
   const verifiedResult = await runSelfOptimizingWorkflow({
     rawInput: "Prepare a production database migration, return the exact JSON change plan, verify every constraint, and review it for security errors.",

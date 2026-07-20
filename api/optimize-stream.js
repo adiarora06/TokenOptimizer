@@ -1,4 +1,4 @@
-const { runSelfOptimizingWorkflow } = require("../optimizer-core.cjs");
+const { createTraceId, runSelfOptimizingWorkflow } = require("../optimizer-core.cjs");
 const {
   commonHeaders,
   publicError,
@@ -45,14 +45,16 @@ module.exports = async function handler(req, res) {
   res.flushHeaders?.();
 
   const controller = new AbortController();
+  const traceId = createTraceId();
   req.on?.("aborted", () => controller.abort());
-  writeEvent(res, "run", { type: "run", status: "running", detail: "Run accepted." });
+  writeEvent(res, "run", { type: "run", traceId, agent: "Coordinator", status: "running", detail: "Run accepted." });
 
   try {
     const result = await runSelfOptimizingWorkflow({
       rawInput: parsed.data.input,
       provider: parsed.data.provider || "groq-openai-fallback",
       options: parsed.data.options || {},
+      traceId,
       signal: controller.signal,
       onEvent(event) {
         writeEvent(res, event.type === "complete" ? "progress" : "progress", event);

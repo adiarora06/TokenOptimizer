@@ -7,6 +7,7 @@ const outputDir = path.join(rootDir, "outputs");
 const port = Number(process.env.PORT || 8787);
 const {
   callChatCompletion,
+  createTraceId,
   generateWithFallback,
   preparePortableHandoff,
   providerStatus,
@@ -298,12 +299,14 @@ async function handleApi(req, res) {
         "x-accel-buffering": "no"
       });
       const controller = new AbortController();
+      const traceId = createTraceId();
       req.on("aborted", () => controller.abort());
-      writeSse(res, "run", { type: "run", status: "running", detail: "Run accepted." });
+      writeSse(res, "run", { type: "run", traceId, agent: "Coordinator", status: "running", detail: "Run accepted." });
       const result = await runSelfOptimizingWorkflow({
         rawInput: parsed.data.input,
         provider: parsed.data.provider || "groq-openai-fallback",
         options: parsed.data.options || {},
+        traceId,
         signal: controller.signal,
         onEvent(event) {
           writeSse(res, "progress", event);

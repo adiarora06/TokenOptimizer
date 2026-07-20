@@ -19,6 +19,7 @@
     startedAt: null,
     finishedElapsedMs: 0,
     stageStartedAt: {},
+    activeTraceId: null,
     running: false,
     toastTimer: null
   };
@@ -348,20 +349,52 @@
     }
   }
 
+  function runOutcome(status) {
+    if (status === "completed" || status === "prompt_ready") return "succeeded";
+    if (status === "cancelled") return "cancelled";
+    return "failed";
+  }
+
+  function coordinatorActions(result) {
+    const source = Array.isArray(result.trace) && result.trace.length ? result.trace : state.events;
+    const traceId = result.traceId || state.activeTraceId || makeId("trace");
+    return source.slice(-24).map((step, index) => {
+      const at = step.at || step.finishedAt || new Date().toISOString();
+      return {
+        actionId: step.actionId || `${traceId}.${index + 1}`,
+        sequence: index + 1,
+        agent: step.agent || "Coordinator",
+        phase: step.phase || step.stage || "execute",
+        status: step.status || "done",
+        detail: String(step.detail || "Processed workflow state.").trim(),
+        at,
+        startedAt: step.startedAt || at,
+        finishedAt: step.finishedAt || at,
+        durationMs: Math.max(0, Number(step.durationMs || 0))
+      };
+    });
+  }
+
   function saveRun(prompt, result) {
     const now = new Date().toISOString();
     const title = prompt.replace(/\s+/g, " ").trim().slice(0, 90) || "Untitled run";
     const report = result.tokenReport || {};
     const comparison = report.comparison || {};
     const id = makeId("run");
+    const traceId = result.traceId || state.activeTraceId || makeId("trace");
+    const outcome = runOutcome(result.executionStatus);
+    const agentActions = coordinatorActions({ ...result, traceId });
     const history = loadArray(historyKey);
     history.unshift({
       id,
+      traceId,
       prompt,
       title,
       route: result.workflowShape?.route || report.adaptiveRoute || "automatic",
       mode: "workspace",
       status: result.executionStatus || "completed",
+      outcome,
+      elapsedMs: result.elapsedMs || Date.now() - state.startedAt,
       createdAt: now,
       sessionId: session.id
     });
@@ -370,11 +403,14 @@
     const audit = loadArray(auditKey);
     audit.unshift({
       id,
+      traceId,
       title,
       mode: "workspace",
       provider: result.workflowShape?.route || report.adaptiveRoute || "automatic",
       route: result.workflowShape?.route || report.adaptiveRoute || "automatic",
       status: result.executionStatus || "completed",
+      outcome,
+      failureReason: outcome === "failed" || outcome === "cancelled" ? result.providerError || "Execution stopped." : "",
       createdAt: now,
       sessionId: session.id,
       rawTokens: report.rawInputTokens || estimateTokens(prompt),
@@ -390,7 +426,8 @@
       elapsedMs: result.elapsedMs || 0,
       modelCalls: report.modelCalls || 0,
       routeReason: result.workflowShape?.routeReason || report.routeReason || "",
-      phases: state.events.slice(-12)
+      agentActions,
+      phases: agentActions
     });
     localStorage.setItem(auditKey, JSON.stringify(audit.slice(0, 100)));
   }
@@ -440,6 +477,7 @@
 
     state.lastPrompt = visiblePrompt;
     state.lastResult = null;
+    state.activeTraceId = makeId("trace");
     state.controller = new AbortController();
     setRunning(true);
     resetTimeline();
@@ -475,12 +513,15 @@
       }
 
       const result = await parseEventStream(response, (event) => {
+        if (event.traceId) state.activeTraceId = event.traceId;
         state.events.push({
-          agent: timelineStepFor(event.stage || event.phase || "execute"),
+          actionId: event.actionId || null,
+          agent: event.agent || "Coordinator",
           phase: event.stage || event.phase || "execute",
           detail: String(event.detail || "").trim(),
           status: event.status || "active",
-          at: new Date().toISOString()
+          durationMs: Number(event.durationMs || 0),
+          at: event.at || new Date().toISOString()
         });
         updateTimeline(event);
       });
@@ -502,23 +543,27 @@
       if (error.name === "AbortError") {
         const cancelled = {
           executionStatus: "cancelled",
+          traceId: state.activeTraceId,
           providerError: "Run cancelled",
           optimizedPrompt: state.lastResult?.optimizedPrompt || input,
           tokenReport: { rawInputTokens: estimateTokens(input), actualUsageSource: "unavailable", modelCalls: 0 },
           workflowShape: routeAnalysis(input, el("routePreference").value),
           elapsedMs: Date.now() - state.startedAt
         };
+        saveRun(visiblePrompt, cancelled);
         renderError(cancelled);
         setLiveStatus("Cancelled", "The run was stopped before completion.", "error", "execute");
       } else {
         const failed = {
           executionStatus: "provider_error",
+          traceId: state.activeTraceId,
           providerError: error.message,
           optimizedPrompt: input,
           tokenReport: { rawInputTokens: estimateTokens(input), actualUsageSource: "unavailable", modelCalls: 0 },
           workflowShape: routeAnalysis(input, el("routePreference").value),
           elapsedMs: Date.now() - state.startedAt
         };
+        saveRun(visiblePrompt, failed);
         renderError(failed);
         setLiveStatus("Needs attention", error.message, "error", "execute");
       }
