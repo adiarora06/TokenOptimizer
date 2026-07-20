@@ -5,6 +5,10 @@ const WINDOW_MS = Number(process.env.TOKEN_OPTIMIZER_RATE_WINDOW_MS || 60_000);
 const MAX_REQUESTS = Number(process.env.TOKEN_OPTIMIZER_RATE_MAX || 20);
 const buckets = new Map();
 
+function requiredString(missingMessage) {
+  return z.string({ error: (issue) => (issue.input === undefined ? missingMessage : undefined) });
+}
+
 const providerConfigSchema = z.object({
   provider: z.enum(["groq", "openai", "openrouter", "xai", "litellm", "custom", "offline"]).optional(),
   label: z.string().trim().max(80).optional(),
@@ -14,7 +18,7 @@ const providerConfigSchema = z.object({
 }).passthrough();
 
 const optimizerPayloadSchema = z.object({
-  input: z.string().trim().min(1, "Missing input").max(MAX_INPUT_CHARS, `Input exceeds ${MAX_INPUT_CHARS.toLocaleString()} characters`),
+  input: requiredString("Missing input").trim().min(1, "Missing input").max(MAX_INPUT_CHARS, `Input exceeds ${MAX_INPUT_CHARS.toLocaleString()} characters`),
   provider: z.enum(["groq-openai-fallback", "groq", "openai", "offline"]).optional(),
   source: z.string().trim().max(80).optional(),
   target: z.string().trim().max(80).optional(),
@@ -29,7 +33,7 @@ const optimizerPayloadSchema = z.object({
 }).passthrough();
 
 const a2aPayloadSchema = z.object({
-  input: z.string().trim().min(1, "Missing input").max(MAX_INPUT_CHARS, `Input exceeds ${MAX_INPUT_CHARS.toLocaleString()} characters`),
+  input: requiredString("Missing input").trim().min(1, "Missing input").max(MAX_INPUT_CHARS, `Input exceeds ${MAX_INPUT_CHARS.toLocaleString()} characters`),
   providerConfig: providerConfigSchema.optional(),
   options: z.object({
     mode: z.string().trim().max(80).optional(),
@@ -38,7 +42,7 @@ const a2aPayloadSchema = z.object({
 }).passthrough();
 
 const generatePayloadSchema = z.object({
-  prompt: z.string().trim().min(1, "Missing prompt").max(MAX_INPUT_CHARS, `Prompt exceeds ${MAX_INPUT_CHARS.toLocaleString()} characters`),
+  prompt: requiredString("Missing prompt").trim().min(1, "Missing prompt").max(MAX_INPUT_CHARS, `Prompt exceeds ${MAX_INPUT_CHARS.toLocaleString()} characters`),
   provider: z.enum(["groq-openai-fallback", "groq", "openai"]).optional()
 }).passthrough();
 

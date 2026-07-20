@@ -1,4 +1,11 @@
 {
+  "name": "token-optimizer",
+  "version": "0.9.0",
+  "description": "Browser-based AI workspace that turns one rough request into a completed result through adaptive routing, compact handoff contracts, and inspectable usage.",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "start": "node server.cjs",
     "test": "npm run test:core && npm run test:api && npm run test:extension",

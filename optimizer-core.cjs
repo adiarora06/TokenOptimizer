@@ -701,10 +701,27 @@ async function callA2AProvider({ providerConfig, prompt, system, signal, timeout
 }
 
 async function generateWithFallback(prompt, options = {}) {
+  const perAttemptMs = options.timeoutMs || 45_000;
+  const totalBudgetMs = Math.min(Math.max(perAttemptMs, 60_000), 120_000);
+  const deadline = Date.now() + totalBudgetMs;
   const attempts = [];
   for (const provider of ["groq", "openai"]) {
+    if (options.signal?.aborted) {
+      attempts.push({ provider, error: "Skipped because the run was cancelled" });
+      continue;
+    }
+    const remainingMs = deadline - Date.now();
+    if (remainingMs < 1_000) {
+      attempts.push({ provider, error: "Skipped because the shared fallback time budget was exhausted" });
+      continue;
+    }
     try {
-      const result = await callChatCompletion({ provider, prompt, ...options });
+      const result = await callChatCompletion({
+        provider,
+        prompt,
+        ...options,
+        timeoutMs: Math.min(perAttemptMs, remainingMs)
+      });
       return { ...result, attempts };
     } catch (error) {
       attempts.push({ provider, error: error.message });
@@ -847,7 +864,7 @@ Candidate result:
 ${candidateResult}`;
 }
 
-async function runBlankA2AKit({ rawInput, providerConfig = {}, options = {} }) {
+async function runBlankA2AKit({ rawInput, providerConfig = {}, options = {}, signal }) {
   const startedAt = Date.now();
   const rawTokens = estimateTokens(rawInput);
   const security = redactSensitiveText(rawInput);
@@ -899,7 +916,9 @@ async function runBlankA2AKit({ rawInput, providerConfig = {}, options = {} }) {
       const contractResult = await callA2AProvider({
         providerConfig,
         prompt: contractPrompt,
-        system: "You are a Contract Builder. Convert messy user input into compact, safe, token-bounded handoff contracts."
+        system: "You are a Contract Builder. Convert messy user input into compact, safe, token-bounded handoff contracts.",
+        signal,
+        timeoutMs: options.timeoutMs
       });
       contractOutput = contractResult.content;
       generations.push(generationRecord("contract", contractResult));
@@ -932,7 +951,9 @@ async function runBlankA2AKit({ rawInput, providerConfig = {}, options = {} }) {
         const executorResult = await callA2AProvider({
           providerConfig,
           prompt: executorPrompt,
-          system: "You are an Executor Agent. Produce the best final work product from the compact handoff contract."
+          system: "You are an Executor Agent. Produce the best final work product from the compact handoff contract.",
+          signal,
+          timeoutMs: options.timeoutMs
         });
         generations.push(generationRecord("execute", executorResult));
         executorOutput = executorResult.content;
@@ -955,7 +976,9 @@ async function runBlankA2AKit({ rawInput, providerConfig = {}, options = {} }) {
         const verifierResult = await callA2AProvider({
           providerConfig,
           prompt: verifierPrompt,
-          system: "You are a Verifier Agent. Fix drift, preserve intent, and return a compact final answer."
+          system: "You are a Verifier Agent. Fix drift, preserve intent, and return a compact final answer.",
+          signal,
+          timeoutMs: options.timeoutMs
         });
         generations.push(generationRecord("verify", verifierResult));
         finalAnswer = verifierResult.content;
@@ -963,8 +986,8 @@ async function runBlankA2AKit({ rawInput, providerConfig = {}, options = {} }) {
         trace[trace.length - 1].status = "done";
       }
     } catch (error) {
-      providerError = error.message;
-      executionStatus = "provider_error";
+      providerError = signal?.aborted ? "Run cancelled" : error.message;
+      executionStatus = signal?.aborted ? "cancelled" : "provider_error";
       trace.push({
         phase: "error",
         agent: "Provider Adapter",
