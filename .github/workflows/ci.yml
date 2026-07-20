@@ -1,0 +1,71 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Tests (Node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ["20", "22"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Run test suites
+        run: npm test
+
+  # Regenerates the committed Graphify code map with the same commands that
+  # produced it (AST-only, no API cost) and fails when graphify-out/graph.json
+  # no longer matches the source. Graphify's serialization order is unstable
+  # between runs, so both versions are canonicalized before comparing.
+  # Soft check for now (continue-on-error): promote to blocking once it has
+  # proven stable on Linux runners.
+  graph-freshness:
+    name: Graphify code map freshness
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    env:
+      GRAPHIFYY_VERSION: 0.9.22
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - name: Save committed graph
+        run: cp graphify-out/graph.json /tmp/committed-graph.json
+      - name: Regenerate graph
+        id: regen
+        continue-on-error: true
+        run: |
+          uvx --from "graphifyy==${GRAPHIFYY_VERSION}" graphify extract . --code-only
+          uvx --from "graphifyy==${GRAPHIFYY_VERSION}" graphify cluster-only .
+      - name: Check committed graph.json is current
+        run: |
+          if [ "${{ steps.regen.outcome }}" != "success" ]; then
+            echo "::notice::graphify could not run here; skipping the freshness check."
+            exit 0
+          fi
+          node scripts/canonical-graph.cjs /tmp/committed-graph.json > /tmp/committed-canonical.json
+          node scripts/canonical-graph.cjs graphify-out/graph.json > /tmp/fresh-canonical.json
+          if diff -q /tmp/committed-canonical.json /tmp/fresh-canonical.json > /dev/null; then
+            echo "graphify-out/graph.json matches the current source."
+          else
+            diff /tmp/committed-canonical.json /tmp/fresh-canonical.json | head -40 || true
+            echo "::error::The committed code graph is stale. Run: uvx --from graphifyy graphify extract . --code-only && uvx --from graphifyy graphify cluster-only . then commit graphify-out/."
+            exit 1
+          fi

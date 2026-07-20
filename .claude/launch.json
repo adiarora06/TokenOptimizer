@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "token-optimizer-test-mode",
+      "runtimeExecutable": "env",
+      "runtimeArgs": ["NODE_ENV=test", "TOKEN_OPTIMIZER_TEST_MODE=1", "node", "server.cjs"],
+      "port": 8787
+    }
+  ]
+}
