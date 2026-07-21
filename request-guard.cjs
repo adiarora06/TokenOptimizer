@@ -107,6 +107,16 @@ function publicError(error) {
   return String(error.message || error).slice(0, 500);
 }
 
+// Returns an AbortSignal that fires when the client disconnects before the
+// response finishes, so in-flight provider calls stop instead of running on.
+function abortSignalOnClose(res) {
+  const controller = new AbortController();
+  res.on?.("close", () => {
+    if (!res.writableEnded) controller.abort();
+  });
+  return controller.signal;
+}
+
 function commonHeaders(rate) {
   return {
     "cache-control": "no-store",
@@ -121,6 +131,7 @@ function commonHeaders(rate) {
 }
 
 module.exports = {
+  abortSignalOnClose,
   commonHeaders,
   publicError,
   takeRateLimit,

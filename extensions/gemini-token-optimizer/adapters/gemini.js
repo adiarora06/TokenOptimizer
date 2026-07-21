@@ -1,4 +1,6 @@
 (() => {
+  const { build, isVisible } = globalThis.TokenOptimizerAdapterBase;
+
   const selectors = [
     "rich-textarea .ql-editor[contenteditable='true']",
     "rich-textarea div[contenteditable='true']",
@@ -8,21 +10,6 @@
     "[role='textbox'][contenteditable='true']",
     "[role='textbox'] textarea"
   ];
-
-  function normalizePromptNode(node) {
-    if (!node || !(node instanceof HTMLElement)) return null;
-    if (node.tagName === "TEXTAREA") return node;
-    return node.querySelector?.("textarea") || node;
-  }
-
-  function isVisible(node) {
-    const rect = node.getBoundingClientRect();
-    const style = getComputedStyle(node);
-    return rect.width > 0 &&
-      rect.height > 0 &&
-      style.visibility !== "hidden" &&
-      style.display !== "none";
-  }
 
   function hasPromptLabel(node) {
     const label = [
@@ -34,8 +21,7 @@
   }
 
   function isNearPromptArea(node) {
-    const rect = node.getBoundingClientRect();
-    return rect.bottom > window.innerHeight * 0.45;
+    return node.getBoundingClientRect().bottom > window.innerHeight * 0.45;
   }
 
   function isHugeEditable(node) {
@@ -45,7 +31,7 @@
       rect.width > window.innerWidth * 0.96;
   }
 
-  function isPromptCandidate(node, allowFocused) {
+  function isCandidate(node, allowFocused) {
     if (!node || !(node instanceof HTMLElement) || !isVisible(node) || isHugeEditable(node)) return false;
     if (node.closest("rich-textarea")) return true;
     if (node.tagName === "TEXTAREA" || node.classList.contains("ql-editor")) return true;
@@ -53,80 +39,25 @@
     return Boolean(allowFocused && node.isContentEditable && isNearPromptArea(node));
   }
 
-  function promptScore(node) {
+  function score(node) {
     const rect = node.getBoundingClientRect();
-    let score = 0;
-    if (node.closest("rich-textarea")) score += 100;
-    if (node.classList.contains("ql-editor")) score += 50;
-    if (node.tagName === "TEXTAREA") score += 40;
-    if (hasPromptLabel(node)) score += 25;
-    if (isNearPromptArea(node)) score += 10;
-    score += Math.max(0, Math.min(20, rect.bottom / Math.max(1, window.innerHeight) * 20));
-    return score;
+    let value = 0;
+    if (node.closest("rich-textarea")) value += 100;
+    if (node.classList.contains("ql-editor")) value += 50;
+    if (node.tagName === "TEXTAREA") value += 40;
+    if (hasPromptLabel(node)) value += 25;
+    if (isNearPromptArea(node)) value += 10;
+    value += Math.max(0, Math.min(20, rect.bottom / Math.max(1, window.innerHeight) * 20));
+    return value;
   }
 
-  function findPromptBox() {
-    const active = document.activeElement;
-    if (isPromptCandidate(active, true)) return normalizePromptNode(active);
-
-    const candidates = selectors
-      .flatMap((selector) => [...document.querySelectorAll(selector)])
-      .map(normalizePromptNode)
-      .filter(Boolean)
-      .filter((node, index, nodes) => nodes.indexOf(node) === index)
-      .filter((node) => isPromptCandidate(node, false))
-      .map((node) => ({ node, score: promptScore(node) }))
-      .sort((a, b) => b.score - a.score);
-    return candidates[0]?.node || null;
-  }
-
-  function capturePrompt() {
-    const selected = String(window.getSelection()?.toString() || "").trim();
-    if (selected) return selected;
-    const box = findPromptBox();
-    if (!box) return "";
-    return box.tagName === "TEXTAREA"
-      ? String(box.value || "").trim()
-      : String(box.innerText || box.textContent || "").trim();
-  }
-
-  function insertPrompt(prompt) {
-    const value = String(prompt || "").trim();
-    if (!value) return { ok: false, message: "No prepared prompt to insert." };
-    const box = findPromptBox();
-    if (!box) return { ok: false, message: "Open Gemini and click inside the prompt box first." };
-
-    box.scrollIntoView({ block: "center", inline: "nearest" });
-    box.focus();
-    if (box.tagName === "TEXTAREA") {
-      box.value = value;
-      box.dispatchEvent(new InputEvent("input", { bubbles: true, inputType: "insertText", data: value }));
-      return { ok: true, message: "Inserted the prepared prompt into Gemini." };
-    }
-
-    const selection = window.getSelection();
-    const range = document.createRange();
-    range.selectNodeContents(box);
-    selection.removeAllRanges();
-    selection.addRange(range);
-    const inserted = document.execCommand("insertText", false, value);
-    if (!inserted) {
-      box.replaceChildren();
-      value.split(/\r?\n/).forEach((line, index) => {
-        if (index) box.append(document.createElement("br"));
-        box.append(document.createTextNode(line));
-      });
-      box.dispatchEvent(new InputEvent("input", { bubbles: true, inputType: "insertText", data: value }));
-    }
-    return { ok: true, message: "Inserted the prepared prompt into Gemini." };
-  }
-
-  globalThis.TokenOptimizerSiteAdapter = Object.freeze({
+  globalThis.TokenOptimizerSiteAdapter = build({
     id: "gemini",
     label: "Gemini",
-    capabilities: Object.freeze({ capture: true, insert: true, autoSubmit: false }),
-    findPromptBox,
-    capturePrompt,
-    insertPrompt
+    selectors,
+    isCandidate,
+    score,
+    notFoundMessage: "Open Gemini and click inside the prompt box first.",
+    insertedMessage: "Inserted the prepared prompt into Gemini."
   });
 })();

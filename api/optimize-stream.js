@@ -1,5 +1,6 @@
 const { createTraceId, runSelfOptimizingWorkflow } = require("../optimizer-core.cjs");
 const {
+  abortSignalOnClose,
   commonHeaders,
   publicError,
   takeRateLimit,
@@ -44,11 +45,8 @@ module.exports = async function handler(req, res) {
   });
   res.flushHeaders?.();
 
-  const controller = new AbortController();
   const traceId = createTraceId();
-  res.on?.("close", () => {
-    if (!res.writableEnded) controller.abort();
-  });
+  const signal = abortSignalOnClose(res);
   const heartbeat = setInterval(() => {
     if (!res.writableEnded) res.write(": ping\n\n");
   }, 15_000);
@@ -60,7 +58,7 @@ module.exports = async function handler(req, res) {
       provider: parsed.data.provider || "groq-openai-fallback",
       options: parsed.data.options || {},
       traceId,
-      signal: controller.signal,
+      signal,
       onEvent(event) {
         writeEvent(res, "progress", event);
       }

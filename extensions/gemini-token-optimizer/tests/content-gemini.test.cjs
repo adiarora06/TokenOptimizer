@@ -138,9 +138,10 @@ context.window.getSelection = () => ({
 });
 context.document.execCommand = () => false;
 
+const baseCode = fs.readFileSync(path.resolve(__dirname, "../adapters/base.js"), "utf8");
 const adapterCode = fs.readFileSync(path.resolve(__dirname, "../adapters/gemini.js"), "utf8");
 const bridgeCode = fs.readFileSync(path.resolve(__dirname, "../content-bridge.js"), "utf8");
-vm.runInNewContext(`${adapterCode}\n${bridgeCode}`, context);
+vm.runInNewContext(`${baseCode}\n${adapterCode}\n${bridgeCode}`, context);
 
 context.__findPromptBox = context.TokenOptimizerSiteAdapter.findPromptBox;
 context.__capturePrompt = context.TokenOptimizerSiteAdapter.capturePrompt;

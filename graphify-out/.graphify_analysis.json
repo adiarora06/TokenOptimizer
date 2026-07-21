@@ -2,28 +2,33 @@
   "communities": {
     "0": [
       "api_a2a_run",
-      "api_a2a_run_commonheaders_publicerror_takeratelimit_validatea2apayload",
+      "api_a2a_run_abortsignalonclose_commonheaders_publicerror_takeratelimit_validatea2apayload",
       "api_a2a_run_runblanka2akit",
       "api_generate",
+      "api_generate_abortsignalonclose_commonheaders_publicerror_takeratelimit_validategeneratepayload",
       "api_generate_callchatcompletion_generatewithfallback",
-      "api_generate_commonheaders_publicerror_takeratelimit_validategeneratepayload",
       "api_optimize_run",
-      "api_optimize_run_commonheaders_publicerror_takeratelimit_validateoptimizerpayload",
+      "api_optimize_run_abortsignalonclose_commonheaders_publicerror_takeratelimit_validateoptimizerpayload",
       "api_optimize_run_runselfoptimizingworkflow",
       "api_optimize_stream",
-      "api_optimize_stream_commonheaders_publicerror_takeratelimit_validateoptimizerpayload",
+      "api_optimize_stream_abortsignalonclose_commonheaders_publicerror_takeratelimit_validateoptimizerpayload",
       "api_optimize_stream_createtraceid_runselfoptimizingworkflow",
       "api_optimize_stream_onevent",
       "api_optimize_stream_writeevent",
       "api_prepare_handoff",
       "api_prepare_handoff_commonheaders_publicerror_takeratelimit_validateoptimizerpayload",
       "api_prepare_handoff_prepareportablehandoff",
+      "api_system_runs",
+      "api_system_runs_commonheaders_publicerror_takeratelimit_validateoptimizerpayload",
+      "api_system_runs_system_architecture_runsystemruninline",
       "api_workflow_run",
-      "api_workflow_run_commonheaders_publicerror_takeratelimit_validatea2apayload",
+      "api_workflow_run_abortsignalonclose_commonheaders_publicerror_takeratelimit_validatea2apayload",
       "api_workflow_run_runblanka2akit",
       "optimizer_core_prepareportablehandoff",
+      "optimizer_system_system_architecture",
       "request_guard",
       "request_guard_a2apayloadschema",
+      "request_guard_abortsignalonclose",
       "request_guard_buckets",
       "request_guard_clientkey",
       "request_guard_commonheaders",
@@ -42,9 +47,9 @@
       "request_guard_window_ms",
       "request_guard_z",
       "server",
+      "server_abortsignalonclose_commonheaders_publicerror_takeratelimit_validatea2apayload_validategeneratepayload_validateoptimizerpayload",
       "server_allowedapimethods",
       "server_callchatcompletion_createtraceid_generatewithfallback_prepareportablehandoff_providerstatus_runblanka2akit_runselfoptimizingworkflow",
-      "server_commonheaders_publicerror_takeratelimit_validatea2apayload_validategeneratepayload_validateoptimizerpayload",
       "server_createoptimizersystem",
       "server_fs",
       "server_graphifydir",
@@ -203,6 +208,7 @@
       "extensions_gemini_token_optimizer_tests_content_chatgpt_test_adaptercode",
       "extensions_gemini_token_optimizer_tests_content_chatgpt_test_addrange",
       "extensions_gemini_token_optimizer_tests_content_chatgpt_test_assert",
+      "extensions_gemini_token_optimizer_tests_content_chatgpt_test_basecode",
       "extensions_gemini_token_optimizer_tests_content_chatgpt_test_bridgecode",
       "extensions_gemini_token_optimizer_tests_content_chatgpt_test_composerform",
       "extensions_gemini_token_optimizer_tests_content_chatgpt_test_context",
@@ -231,6 +237,7 @@
       "extensions_gemini_token_optimizer_tests_content_gemini_test_adaptercode",
       "extensions_gemini_token_optimizer_tests_content_gemini_test_addrange",
       "extensions_gemini_token_optimizer_tests_content_gemini_test_assert",
+      "extensions_gemini_token_optimizer_tests_content_gemini_test_basecode",
       "extensions_gemini_token_optimizer_tests_content_gemini_test_bridgecode",
       "extensions_gemini_token_optimizer_tests_content_gemini_test_context",
       "extensions_gemini_token_optimizer_tests_content_gemini_test_fakeelement",
@@ -307,9 +314,6 @@
       "zod"
     ],
     "8": [
-      "api_system_runs",
-      "api_system_runs_commonheaders_publicerror_takeratelimit_validateoptimizerpayload",
-      "api_system_runs_system_architecture_runsystemruninline",
       "optimizer_system",
       "optimizer_system_applyresulttrace",
       "optimizer_system_basestages",
@@ -323,7 +327,6 @@
       "optimizer_system_publicrun",
       "optimizer_system_runsystemruninline",
       "optimizer_system_stagefromtrace",
-      "optimizer_system_system_architecture",
       "optimizer_system_updatestage"
     ],
     "9": [
@@ -355,32 +358,6 @@
       "extensions_gemini_token_optimizer_tests_sidepanel_logic_test_vm"
     ],
     "11": [
-      "extensions_gemini_token_optimizer_adapters_chatgpt",
-      "extensions_gemini_token_optimizer_adapters_chatgpt_captureprompt",
-      "extensions_gemini_token_optimizer_adapters_chatgpt_findpromptbox",
-      "extensions_gemini_token_optimizer_adapters_chatgpt_haspromptlabel",
-      "extensions_gemini_token_optimizer_adapters_chatgpt_insertprompt",
-      "extensions_gemini_token_optimizer_adapters_chatgpt_ishugeeditable",
-      "extensions_gemini_token_optimizer_adapters_chatgpt_isnearpromptarea",
-      "extensions_gemini_token_optimizer_adapters_chatgpt_ispromptcandidate",
-      "extensions_gemini_token_optimizer_adapters_chatgpt_isvisible",
-      "extensions_gemini_token_optimizer_adapters_chatgpt_normalizepromptnode",
-      "extensions_gemini_token_optimizer_adapters_chatgpt_promptscore"
-    ],
-    "12": [
-      "extensions_gemini_token_optimizer_adapters_gemini",
-      "extensions_gemini_token_optimizer_adapters_gemini_captureprompt",
-      "extensions_gemini_token_optimizer_adapters_gemini_findpromptbox",
-      "extensions_gemini_token_optimizer_adapters_gemini_haspromptlabel",
-      "extensions_gemini_token_optimizer_adapters_gemini_insertprompt",
-      "extensions_gemini_token_optimizer_adapters_gemini_ishugeeditable",
-      "extensions_gemini_token_optimizer_adapters_gemini_isnearpromptarea",
-      "extensions_gemini_token_optimizer_adapters_gemini_ispromptcandidate",
-      "extensions_gemini_token_optimizer_adapters_gemini_isvisible",
-      "extensions_gemini_token_optimizer_adapters_gemini_normalizepromptnode",
-      "extensions_gemini_token_optimizer_adapters_gemini_promptscore"
-    ],
-    "13": [
       "tests_api_endpoints_test",
       "tests_api_endpoints_test_assert",
       "tests_api_endpoints_test_freeport",
@@ -392,7 +369,7 @@
       "tests_api_endpoints_test_spawn",
       "tests_api_endpoints_test_waitforserver"
     ],
-    "14": [
+    "12": [
       "core_prompts",
       "core_prompts_builda2acontractprompt",
       "core_prompts_builda2aexecutorprompt",
@@ -403,7 +380,7 @@
       "core_prompts_buildverifierprompt",
       "core_prompts_scaffoldhints"
     ],
-    "15": [
+    "13": [
       "outputs_system_worker",
       "outputs_system_worker_analyzeprompt",
       "outputs_system_worker_complexityscore",
@@ -412,7 +389,7 @@
       "outputs_system_worker_outputstyle",
       "outputs_system_worker_uniquelines"
     ],
-    "16": [
+    "14": [
       "tests_optimizer_core_test",
       "tests_optimizer_core_test_analyzeworkflowshape_combineusage_prepareportablehandoff_redactsensitivetext_runblanka2akit_runselfoptimizingworkflow",
       "tests_optimizer_core_test_assert",
@@ -421,7 +398,7 @@
       "tests_optimizer_core_test_run",
       "tests_optimizer_core_test_takeratelimit"
     ],
-    "17": [
+    "15": [
       "core_text",
       "core_text_cleanprompttext",
       "core_text_dedupenaturallanguagelines",
@@ -429,59 +406,82 @@
       "core_text_striplistprefix",
       "core_text_withouttrailingellipsis"
     ],
+    "16": [
+      "extensions_gemini_token_optimizer_adapters_chatgpt",
+      "extensions_gemini_token_optimizer_adapters_chatgpt_haspromptlabel",
+      "extensions_gemini_token_optimizer_adapters_chatgpt_iscandidate",
+      "extensions_gemini_token_optimizer_adapters_chatgpt_ishugeeditable",
+      "extensions_gemini_token_optimizer_adapters_chatgpt_isnearpromptarea",
+      "extensions_gemini_token_optimizer_adapters_chatgpt_score"
+    ],
+    "17": [
+      "extensions_gemini_token_optimizer_adapters_gemini",
+      "extensions_gemini_token_optimizer_adapters_gemini_haspromptlabel",
+      "extensions_gemini_token_optimizer_adapters_gemini_iscandidate",
+      "extensions_gemini_token_optimizer_adapters_gemini_ishugeeditable",
+      "extensions_gemini_token_optimizer_adapters_gemini_isnearpromptarea",
+      "extensions_gemini_token_optimizer_adapters_gemini_score"
+    ],
     "18": [
+      "extensions_gemini_token_optimizer_adapters_base",
+      "extensions_gemini_token_optimizer_adapters_base_build",
+      "extensions_gemini_token_optimizer_adapters_base_isvisible",
+      "extensions_gemini_token_optimizer_adapters_base_normalizepromptnode"
+    ],
+    "19": [
       "scripts_canonical_graph",
       "scripts_canonical_graph_fs",
       "scripts_canonical_graph_graph",
       "scripts_canonical_graph_sortdeep"
     ],
-    "19": [
+    "20": [
       "mcp",
       "mcp_command_uvx",
       "mcp_mcp_server_graphify"
     ],
-    "20": [
+    "21": [
       "vercel",
       "vercel_headers",
       "vercel_rewrites"
     ],
-    "21": [
+    "22": [
       "extensions_gemini_token_optimizer_platforms",
       "extensions_gemini_token_optimizer_platforms_forurl"
     ],
-    "22": [
+    "23": [
       "extensions_gemini_token_optimizer_service_worker",
       "extensions_gemini_token_optimizer_service_worker_setpanelfortab"
     ],
-    "23": [
+    "24": [
       "extensions_gemini_token_optimizer_content_bridge"
     ]
   },
   "cohesion": {
-    "0": 0.05875706214689266,
+    "0": 0.057692307692307696,
     "1": 0.08673469387755102,
     "2": 0.11193339500462535,
     "3": 0.058823529411764705,
-    "4": 0.07692307692307693,
-    "5": 0.07692307692307693,
+    "4": 0.07407407407407407,
+    "5": 0.07407407407407407,
     "6": 0.24,
     "7": 0.08695652173913043,
-    "8": 0.20915032679738563,
+    "8": 0.2857142857142857,
     "9": 0.25757575757575757,
     "10": 0.16666666666666666,
-    "11": 0.38181818181818183,
-    "12": 0.38181818181818183,
-    "13": 0.3333333333333333,
-    "14": 0.25,
-    "15": 0.5238095238095238,
-    "16": 0.2857142857142857,
-    "17": 0.4666666666666667,
+    "11": 0.3333333333333333,
+    "12": 0.25,
+    "13": 0.5238095238095238,
+    "14": 0.2857142857142857,
+    "15": 0.4666666666666667,
+    "16": 0.6666666666666666,
+    "17": 0.6666666666666666,
     "18": 0.5,
-    "19": 0.6666666666666666,
+    "19": 0.5,
     "20": 0.6666666666666666,
-    "21": 1.0,
+    "21": 0.6666666666666666,
     "22": 1.0,
-    "23": 1.0
+    "23": 1.0,
+    "24": 1.0
   },
   "gods": [
     {
@@ -495,6 +495,11 @@
       "degree": 13
     },
     {
+      "id": "server_handleapi",
+      "label": "handleApi()",
+      "degree": 12
+    },
+    {
       "id": "extensions_gemini_token_optimizer_sidepanel_el",
       "label": "el()",
       "degree": 11
@@ -502,6 +507,16 @@
     {
       "id": "extensions_gemini_token_optimizer_sidepanel_prepareprompt",
       "label": "preparePrompt()",
+      "degree": 11
+    },
+    {
+      "id": "outputs_workspace_rendercompleted",
+      "label": "renderCompleted()",
+      "degree": 11
+    },
+    {
+      "id": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement",
+      "label": "FakeElement",
       "degree": 11
     },
     {
@@ -517,21 +532,6 @@
     {
       "id": "request_guard_commonheaders",
       "label": "commonHeaders()",
-      "degree": 11
-    },
-    {
-      "id": "server_handleapi",
-      "label": "handleApi()",
-      "degree": 11
-    },
-    {
-      "id": "outputs_workspace_rendercompleted",
-      "label": "renderCompleted()",
-      "degree": 11
-    },
-    {
-      "id": "extensions_gemini_token_optimizer_tests_content_chatgpt_test_fakeelement",
-      "label": "FakeElement",
       "degree": 11
     }
   ],
@@ -594,29 +594,14 @@
   ],
   "questions": [
     {
-      "type": "bridge_node",
-      "question": "Why does `commonHeaders()` connect `request-guard.cjs` to `optimizer-system.cjs`?",
-      "why": "High betweenness centrality (0.007) - this node is a cross-community bridge."
-    },
-    {
-      "type": "bridge_node",
-      "question": "Why does `takeRateLimit()` connect `request-guard.cjs` to `optimizer-system.cjs`?",
-      "why": "High betweenness centrality (0.006) - this node is a cross-community bridge."
-    },
-    {
-      "type": "bridge_node",
-      "question": "Why does `estimateTokens()` connect `optimizer-core.cjs` to `handoff.cjs`?",
-      "why": "High betweenness centrality (0.006) - this node is a cross-community bridge."
-    },
-    {
       "type": "isolated_nodes",
       "question": "What connects `uvx`, `{ preparePortableHandoff }`, `{\n  commonHeaders,\n  publicError,\n  takeRateLimit,\n  validateOptimizerPayload\n}` to the rest of the system?",
-      "why": "144 weakly-connected nodes found - possible documentation gaps or missing edges."
+      "why": "146 weakly-connected nodes found - possible documentation gaps or missing edges."
     },
     {
       "type": "low_cohesion",
       "question": "Should `request-guard.cjs` be split into smaller, more focused modules?",
-      "why": "Cohesion score 0.05875706214689266 - nodes in this community are weakly interconnected."
+      "why": "Cohesion score 0.057692307692307696 - nodes in this community are weakly interconnected."
     },
     {
       "type": "low_cohesion",
@@ -627,6 +612,21 @@
       "type": "low_cohesion",
       "question": "Should `workspace.js` be split into smaller, more focused modules?",
       "why": "Cohesion score 0.11193339500462535 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `manifest.json` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.058823529411764705 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `content-chatgpt.test.cjs` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.07407407407407407 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `content-gemini.test.cjs` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.07407407407407407 - nodes in this community are weakly interconnected."
     }
   ]
 }
