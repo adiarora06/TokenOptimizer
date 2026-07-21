@@ -1,5 +1,6 @@
 const { runBlankA2AKit } = require("../optimizer-core.cjs");
 const {
+  abortSignalOnClose,
   commonHeaders,
   publicError,
   takeRateLimit,
@@ -26,15 +27,11 @@ module.exports = async function handler(req, res) {
       return;
     }
 
-    const controller = new AbortController();
-    res.on?.("close", () => {
-      if (!res.writableEnded) controller.abort();
-    });
     const result = await runBlankA2AKit({
       rawInput: parsed.data.input,
       providerConfig: parsed.data.providerConfig || {},
       options: parsed.data.options || {},
-      signal: controller.signal
+      signal: abortSignalOnClose(res)
     });
     res.status(200).json(result);
   } catch (error) {

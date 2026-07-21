@@ -1,5 +1,6 @@
 const { callChatCompletion, generateWithFallback } = require("../optimizer-core.cjs");
 const {
+  abortSignalOnClose,
   commonHeaders,
   publicError,
   takeRateLimit,
@@ -27,16 +28,13 @@ module.exports = async function handler(req, res) {
     }
     const provider = parsed.data.provider || "groq-openai-fallback";
     const prompt = parsed.data.prompt;
-    const controller = new AbortController();
-    res.on?.("close", () => {
-      if (!res.writableEnded) controller.abort();
-    });
+    const signal = abortSignalOnClose(res);
 
     const result = provider === "openai"
-      ? await callChatCompletion({ provider: "openai", prompt, signal: controller.signal })
+      ? await callChatCompletion({ provider: "openai", prompt, signal })
       : provider === "groq"
-        ? await callChatCompletion({ provider: "groq", prompt, signal: controller.signal })
-        : await generateWithFallback(prompt, { signal: controller.signal });
+        ? await callChatCompletion({ provider: "groq", prompt, signal })
+        : await generateWithFallback(prompt, { signal });
     res.status(200).json(result);
   } catch (error) {
     res.status(500).json({ error: publicError(error) });

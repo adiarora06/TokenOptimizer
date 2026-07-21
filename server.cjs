@@ -21,6 +21,7 @@ const {
 } = require("./optimizer-core.cjs");
 const { createOptimizerSystem } = require("./optimizer-system.cjs");
 const {
+  abortSignalOnClose,
   commonHeaders,
   publicError,
   takeRateLimit,
@@ -194,11 +195,8 @@ async function handleApi(req, res) {
         connection: "keep-alive",
         "x-accel-buffering": "no"
       });
-      const controller = new AbortController();
       const traceId = createTraceId();
-      res.on("close", () => {
-        if (!res.writableEnded) controller.abort();
-      });
+      const signal = abortSignalOnClose(res);
       heartbeat = setInterval(() => {
         if (!res.writableEnded) res.write(": ping\n\n");
       }, 15_000);
@@ -208,7 +206,7 @@ async function handleApi(req, res) {
         provider: parsed.data.provider || "groq-openai-fallback",
         options: parsed.data.options || {},
         traceId,
-        signal: controller.signal,
+        signal,
         onEvent(event) {
           writeSse(res, "progress", event);
         }
@@ -237,15 +235,12 @@ async function handleApi(req, res) {
       }
       const provider = parsed.data.provider || "groq-openai-fallback";
       const prompt = parsed.data.prompt;
-      const controller = new AbortController();
-      res.on("close", () => {
-        if (!res.writableEnded) controller.abort();
-      });
+      const signal = abortSignalOnClose(res);
       const result = provider === "openai"
-        ? await callChatCompletion({ provider: "openai", prompt, signal: controller.signal })
+        ? await callChatCompletion({ provider: "openai", prompt, signal })
         : provider === "groq"
-          ? await callChatCompletion({ provider: "groq", prompt, signal: controller.signal })
-          : await generateWithFallback(prompt, { signal: controller.signal });
+          ? await callChatCompletion({ provider: "groq", prompt, signal })
+          : await generateWithFallback(prompt, { signal });
       sendJson(res, 200, result);
     } catch (error) {
       sendJson(res, 500, { error: publicError(error) });
@@ -281,15 +276,11 @@ async function handleApi(req, res) {
         sendJson(res, 400, { error: parsed.error });
         return;
       }
-      const controller = new AbortController();
-      res.on("close", () => {
-        if (!res.writableEnded) controller.abort();
-      });
       const result = await runSelfOptimizingWorkflow({
         rawInput: parsed.data.input,
         provider: parsed.data.provider || "groq-openai-fallback",
         options: parsed.data.options || {},
-        signal: controller.signal
+        signal: abortSignalOnClose(res)
       });
       sendJson(res, 200, result, commonHeaders(rate));
     } catch (error) {
@@ -306,15 +297,11 @@ async function handleApi(req, res) {
         sendJson(res, 400, { error: parsed.error });
         return;
       }
-      const controller = new AbortController();
-      res.on("close", () => {
-        if (!res.writableEnded) controller.abort();
-      });
       const result = await runBlankA2AKit({
         rawInput: parsed.data.input,
         providerConfig: parsed.data.providerConfig || {},
         options: parsed.data.options || {},
-        signal: controller.signal
+        signal: abortSignalOnClose(res)
       });
       sendJson(res, 200, result);
     } catch (error) {

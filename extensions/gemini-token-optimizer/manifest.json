@@ -45,6 +45,7 @@
         "https://gemini.google.com/*"
       ],
       "js": [
+        "adapters/base.js",
         "adapters/gemini.js",
         "content-bridge.js"
       ],
@@ -56,6 +57,7 @@
         "https://chat.openai.com/*"
       ],
       "js": [
+        "adapters/base.js",
         "adapters/chatgpt.js",
         "content-bridge.js"
       ],
