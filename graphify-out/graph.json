@@ -172,7 +172,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "sidepanel.js",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel"
@@ -183,7 +183,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L5",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "state",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_state"
@@ -194,7 +194,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L11",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "el()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_el"
@@ -205,7 +205,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L13",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "setstatus()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_setstatus"
@@ -216,7 +216,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L21",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "syncrail()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_syncrail"
@@ -227,7 +227,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L45",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "toast()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_toast"
@@ -238,7 +238,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L53",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "estimatetokens()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_estimatetokens"
@@ -249,7 +249,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L57",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "looksprepared()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_looksprepared"
@@ -260,7 +260,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L64",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "platformforurl()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_platformforurl"
@@ -271,7 +271,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L68",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "currentcontext()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_currentcontext"
@@ -282,7 +282,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L76",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "messagetarget()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_messagetarget"
@@ -293,7 +293,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L86",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "getrecentrawprompt()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_getrecentrawprompt"
@@ -304,7 +304,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L91",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "rememberrawprompt()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_rememberrawprompt"
@@ -315,7 +315,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L96",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "recordpreparation()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_recordpreparation"
@@ -326,7 +326,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L112",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "rendermetrics()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_rendermetrics"
@@ -337,7 +337,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L132",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "updatedrafttokenpill()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_updatedrafttokenpill"
@@ -348,7 +348,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L138",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "checkconnection()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_checkconnection"
@@ -359,7 +359,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L149",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "captureprompt()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_captureprompt"
@@ -370,7 +370,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L164",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "rawpromptforpreparation()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_rawpromptforpreparation"
@@ -381,7 +381,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L174",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "requestpreparation()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_requestpreparation"
@@ -392,7 +392,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L194",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "insertpreparedprompt()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_insertpreparedprompt"
@@ -403,7 +403,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L202",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "prepareprompt()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_prepareprompt"
@@ -414,7 +414,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L224",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "copyprepared()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_copyprepared"
@@ -425,7 +425,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L235",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "bindevents()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_bindevents"
@@ -436,7 +436,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L270",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "init()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_init"
@@ -4000,10 +4000,10 @@
       "source_file": "package.json",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 8,
+      "community": 7,
       "norm_label": "package.json",
-      "community_name": "package.json",
-      "id": "package"
+      "id": "package",
+      "community_name": "package.json"
     },
     {
       "label": "name",
@@ -4011,10 +4011,10 @@
       "source_file": "package.json",
       "source_location": "L2",
       "_origin": "ast",
-      "community": 8,
+      "community": 7,
       "norm_label": "name",
-      "community_name": "package.json",
-      "id": "package_name"
+      "id": "package_name",
+      "community_name": "package.json"
     },
     {
       "label": "version",
@@ -4022,10 +4022,10 @@
       "source_file": "package.json",
       "source_location": "L3",
       "_origin": "ast",
-      "community": 8,
+      "community": 7,
       "norm_label": "version",
-      "community_name": "package.json",
-      "id": "package_version"
+      "id": "package_version",
+      "community_name": "package.json"
     },
     {
       "label": "description",
@@ -4033,10 +4033,10 @@
       "source_file": "package.json",
       "source_location": "L4",
       "_origin": "ast",
-      "community": 8,
+      "community": 7,
       "norm_label": "description",
-      "community_name": "package.json",
-      "id": "package_description"
+      "id": "package_description",
+      "community_name": "package.json"
     },
     {
       "label": "private",
@@ -4044,10 +4044,10 @@
       "source_file": "package.json",
       "source_location": "L5",
       "_origin": "ast",
-      "community": 8,
+      "community": 7,
       "norm_label": "private",
-      "community_name": "package.json",
-      "id": "package_private"
+      "id": "package_private",
+      "community_name": "package.json"
     },
     {
       "label": "license",
@@ -4055,208 +4055,219 @@
       "source_file": "package.json",
       "source_location": "L6",
       "_origin": "ast",
-      "community": 8,
+      "community": 7,
       "norm_label": "license",
-      "community_name": "package.json",
-      "id": "package_license"
+      "id": "package_license",
+      "community_name": "package.json"
+    },
+    {
+      "label": "main",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L7",
+      "_origin": "ast",
+      "community": 7,
+      "norm_label": "main",
+      "id": "package_main",
+      "community_name": "package.json"
     },
     {
       "label": "engines",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L7",
+      "source_location": "L8",
       "_origin": "ast",
-      "community": 8,
+      "community": 7,
       "norm_label": "engines",
-      "community_name": "package.json",
-      "id": "package_engines"
+      "id": "package_engines",
+      "community_name": "package.json"
     },
     {
       "label": "node",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L8",
+      "source_location": "L9",
       "_origin": "ast",
-      "community": 8,
+      "community": 7,
       "norm_label": "node",
-      "community_name": "package.json",
-      "id": "package_engines_node"
+      "id": "package_engines_node",
+      "community_name": "package.json"
     },
     {
       "label": "scripts",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L10",
+      "source_location": "L11",
       "_origin": "ast",
-      "community": 8,
+      "community": 7,
       "norm_label": "scripts",
-      "community_name": "package.json",
-      "id": "package_scripts"
+      "id": "package_scripts",
+      "community_name": "package.json"
     },
     {
       "label": "start",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L11",
+      "source_location": "L12",
       "_origin": "ast",
-      "community": 8,
+      "community": 7,
       "norm_label": "start",
-      "community_name": "package.json",
-      "id": "package_scripts_start"
+      "id": "package_scripts_start",
+      "community_name": "package.json"
     },
     {
       "label": "test",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L12",
+      "source_location": "L13",
       "_origin": "ast",
-      "community": 8,
+      "community": 7,
       "norm_label": "test",
-      "community_name": "package.json",
-      "id": "package_scripts_test"
+      "id": "package_scripts_test",
+      "community_name": "package.json"
     },
     {
       "label": "test:core",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L13",
+      "source_location": "L14",
       "_origin": "ast",
-      "community": 8,
+      "community": 7,
       "norm_label": "test:core",
-      "community_name": "package.json",
-      "id": "package_scripts_test_core"
+      "id": "package_scripts_test_core",
+      "community_name": "package.json"
     },
     {
       "label": "test:api",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L14",
+      "source_location": "L15",
       "_origin": "ast",
-      "community": 8,
+      "community": 7,
       "norm_label": "test:api",
-      "community_name": "package.json",
-      "id": "package_scripts_test_api"
+      "id": "package_scripts_test_api",
+      "community_name": "package.json"
     },
     {
       "label": "test:extension",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L15",
+      "source_location": "L16",
       "_origin": "ast",
-      "community": 8,
+      "community": 7,
       "norm_label": "test:extension",
-      "community_name": "package.json",
-      "id": "package_scripts_test_extension"
+      "id": "package_scripts_test_extension",
+      "community_name": "package.json"
     },
     {
       "label": "dependencies",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L17",
+      "source_location": "L18",
       "_origin": "ast",
-      "community": 8,
+      "community": 7,
       "norm_label": "dependencies",
-      "community_name": "package.json",
-      "id": "package_dependencies"
+      "id": "package_dependencies",
+      "community_name": "package.json"
     },
     {
       "label": "zod",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L18",
+      "source_location": "L19",
       "_origin": "ast",
-      "community": 8,
+      "community": 7,
       "norm_label": "zod",
-      "community_name": "package.json",
-      "id": "package_dependencies_zod"
+      "id": "package_dependencies_zod",
+      "community_name": "package.json"
     },
     {
       "label": "zod",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L18",
+      "source_location": "L19",
       "_origin": "ast",
-      "community": 8,
+      "community": 7,
       "norm_label": "zod",
-      "community_name": "package.json",
-      "id": "zod"
+      "id": "zod",
+      "community_name": "package.json"
     },
     {
       "label": "//devDependencies",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L20",
+      "source_location": "L21",
       "_origin": "ast",
-      "community": 8,
+      "community": 7,
       "norm_label": "//devdependencies",
-      "community_name": "package.json",
-      "id": "package_devdependencies"
+      "id": "package_devdependencies",
+      "community_name": "package.json"
     },
     {
       "label": "@tabler/icons-webfont",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L22",
+      "source_location": "L23",
       "_origin": "ast",
-      "community": 8,
+      "community": 7,
       "norm_label": "@tabler/icons-webfont",
-      "community_name": "package.json",
-      "id": "package_devdependencies_tabler_icons_webfont"
+      "id": "package_devdependencies_tabler_icons_webfont",
+      "community_name": "package.json"
     },
     {
       "label": "@tabler/icons-webfont",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L22",
+      "source_location": "L23",
       "_origin": "ast",
-      "community": 8,
+      "community": 7,
       "norm_label": "@tabler/icons-webfont",
-      "community_name": "package.json",
-      "id": "tabler_icons_webfont"
+      "id": "tabler_icons_webfont",
+      "community_name": "package.json"
     },
     {
       "label": "dompurify",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L23",
+      "source_location": "L24",
       "_origin": "ast",
-      "community": 8,
+      "community": 7,
       "norm_label": "dompurify",
-      "community_name": "package.json",
-      "id": "package_devdependencies_dompurify"
+      "id": "package_devdependencies_dompurify",
+      "community_name": "package.json"
     },
     {
       "label": "dompurify",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L23",
+      "source_location": "L24",
       "_origin": "ast",
-      "community": 8,
+      "community": 7,
       "norm_label": "dompurify",
-      "community_name": "package.json",
-      "id": "dompurify"
+      "id": "dompurify",
+      "community_name": "package.json"
     },
     {
       "label": "marked",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L24",
+      "source_location": "L25",
       "_origin": "ast",
-      "community": 8,
+      "community": 7,
       "norm_label": "marked",
-      "community_name": "package.json",
-      "id": "package_devdependencies_marked"
+      "id": "package_devdependencies_marked",
+      "community_name": "package.json"
     },
     {
       "label": "marked",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L24",
+      "source_location": "L25",
       "_origin": "ast",
-      "community": 8,
+      "community": 7,
       "norm_label": "marked",
-      "community_name": "package.json",
-      "id": "marked"
+      "id": "marked",
+      "community_name": "package.json"
     },
     {
       "label": "server.cjs",
@@ -11407,7 +11418,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L17",
+      "source_location": "L18",
       "weight": 1.0,
       "_origin": "ast",
       "confidence_score": 1.0,
@@ -11429,7 +11440,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L21",
+      "source_location": "L22",
       "weight": 1.0,
       "_origin": "ast",
       "confidence_score": 1.0,
@@ -11440,7 +11451,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L7",
+      "source_location": "L8",
       "weight": 1.0,
       "_origin": "ast",
       "confidence_score": 1.0,
@@ -11457,6 +11468,17 @@
       "confidence_score": 1.0,
       "source": "package",
       "target": "package_license"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "package",
+      "target": "package_main"
     },
     {
       "relation": "contains",
@@ -11484,7 +11506,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L10",
+      "source_location": "L11",
       "weight": 1.0,
       "_origin": "ast",
       "confidence_score": 1.0,
@@ -11506,7 +11528,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L8",
+      "source_location": "L9",
       "weight": 1.0,
       "_origin": "ast",
       "confidence_score": 1.0,
@@ -11517,7 +11539,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L11",
+      "source_location": "L12",
       "weight": 1.0,
       "_origin": "ast",
       "confidence_score": 1.0,
@@ -11528,7 +11550,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L12",
+      "source_location": "L13",
       "weight": 1.0,
       "_origin": "ast",
       "confidence_score": 1.0,
@@ -11539,7 +11561,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L14",
+      "source_location": "L15",
       "weight": 1.0,
       "_origin": "ast",
       "confidence_score": 1.0,
@@ -11550,7 +11572,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L13",
+      "source_location": "L14",
       "weight": 1.0,
       "_origin": "ast",
       "confidence_score": 1.0,
@@ -11561,7 +11583,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L15",
+      "source_location": "L16",
       "weight": 1.0,
       "_origin": "ast",
       "confidence_score": 1.0,
@@ -11572,7 +11594,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L18",
+      "source_location": "L19",
       "weight": 1.0,
       "_origin": "ast",
       "confidence_score": 1.0,
@@ -11583,7 +11605,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L18",
+      "source_location": "L19",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -11595,7 +11617,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L23",
+      "source_location": "L24",
       "weight": 1.0,
       "_origin": "ast",
       "confidence_score": 1.0,
@@ -11606,7 +11628,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L24",
+      "source_location": "L25",
       "weight": 1.0,
       "_origin": "ast",
       "confidence_score": 1.0,
@@ -11617,7 +11639,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L22",
+      "source_location": "L23",
       "weight": 1.0,
       "_origin": "ast",
       "confidence_score": 1.0,
@@ -11628,7 +11650,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L22",
+      "source_location": "L23",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -11640,7 +11662,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L23",
+      "source_location": "L24",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -11652,7 +11674,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L24",
+      "source_location": "L25",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -11919,5 +11941,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "179763b255996a7b241433a31699d621086532f9"
+  "built_at_commit": "7bf18543c666f18a18a3c39530e0b4861fb27438"
 }

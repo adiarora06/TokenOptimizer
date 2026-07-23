@@ -4,12 +4,12 @@
 - cluster-only mode — file stats not available
 
 ## Summary
-- 406 nodes · 645 edges · 25 communities (21 shown, 4 thin omitted)
+- 407 nodes · 646 edges · 25 communities (21 shown, 4 thin omitted)
 - Extraction: 91% EXTRACTED · 9% INFERRED · 0% AMBIGUOUS · INFERRED: 60 edges (avg confidence: 0.5)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `179763b2`
+- Built from commit: `7bf18543`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -21,8 +21,8 @@
 - content-chatgpt.test.cjs
 - content-gemini.test.cjs
 - handoff.cjs
-- sidepanel.js
 - package.json
+- sidepanel.js
 - server.cjs
 - optimizer-system.cjs
 - sidepanel-logic.test.cjs
@@ -124,13 +124,13 @@ Nodes (21): { analyzeWorkflowShape, buildOfflineContract }, buildPortablePrompt(
   withoutTrailingEllipsis
 }, { estimateTokens }, isLikelyOriginalTask(), isPreparedWrapper(), originalTaskScore() (+13 more)
 
-### Community 7 - "sidepanel.js"
+### Community 7 - "package.json"
+Cohesion: 0.08
+Nodes (24): dompurify, marked, dependencies, zod, description, //devDependencies, dompurify, marked (+16 more)
+
+### Community 8 - "sidepanel.js"
 Cohesion: 0.24
 Nodes (24): bindEvents(), capturePrompt(), checkConnection(), copyPrepared(), currentContext(), el(), estimateTokens(), getRecentRawPrompt() (+16 more)
-
-### Community 8 - "package.json"
-Cohesion: 0.08
-Nodes (23): dompurify, marked, dependencies, zod, description, //devDependencies, dompurify, marked (+15 more)
 
 ### Community 9 - "server.cjs"
 Cohesion: 0.12
@@ -192,12 +192,12 @@ Cohesion: 0.67
 Nodes (5): hasPromptLabel(), isCandidate(), isHugeEditable(), isNearPromptArea(), score()
 
 ## Knowledge Gaps
-- **146 isolated node(s):** `uvx`, `{ preparePortableHandoff }`, `{
+- **147 isolated node(s):** `uvx`, `{ preparePortableHandoff }`, `{
   commonHeaders,
   publicError,
   takeRateLimit,
   validateOptimizerPayload
-}`, `{ providerStatus }`, `{ SYSTEM_ARCHITECTURE, runSystemRunInline }` (+141 more)
+}`, `{ providerStatus }`, `{ SYSTEM_ARCHITECTURE, runSystemRunInline }` (+142 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **4 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -210,7 +210,7 @@ _Questions this graph is uniquely positioned to answer:_
   takeRateLimit,
   validateOptimizerPayload
 }` to the rest of the system?**
-  _146 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _147 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `workspace.js` be split into smaller, more focused modules?**
   _Cohesion score 0.11193339500462535 - nodes in this community are weakly interconnected._
 - **Should `request-guard.cjs` be split into smaller, more focused modules?**
