@@ -1,10 +1,9 @@
-# server.cjs is the LOCAL dev host only. It binds to 127.0.0.1, which a platform
-# proxy cannot reach, and Vercel will happily deploy it as a "legacy server" and
-# route /api/* to it instead of the serverless functions in api/. Keep it out of
-# the deployment so Vercel serves static assets plus api/*.js as intended.
-server.cjs
+# server.cjs IS the deployed entrypoint: this project builds as a Node server,
+# so Vercel runs server.cjs and only falls through to it for /api/* (the static
+# routes in vercel.json resolve to files before reaching it). It must bind
+# 0.0.0.0 in a container or the platform proxy cannot reach it.
 
-# CI-only and non-web assets. api/*.js requires optimizer-core.cjs, core/,
+# CI-only and non-web assets. The server requires optimizer-core.cjs, core/,
 # optimizer-system.cjs and request-guard.cjs, so those must stay deployed.
 tests/
 extensions/

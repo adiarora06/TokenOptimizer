@@ -392,9 +392,11 @@ const server = http.createServer((req, res) => {
   serveStatic(req, res);
 });
 
-// Loopback by default so local runs are not exposed on the network. A container
-// host must set HOST=0.0.0.0, or its proxy cannot reach this listener at all.
-const host = process.env.HOST || "127.0.0.1";
+// Loopback locally so a dev run is not exposed on the network, but every
+// interface on a platform like Vercel: its proxy connects from outside the
+// process, and a 127.0.0.1 listener refuses that connection until the request
+// is killed by the platform timeout.
+const host = process.env.HOST || (process.env.VERCEL ? "0.0.0.0" : "127.0.0.1");
 
 server.listen(port, host, () => {
   console.log(`Token optimizer running at http://${host}:${port}/`);

@@ -4,6 +4,7 @@
   "description": "Browser-based AI workspace that turns one rough request into a completed result through adaptive routing, compact handoff contracts, and inspectable usage.",
   "private": true,
   "license": "MIT",
+  "main": "server.cjs",
   "engines": {
     "node": ">=18"
   },
