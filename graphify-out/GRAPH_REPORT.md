@@ -1,35 +1,34 @@
-# Graph Report - .  (2026-07-21)
+# Graph Report - .  (2026-07-22)
 
 ## Corpus Check
 - cluster-only mode — file stats not available
 
 ## Summary
-- 405 nodes · 670 edges · 25 communities (21 shown, 4 thin omitted)
+- 406 nodes · 661 edges · 24 communities (20 shown, 4 thin omitted)
 - Extraction: 91% EXTRACTED · 9% INFERRED · 0% AMBIGUOUS · INFERRED: 60 edges (avg confidence: 0.5)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `b853d77c`
+- Built from commit: `1b0e5060`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
 - request-guard.cjs
-- optimizer-core.cjs
 - workspace.js
+- optimizer-core.cjs
 - manifest.json
 - content-chatgpt.test.cjs
 - content-gemini.test.cjs
+- handoff.cjs
 - sidepanel.js
 - package.json
 - optimizer-system.cjs
-- handoff.cjs
 - sidepanel-logic.test.cjs
 - api-endpoints.test.cjs
 - prompts.cjs
 - system-worker.js
 - optimizer-core.test.cjs
-- text.cjs
 - chatgpt.js
 - gemini.js
 - canonical-graph.cjs
@@ -38,10 +37,10 @@
 
 ## God Nodes (most connected - your core abstractions)
 1. `run()` - 18 edges
-2. `estimateTokens()` - 13 edges
-3. `handleApi()` - 12 edges
-4. `el()` - 11 edges
-5. `preparePrompt()` - 11 edges
+2. `handleApi()` - 12 edges
+3. `el()` - 11 edges
+4. `preparePrompt()` - 11 edges
+5. `estimateTokens()` - 11 edges
 6. `renderCompleted()` - 11 edges
 7. `FakeElement` - 11 edges
 8. `FakeElement` - 11 edges
@@ -63,7 +62,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (25 total, 4 thin omitted)
+## Communities (24 total, 4 thin omitted)
 
 ### Community 0 - "request-guard.cjs"
 Cohesion: 0.06
@@ -93,13 +92,13 @@ Nodes (53): {
   validateOptimizerPayload
 }, { createTraceId, runSelfOptimizingWorkflow } (+45 more)
 
-### Community 1 - "optimizer-core.cjs"
-Cohesion: 0.09
-Nodes (42): { providerStatus }, { assertSafeProviderEndpoint }, callChatCompletion(), callModel(), callWorkflowProvider(), createRequestSignal(), { estimateTokens, modelCost, normalizeUsage }, generateWithFallback() (+34 more)
-
-### Community 2 - "workspace.js"
+### Community 1 - "workspace.js"
 Cohesion: 0.11
 Nodes (45): bindEvents(), checkService(), compactNumber(), contextComparisonText(), contextInput(), continueFromResult(), coordinatorActions(), copyText() (+37 more)
+
+### Community 2 - "optimizer-core.cjs"
+Cohesion: 0.09
+Nodes (33): { providerStatus }, { assertSafeProviderEndpoint }, callChatCompletion(), callModel(), callWorkflowProvider(), createRequestSignal(), { estimateTokens, modelCost, normalizeUsage }, generateWithFallback() (+25 more)
 
 ### Community 3 - "manifest.json"
 Cohesion: 0.06
@@ -113,32 +112,32 @@ Nodes (14): adapterCode, assert, baseCode, bridgeCode, composerForm, context, Fa
 Cohesion: 0.07
 Nodes (14): adapterCode, assert, baseCode, bridgeCode, context, FakeElement, fs, hugeEditor (+6 more)
 
-### Community 6 - "sidepanel.js"
-Cohesion: 0.24
-Nodes (24): bindEvents(), capturePrompt(), checkConnection(), copyPrepared(), currentContext(), el(), estimateTokens(), getRecentRawPrompt() (+16 more)
-
-### Community 7 - "package.json"
-Cohesion: 0.09
-Nodes (22): dompurify, marked, dependencies, dompurify, marked, @tabler/icons-webfont, zod, description (+14 more)
-
-### Community 8 - "optimizer-system.cjs"
-Cohesion: 0.29
-Nodes (12): applyResultTrace(), baseStages(), compactTitle(), createId(), createRun(), {
-  estimateTokens,
-  runBlankA2AKit,
-  runSelfOptimizingWorkflow
-}, executeSystemRun(), nowIso() (+4 more)
-
-### Community 9 - "handoff.cjs"
-Cohesion: 0.26
-Nodes (11): { analyzeWorkflowShape, buildOfflineContract }, buildPortablePrompt(), cleanDirectRequest(), {
+### Community 6 - "handoff.cjs"
+Cohesion: 0.13
+Nodes (21): { analyzeWorkflowShape, buildOfflineContract }, buildPortablePrompt(), cleanDirectRequest(), {
   cleanPromptText,
   compactLines,
   dedupeNaturalLanguageLines,
   promptSection,
   stripListPrefix,
   withoutTrailingEllipsis
-}, { estimateTokens }, isLikelyOriginalTask(), isPreparedWrapper(), originalTaskScore() (+3 more)
+}, { estimateTokens }, isLikelyOriginalTask(), isPreparedWrapper(), originalTaskScore() (+13 more)
+
+### Community 7 - "sidepanel.js"
+Cohesion: 0.24
+Nodes (24): bindEvents(), capturePrompt(), checkConnection(), copyPrepared(), currentContext(), el(), estimateTokens(), getRecentRawPrompt() (+16 more)
+
+### Community 8 - "package.json"
+Cohesion: 0.08
+Nodes (23): dompurify, marked, dependencies, zod, description, //devDependencies, dompurify, marked (+15 more)
+
+### Community 9 - "optimizer-system.cjs"
+Cohesion: 0.29
+Nodes (12): applyResultTrace(), baseStages(), compactTitle(), createId(), createRun(), {
+  estimateTokens,
+  runBlankA2AKit,
+  runSelfOptimizingWorkflow
+}, executeSystemRun(), nowIso() (+4 more)
 
 ### Community 10 - "sidepanel-logic.test.cjs"
 Cohesion: 0.17
@@ -163,15 +162,11 @@ Nodes (5): {
   runSelfOptimizingWorkflow
 }, assert, { assertSafeProviderEndpoint }, { contextComparison }, { takeRateLimit }
 
-### Community 15 - "text.cjs"
-Cohesion: 0.47
-Nodes (3): cleanPromptText(), dedupeNaturalLanguageLines(), stripListPrefix()
-
-### Community 16 - "chatgpt.js"
+### Community 15 - "chatgpt.js"
 Cohesion: 0.67
 Nodes (5): hasPromptLabel(), isCandidate(), isHugeEditable(), isNearPromptArea(), score()
 
-### Community 17 - "gemini.js"
+### Community 16 - "gemini.js"
 Cohesion: 0.67
 Nodes (5): hasPromptLabel(), isCandidate(), isHugeEditable(), isNearPromptArea(), score()
 
@@ -197,10 +192,10 @@ _Questions this graph is uniquely positioned to answer:_
   _146 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `request-guard.cjs` be split into smaller, more focused modules?**
   _Cohesion score 0.057692307692307696 - nodes in this community are weakly interconnected._
-- **Should `optimizer-core.cjs` be split into smaller, more focused modules?**
-  _Cohesion score 0.08673469387755102 - nodes in this community are weakly interconnected._
 - **Should `workspace.js` be split into smaller, more focused modules?**
   _Cohesion score 0.11193339500462535 - nodes in this community are weakly interconnected._
+- **Should `optimizer-core.cjs` be split into smaller, more focused modules?**
+  _Cohesion score 0.08536585365853659 - nodes in this community are weakly interconnected._
 - **Should `manifest.json` be split into smaller, more focused modules?**
   _Cohesion score 0.058823529411764705 - nodes in this community are weakly interconnected._
 - **Should `content-chatgpt.test.cjs` be split into smaller, more focused modules?**
