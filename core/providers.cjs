@@ -276,7 +276,12 @@ async function generateWithFallback(prompt, options = {}) {
     }
   }
   const details = attempts.map((attempt) => `${attempt.provider}: ${attempt.error}`).join("; ");
-  const error = new Error("Model execution is temporarily unavailable. Please retry in a moment.");
+  // A missing key is a setup problem, not an outage: telling the user to retry
+  // would send them in circles, so name the real cause.
+  const unconfigured = attempts.every((attempt) => /is not configured/i.test(attempt.error));
+  const error = new Error(unconfigured
+    ? "No model provider is configured. Add GROQ_API_KEY or OPENAI_API_KEY and restart."
+    : "Model execution is temporarily unavailable. Please retry in a moment.");
   error.attempts = attempts;
   error.cause = details;
   throw error;

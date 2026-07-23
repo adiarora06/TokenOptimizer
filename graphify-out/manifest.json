@@ -100,9 +100,9 @@
     "semantic_hash": "eb10d940c51f33acda1003dfde7fd0ee"
   },
   "package.json": {
-    "mtime": 1784586107.4461434,
-    "ast_hash": "2f2a344cf1417df5a86d8c96f55bfaff",
-    "semantic_hash": "2f2a344cf1417df5a86d8c96f55bfaff"
+    "mtime": 1784777251.5835636,
+    "ast_hash": "58739ba7b4d02893b832fc516a33d1a0",
+    "semantic_hash": "58739ba7b4d02893b832fc516a33d1a0"
   },
   "request-guard.cjs": {
     "mtime": 1784642706.7363846,
@@ -160,9 +160,9 @@
     "semantic_hash": "ed3476997e1fae7d98b41112f9c18745"
   },
   "core/providers.cjs": {
-    "mtime": 1784569166.4765525,
-    "ast_hash": "df62a2c337795c7e659101bbe8de65a8",
-    "semantic_hash": "df62a2c337795c7e659101bbe8de65a8"
+    "mtime": 1784777280.320115,
+    "ast_hash": "d8eb082d4c085ecd9329a26def9c9873",
+    "semantic_hash": "d8eb082d4c085ecd9329a26def9c9873"
   },
   "core/routing.cjs": {
     "mtime": 1784569186.7826529,
