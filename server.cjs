@@ -20,15 +20,21 @@ const {
   runSelfOptimizingWorkflow
 } = require("./optimizer-core.cjs");
 const { createOptimizerSystem } = require("./optimizer-system.cjs");
-const {
-  abortSignalOnClose,
-  commonHeaders,
-  publicError,
-  takeRateLimit,
-  validateA2APayload,
-  validateGeneratePayload,
-  validateOptimizerPayload
-} = require("./request-guard.cjs");
+// Resolved per call rather than destructured at load: the host bundler can hand
+// back a module whose exports are not populated yet, which captured `undefined`
+// for every guard and crashed the first request with "not a function".
+// Resolved through a runtime-built path on purpose. A host bundler rewrote the
+// static require of this file into an empty virtual module, so every guard came
+// back undefined and the first request died in sendJson. The file ships intact
+// beside this one, and a non-literal specifier cannot be statically rewritten.
+const guard = require(path.join(__dirname, "request-guard.cjs"));
+const abortSignalOnClose = (...args) => guard.abortSignalOnClose(...args);
+const commonHeaders = (...args) => guard.commonHeaders(...args);
+const publicError = (...args) => guard.publicError(...args);
+const takeRateLimit = (...args) => guard.takeRateLimit(...args);
+const validateA2APayload = (...args) => guard.validateA2APayload(...args);
+const validateGeneratePayload = (...args) => guard.validateGeneratePayload(...args);
+const validateOptimizerPayload = (...args) => guard.validateOptimizerPayload(...args);
 
 const optimizerSystem = createOptimizerSystem();
 
@@ -47,7 +53,13 @@ function loadEnvFile(filePath) {
 }
 
 function sendJson(res, status, data, headers = {}) {
-  if (res.writableEnded || res.destroyed) return;
+  // Only skip when this response has genuinely been written already. Checking
+  // res.destroyed here made a hosted proxy's response object look unusable and
+  // returned without writing anything, hanging the request until it timed out.
+  if (res.writableEnded) {
+    console.warn(`sendJson skipped ${status}: response already ended`);
+    return;
+  }
   const body = JSON.stringify(data);
   res.writeHead(status, {
     ...commonHeaders(),
@@ -386,7 +398,16 @@ function serveStatic(req, res) {
 
 const server = http.createServer((req, res) => {
   if (req.url.startsWith("/api/")) {
-    handleApi(req, res);
+    // A rejected handler must never leave the request hanging until the host
+    // kills it: always answer, and make the reason visible in the logs.
+    handleApi(req, res).catch((error) => {
+      console.error(`API handler failed for ${req.url}:`, error);
+      // Raw write: sendJson itself depends on the guard module, so a guard
+      // failure must not be reported through it.
+      if (res.writableEnded) return;
+      res.writeHead(500, { "content-type": "application/json" });
+      res.end(JSON.stringify({ error: String(error && error.message) }));
+    });
     return;
   }
   serveStatic(req, res);
@@ -400,4 +421,5 @@ const host = process.env.HOST || (process.env.VERCEL ? "0.0.0.0" : "127.0.0.1");
 
 server.listen(port, host, () => {
   console.log(`Token optimizer running at http://${host}:${port}/`);
+  console.log(`request-guard exports: ${Object.keys(guard).join(",") || "(none)"}`);
 });

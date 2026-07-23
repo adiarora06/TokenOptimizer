@@ -1,15 +1,15 @@
-# Graph Report - .  (2026-07-22)
+# Graph Report - .  (2026-07-23)
 
 ## Corpus Check
 - cluster-only mode — file stats not available
 
 ## Summary
-- 407 nodes · 646 edges · 25 communities (21 shown, 4 thin omitted)
+- 414 nodes · 661 edges · 25 communities (21 shown, 4 thin omitted)
 - Extraction: 91% EXTRACTED · 9% INFERRED · 0% AMBIGUOUS · INFERRED: 60 edges (avg confidence: 0.5)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `7bf18543`
+- Built from commit: `e3152d7a`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -20,10 +20,10 @@
 - manifest.json
 - content-chatgpt.test.cjs
 - content-gemini.test.cjs
+- server.cjs
 - handoff.cjs
 - package.json
 - sidepanel.js
-- server.cjs
 - optimizer-system.cjs
 - sidepanel-logic.test.cjs
 - api-endpoints.test.cjs
@@ -38,15 +38,15 @@
 
 ## God Nodes (most connected - your core abstractions)
 1. `run()` - 18 edges
-2. `el()` - 11 edges
-3. `preparePrompt()` - 11 edges
-4. `estimateTokens()` - 11 edges
-5. `renderCompleted()` - 11 edges
-6. `FakeElement` - 11 edges
+2. `handleApi()` - 12 edges
+3. `el()` - 11 edges
+4. `preparePrompt()` - 11 edges
+5. `estimateTokens()` - 11 edges
+6. `renderCompleted()` - 11 edges
 7. `FakeElement` - 11 edges
-8. `bindEvents()` - 10 edges
-9. `setStatus()` - 9 edges
-10. `capturePrompt()` - 9 edges
+8. `FakeElement` - 11 edges
+9. `bindEvents()` - 10 edges
+10. `setStatus()` - 9 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `runBlankA2AKit()` --calls--> `estimateTokens()`  [EXTRACTED]
@@ -113,7 +113,19 @@ Nodes (14): adapterCode, assert, baseCode, bridgeCode, composerForm, context, Fa
 Cohesion: 0.07
 Nodes (14): adapterCode, assert, baseCode, bridgeCode, context, FakeElement, fs, hugeEditor (+6 more)
 
-### Community 6 - "handoff.cjs"
+### Community 6 - "server.cjs"
+Cohesion: 0.11
+Nodes (24): abortSignalOnClose(), allowedApiMethods(), {
+  callChatCompletion,
+  createTraceId,
+  generateWithFallback,
+  preparePortableHandoff,
+  providerStatus,
+  runBlankA2AKit,
+  runSelfOptimizingWorkflow
+}, commonHeaders(), { createOptimizerSystem }, fs, graphifyDir, guard (+16 more)
+
+### Community 7 - "handoff.cjs"
 Cohesion: 0.13
 Nodes (21): { analyzeWorkflowShape, buildOfflineContract }, buildPortablePrompt(), cleanDirectRequest(), {
   cleanPromptText,
@@ -124,33 +136,13 @@ Nodes (21): { analyzeWorkflowShape, buildOfflineContract }, buildPortablePrompt(
   withoutTrailingEllipsis
 }, { estimateTokens }, isLikelyOriginalTask(), isPreparedWrapper(), originalTaskScore() (+13 more)
 
-### Community 7 - "package.json"
+### Community 8 - "package.json"
 Cohesion: 0.08
 Nodes (24): dompurify, marked, dependencies, zod, description, //devDependencies, dompurify, marked (+16 more)
 
-### Community 8 - "sidepanel.js"
+### Community 9 - "sidepanel.js"
 Cohesion: 0.24
 Nodes (24): bindEvents(), capturePrompt(), checkConnection(), copyPrepared(), currentContext(), el(), estimateTokens(), getRecentRawPrompt() (+16 more)
-
-### Community 9 - "server.cjs"
-Cohesion: 0.12
-Nodes (17): {
-  abortSignalOnClose,
-  commonHeaders,
-  publicError,
-  takeRateLimit,
-  validateA2APayload,
-  validateGeneratePayload,
-  validateOptimizerPayload
-}, allowedApiMethods(), {
-  callChatCompletion,
-  createTraceId,
-  generateWithFallback,
-  preparePortableHandoff,
-  providerStatus,
-  runBlankA2AKit,
-  runSelfOptimizingWorkflow
-}, { createOptimizerSystem }, fs, graphifyDir, handleApi(), http (+9 more)
 
 ### Community 10 - "optimizer-system.cjs"
 Cohesion: 0.29

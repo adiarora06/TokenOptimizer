@@ -172,7 +172,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 8,
+      "community": 9,
       "norm_label": "sidepanel.js",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel"
@@ -183,7 +183,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L5",
       "_origin": "ast",
-      "community": 8,
+      "community": 9,
       "norm_label": "state",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_state"
@@ -194,7 +194,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L11",
       "_origin": "ast",
-      "community": 8,
+      "community": 9,
       "norm_label": "el()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_el"
@@ -205,7 +205,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L13",
       "_origin": "ast",
-      "community": 8,
+      "community": 9,
       "norm_label": "setstatus()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_setstatus"
@@ -216,7 +216,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L21",
       "_origin": "ast",
-      "community": 8,
+      "community": 9,
       "norm_label": "syncrail()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_syncrail"
@@ -227,7 +227,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L45",
       "_origin": "ast",
-      "community": 8,
+      "community": 9,
       "norm_label": "toast()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_toast"
@@ -238,7 +238,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L53",
       "_origin": "ast",
-      "community": 8,
+      "community": 9,
       "norm_label": "estimatetokens()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_estimatetokens"
@@ -249,7 +249,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L57",
       "_origin": "ast",
-      "community": 8,
+      "community": 9,
       "norm_label": "looksprepared()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_looksprepared"
@@ -260,7 +260,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L64",
       "_origin": "ast",
-      "community": 8,
+      "community": 9,
       "norm_label": "platformforurl()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_platformforurl"
@@ -271,7 +271,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L68",
       "_origin": "ast",
-      "community": 8,
+      "community": 9,
       "norm_label": "currentcontext()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_currentcontext"
@@ -282,7 +282,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L76",
       "_origin": "ast",
-      "community": 8,
+      "community": 9,
       "norm_label": "messagetarget()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_messagetarget"
@@ -293,7 +293,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L86",
       "_origin": "ast",
-      "community": 8,
+      "community": 9,
       "norm_label": "getrecentrawprompt()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_getrecentrawprompt"
@@ -304,7 +304,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L91",
       "_origin": "ast",
-      "community": 8,
+      "community": 9,
       "norm_label": "rememberrawprompt()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_rememberrawprompt"
@@ -315,7 +315,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L96",
       "_origin": "ast",
-      "community": 8,
+      "community": 9,
       "norm_label": "recordpreparation()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_recordpreparation"
@@ -326,7 +326,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L112",
       "_origin": "ast",
-      "community": 8,
+      "community": 9,
       "norm_label": "rendermetrics()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_rendermetrics"
@@ -337,7 +337,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L132",
       "_origin": "ast",
-      "community": 8,
+      "community": 9,
       "norm_label": "updatedrafttokenpill()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_updatedrafttokenpill"
@@ -348,7 +348,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L138",
       "_origin": "ast",
-      "community": 8,
+      "community": 9,
       "norm_label": "checkconnection()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_checkconnection"
@@ -359,7 +359,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L149",
       "_origin": "ast",
-      "community": 8,
+      "community": 9,
       "norm_label": "captureprompt()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_captureprompt"
@@ -370,7 +370,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L164",
       "_origin": "ast",
-      "community": 8,
+      "community": 9,
       "norm_label": "rawpromptforpreparation()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_rawpromptforpreparation"
@@ -381,7 +381,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L174",
       "_origin": "ast",
-      "community": 8,
+      "community": 9,
       "norm_label": "requestpreparation()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_requestpreparation"
@@ -392,7 +392,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L194",
       "_origin": "ast",
-      "community": 8,
+      "community": 9,
       "norm_label": "insertpreparedprompt()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_insertpreparedprompt"
@@ -403,7 +403,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L202",
       "_origin": "ast",
-      "community": 8,
+      "community": 9,
       "norm_label": "prepareprompt()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_prepareprompt"
@@ -414,7 +414,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L224",
       "_origin": "ast",
-      "community": 8,
+      "community": 9,
       "norm_label": "copyprepared()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_copyprepared"
@@ -425,7 +425,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L235",
       "_origin": "ast",
-      "community": 8,
+      "community": 9,
       "norm_label": "bindevents()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_bindevents"
@@ -436,7 +436,7 @@
       "source_file": "extensions/gemini-token-optimizer/sidepanel.js",
       "source_location": "L270",
       "_origin": "ast",
-      "community": 8,
+      "community": 9,
       "norm_label": "init()",
       "community_name": "sidepanel.js",
       "id": "extensions_gemini_token_optimizer_sidepanel_init"
@@ -700,7 +700,7 @@
       "source_file": "core/routing.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 6,
+      "community": 7,
       "norm_label": "routing.cjs",
       "community_name": "handoff.cjs",
       "id": "core_routing"
@@ -711,7 +711,7 @@
       "source_file": "core/routing.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 6,
+      "community": 7,
       "norm_label": "{ estimatetokens }",
       "community_name": "handoff.cjs",
       "id": "core_routing_estimatetokens"
@@ -722,7 +722,7 @@
       "source_file": "core/routing.cjs",
       "source_location": "L2",
       "_origin": "ast",
-      "community": 6,
+      "community": 7,
       "norm_label": "{ compactlines }",
       "community_name": "handoff.cjs",
       "id": "core_routing_compactlines"
@@ -733,7 +733,7 @@
       "source_file": "core/routing.cjs",
       "source_location": "L4",
       "_origin": "ast",
-      "community": 6,
+      "community": 7,
       "norm_label": "outputstylefor()",
       "community_name": "handoff.cjs",
       "id": "core_routing_outputstylefor"
@@ -744,7 +744,7 @@
       "source_file": "core/routing.cjs",
       "source_location": "L12",
       "_origin": "ast",
-      "community": 6,
+      "community": 7,
       "norm_label": "analyzeworkflowshape()",
       "community_name": "handoff.cjs",
       "id": "core_routing_analyzeworkflowshape"
@@ -755,7 +755,7 @@
       "source_file": "core/routing.cjs",
       "source_location": "L72",
       "_origin": "ast",
-      "community": 6,
+      "community": 7,
       "norm_label": "buildofflinecontract()",
       "community_name": "handoff.cjs",
       "id": "core_routing_buildofflinecontract"
@@ -766,7 +766,7 @@
       "source_file": "core/text.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 6,
+      "community": 7,
       "norm_label": "text.cjs",
       "community_name": "handoff.cjs",
       "id": "core_text"
@@ -777,7 +777,7 @@
       "source_file": "core/text.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 6,
+      "community": 7,
       "norm_label": "compactlines()",
       "community_name": "handoff.cjs",
       "id": "core_text_compactlines"
@@ -788,7 +788,7 @@
       "source_file": "core/text.cjs",
       "source_location": "L9",
       "_origin": "ast",
-      "community": 6,
+      "community": 7,
       "norm_label": "cleanprompttext()",
       "community_name": "handoff.cjs",
       "id": "core_text_cleanprompttext"
@@ -799,7 +799,7 @@
       "source_file": "core/text.cjs",
       "source_location": "L16",
       "_origin": "ast",
-      "community": 6,
+      "community": 7,
       "norm_label": "striplistprefix()",
       "community_name": "handoff.cjs",
       "id": "core_text_striplistprefix"
@@ -810,7 +810,7 @@
       "source_file": "core/text.cjs",
       "source_location": "L20",
       "_origin": "ast",
-      "community": 6,
+      "community": 7,
       "norm_label": "withouttrailingellipsis()",
       "community_name": "handoff.cjs",
       "id": "core_text_withouttrailingellipsis"
@@ -821,7 +821,7 @@
       "source_file": "core/text.cjs",
       "source_location": "L24",
       "_origin": "ast",
-      "community": 6,
+      "community": 7,
       "norm_label": "promptsection()",
       "community_name": "handoff.cjs",
       "id": "core_text_promptsection"
@@ -832,7 +832,7 @@
       "source_file": "core/text.cjs",
       "source_location": "L35",
       "_origin": "ast",
-      "community": 6,
+      "community": 7,
       "norm_label": "dedupenaturallanguagelines()",
       "community_name": "handoff.cjs",
       "id": "core_text_dedupenaturallanguagelines"
@@ -1272,7 +1272,7 @@
       "source_file": "core/handoff.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 6,
+      "community": 7,
       "norm_label": "handoff.cjs",
       "community_name": "handoff.cjs",
       "id": "core_handoff"
@@ -1283,7 +1283,7 @@
       "source_file": "core/handoff.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 6,
+      "community": 7,
       "norm_label": "{ estimatetokens }",
       "community_name": "handoff.cjs",
       "id": "core_handoff_estimatetokens"
@@ -1294,7 +1294,7 @@
       "source_file": "core/handoff.cjs",
       "source_location": "L2",
       "_origin": "ast",
-      "community": 6,
+      "community": 7,
       "norm_label": "{ redactsensitivetext }",
       "community_name": "handoff.cjs",
       "id": "core_handoff_redactsensitivetext"
@@ -1305,7 +1305,7 @@
       "source_file": "core/handoff.cjs",
       "source_location": "L3",
       "_origin": "ast",
-      "community": 6,
+      "community": 7,
       "norm_label": "{ analyzeworkflowshape, buildofflinecontract }",
       "community_name": "handoff.cjs",
       "id": "core_handoff_analyzeworkflowshape_buildofflinecontract"
@@ -1316,7 +1316,7 @@
       "source_file": "core/handoff.cjs",
       "source_location": "L4",
       "_origin": "ast",
-      "community": 6,
+      "community": 7,
       "norm_label": "{\n  cleanprompttext,\n  compactlines,\n  dedupenaturallanguagelines,\n  promptsection,\n  striplistprefix,\n  withouttrailingellipsis\n}",
       "community_name": "handoff.cjs",
       "id": "core_handoff_cleanprompttext_compactlines_dedupenaturallanguagelines_promptsection_striplistprefix_withouttrailingellipsis"
@@ -1327,7 +1327,7 @@
       "source_file": "core/handoff.cjs",
       "source_location": "L13",
       "_origin": "ast",
-      "community": 6,
+      "community": 7,
       "norm_label": "ispreparedwrapper()",
       "community_name": "handoff.cjs",
       "id": "core_handoff_ispreparedwrapper"
@@ -1338,7 +1338,7 @@
       "source_file": "core/handoff.cjs",
       "source_location": "L21",
       "_origin": "ast",
-      "community": 6,
+      "community": 7,
       "norm_label": "islikelyoriginaltask()",
       "community_name": "handoff.cjs",
       "id": "core_handoff_islikelyoriginaltask"
@@ -1349,7 +1349,7 @@
       "source_file": "core/handoff.cjs",
       "source_location": "L30",
       "_origin": "ast",
-      "community": 6,
+      "community": 7,
       "norm_label": "originaltaskscore()",
       "community_name": "handoff.cjs",
       "id": "core_handoff_originaltaskscore"
@@ -1360,7 +1360,7 @@
       "source_file": "core/handoff.cjs",
       "source_location": "L41",
       "_origin": "ast",
-      "community": 6,
+      "community": 7,
       "norm_label": "unwrappreparedprompt()",
       "community_name": "handoff.cjs",
       "id": "core_handoff_unwrappreparedprompt"
@@ -1371,7 +1371,7 @@
       "source_file": "core/handoff.cjs",
       "source_location": "L58",
       "_origin": "ast",
-      "community": 6,
+      "community": 7,
       "norm_label": "cleandirectrequest()",
       "community_name": "handoff.cjs",
       "id": "core_handoff_cleandirectrequest"
@@ -1382,7 +1382,7 @@
       "source_file": "core/handoff.cjs",
       "source_location": "L65",
       "_origin": "ast",
-      "community": 6,
+      "community": 7,
       "norm_label": "buildportableprompt()",
       "community_name": "handoff.cjs",
       "id": "core_handoff_buildportableprompt"
@@ -1393,7 +1393,7 @@
       "source_file": "core/handoff.cjs",
       "source_location": "L86",
       "_origin": "ast",
-      "community": 6,
+      "community": 7,
       "norm_label": "prepareportablehandoff()",
       "community_name": "handoff.cjs",
       "id": "core_handoff_prepareportablehandoff"
@@ -1415,7 +1415,7 @@
       "source_file": "core/usage.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 6,
+      "community": 7,
       "norm_label": "estimatetokens()",
       "community_name": "handoff.cjs",
       "id": "core_usage_estimatetokens"
@@ -4000,10 +4000,10 @@
       "source_file": "package.json",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "package.json",
-      "id": "package",
-      "community_name": "package.json"
+      "community_name": "package.json",
+      "id": "package"
     },
     {
       "label": "name",
@@ -4011,10 +4011,10 @@
       "source_file": "package.json",
       "source_location": "L2",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "name",
-      "id": "package_name",
-      "community_name": "package.json"
+      "community_name": "package.json",
+      "id": "package_name"
     },
     {
       "label": "version",
@@ -4022,10 +4022,10 @@
       "source_file": "package.json",
       "source_location": "L3",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "version",
-      "id": "package_version",
-      "community_name": "package.json"
+      "community_name": "package.json",
+      "id": "package_version"
     },
     {
       "label": "description",
@@ -4033,10 +4033,10 @@
       "source_file": "package.json",
       "source_location": "L4",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "description",
-      "id": "package_description",
-      "community_name": "package.json"
+      "community_name": "package.json",
+      "id": "package_description"
     },
     {
       "label": "private",
@@ -4044,10 +4044,10 @@
       "source_file": "package.json",
       "source_location": "L5",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "private",
-      "id": "package_private",
-      "community_name": "package.json"
+      "community_name": "package.json",
+      "id": "package_private"
     },
     {
       "label": "license",
@@ -4055,10 +4055,10 @@
       "source_file": "package.json",
       "source_location": "L6",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "license",
-      "id": "package_license",
-      "community_name": "package.json"
+      "community_name": "package.json",
+      "id": "package_license"
     },
     {
       "label": "main",
@@ -4066,10 +4066,10 @@
       "source_file": "package.json",
       "source_location": "L7",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "main",
-      "id": "package_main",
-      "community_name": "package.json"
+      "community_name": "package.json",
+      "id": "package_main"
     },
     {
       "label": "engines",
@@ -4077,10 +4077,10 @@
       "source_file": "package.json",
       "source_location": "L8",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "engines",
-      "id": "package_engines",
-      "community_name": "package.json"
+      "community_name": "package.json",
+      "id": "package_engines"
     },
     {
       "label": "node",
@@ -4088,10 +4088,10 @@
       "source_file": "package.json",
       "source_location": "L9",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "node",
-      "id": "package_engines_node",
-      "community_name": "package.json"
+      "community_name": "package.json",
+      "id": "package_engines_node"
     },
     {
       "label": "scripts",
@@ -4099,10 +4099,10 @@
       "source_file": "package.json",
       "source_location": "L11",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "scripts",
-      "id": "package_scripts",
-      "community_name": "package.json"
+      "community_name": "package.json",
+      "id": "package_scripts"
     },
     {
       "label": "start",
@@ -4110,10 +4110,10 @@
       "source_file": "package.json",
       "source_location": "L12",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "start",
-      "id": "package_scripts_start",
-      "community_name": "package.json"
+      "community_name": "package.json",
+      "id": "package_scripts_start"
     },
     {
       "label": "test",
@@ -4121,10 +4121,10 @@
       "source_file": "package.json",
       "source_location": "L13",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "test",
-      "id": "package_scripts_test",
-      "community_name": "package.json"
+      "community_name": "package.json",
+      "id": "package_scripts_test"
     },
     {
       "label": "test:core",
@@ -4132,10 +4132,10 @@
       "source_file": "package.json",
       "source_location": "L14",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "test:core",
-      "id": "package_scripts_test_core",
-      "community_name": "package.json"
+      "community_name": "package.json",
+      "id": "package_scripts_test_core"
     },
     {
       "label": "test:api",
@@ -4143,10 +4143,10 @@
       "source_file": "package.json",
       "source_location": "L15",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "test:api",
-      "id": "package_scripts_test_api",
-      "community_name": "package.json"
+      "community_name": "package.json",
+      "id": "package_scripts_test_api"
     },
     {
       "label": "test:extension",
@@ -4154,10 +4154,10 @@
       "source_file": "package.json",
       "source_location": "L16",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "test:extension",
-      "id": "package_scripts_test_extension",
-      "community_name": "package.json"
+      "community_name": "package.json",
+      "id": "package_scripts_test_extension"
     },
     {
       "label": "dependencies",
@@ -4165,10 +4165,10 @@
       "source_file": "package.json",
       "source_location": "L18",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "dependencies",
-      "id": "package_dependencies",
-      "community_name": "package.json"
+      "community_name": "package.json",
+      "id": "package_dependencies"
     },
     {
       "label": "zod",
@@ -4176,10 +4176,10 @@
       "source_file": "package.json",
       "source_location": "L19",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "zod",
-      "id": "package_dependencies_zod",
-      "community_name": "package.json"
+      "community_name": "package.json",
+      "id": "package_dependencies_zod"
     },
     {
       "label": "zod",
@@ -4187,10 +4187,10 @@
       "source_file": "package.json",
       "source_location": "L19",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "zod",
-      "id": "zod",
-      "community_name": "package.json"
+      "community_name": "package.json",
+      "id": "zod"
     },
     {
       "label": "//devDependencies",
@@ -4198,10 +4198,10 @@
       "source_file": "package.json",
       "source_location": "L21",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "//devdependencies",
-      "id": "package_devdependencies",
-      "community_name": "package.json"
+      "community_name": "package.json",
+      "id": "package_devdependencies"
     },
     {
       "label": "@tabler/icons-webfont",
@@ -4209,10 +4209,10 @@
       "source_file": "package.json",
       "source_location": "L23",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "@tabler/icons-webfont",
-      "id": "package_devdependencies_tabler_icons_webfont",
-      "community_name": "package.json"
+      "community_name": "package.json",
+      "id": "package_devdependencies_tabler_icons_webfont"
     },
     {
       "label": "@tabler/icons-webfont",
@@ -4220,10 +4220,10 @@
       "source_file": "package.json",
       "source_location": "L23",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "@tabler/icons-webfont",
-      "id": "tabler_icons_webfont",
-      "community_name": "package.json"
+      "community_name": "package.json",
+      "id": "tabler_icons_webfont"
     },
     {
       "label": "dompurify",
@@ -4231,10 +4231,10 @@
       "source_file": "package.json",
       "source_location": "L24",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "dompurify",
-      "id": "package_devdependencies_dompurify",
-      "community_name": "package.json"
+      "community_name": "package.json",
+      "id": "package_devdependencies_dompurify"
     },
     {
       "label": "dompurify",
@@ -4242,10 +4242,10 @@
       "source_file": "package.json",
       "source_location": "L24",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "dompurify",
-      "id": "dompurify",
-      "community_name": "package.json"
+      "community_name": "package.json",
+      "id": "dompurify"
     },
     {
       "label": "marked",
@@ -4253,10 +4253,10 @@
       "source_file": "package.json",
       "source_location": "L25",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "marked",
-      "id": "package_devdependencies_marked",
-      "community_name": "package.json"
+      "community_name": "package.json",
+      "id": "package_devdependencies_marked"
     },
     {
       "label": "marked",
@@ -4264,10 +4264,10 @@
       "source_file": "package.json",
       "source_location": "L25",
       "_origin": "ast",
-      "community": 7,
+      "community": 8,
       "norm_label": "marked",
-      "id": "marked",
-      "community_name": "package.json"
+      "community_name": "package.json",
+      "id": "marked"
     },
     {
       "label": "server.cjs",
@@ -4275,7 +4275,7 @@
       "source_file": "server.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 9,
+      "community": 6,
       "norm_label": "server.cjs",
       "id": "server",
       "community_name": "server.cjs"
@@ -4286,7 +4286,7 @@
       "source_file": "server.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 9,
+      "community": 6,
       "norm_label": "http",
       "id": "server_http",
       "community_name": "server.cjs"
@@ -4297,7 +4297,7 @@
       "source_file": "server.cjs",
       "source_location": "L2",
       "_origin": "ast",
-      "community": 9,
+      "community": 6,
       "norm_label": "fs",
       "id": "server_fs",
       "community_name": "server.cjs"
@@ -4308,7 +4308,7 @@
       "source_file": "server.cjs",
       "source_location": "L3",
       "_origin": "ast",
-      "community": 9,
+      "community": 6,
       "norm_label": "path",
       "id": "server_path",
       "community_name": "server.cjs"
@@ -4319,7 +4319,7 @@
       "source_file": "server.cjs",
       "source_location": "L6",
       "_origin": "ast",
-      "community": 9,
+      "community": 6,
       "norm_label": "outputdir",
       "id": "server_outputdir",
       "community_name": "server.cjs"
@@ -4330,7 +4330,7 @@
       "source_file": "server.cjs",
       "source_location": "L7",
       "_origin": "ast",
-      "community": 9,
+      "community": 6,
       "norm_label": "graphifydir",
       "id": "server_graphifydir",
       "community_name": "server.cjs"
@@ -4341,7 +4341,7 @@
       "source_file": "server.cjs",
       "source_location": "L12",
       "_origin": "ast",
-      "community": 9,
+      "community": 6,
       "norm_label": "port",
       "id": "server_port",
       "community_name": "server.cjs"
@@ -4352,7 +4352,7 @@
       "source_file": "server.cjs",
       "source_location": "L13",
       "_origin": "ast",
-      "community": 9,
+      "community": 6,
       "norm_label": "{\n  callchatcompletion,\n  createtraceid,\n  generatewithfallback,\n  prepareportablehandoff,\n  providerstatus,\n  runblanka2akit,\n  runselfoptimizingworkflow\n}",
       "id": "server_callchatcompletion_createtraceid_generatewithfallback_prepareportablehandoff_providerstatus_runblanka2akit_runselfoptimizingworkflow",
       "community_name": "server.cjs"
@@ -4363,29 +4363,106 @@
       "source_file": "server.cjs",
       "source_location": "L22",
       "_origin": "ast",
-      "community": 9,
+      "community": 6,
       "norm_label": "{ createoptimizersystem }",
       "id": "server_createoptimizersystem",
       "community_name": "server.cjs"
     },
     {
-      "label": "{\n  abortSignalOnClose,\n  commonHeaders,\n  publicError,\n  takeRateLimit,\n  validateA2APayload,\n  validateGeneratePayload,\n  validateOptimizerPayload\n}",
+      "label": "guard",
       "file_type": "code",
       "source_file": "server.cjs",
-      "source_location": "L23",
+      "source_location": "L30",
       "_origin": "ast",
-      "community": 9,
-      "norm_label": "{\n  abortsignalonclose,\n  commonheaders,\n  publicerror,\n  takeratelimit,\n  validatea2apayload,\n  validategeneratepayload,\n  validateoptimizerpayload\n}",
-      "id": "server_abortsignalonclose_commonheaders_publicerror_takeratelimit_validatea2apayload_validategeneratepayload_validateoptimizerpayload",
+      "community": 6,
+      "norm_label": "guard",
+      "id": "server_guard",
+      "community_name": "server.cjs"
+    },
+    {
+      "label": "abortSignalOnClose()",
+      "file_type": "code",
+      "source_file": "server.cjs",
+      "source_location": "L31",
+      "_origin": "ast",
+      "community": 6,
+      "norm_label": "abortsignalonclose()",
+      "id": "server_abortsignalonclose",
+      "community_name": "server.cjs"
+    },
+    {
+      "label": "commonHeaders()",
+      "file_type": "code",
+      "source_file": "server.cjs",
+      "source_location": "L32",
+      "_origin": "ast",
+      "community": 6,
+      "norm_label": "commonheaders()",
+      "id": "server_commonheaders",
+      "community_name": "server.cjs"
+    },
+    {
+      "label": "publicError()",
+      "file_type": "code",
+      "source_file": "server.cjs",
+      "source_location": "L33",
+      "_origin": "ast",
+      "community": 6,
+      "norm_label": "publicerror()",
+      "id": "server_publicerror",
+      "community_name": "server.cjs"
+    },
+    {
+      "label": "takeRateLimit()",
+      "file_type": "code",
+      "source_file": "server.cjs",
+      "source_location": "L34",
+      "_origin": "ast",
+      "community": 6,
+      "norm_label": "takeratelimit()",
+      "id": "server_takeratelimit",
+      "community_name": "server.cjs"
+    },
+    {
+      "label": "validateA2APayload()",
+      "file_type": "code",
+      "source_file": "server.cjs",
+      "source_location": "L35",
+      "_origin": "ast",
+      "community": 6,
+      "norm_label": "validatea2apayload()",
+      "id": "server_validatea2apayload",
+      "community_name": "server.cjs"
+    },
+    {
+      "label": "validateGeneratePayload()",
+      "file_type": "code",
+      "source_file": "server.cjs",
+      "source_location": "L36",
+      "_origin": "ast",
+      "community": 6,
+      "norm_label": "validategeneratepayload()",
+      "id": "server_validategeneratepayload",
+      "community_name": "server.cjs"
+    },
+    {
+      "label": "validateOptimizerPayload()",
+      "file_type": "code",
+      "source_file": "server.cjs",
+      "source_location": "L37",
+      "_origin": "ast",
+      "community": 6,
+      "norm_label": "validateoptimizerpayload()",
+      "id": "server_validateoptimizerpayload",
       "community_name": "server.cjs"
     },
     {
       "label": "optimizerSystem",
       "file_type": "code",
       "source_file": "server.cjs",
-      "source_location": "L33",
+      "source_location": "L39",
       "_origin": "ast",
-      "community": 9,
+      "community": 6,
       "norm_label": "optimizersystem",
       "id": "server_optimizersystem",
       "community_name": "server.cjs"
@@ -4394,9 +4471,9 @@
       "label": "loadEnvFile()",
       "file_type": "code",
       "source_file": "server.cjs",
-      "source_location": "L35",
+      "source_location": "L41",
       "_origin": "ast",
-      "community": 9,
+      "community": 6,
       "norm_label": "loadenvfile()",
       "id": "server_loadenvfile",
       "community_name": "server.cjs"
@@ -4405,9 +4482,9 @@
       "label": "sendJson()",
       "file_type": "code",
       "source_file": "server.cjs",
-      "source_location": "L49",
+      "source_location": "L55",
       "_origin": "ast",
-      "community": 9,
+      "community": 6,
       "norm_label": "sendjson()",
       "id": "server_sendjson",
       "community_name": "server.cjs"
@@ -4416,9 +4493,9 @@
       "label": "writeSse()",
       "file_type": "code",
       "source_file": "server.cjs",
-      "source_location": "L61",
+      "source_location": "L73",
       "_origin": "ast",
-      "community": 9,
+      "community": 6,
       "norm_label": "writesse()",
       "id": "server_writesse",
       "community_name": "server.cjs"
@@ -4427,9 +4504,9 @@
       "label": "allowedApiMethods()",
       "file_type": "code",
       "source_file": "server.cjs",
-      "source_location": "L66",
+      "source_location": "L78",
       "_origin": "ast",
-      "community": 9,
+      "community": 6,
       "norm_label": "allowedapimethods()",
       "id": "server_allowedapimethods",
       "community_name": "server.cjs"
@@ -4438,9 +4515,9 @@
       "label": "readJson()",
       "file_type": "code",
       "source_file": "server.cjs",
-      "source_location": "L82",
+      "source_location": "L94",
       "_origin": "ast",
-      "community": 9,
+      "community": 6,
       "norm_label": "readjson()",
       "id": "server_readjson",
       "community_name": "server.cjs"
@@ -4449,9 +4526,9 @@
       "label": "handleApi()",
       "file_type": "code",
       "source_file": "server.cjs",
-      "source_location": "L103",
+      "source_location": "L115",
       "_origin": "ast",
-      "community": 9,
+      "community": 6,
       "norm_label": "handleapi()",
       "id": "server_handleapi",
       "community_name": "server.cjs"
@@ -4460,9 +4537,9 @@
       "label": "staticSecurityHeaders",
       "file_type": "code",
       "source_file": "server.cjs",
-      "source_location": "L324",
+      "source_location": "L336",
       "_origin": "ast",
-      "community": 9,
+      "community": 6,
       "norm_label": "staticsecurityheaders",
       "id": "server_staticsecurityheaders",
       "community_name": "server.cjs"
@@ -4471,9 +4548,9 @@
       "label": "serveStatic()",
       "file_type": "code",
       "source_file": "server.cjs",
-      "source_location": "L332",
+      "source_location": "L344",
       "_origin": "ast",
-      "community": 9,
+      "community": 6,
       "norm_label": "servestatic()",
       "id": "server_servestatic",
       "community_name": "server.cjs"
@@ -4482,9 +4559,9 @@
       "label": "server",
       "file_type": "code",
       "source_file": "server.cjs",
-      "source_location": "L387",
+      "source_location": "L399",
       "_origin": "ast",
-      "community": 9,
+      "community": 6,
       "norm_label": "server",
       "id": "server_server",
       "community_name": "server.cjs"
@@ -11686,18 +11763,18 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "server.cjs",
-      "source_location": "L23",
+      "source_location": "L31",
       "weight": 1.0,
       "_origin": "ast",
       "confidence_score": 1.0,
       "source": "server",
-      "target": "server_abortsignalonclose_commonheaders_publicerror_takeratelimit_validatea2apayload_validategeneratepayload_validateoptimizerpayload"
+      "target": "server_abortsignalonclose"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "server.cjs",
-      "source_location": "L66",
+      "source_location": "L78",
       "weight": 1.0,
       "_origin": "ast",
       "confidence_score": 1.0,
@@ -11714,6 +11791,17 @@
       "confidence_score": 1.0,
       "source": "server",
       "target": "server_callchatcompletion_createtraceid_generatewithfallback_prepareportablehandoff_providerstatus_runblanka2akit_runselfoptimizingworkflow"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server.cjs",
+      "source_location": "L32",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "server",
+      "target": "server_commonheaders"
     },
     {
       "relation": "contains",
@@ -11752,7 +11840,18 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "server.cjs",
-      "source_location": "L103",
+      "source_location": "L30",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "server",
+      "target": "server_guard"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server.cjs",
+      "source_location": "L115",
       "weight": 1.0,
       "_origin": "ast",
       "confidence_score": 1.0,
@@ -11774,7 +11873,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "server.cjs",
-      "source_location": "L35",
+      "source_location": "L41",
       "weight": 1.0,
       "_origin": "ast",
       "confidence_score": 1.0,
@@ -11785,7 +11884,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "server.cjs",
-      "source_location": "L33",
+      "source_location": "L39",
       "weight": 1.0,
       "_origin": "ast",
       "confidence_score": 1.0,
@@ -11829,7 +11928,18 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "server.cjs",
-      "source_location": "L82",
+      "source_location": "L33",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "server",
+      "target": "server_publicerror"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server.cjs",
+      "source_location": "L94",
       "weight": 1.0,
       "_origin": "ast",
       "confidence_score": 1.0,
@@ -11840,7 +11950,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "server.cjs",
-      "source_location": "L49",
+      "source_location": "L55",
       "weight": 1.0,
       "_origin": "ast",
       "confidence_score": 1.0,
@@ -11851,7 +11961,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "server.cjs",
-      "source_location": "L387",
+      "source_location": "L399",
       "weight": 1.0,
       "_origin": "ast",
       "confidence_score": 1.0,
@@ -11862,7 +11972,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "server.cjs",
-      "source_location": "L332",
+      "source_location": "L344",
       "weight": 1.0,
       "_origin": "ast",
       "confidence_score": 1.0,
@@ -11873,7 +11983,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "server.cjs",
-      "source_location": "L324",
+      "source_location": "L336",
       "weight": 1.0,
       "_origin": "ast",
       "confidence_score": 1.0,
@@ -11884,7 +11994,51 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "server.cjs",
-      "source_location": "L61",
+      "source_location": "L34",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "server",
+      "target": "server_takeratelimit"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server.cjs",
+      "source_location": "L35",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "server",
+      "target": "server_validatea2apayload"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server.cjs",
+      "source_location": "L36",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "server",
+      "target": "server_validategeneratepayload"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server.cjs",
+      "source_location": "L37",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "server",
+      "target": "server_validateoptimizerpayload"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server.cjs",
+      "source_location": "L73",
       "weight": 1.0,
       "_origin": "ast",
       "confidence_score": 1.0,
@@ -11896,7 +12050,103 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "server.cjs",
-      "source_location": "L117",
+      "source_location": "L211",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "server_handleapi",
+      "target": "server_abortsignalonclose"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server.cjs",
+      "source_location": "L133",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "server_handleapi",
+      "target": "server_commonheaders"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server.cjs",
+      "source_location": "L65",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "server_sendjson",
+      "target": "server_commonheaders"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server.cjs",
+      "source_location": "L188",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "server_handleapi",
+      "target": "server_publicerror"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server.cjs",
+      "source_location": "L127",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "server_handleapi",
+      "target": "server_takeratelimit"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server.cjs",
+      "source_location": "L307",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "server_handleapi",
+      "target": "server_validatea2apayload"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server.cjs",
+      "source_location": "L243",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "server_handleapi",
+      "target": "server_validategeneratepayload"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server.cjs",
+      "source_location": "L172",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "server_handleapi",
+      "target": "server_validateoptimizerpayload"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server.cjs",
+      "source_location": "L129",
       "weight": 1.0,
       "_origin": "ast",
       "confidence_score": 1.0,
@@ -11908,7 +12158,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "server.cjs",
-      "source_location": "L203",
+      "source_location": "L215",
       "weight": 1.0,
       "_origin": "ast",
       "confidence_score": 1.0,
@@ -11920,7 +12170,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "server.cjs",
-      "source_location": "L313",
+      "source_location": "L325",
       "weight": 1.0,
       "_origin": "ast",
       "confidence_score": 1.0,
@@ -11932,7 +12182,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "server.cjs",
-      "source_location": "L159",
+      "source_location": "L171",
       "weight": 1.0,
       "_origin": "ast",
       "confidence_score": 1.0,
@@ -11941,5 +12191,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "7bf18543c666f18a18a3c39530e0b4861fb27438"
+  "built_at_commit": "e3152d7ab16602b22409a7b9f021715be9beac3c"
 }

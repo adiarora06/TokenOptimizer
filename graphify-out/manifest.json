@@ -110,9 +110,9 @@
     "semantic_hash": "36c1e64dd1ba631eff12e6f60920a71e"
   },
   "server.cjs": {
-    "mtime": 1784778985.3635156,
-    "ast_hash": "b8be925293c38102d40cb67caf7c8e05",
-    "semantic_hash": "b8be925293c38102d40cb67caf7c8e05"
+    "mtime": 1784781562.438869,
+    "ast_hash": "c5f8a4bfe4fc4139f3d134474751bd78",
+    "semantic_hash": "c5f8a4bfe4fc4139f3d134474751bd78"
   },
   "tests/api-endpoints.test.cjs": {
     "mtime": 1784569741.5396638,

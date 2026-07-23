@@ -234,6 +234,35 @@
       "extensions_gemini_token_optimizer_tests_content_gemini_test_vm"
     ],
     "6": [
+      "server",
+      "server_abortsignalonclose",
+      "server_allowedapimethods",
+      "server_callchatcompletion_createtraceid_generatewithfallback_prepareportablehandoff_providerstatus_runblanka2akit_runselfoptimizingworkflow",
+      "server_commonheaders",
+      "server_createoptimizersystem",
+      "server_fs",
+      "server_graphifydir",
+      "server_guard",
+      "server_handleapi",
+      "server_http",
+      "server_loadenvfile",
+      "server_optimizersystem",
+      "server_outputdir",
+      "server_path",
+      "server_port",
+      "server_publicerror",
+      "server_readjson",
+      "server_sendjson",
+      "server_server",
+      "server_servestatic",
+      "server_staticsecurityheaders",
+      "server_takeratelimit",
+      "server_validatea2apayload",
+      "server_validategeneratepayload",
+      "server_validateoptimizerpayload",
+      "server_writesse"
+    ],
+    "7": [
       "core_handoff",
       "core_handoff_analyzeworkflowshape_buildofflinecontract",
       "core_handoff_buildportableprompt",
@@ -261,7 +290,7 @@
       "core_text_withouttrailingellipsis",
       "core_usage_estimatetokens"
     ],
-    "7": [
+    "8": [
       "dompurify",
       "marked",
       "package",
@@ -288,7 +317,7 @@
       "tabler_icons_webfont",
       "zod"
     ],
-    "8": [
+    "9": [
       "extensions_gemini_token_optimizer_sidepanel",
       "extensions_gemini_token_optimizer_sidepanel_bindevents",
       "extensions_gemini_token_optimizer_sidepanel_captureprompt",
@@ -314,28 +343,6 @@
       "extensions_gemini_token_optimizer_sidepanel_syncrail",
       "extensions_gemini_token_optimizer_sidepanel_toast",
       "extensions_gemini_token_optimizer_sidepanel_updatedrafttokenpill"
-    ],
-    "9": [
-      "server",
-      "server_abortsignalonclose_commonheaders_publicerror_takeratelimit_validatea2apayload_validategeneratepayload_validateoptimizerpayload",
-      "server_allowedapimethods",
-      "server_callchatcompletion_createtraceid_generatewithfallback_prepareportablehandoff_providerstatus_runblanka2akit_runselfoptimizingworkflow",
-      "server_createoptimizersystem",
-      "server_fs",
-      "server_graphifydir",
-      "server_handleapi",
-      "server_http",
-      "server_loadenvfile",
-      "server_optimizersystem",
-      "server_outputdir",
-      "server_path",
-      "server_port",
-      "server_readjson",
-      "server_sendjson",
-      "server_server",
-      "server_servestatic",
-      "server_staticsecurityheaders",
-      "server_writesse"
     ],
     "10": [
       "optimizer_system",
@@ -465,10 +472,10 @@
     "3": 0.058823529411764705,
     "4": 0.07407407407407407,
     "5": 0.07407407407407407,
-    "6": 0.13230769230769232,
-    "7": 0.08,
-    "8": 0.24,
-    "9": 0.12105263157894737,
+    "6": 0.10826210826210826,
+    "7": 0.13230769230769232,
+    "8": 0.08,
+    "9": 0.24,
     "10": 0.2857142857142857,
     "11": 0.16666666666666666,
     "12": 0.3333333333333333,
@@ -490,6 +497,11 @@
       "id": "outputs_workspace_run",
       "label": "run()",
       "degree": 18
+    },
+    {
+      "id": "server_handleapi",
+      "label": "handleApi()",
+      "degree": 12
     },
     {
       "id": "extensions_gemini_token_optimizer_sidepanel_el",
@@ -529,11 +541,6 @@
     {
       "id": "extensions_gemini_token_optimizer_sidepanel_setstatus",
       "label": "setStatus()",
-      "degree": 9
-    },
-    {
-      "id": "extensions_gemini_token_optimizer_sidepanel_captureprompt",
-      "label": "capturePrompt()",
       "degree": 9
     }
   ],
