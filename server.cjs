@@ -392,6 +392,10 @@ const server = http.createServer((req, res) => {
   serveStatic(req, res);
 });
 
-server.listen(port, "127.0.0.1", () => {
-  console.log(`Token optimizer running at http://127.0.0.1:${port}/`);
+// Loopback by default so local runs are not exposed on the network. A container
+// host must set HOST=0.0.0.0, or its proxy cannot reach this listener at all.
+const host = process.env.HOST || "127.0.0.1";
+
+server.listen(port, host, () => {
+  console.log(`Token optimizer running at http://${host}:${port}/`);
 });
