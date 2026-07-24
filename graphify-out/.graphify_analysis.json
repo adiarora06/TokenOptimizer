@@ -443,11 +443,6 @@
       "scripts_canonical_graph_graph",
       "scripts_canonical_graph_sortdeep"
     ],
-    "20": [
-      "mcp",
-      "mcp_command_uvx",
-      "mcp_mcp_server_graphify"
-    ],
     "21": [
       "vercel",
       "vercel_headers",
@@ -486,7 +481,6 @@
     "17": 0.6666666666666666,
     "18": 0.5,
     "19": 0.5,
-    "20": 0.6666666666666666,
     "21": 0.6666666666666666,
     "22": 1.0,
     "23": 1.0,
@@ -602,11 +596,6 @@
     }
   ],
   "questions": [
-    {
-      "type": "isolated_nodes",
-      "question": "What connects `uvx`, `{ preparePortableHandoff }`, `{\n  commonHeaders,\n  publicError,\n  takeRateLimit,\n  validateOptimizerPayload\n}` to the rest of the system?",
-      "why": "147 weakly-connected nodes found - possible documentation gaps or missing edges."
-    },
     {
       "type": "low_cohesion",
       "question": "Should `workspace.js` be split into smaller, more focused modules?",

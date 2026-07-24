@@ -4,48 +4,6 @@
   "graph": {},
   "nodes": [
     {
-      "label": ".mcp.json",
-      "file_type": "code",
-      "source_file": ".mcp.json",
-      "source_location": "L1",
-      "metadata": {
-        "mcp_kind": "mcp_config_file"
-      },
-      "_origin": "ast",
-      "community": 20,
-      "norm_label": ".mcp.json",
-      "community_name": "graphify",
-      "id": "mcp"
-    },
-    {
-      "label": "graphify",
-      "file_type": "code",
-      "source_file": ".mcp.json",
-      "source_location": "L1",
-      "metadata": {
-        "mcp_kind": "mcp_server"
-      },
-      "_origin": "ast",
-      "community": 20,
-      "norm_label": "graphify",
-      "community_name": "graphify",
-      "id": "mcp_mcp_server_graphify"
-    },
-    {
-      "label": "uvx",
-      "file_type": "code",
-      "source_file": ".mcp.json",
-      "source_location": "L1",
-      "metadata": {
-        "mcp_kind": "mcp_command"
-      },
-      "_origin": "ast",
-      "community": 20,
-      "norm_label": "uvx",
-      "community_name": "graphify",
-      "id": "mcp_command_uvx"
-    },
-    {
       "label": "prepare-handoff.js",
       "file_type": "code",
       "source_file": "api/prepare-handoff.js",
@@ -4568,29 +4526,6 @@
     }
   ],
   "links": [
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": ".mcp.json",
-      "source_location": "L1",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "mcp",
-      "target": "mcp_mcp_server_graphify"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": ".mcp.json",
-      "source_location": "L1",
-      "weight": 1.0,
-      "context": "command",
-      "_origin": "ast",
-      "source": "mcp_mcp_server_graphify",
-      "target": "mcp_command_uvx"
-    },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",

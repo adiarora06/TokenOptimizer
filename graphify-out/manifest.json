@@ -129,21 +129,6 @@
     "ast_hash": "cdaadf6519bb84124bc430a882c26ff1",
     "semantic_hash": "cdaadf6519bb84124bc430a882c26ff1"
   },
-  ".claude/settings.json": {
-    "mtime": 1784556401.3113198,
-    "ast_hash": "aac8aeafea744b4c745de27c9cf9cc15",
-    "semantic_hash": "aac8aeafea744b4c745de27c9cf9cc15"
-  },
-  ".mcp.json": {
-    "mtime": 1784556401.3109457,
-    "ast_hash": "79df14b7d93cad04735ee4761e8c5b69",
-    "semantic_hash": "79df14b7d93cad04735ee4761e8c5b69"
-  },
-  ".claude/launch.json": {
-    "mtime": 1784562659.367827,
-    "ast_hash": "153151f18fa4907cb21eb0deb2370768",
-    "semantic_hash": "153151f18fa4907cb21eb0deb2370768"
-  },
   "scripts/canonical-graph.cjs": {
     "mtime": 1784568519.2074273,
     "ast_hash": "a41304eaf8b91bf94b7847bfeea6f873",

@@ -101,9 +101,9 @@ The background mode is for working beside an active LLM or IDE:
 4. Insert the compact prompt into the target chat box or IDE agent.
 5. Review the result and save an audit trail when needed.
 
-## Graphify And Claude
+## Graphify Code Graph
 
-The repository ships with a generated Graphify knowledge graph and project-level Claude guidance. After cloning the repository, Claude can use the graph to locate relevant files and relationships before loading source code.
+The repository ships with a generated Graphify knowledge graph, so the file and dependency structure can be explored without reading every source file first.
 
 Open the published graph:
 
@@ -117,8 +117,6 @@ Regenerate the graph after architecture changes:
 uvx --from graphifyy graphify extract . --code-only
 uvx --from graphifyy graphify cluster-only .
 ```
-
-Optional MCP support for Claude Code is declared in `.mcp.json`. It uses `uvx` to provide Graphify's query, node, neighbor, path, community, and graph-stat tools against `graphify-out/graph.json`.
 
 ## Gemini Extension MVP
 
