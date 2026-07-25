@@ -1,15 +1,15 @@
-# Graph Report - .  (2026-07-23)
+# Graph Report - .  (2026-07-25)
 
 ## Corpus Check
 - cluster-only mode — file stats not available
 
 ## Summary
-- 414 nodes · 661 edges · 25 communities (21 shown, 4 thin omitted)
+- 411 nodes · 659 edges · 24 communities (21 shown, 3 thin omitted)
 - Extraction: 91% EXTRACTED · 9% INFERRED · 0% AMBIGUOUS · INFERRED: 60 edges (avg confidence: 0.5)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `e3152d7a`
+- Built from commit: `9e30bf7c`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -33,7 +33,6 @@
 - chatgpt.js
 - gemini.js
 - canonical-graph.cjs
-- graphify
 - vercel.json
 
 ## God Nodes (most connected - your core abstractions)
@@ -63,7 +62,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (25 total, 4 thin omitted)
+## Communities (24 total, 3 thin omitted)
 
 ### Community 0 - "workspace.js"
 Cohesion: 0.11
@@ -184,25 +183,30 @@ Cohesion: 0.67
 Nodes (5): hasPromptLabel(), isCandidate(), isHugeEditable(), isNearPromptArea(), score()
 
 ## Knowledge Gaps
-- **147 isolated node(s):** `uvx`, `{ preparePortableHandoff }`, `{
+- **146 isolated node(s):** `{ preparePortableHandoff }`, `{
   commonHeaders,
   publicError,
   takeRateLimit,
   validateOptimizerPayload
-}`, `{ providerStatus }`, `{ SYSTEM_ARCHITECTURE, runSystemRunInline }` (+142 more)
+}`, `{ providerStatus }`, `{ SYSTEM_ARCHITECTURE, runSystemRunInline }`, `{
+  commonHeaders,
+  publicError,
+  takeRateLimit,
+  validateOptimizerPayload
+}` (+141 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **4 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **3 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **What connects `uvx`, `{ preparePortableHandoff }`, `{
+- **What connects `{ preparePortableHandoff }`, `{
   commonHeaders,
   publicError,
   takeRateLimit,
   validateOptimizerPayload
-}` to the rest of the system?**
-  _147 weakly-connected nodes found - possible documentation gaps or missing edges._
+}`, `{ providerStatus }` to the rest of the system?**
+  _146 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `workspace.js` be split into smaller, more focused modules?**
   _Cohesion score 0.11193339500462535 - nodes in this community are weakly interconnected._
 - **Should `request-guard.cjs` be split into smaller, more focused modules?**

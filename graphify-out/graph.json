@@ -97,7 +97,7 @@
       "source_file": "extensions/gemini-token-optimizer/content-bridge.js",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 24,
+      "community": 23,
       "norm_label": "content-bridge.js",
       "community_name": "content-bridge.js",
       "id": "extensions_gemini_token_optimizer_content_bridge"
@@ -108,7 +108,7 @@
       "source_file": "extensions/gemini-token-optimizer/service-worker.js",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 23,
+      "community": 22,
       "norm_label": "service-worker.js",
       "community_name": "service-worker.js",
       "id": "extensions_gemini_token_optimizer_service_worker"
@@ -119,7 +119,7 @@
       "source_file": "extensions/gemini-token-optimizer/service-worker.js",
       "source_location": "L23",
       "_origin": "ast",
-      "community": 23,
+      "community": 22,
       "norm_label": "setpanelfortab()",
       "community_name": "service-worker.js",
       "id": "extensions_gemini_token_optimizer_service_worker_setpanelfortab"
@@ -1087,7 +1087,7 @@
       "source_file": "vercel.json",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 21,
+      "community": 20,
       "norm_label": "vercel.json",
       "community_name": "vercel.json",
       "id": "vercel"
@@ -1098,7 +1098,7 @@
       "source_file": "vercel.json",
       "source_location": "L2",
       "_origin": "ast",
-      "community": 21,
+      "community": 20,
       "norm_label": "headers",
       "community_name": "vercel.json",
       "id": "vercel_headers"
@@ -1109,7 +1109,7 @@
       "source_file": "vercel.json",
       "source_location": "L15",
       "_origin": "ast",
-      "community": 21,
+      "community": 20,
       "norm_label": "rewrites",
       "community_name": "vercel.json",
       "id": "vercel_rewrites"
@@ -2176,7 +2176,7 @@
       "source_file": "extensions/gemini-token-optimizer/platforms.js",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 22,
+      "community": 21,
       "norm_label": "platforms.js",
       "community_name": "platforms.js",
       "id": "extensions_gemini_token_optimizer_platforms"
@@ -2187,7 +2187,7 @@
       "source_file": "extensions/gemini-token-optimizer/platforms.js",
       "source_location": "L17",
       "_origin": "ast",
-      "community": 22,
+      "community": 21,
       "norm_label": "forurl()",
       "community_name": "platforms.js",
       "id": "extensions_gemini_token_optimizer_platforms_forurl"
@@ -4235,8 +4235,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "server.cjs",
-      "id": "server",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server"
     },
     {
       "label": "http",
@@ -4246,8 +4246,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "http",
-      "id": "server_http",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_http"
     },
     {
       "label": "fs",
@@ -4257,8 +4257,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "fs",
-      "id": "server_fs",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_fs"
     },
     {
       "label": "path",
@@ -4268,8 +4268,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "path",
-      "id": "server_path",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_path"
     },
     {
       "label": "outputDir",
@@ -4279,8 +4279,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "outputdir",
-      "id": "server_outputdir",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_outputdir"
     },
     {
       "label": "graphifyDir",
@@ -4290,8 +4290,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "graphifydir",
-      "id": "server_graphifydir",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_graphifydir"
     },
     {
       "label": "port",
@@ -4301,8 +4301,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "port",
-      "id": "server_port",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_port"
     },
     {
       "label": "{\n  callChatCompletion,\n  createTraceId,\n  generateWithFallback,\n  preparePortableHandoff,\n  providerStatus,\n  runBlankA2AKit,\n  runSelfOptimizingWorkflow\n}",
@@ -4312,8 +4312,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "{\n  callchatcompletion,\n  createtraceid,\n  generatewithfallback,\n  prepareportablehandoff,\n  providerstatus,\n  runblanka2akit,\n  runselfoptimizingworkflow\n}",
-      "id": "server_callchatcompletion_createtraceid_generatewithfallback_prepareportablehandoff_providerstatus_runblanka2akit_runselfoptimizingworkflow",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_callchatcompletion_createtraceid_generatewithfallback_prepareportablehandoff_providerstatus_runblanka2akit_runselfoptimizingworkflow"
     },
     {
       "label": "{ createOptimizerSystem }",
@@ -4323,8 +4323,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "{ createoptimizersystem }",
-      "id": "server_createoptimizersystem",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_createoptimizersystem"
     },
     {
       "label": "guard",
@@ -4334,8 +4334,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "guard",
-      "id": "server_guard",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_guard"
     },
     {
       "label": "abortSignalOnClose()",
@@ -4345,8 +4345,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "abortsignalonclose()",
-      "id": "server_abortsignalonclose",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_abortsignalonclose"
     },
     {
       "label": "commonHeaders()",
@@ -4356,8 +4356,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "commonheaders()",
-      "id": "server_commonheaders",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_commonheaders"
     },
     {
       "label": "publicError()",
@@ -4367,8 +4367,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "publicerror()",
-      "id": "server_publicerror",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_publicerror"
     },
     {
       "label": "takeRateLimit()",
@@ -4378,8 +4378,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "takeratelimit()",
-      "id": "server_takeratelimit",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_takeratelimit"
     },
     {
       "label": "validateA2APayload()",
@@ -4389,8 +4389,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "validatea2apayload()",
-      "id": "server_validatea2apayload",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_validatea2apayload"
     },
     {
       "label": "validateGeneratePayload()",
@@ -4400,8 +4400,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "validategeneratepayload()",
-      "id": "server_validategeneratepayload",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_validategeneratepayload"
     },
     {
       "label": "validateOptimizerPayload()",
@@ -4411,8 +4411,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "validateoptimizerpayload()",
-      "id": "server_validateoptimizerpayload",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_validateoptimizerpayload"
     },
     {
       "label": "optimizerSystem",
@@ -4422,8 +4422,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "optimizersystem",
-      "id": "server_optimizersystem",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_optimizersystem"
     },
     {
       "label": "loadEnvFile()",
@@ -4433,8 +4433,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "loadenvfile()",
-      "id": "server_loadenvfile",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_loadenvfile"
     },
     {
       "label": "sendJson()",
@@ -4444,8 +4444,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "sendjson()",
-      "id": "server_sendjson",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_sendjson"
     },
     {
       "label": "writeSse()",
@@ -4455,8 +4455,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "writesse()",
-      "id": "server_writesse",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_writesse"
     },
     {
       "label": "allowedApiMethods()",
@@ -4466,8 +4466,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "allowedapimethods()",
-      "id": "server_allowedapimethods",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_allowedapimethods"
     },
     {
       "label": "readJson()",
@@ -4477,8 +4477,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "readjson()",
-      "id": "server_readjson",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_readjson"
     },
     {
       "label": "handleApi()",
@@ -4488,8 +4488,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "handleapi()",
-      "id": "server_handleapi",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_handleapi"
     },
     {
       "label": "staticSecurityHeaders",
@@ -4499,8 +4499,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "staticsecurityheaders",
-      "id": "server_staticsecurityheaders",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_staticsecurityheaders"
     },
     {
       "label": "serveStatic()",
@@ -4510,8 +4510,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "servestatic()",
-      "id": "server_servestatic",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_servestatic"
     },
     {
       "label": "server",
@@ -4521,8 +4521,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "server",
-      "id": "server_server",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_server"
     }
   ],
   "links": [
@@ -12126,5 +12126,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "e3152d7ab16602b22409a7b9f021715be9beac3c"
+  "built_at_commit": "9e30bf7c11522608bb89f27d4f199311e169f838"
 }

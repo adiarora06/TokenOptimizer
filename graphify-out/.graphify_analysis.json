@@ -443,20 +443,20 @@
       "scripts_canonical_graph_graph",
       "scripts_canonical_graph_sortdeep"
     ],
-    "21": [
+    "20": [
       "vercel",
       "vercel_headers",
       "vercel_rewrites"
     ],
-    "22": [
+    "21": [
       "extensions_gemini_token_optimizer_platforms",
       "extensions_gemini_token_optimizer_platforms_forurl"
     ],
-    "23": [
+    "22": [
       "extensions_gemini_token_optimizer_service_worker",
       "extensions_gemini_token_optimizer_service_worker_setpanelfortab"
     ],
-    "24": [
+    "23": [
       "extensions_gemini_token_optimizer_content_bridge"
     ]
   },
@@ -481,10 +481,10 @@
     "17": 0.6666666666666666,
     "18": 0.5,
     "19": 0.5,
-    "21": 0.6666666666666666,
+    "20": 0.6666666666666666,
+    "21": 1.0,
     "22": 1.0,
-    "23": 1.0,
-    "24": 1.0
+    "23": 1.0
   },
   "gods": [
     {
@@ -596,6 +596,11 @@
     }
   ],
   "questions": [
+    {
+      "type": "isolated_nodes",
+      "question": "What connects `{ preparePortableHandoff }`, `{\n  commonHeaders,\n  publicError,\n  takeRateLimit,\n  validateOptimizerPayload\n}`, `{ providerStatus }` to the rest of the system?",
+      "why": "146 weakly-connected nodes found - possible documentation gaps or missing edges."
+    },
     {
       "type": "low_cohesion",
       "question": "Should `workspace.js` be split into smaller, more focused modules?",
