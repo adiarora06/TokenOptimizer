@@ -1,5 +1,6 @@
 const DEFAULT_MAX_EVENTS = 200;
 const MAX_EVENT_LIMIT = 5_000;
+const { summarizeTelemetryEvents } = require("./telemetry-analysis.cjs");
 
 const KNOWN_ENDPOINTS = new Set([
   "core",
@@ -186,122 +187,18 @@ function recordWorkflowRun(result = {}, context = {}) {
   });
 }
 
-function increment(map, key) {
-  map[key] = (map[key] || 0) + 1;
-}
-
 function telemetrySummary(options = {}) {
-  const totals = {
-    workflowRuns: 0,
-    completedRuns: 0,
-    promptReadyRuns: 0,
-    failedRuns: 0,
-    cancelledRuns: 0,
-    workflowModelCalls: 0,
-    redactions: 0,
-    providerAttempts: 0,
-    successfulProviderAttempts: 0,
-    failedProviderAttempts: 0,
-    fallbackPolicyAttempts: 0,
-    fallbackRetries: 0,
-    inputTokens: 0,
-    outputTokens: 0,
-    totalTokens: 0,
-    cachedTokens: 0,
-    pricedProviderAttempts: 0,
-    estimatedCostUsd: null,
-    providerLatencyMs: 0,
-    averageProviderLatencyMs: 0
-  };
-  const routes = {};
-  const providerFailures = {};
-  const workflowFailures = {};
-  const providers = {};
-  let knownCost = 0;
-
-  for (const event of events) {
-    if (event.type === "workflow_run") {
-      totals.workflowRuns += 1;
-      totals.workflowModelCalls += event.modelCalls;
-      totals.redactions += event.redactions;
-      increment(routes, event.route);
-      if (event.status === "completed") totals.completedRuns += 1;
-      else if (event.status === "prompt_ready") totals.promptReadyRuns += 1;
-      else if (event.status === "cancelled") totals.cancelledRuns += 1;
-      else totals.failedRuns += 1;
-      if (event.failureCode) increment(workflowFailures, event.failureCode);
-      continue;
-    }
-
-    totals.providerAttempts += 1;
-    totals.providerLatencyMs += event.latencyMs;
-    totals.inputTokens += event.inputTokens;
-    totals.outputTokens += event.outputTokens;
-    totals.totalTokens += event.totalTokens;
-    totals.cachedTokens += event.cachedTokens;
-    if (event.fallbackPolicy) totals.fallbackPolicyAttempts += 1;
-    if (event.fallbackRetry) totals.fallbackRetries += 1;
-    if (event.outcome === "success") totals.successfulProviderAttempts += 1;
-    else {
-      totals.failedProviderAttempts += 1;
-      increment(providerFailures, event.failureCode || "unknown");
-    }
-    if (event.estimatedCostUsd != null) {
-      totals.pricedProviderAttempts += 1;
-      knownCost += event.estimatedCostUsd;
-    }
-
-    const provider = providers[event.provider] || {
-      attempts: 0,
-      successes: 0,
-      failures: 0,
-      fallbackRetries: 0,
-      totalTokens: 0,
-      latencyMs: 0,
-      averageLatencyMs: 0
-    };
-    provider.attempts += 1;
-    provider.successes += event.outcome === "success" ? 1 : 0;
-    provider.failures += event.outcome === "failure" ? 1 : 0;
-    provider.fallbackRetries += event.fallbackRetry ? 1 : 0;
-    provider.totalTokens += event.totalTokens;
-    provider.latencyMs += event.latencyMs;
-    providers[event.provider] = provider;
-  }
-
-  totals.estimatedCostUsd = totals.pricedProviderAttempts ? Number(knownCost.toFixed(8)) : null;
-  totals.averageProviderLatencyMs = totals.providerAttempts
-    ? Math.round(totals.providerLatencyMs / totals.providerAttempts)
-    : 0;
-  for (const provider of Object.values(providers)) {
-    provider.averageLatencyMs = provider.attempts ? Math.round(provider.latencyMs / provider.attempts) : 0;
-  }
-
-  const summary = {
-    schemaVersion: 1,
+  return summarizeTelemetryEvents(events, {
     scope: "process-local",
-    privacy: "metadata-only",
-    retention: {
-      maxEvents: configuration.maxEvents,
-      retainedEvents: events.length,
-      droppedEvents,
-      oldestEventAt: events[0]?.at || null,
-      newestEventAt: events[events.length - 1]?.at || null
-    },
+    maxEvents: configuration.maxEvents,
+    droppedEvents,
     structuredLogging: {
       enabled: configuration.structuredLogging,
       eventKind: "token_optimizer.telemetry"
     },
-    totals,
-    routes,
-    providers,
-    failures: {
-      providerAttempts: providerFailures,
-      workflows: workflowFailures
-    }
-  };
-  if (options.includeEvents === true) summary.events = events.map((event) => ({ ...event }));
-  return summary;
+    includeEvents: options.includeEvents,
+    alertPolicy: options.alertPolicy
+  });
 }
 
 function resetTelemetry() {

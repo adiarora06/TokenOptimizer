@@ -36,7 +36,7 @@ const SYSTEM_ARCHITECTURE = {
     {
       id: "telemetry",
       name: "Privacy-Safe Telemetry",
-      responsibility: "Count routes, provider attempts, fallback retries, latency, usage, and classified failures without prompts, results, or credentials."
+      responsibility: "Aggregate safe run metadata across process or deployment-log windows and evaluate retry, failure, latency, and optional spend alerts."
     },
     {
       id: "local-storage",

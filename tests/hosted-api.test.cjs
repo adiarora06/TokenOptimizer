@@ -128,6 +128,7 @@ async function run() {
   assert.deepEqual(overview.data.runs, []);
   assert.equal(overview.data.telemetry.privacy, "metadata-only");
   assert.equal(overview.data.telemetry.scope, "process-local");
+  assert.ok(overview.data.telemetry.health.status);
 
   const prepared = await invoke(handlers.prepare, "POST", {
     input: "Reply with OK",
@@ -196,6 +197,7 @@ async function run() {
   const updatedOverview = await invoke(handlers.systemOverview, "GET");
   assert.ok(updatedOverview.data.telemetry.totals.workflowRuns >= 5);
   assert.ok(updatedOverview.data.telemetry.totals.providerAttempts >= 4);
+  assert.ok(["healthy", "warning", "critical", "insufficient_data"].includes(updatedOverview.data.telemetry.health.status));
   assert.equal("events" in updatedOverview.data.telemetry, false);
 
   console.log("hosted API handler tests passed");

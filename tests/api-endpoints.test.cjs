@@ -212,6 +212,7 @@ async function run() {
     assert.equal(overview.response.status, 200);
     assert.ok(overview.data.architecture.layers.length > 0);
     assert.equal(overview.data.telemetry.privacy, "metadata-only");
+    assert.ok(overview.data.telemetry.health.status);
 
     const prepared = await jsonRequest(baseUrl, "/api/prepare-handoff", post({
       input: "I want you to reply with OK",

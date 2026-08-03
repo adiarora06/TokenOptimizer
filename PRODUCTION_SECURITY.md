@@ -24,6 +24,7 @@ The defaults and supported overrides are documented in `.env.local.example`.
 - Fallback policy calls include their one-based attempt number; `fallbackRetry=true` only after the first provider was attempted.
 - Failure messages are reduced to fixed codes such as `timeout`, `rate_limit`, `configuration`, `security_policy`, and `provider_unavailable` before storage.
 - Serverless instances do not share the in-memory buffer. Use the structured log stream for deployment-wide dashboards and alerting.
+- The deployment analyzer accepts only schema-versioned `token_optimizer.telemetry` events and discards unrelated log text. See `TELEMETRY_OPERATIONS.md` for commands and alert response.
 
 ## Vercel Firewall rollout
 

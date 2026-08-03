@@ -43,6 +43,8 @@ http://127.0.0.1:8787
 - `optimizer-core.cjs`: public entry point for the optimizer core modules.
 - `core/`: focused modules for provider adapters, adaptive routing, handoff preparation, the prompt library, secret removal, usage accounting, and the workflow runners.
 - `core/telemetry.cjs`: bounded metadata-only run and provider-attempt telemetry with structured production logging.
+- `core/telemetry-analysis.cjs`: shared deployment-window aggregation, p95 metrics, and alert-policy evaluation.
+- `scripts/telemetry-report.cjs`: JSON/NDJSON/Vercel-log analyzer for deployment-wide operator reports and CI alert gates.
 - `request-guard.cjs`: payload validation, public error shaping, response hardening, and request throttling.
 - `PRODUCTION_SECURITY.md`: application limits and the staged Vercel Firewall rollout runbook.
 - `api/optimize-stream.js`: hosted server-sent event endpoint for live run progress.
@@ -101,6 +103,8 @@ The browser and orchestration layers are intentionally separate:
 Every provider call and completed workflow emits an allowlisted metadata event. Events contain route, stage, provider, outcome, classified failure code, fallback attempt number, latency, token counts, cost when known, redaction count, and a trace ID. Prompt text, generated output, model names, provider error text, credentials, source labels, and session IDs are never copied into telemetry.
 
 `GET /api/system-overview` returns aggregate process-local totals without individual events. The in-memory buffer is bounded (200 events by default), so it is useful for local operation and warm-instance diagnostics rather than durable analytics. In production, newline-delimited JSON events are enabled by default for the deployment log collector; set `TOKEN_OPTIMIZER_TELEMETRY_LOG=0` to disable them or `=1` to enable them outside production. Set `TOKEN_OPTIMIZER_TELEMETRY_MAX_EVENTS` between 10 and 5,000 to change the diagnostic window.
+
+Build an actionable report from a deployment log export with `npm run telemetry:report -- --input <path|->`. It calculates failure and retry rates, p95 provider latency, optional spend limits, and warning/critical status. See `TELEMETRY_OPERATIONS.md` for Vercel commands, thresholds, drain guidance, and alert response.
 
 ## Evaluation And Regression Baseline
 

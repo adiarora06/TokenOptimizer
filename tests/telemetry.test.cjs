@@ -31,6 +31,7 @@ async function run() {
   assert.equal(summary.totals.failedProviderAttempts, 1);
   assert.equal(summary.totals.fallbackPolicyAttempts, 2);
   assert.equal(summary.totals.fallbackRetries, 1);
+  assert.equal(summary.health.status, "insufficient_data");
   assert.equal(summary.providers.groq.failures, 1);
   assert.equal(summary.providers.openai.successes, 1);
   assert.equal(summary.failures.providerAttempts.unknown, 1);
