@@ -115,14 +115,14 @@
     "semantic_hash": "1bbd8367a264e2ecfec14801635935d2"
   },
   "tests/api-endpoints.test.cjs": {
-    "mtime": 1785734022.1723497,
-    "ast_hash": "60bce1f2377f60f37213b7f3ac4c9c19",
-    "semantic_hash": "60bce1f2377f60f37213b7f3ac4c9c19"
+    "mtime": 1785774599.6772032,
+    "ast_hash": "738538efa63e73b77a4176d6d057eda1",
+    "semantic_hash": "738538efa63e73b77a4176d6d057eda1"
   },
   "tests/optimizer-core.test.cjs": {
-    "mtime": 1785734022.060822,
-    "ast_hash": "05b24c207601a60a242590359b645cdd",
-    "semantic_hash": "05b24c207601a60a242590359b645cdd"
+    "mtime": 1785774558.7641506,
+    "ast_hash": "4c1795eb926a984901a5e031fe2004ab",
+    "semantic_hash": "4c1795eb926a984901a5e031fe2004ab"
   },
   "vercel.json": {
     "mtime": 1785719692.5952463,
@@ -145,9 +145,9 @@
     "semantic_hash": "0b5b37a214a651c5a1c9ad7c7b436be8"
   },
   "core/providers.cjs": {
-    "mtime": 1785732771.4586422,
-    "ast_hash": "8d45d56147736191a2d9046bf5a0f2b3",
-    "semantic_hash": "8d45d56147736191a2d9046bf5a0f2b3"
+    "mtime": 1785774529.1185641,
+    "ast_hash": "98996741e79e2fe25b9680291be717db",
+    "semantic_hash": "98996741e79e2fe25b9680291be717db"
   },
   "core/routing.cjs": {
     "mtime": 1785732894.6439476,
@@ -195,9 +195,9 @@
     "semantic_hash": "e15fe811b78cf35a4c475585bd3decbc"
   },
   "tests/frontend-static.test.cjs": {
-    "mtime": 1785730229.747125,
-    "ast_hash": "8f132a5c7416ec43176a3f08e605a17a",
-    "semantic_hash": "8f132a5c7416ec43176a3f08e605a17a"
+    "mtime": 1785774599.5805814,
+    "ast_hash": "e5d450df0a6c3cd6c44091ed264a52fb",
+    "semantic_hash": "e5d450df0a6c3cd6c44091ed264a52fb"
   },
   ".github/workflows/ci.yml": {
     "mtime": 1785719692.5859432,
@@ -282,11 +282,6 @@
   "outputs/stats.html": {
     "mtime": 1785719692.5923898,
     "ast_hash": "7a1e9df214fb633f099737a147e455b2",
-    "semantic_hash": ""
-  },
-  "outputs/token-optimizer-file-generator.html": {
-    "mtime": 1785719692.5925517,
-    "ast_hash": "271f06343e3d611c94f742643793a9df",
     "semantic_hash": ""
   },
   "outputs/workspace.html": {
