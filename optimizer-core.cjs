@@ -8,6 +8,7 @@ const { callChatCompletion, generateWithFallback, providerStatus } = require("./
 const { analyzeWorkflowShape } = require("./core/routing.cjs");
 const { preparePortableHandoff } = require("./core/handoff.cjs");
 const { runBlankA2AKit, runSelfOptimizingWorkflow } = require("./core/workflow.cjs");
+const { telemetrySummary } = require("./core/telemetry.cjs");
 
 module.exports = {
   analyzeWorkflowShape,
@@ -20,5 +21,6 @@ module.exports = {
   providerStatus,
   redactSensitiveText,
   runBlankA2AKit,
-  runSelfOptimizingWorkflow
+  runSelfOptimizingWorkflow,
+  telemetrySummary
 };

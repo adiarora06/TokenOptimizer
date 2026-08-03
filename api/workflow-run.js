@@ -32,7 +32,8 @@ module.exports = async function handler(req, res) {
       rawInput: parsed.data.input,
       providerConfig: parsed.data.providerConfig || {},
       options: parsed.data.options || {},
-      signal: abortSignalOnClose(res)
+      signal: abortSignalOnClose(res),
+      telemetryContext: { endpoint: "/api/workflow-run" }
     });
     res.status(200).json(result);
   } catch (error) {

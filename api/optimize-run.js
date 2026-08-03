@@ -32,7 +32,8 @@ module.exports = async function handler(req, res) {
       rawInput: parsed.data.input,
       provider: parsed.data.provider || "groq-openai-fallback",
       options: parsed.data.options || {},
-      signal: abortSignalOnClose(res)
+      signal: abortSignalOnClose(res),
+      telemetryContext: { endpoint: "/api/optimize-run" }
     });
     res.status(200).json(result);
   } catch (error) {

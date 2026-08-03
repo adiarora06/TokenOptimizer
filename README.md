@@ -42,6 +42,7 @@ http://127.0.0.1:8787
 - `extensions/gemini-token-optimizer/PUBLISHING.md`: Chrome Web Store readiness checklist.
 - `optimizer-core.cjs`: public entry point for the optimizer core modules.
 - `core/`: focused modules for provider adapters, adaptive routing, handoff preparation, the prompt library, secret removal, usage accounting, and the workflow runners.
+- `core/telemetry.cjs`: bounded metadata-only run and provider-attempt telemetry with structured production logging.
 - `request-guard.cjs`: payload validation, public error shaping, response hardening, and request throttling.
 - `PRODUCTION_SECURITY.md`: application limits and the staged Vercel Firewall rollout runbook.
 - `api/optimize-stream.js`: hosted server-sent event endpoint for live run progress.
@@ -94,6 +95,12 @@ The browser and orchestration layers are intentionally separate:
 - **Contracts** are parsed as JSON and schema-validated before an executor can use them; malformed or truncated contracts fall back to compact local state.
 - **Provider boundaries** reject private or reserved production addresses, validate and pin DNS results, reject redirects, and cap output tokens and response bytes.
 - **Timeouts** use one workflow-wide deadline, so adding contract or verification stages cannot multiply the requested time budget.
+
+## Production Telemetry
+
+Every provider call and completed workflow emits an allowlisted metadata event. Events contain route, stage, provider, outcome, classified failure code, fallback attempt number, latency, token counts, cost when known, redaction count, and a trace ID. Prompt text, generated output, model names, provider error text, credentials, source labels, and session IDs are never copied into telemetry.
+
+`GET /api/system-overview` returns aggregate process-local totals without individual events. The in-memory buffer is bounded (200 events by default), so it is useful for local operation and warm-instance diagnostics rather than durable analytics. In production, newline-delimited JSON events are enabled by default for the deployment log collector; set `TOKEN_OPTIMIZER_TELEMETRY_LOG=0` to disable them or `=1` to enable them outside production. Set `TOKEN_OPTIMIZER_TELEMETRY_MAX_EVENTS` between 10 and 5,000 to change the diagnostic window.
 
 ## Evaluation And Regression Baseline
 

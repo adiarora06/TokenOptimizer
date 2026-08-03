@@ -11,8 +11,19 @@ Token Optimizer uses two complementary request-control layers. The application l
 - Caller-selected models and LiteLLM base URLs are honored only when the caller supplies its own API credential. Requests that use server-managed credentials stay on the server-configured model and endpoint.
 - Provider-controlled error text is redacted before it is returned to the browser or saved in workflow history.
 - Failed fallback attempts expose only classified status messages, never raw provider-controlled error text.
+- Production telemetry is metadata-only: prompts, results, model names, provider error text, credentials, source labels, and session IDs are excluded by construction.
+- The public system overview exposes aggregate counters only. Individual metadata events remain inside the bounded process-local buffer and structured deployment logs.
 
 The defaults and supported overrides are documented in `.env.local.example`.
+
+## Telemetry operations
+
+- `TOKEN_OPTIMIZER_TELEMETRY_LOG` defaults to enabled when `NODE_ENV=production`. Set it to `0` for no structured logs or `1` to enable logs in another environment.
+- `TOKEN_OPTIMIZER_TELEMETRY_MAX_EVENTS` controls the process-local ring buffer and is clamped between 10 and 5,000 events.
+- Structured records use `kind=token_optimizer.telemetry`, with `provider_attempt` and `workflow_run` event types.
+- Fallback policy calls include their one-based attempt number; `fallbackRetry=true` only after the first provider was attempted.
+- Failure messages are reduced to fixed codes such as `timeout`, `rate_limit`, `configuration`, `security_policy`, and `provider_unavailable` before storage.
+- Serverless instances do not share the in-memory buffer. Use the structured log stream for deployment-wide dashboards and alerting.
 
 ## Vercel Firewall rollout
 

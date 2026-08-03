@@ -17,7 +17,8 @@ const {
   preparePortableHandoff,
   providerStatus,
   runBlankA2AKit,
-  runSelfOptimizingWorkflow
+  runSelfOptimizingWorkflow,
+  telemetrySummary
 } = require("./optimizer-core.cjs");
 const { createOptimizerSystem } = require("./optimizer-system.cjs");
 // Resolved per call rather than destructured at load: the host bundler can hand
@@ -149,7 +150,8 @@ async function handleApi(req, res) {
   if (req.method === "GET" && pathname === "/api/system-overview") {
     sendJson(res, 200, {
       architecture: optimizerSystem.architecture,
-      runs: optimizerSystem.list()
+      runs: optimizerSystem.list(),
+      telemetry: telemetrySummary()
     });
     return;
   }
@@ -187,7 +189,8 @@ async function handleApi(req, res) {
         providerConfig: parsed.data.providerConfig || {},
         options: parsed.data.options || {},
         source: parsed.data.source || "workspace",
-        sessionId: parsed.data.sessionId || null
+        sessionId: parsed.data.sessionId || null,
+        telemetryContext: { endpoint: "/api/system-runs" }
       });
       sendJson(res, 202, { run }, commonHeaders(rate));
     } catch (error) {
@@ -225,6 +228,7 @@ async function handleApi(req, res) {
         options: parsed.data.options || {},
         traceId,
         signal,
+        telemetryContext: { endpoint: "/api/optimize-stream" },
         onEvent(event) {
           writeSse(res, "progress", event);
         }
@@ -254,12 +258,14 @@ async function handleApi(req, res) {
       const provider = parsed.data.provider || "groq-openai-fallback";
       const prompt = parsed.data.prompt;
       const signal = abortSignalOnClose(res);
+      const traceId = createTraceId();
+      const telemetryContext = { endpoint: "/api/generate", traceId, stage: "generate" };
       const result = provider === "openai"
-        ? await callChatCompletion({ provider: "openai", prompt, signal })
+        ? await callChatCompletion({ provider: "openai", prompt, signal, telemetryContext })
         : provider === "groq"
-          ? await callChatCompletion({ provider: "groq", prompt, signal })
-          : await generateWithFallback(prompt, { signal });
-      sendJson(res, 200, result, commonHeaders(rate));
+          ? await callChatCompletion({ provider: "groq", prompt, signal, telemetryContext })
+          : await generateWithFallback(prompt, { signal, telemetryContext });
+      sendJson(res, 200, { ...result, traceId }, commonHeaders(rate));
     } catch (error) {
       sendJson(res, 500, { error: publicError(error) }, commonHeaders(rate));
     }
@@ -298,7 +304,8 @@ async function handleApi(req, res) {
         rawInput: parsed.data.input,
         provider: parsed.data.provider || "groq-openai-fallback",
         options: parsed.data.options || {},
-        signal: abortSignalOnClose(res)
+        signal: abortSignalOnClose(res),
+        telemetryContext: { endpoint: "/api/optimize-run" }
       });
       sendJson(res, 200, result, commonHeaders(rate));
     } catch (error) {
@@ -319,7 +326,8 @@ async function handleApi(req, res) {
         rawInput: parsed.data.input,
         providerConfig: parsed.data.providerConfig || {},
         options: parsed.data.options || {},
-        signal: abortSignalOnClose(res)
+        signal: abortSignalOnClose(res),
+        telemetryContext: { endpoint: pathname }
       });
       sendJson(res, 200, result, commonHeaders(rate));
     } catch (error) {

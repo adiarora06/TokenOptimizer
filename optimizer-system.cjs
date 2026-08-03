@@ -34,6 +34,11 @@ const SYSTEM_ARCHITECTURE = {
       responsibility: "Hide provider-specific model details behind one contract-ready execution interface."
     },
     {
+      id: "telemetry",
+      name: "Privacy-Safe Telemetry",
+      responsibility: "Count routes, provider attempts, fallback retries, latency, usage, and classified failures without prompts, results, or credentials."
+    },
+    {
       id: "local-storage",
       name: "Local Usage Store",
       responsibility: "Save history, audit records, session metadata, and usage stats in the user's browser."
@@ -45,6 +50,9 @@ const SYSTEM_ARCHITECTURE = {
     ["system-runner", "optimizer-core"],
     ["optimizer-core", "provider-adapters"],
     ["provider-adapters", "optimizer-core"],
+    ["optimizer-core", "telemetry"],
+    ["provider-adapters", "telemetry"],
+    ["telemetry", "system-runner"],
     ["optimizer-core", "system-runner"],
     ["system-runner", "workspace"],
     ["workspace", "local-storage"]
@@ -173,12 +181,14 @@ async function executeSystemRun(run, payload = {}) {
       ? await runBlankA2AKit({
         rawInput: payload.rawInput,
         providerConfig: payload.providerConfig || {},
-        options: payload.options || {}
+        options: payload.options || {},
+        telemetryContext: payload.telemetryContext || { endpoint: "/api/system-runs" }
       })
       : await runSelfOptimizingWorkflow({
         rawInput: payload.rawInput,
         provider: payload.provider || "groq-openai-fallback",
-        options: payload.options || {}
+        options: payload.options || {},
+        telemetryContext: payload.telemetryContext || { endpoint: "/api/system-runs" }
       });
 
     const succeeded = result.executionStatus === "completed" || result.executionStatus === "prompt_ready";

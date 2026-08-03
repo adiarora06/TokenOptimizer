@@ -1,4 +1,4 @@
-const { callChatCompletion, generateWithFallback } = require("../optimizer-core.cjs");
+const { callChatCompletion, createTraceId, generateWithFallback } = require("../optimizer-core.cjs");
 const {
   abortSignalOnClose,
   commonHeaders,
@@ -30,13 +30,15 @@ module.exports = async function handler(req, res) {
     const provider = parsed.data.provider || "groq-openai-fallback";
     const prompt = parsed.data.prompt;
     const signal = abortSignalOnClose(res);
+    const traceId = createTraceId();
+    const telemetryContext = { endpoint: "/api/generate", traceId, stage: "generate" };
 
     const result = provider === "openai"
-      ? await callChatCompletion({ provider: "openai", prompt, signal })
+      ? await callChatCompletion({ provider: "openai", prompt, signal, telemetryContext })
       : provider === "groq"
-        ? await callChatCompletion({ provider: "groq", prompt, signal })
-        : await generateWithFallback(prompt, { signal });
-    res.status(200).json(result);
+        ? await callChatCompletion({ provider: "groq", prompt, signal, telemetryContext })
+        : await generateWithFallback(prompt, { signal, telemetryContext });
+    res.status(200).json({ ...result, traceId });
   } catch (error) {
     res.status(500).json({ error: publicError(error) });
   }

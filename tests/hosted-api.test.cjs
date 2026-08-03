@@ -126,6 +126,8 @@ async function run() {
   assert.equal(overview.statusCode, 200);
   assert.ok(overview.data.architecture.layers.length > 0);
   assert.deepEqual(overview.data.runs, []);
+  assert.equal(overview.data.telemetry.privacy, "metadata-only");
+  assert.equal(overview.data.telemetry.scope, "process-local");
 
   const prepared = await invoke(handlers.prepare, "POST", {
     input: "Reply with OK",
@@ -142,6 +144,7 @@ async function run() {
   });
   assert.equal(generated.statusCode, 200);
   assert.equal(generated.data.usage.source, "provider");
+  assert.match(generated.data.traceId, /^trace_/);
   assert.equal(generated.headers["x-ratelimit-scope"], "billable");
 
   const optimized = await invoke(handlers.optimize, "POST", {
@@ -189,6 +192,11 @@ async function run() {
   assert.equal(systemRun.data.run.status, "completed");
   assert.equal(systemRun.data.run.result.executionStatus, "completed");
   assert.equal(systemRun.data.run.stages.some((stage) => stage.status === "running"), false);
+
+  const updatedOverview = await invoke(handlers.systemOverview, "GET");
+  assert.ok(updatedOverview.data.telemetry.totals.workflowRuns >= 5);
+  assert.ok(updatedOverview.data.telemetry.totals.providerAttempts >= 4);
+  assert.equal("events" in updatedOverview.data.telemetry, false);
 
   console.log("hosted API handler tests passed");
 }

@@ -3,6 +3,7 @@ const https = require("node:https");
 
 const { estimateTokens, modelCost, normalizeUsage } = require("./usage.cjs");
 const { resolveSafeProviderEndpoint, safeErrorMessage } = require("./security.cjs");
+const { recordProviderAttempt } = require("./telemetry.cjs");
 
 function boundedNumber(value, fallback, min, max) {
   const parsed = Number(value);
@@ -248,7 +249,7 @@ The request was completed through the test execution route.
 // Single provider caller behind every route: named env-configured providers
 // (groq, openai) and bring-your-own-endpoint kit providers share the same
 // request, timeout, parsing, and usage accounting path.
-async function callModel({
+async function executeModelCall({
   providerConfig = {},
   prompt,
   system,
@@ -347,7 +348,39 @@ async function callModel({
   };
 }
 
-async function callChatCompletion({ provider, prompt, system, signal, timeoutMs = 45_000, acceptTruncated, maxOutputTokens }) {
+async function callModel(options = {}) {
+  const startedAt = Date.now();
+  const provider = resolveProvider(options.providerConfig).provider;
+  try {
+    const result = await executeModelCall(options);
+    recordProviderAttempt({
+      provider,
+      result,
+      elapsedMs: Date.now() - startedAt,
+      context: options.telemetryContext
+    });
+    return result;
+  } catch (error) {
+    recordProviderAttempt({
+      provider,
+      error,
+      elapsedMs: Date.now() - startedAt,
+      context: options.telemetryContext
+    });
+    throw error;
+  }
+}
+
+async function callChatCompletion({
+  provider,
+  prompt,
+  system,
+  signal,
+  timeoutMs = 45_000,
+  acceptTruncated,
+  maxOutputTokens,
+  telemetryContext
+}) {
   if (!["groq", "openai"].includes(provider)) throw new Error("Unsupported provider route");
   return callModel({
     providerConfig: { provider },
@@ -356,7 +389,8 @@ async function callChatCompletion({ provider, prompt, system, signal, timeoutMs 
     signal,
     timeoutMs,
     acceptTruncated,
-    maxOutputTokens
+    maxOutputTokens,
+    telemetryContext
   });
 }
 
@@ -380,7 +414,12 @@ async function generateWithFallback(prompt, options = {}) {
         provider,
         prompt,
         ...options,
-        timeoutMs: Math.min(perAttemptMs, remainingMs)
+        timeoutMs: Math.min(perAttemptMs, remainingMs),
+        telemetryContext: {
+          ...options.telemetryContext,
+          fallbackPolicy: true,
+          fallbackAttempt: attempts.length + 1
+        }
       });
       return { ...result, attempts };
     } catch (error) {

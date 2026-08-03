@@ -62,6 +62,7 @@ module.exports = async function handler(req, res) {
       options: parsed.data.options || {},
       traceId,
       signal,
+      telemetryContext: { endpoint: "/api/optimize-stream" },
       onEvent(event) {
         writeEvent(res, "progress", event);
       }

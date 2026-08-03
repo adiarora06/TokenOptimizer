@@ -3,6 +3,7 @@ const { redactSensitiveText, safeErrorMessage } = require("./security.cjs");
 const { callModel, callWorkflowProvider, resolveProvider } = require("./providers.cjs");
 const { analyzeWorkflowShape, buildOfflineContract } = require("./routing.cjs");
 const { validateHandoffContract } = require("./contracts.cjs");
+const { recordWorkflowRun } = require("./telemetry.cjs");
 const {
   buildA2AContractPrompt,
   buildA2AExecutorPrompt,
@@ -116,7 +117,14 @@ function buildBlankA2AKit(rawInput, options = {}) {
   };
 }
 
-async function runBlankA2AKit({ rawInput, providerConfig = {}, options = {}, signal }) {
+async function runBlankA2AKit({
+  rawInput,
+  providerConfig = {},
+  options = {},
+  signal,
+  traceId = createTraceId(),
+  telemetryContext = {}
+}) {
   const startedAt = Date.now();
   const workflowBudget = createWorkflowBudget(options.timeoutMs);
   const rawTokens = estimateTokens(rawInput);
@@ -174,7 +182,8 @@ async function runBlankA2AKit({ rawInput, providerConfig = {}, options = {}, sig
         signal,
         timeoutMs: workflowBudget.remaining("contract"),
         acceptTruncated: true,
-        maxOutputTokens: 2_000
+        maxOutputTokens: 2_000,
+        telemetryContext: { ...telemetryContext, traceId, stage: "contract" }
       });
       contractValidation = validateHandoffContract(contractResult.content, kit.handoff_contract, {
         finishReason: contractResult.finishReason
@@ -218,7 +227,8 @@ async function runBlankA2AKit({ rawInput, providerConfig = {}, options = {}, sig
           system: "You are an Executor Agent. Produce the best final work product from the compact handoff contract.",
           signal,
           timeoutMs: workflowBudget.remaining("execution"),
-          maxOutputTokens: contractValidation.contract.token_budget.executor_target
+          maxOutputTokens: contractValidation.contract.token_budget.executor_target,
+          telemetryContext: { ...telemetryContext, traceId, stage: "execute" }
         });
         generations.push(generationRecord("execute", executorResult));
         executorOutput = executorResult.content;
@@ -244,7 +254,8 @@ async function runBlankA2AKit({ rawInput, providerConfig = {}, options = {}, sig
           system: "You are a Verifier Agent. Fix drift, preserve intent, and return a compact final answer.",
           signal,
           timeoutMs: workflowBudget.remaining("verification"),
-          maxOutputTokens: contractValidation.contract.token_budget.executor_target
+          maxOutputTokens: contractValidation.contract.token_budget.executor_target,
+          telemetryContext: { ...telemetryContext, traceId, stage: "verify" }
         });
         generations.push(generationRecord("verify", verifierResult));
         finalAnswer = verifierResult.content;
@@ -273,7 +284,8 @@ async function runBlankA2AKit({ rawInput, providerConfig = {}, options = {}, sig
   const optimizedPromptTokens = optimizedPrompts.reduce((sum, item) => sum + item.tokens, 0);
   const comparison = contextComparison(rawTokens, optimizedPromptTokens, optimizedPrompts.length);
   const providerUsage = combineUsage(generations);
-  return {
+  const result = {
+    traceId,
     mode: "contract-workflow-kit-run",
     provider: providerUsed,
     providerLabel,
@@ -312,9 +324,19 @@ async function runBlankA2AKit({ rawInput, providerConfig = {}, options = {}, sig
     },
     elapsedMs: Date.now() - startedAt
   };
+  recordWorkflowRun(result, telemetryContext);
+  return result;
 }
 
-async function runSelfOptimizingWorkflow({ rawInput, provider, options = {}, onEvent, signal, traceId = createTraceId() }) {
+async function runSelfOptimizingWorkflow({
+  rawInput,
+  provider,
+  options = {},
+  onEvent,
+  signal,
+  traceId = createTraceId(),
+  telemetryContext = {}
+}) {
   const startedAt = Date.now();
   const workflowBudget = createWorkflowBudget(options.timeoutMs);
   const selectedProvider = provider || "groq-openai-fallback";
@@ -428,7 +450,8 @@ async function runSelfOptimizingWorkflow({ rawInput, provider, options = {}, onE
             signal,
             timeoutMs: workflowBudget.remaining("execution"),
             deadlineAt: workflowBudget.deadlineAt,
-            maxOutputTokens: offlineContract.token_budget.executor_target
+            maxOutputTokens: offlineContract.token_budget.executor_target,
+            telemetryContext: { ...telemetryContext, traceId, stage: "execute" }
           }
         );
         generations.push(generationRecord("execute", directResult));
@@ -450,7 +473,8 @@ async function runSelfOptimizingWorkflow({ rawInput, provider, options = {}, onE
             timeoutMs: workflowBudget.remaining("contract"),
             deadlineAt: workflowBudget.deadlineAt,
             acceptTruncated: true,
-            maxOutputTokens: 2_000
+            maxOutputTokens: 2_000,
+            telemetryContext: { ...telemetryContext, traceId, stage: "contract" }
           }
         );
         generations.push(generationRecord("contract", optimizerResult));
@@ -485,7 +509,8 @@ async function runSelfOptimizingWorkflow({ rawInput, provider, options = {}, onE
             signal,
             timeoutMs: workflowBudget.remaining("execution"),
             deadlineAt: workflowBudget.deadlineAt,
-            maxOutputTokens: handoffContract.token_budget.executor_target
+            maxOutputTokens: handoffContract.token_budget.executor_target,
+            telemetryContext: { ...telemetryContext, traceId, stage: "execute" }
           }
         );
         generations.push(generationRecord("execute", executorResult));
@@ -513,7 +538,8 @@ async function runSelfOptimizingWorkflow({ rawInput, provider, options = {}, onE
               signal,
               timeoutMs: workflowBudget.remaining("verification"),
               deadlineAt: workflowBudget.deadlineAt,
-              maxOutputTokens: handoffContract.token_budget.executor_target
+              maxOutputTokens: handoffContract.token_budget.executor_target,
+              telemetryContext: { ...telemetryContext, traceId, stage: "verify" }
             }
           );
           generations.push(generationRecord("verify", verifierResult));
@@ -552,7 +578,7 @@ async function runSelfOptimizingWorkflow({ rawInput, provider, options = {}, onE
     detail: executionStatus === "completed" ? "Result ready." : providerError || "Optimized prompt ready."
   });
 
-  return {
+  const result = {
     traceId,
     mode: "adaptive-contract-workflow-run",
     provider: providerUsed,
@@ -597,6 +623,8 @@ async function runSelfOptimizingWorkflow({ rawInput, provider, options = {}, onE
     },
     elapsedMs: Date.now() - startedAt
   };
+  recordWorkflowRun(result, telemetryContext);
+  return result;
 }
 
 module.exports = {

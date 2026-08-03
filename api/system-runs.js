@@ -44,7 +44,8 @@ module.exports = async function handler(req, res) {
       providerConfig: parsed.data.providerConfig || {},
       options: parsed.data.options || {},
       source: parsed.data.source || "workspace",
-      sessionId: parsed.data.sessionId || null
+      sessionId: parsed.data.sessionId || null,
+      telemetryContext: { endpoint: "/api/system-runs" }
     });
 
     res.status(200).json({ run });

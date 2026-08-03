@@ -211,6 +211,7 @@ async function run() {
     const overview = await jsonRequest(baseUrl, "/api/system-overview");
     assert.equal(overview.response.status, 200);
     assert.ok(overview.data.architecture.layers.length > 0);
+    assert.equal(overview.data.telemetry.privacy, "metadata-only");
 
     const prepared = await jsonRequest(baseUrl, "/api/prepare-handoff", post({
       input: "I want you to reply with OK",
@@ -227,6 +228,7 @@ async function run() {
     }));
     assert.equal(generated.response.status, 200);
     assert.equal(generated.data.usage.source, "provider");
+    assert.match(generated.data.traceId, /^trace_/);
     assert.equal(generated.response.headers.get("x-ratelimit-scope"), "billable");
 
     const optimized = await jsonRequest(baseUrl, "/api/optimize-run", post({
@@ -348,6 +350,10 @@ async function run() {
 
     const missing = await jsonRequest(baseUrl, "/api/not-real");
     assert.equal(missing.response.status, 404);
+    const updatedOverview = await jsonRequest(baseUrl, "/api/system-overview");
+    assert.ok(updatedOverview.data.telemetry.totals.workflowRuns > 0);
+    assert.ok(updatedOverview.data.telemetry.totals.providerAttempts > 0);
+    assert.equal("events" in updatedOverview.data.telemetry, false);
     assert.ok(providerRequests.length > 0);
     assert.ok(providerRequests.every((request) => Number.isInteger(request.max_tokens) && request.max_tokens > 0));
     console.log("API endpoint smoke tests passed");
