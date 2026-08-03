@@ -110,14 +110,14 @@
     "semantic_hash": "e4d6afa5990cab3b3c7021fc0e8b0a08"
   },
   "server.cjs": {
-    "mtime": 1785777093.0834465,
-    "ast_hash": "3b283cd41b8c6370a4cb6562561d039c",
-    "semantic_hash": "3b283cd41b8c6370a4cb6562561d039c"
+    "mtime": 1785781364.3148265,
+    "ast_hash": "93ff7126b9e397acc44e856feff8be45",
+    "semantic_hash": "93ff7126b9e397acc44e856feff8be45"
   },
   "tests/api-endpoints.test.cjs": {
-    "mtime": 1785778172.6776783,
-    "ast_hash": "cfe8599ceb2c94a477e6dcdab7325738",
-    "semantic_hash": "cfe8599ceb2c94a477e6dcdab7325738"
+    "mtime": 1785781364.315656,
+    "ast_hash": "e392a8fac59882e155dfddbea620a42a",
+    "semantic_hash": "e392a8fac59882e155dfddbea620a42a"
   },
   "tests/optimizer-core.test.cjs": {
     "mtime": 1785775826.5391057,
@@ -125,9 +125,9 @@
     "semantic_hash": "89d0563cb7df2f15935d2d59b2400c39"
   },
   "vercel.json": {
-    "mtime": 1785781273.9678078,
-    "ast_hash": "d5ca695fc155463dcd90dbaf3c572f90",
-    "semantic_hash": "d5ca695fc155463dcd90dbaf3c572f90"
+    "mtime": 1785781364.3152323,
+    "ast_hash": "cdaadf6519bb84124bc430a882c26ff1",
+    "semantic_hash": "cdaadf6519bb84124bc430a882c26ff1"
   },
   "scripts/canonical-graph.cjs": {
     "mtime": 1785719692.594803,
@@ -195,9 +195,9 @@
     "semantic_hash": "e15fe811b78cf35a4c475585bd3decbc"
   },
   "tests/frontend-static.test.cjs": {
-    "mtime": 1785781273.9682868,
-    "ast_hash": "72592f4525393b20c3bd1d1cc3d5f7fb",
-    "semantic_hash": "72592f4525393b20c3bd1d1cc3d5f7fb"
+    "mtime": 1785781364.3154325,
+    "ast_hash": "492a0c34e2ae0a2f35e9a75250a806ff",
+    "semantic_hash": "492a0c34e2ae0a2f35e9a75250a806ff"
   },
   ".github/workflows/ci.yml": {
     "mtime": 1785719692.5859432,

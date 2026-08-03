@@ -593,19 +593,6 @@
       "tests_api_endpoints_test_waitforserver"
     ],
     "19": [
-      "tests_frontend_static_test",
-      "tests_frontend_static_test_assert",
-      "tests_frontend_static_test_faviconpath",
-      "tests_frontend_static_test_fs",
-      "tests_frontend_static_test_htmlfiles",
-      "tests_frontend_static_test_outputsdir",
-      "tests_frontend_static_test_path",
-      "tests_frontend_static_test_privacysource",
-      "tests_frontend_static_test_retiredgenerator",
-      "tests_frontend_static_test_vercelconfig",
-      "tests_frontend_static_test_vm"
-    ],
-    "20": [
       "design_qa",
       "design_qa_comparison_history",
       "design_qa_comparison_target",
@@ -617,7 +604,7 @@
       "design_qa_interaction_and_runtime_checks",
       "design_qa_iteration_1"
     ],
-    "21": [
+    "20": [
       "extensions_gemini_token_optimizer_publishing",
       "extensions_gemini_token_optimizer_publishing_current_wrapper",
       "extensions_gemini_token_optimizer_publishing_local_test_notes",
@@ -629,7 +616,7 @@
       "extensions_gemini_token_optimizer_publishing_store_listing_assets",
       "extensions_gemini_token_optimizer_publishing_store_ready_checklist"
     ],
-    "22": [
+    "21": [
       "extensions_gemini_token_optimizer_tests_service_worker_test",
       "extensions_gemini_token_optimizer_tests_service_worker_test_assert",
       "extensions_gemini_token_optimizer_tests_service_worker_test_context",
@@ -640,6 +627,18 @@
       "extensions_gemini_token_optimizer_tests_service_worker_test_platformscode",
       "extensions_gemini_token_optimizer_tests_service_worker_test_serviceworkercode",
       "extensions_gemini_token_optimizer_tests_service_worker_test_vm"
+    ],
+    "22": [
+      "tests_frontend_static_test",
+      "tests_frontend_static_test_assert",
+      "tests_frontend_static_test_faviconpath",
+      "tests_frontend_static_test_fs",
+      "tests_frontend_static_test_htmlfiles",
+      "tests_frontend_static_test_outputsdir",
+      "tests_frontend_static_test_path",
+      "tests_frontend_static_test_privacysource",
+      "tests_frontend_static_test_retiredgenerator",
+      "tests_frontend_static_test_vm"
     ],
     "23": [
       "core_prompts",
@@ -772,7 +771,7 @@
     "16": 0.14285714285714285,
     "17": 0.16666666666666666,
     "18": 0.2909090909090909,
-    "19": 0.18181818181818182,
+    "19": 0.2,
     "20": 0.2,
     "21": 0.2,
     "22": 0.2,
@@ -905,16 +904,16 @@
     {
       "type": "bridge_node",
       "question": "Why does `MockResponse` connect `MockResponse` to `providers.cjs`?",
-      "why": "High betweenness centrality (0.011) - this node is a cross-community bridge."
+      "why": "High betweenness centrality (0.010) - this node is a cross-community bridge."
     },
     {
       "type": "bridge_node",
       "question": "Why does `runSelfOptimizingWorkflow()` connect `providers.cjs` to `telemetry.cjs`?",
-      "why": "High betweenness centrality (0.011) - this node is a cross-community bridge."
+      "why": "High betweenness centrality (0.008) - this node is a cross-community bridge."
     },
     {
       "type": "bridge_node",
-      "question": "Why does `summarizeTelemetryEvents()` connect `telemetry-analysis.cjs` to `telemetry.cjs`?",
+      "question": "Why does `recordWorkflowRun()` connect `telemetry.cjs` to `providers.cjs`?",
       "why": "High betweenness centrality (0.003) - this node is a cross-community bridge."
     },
     {

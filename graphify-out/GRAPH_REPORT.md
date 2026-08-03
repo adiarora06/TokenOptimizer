@@ -4,12 +4,12 @@
 - cluster-only mode — file stats not available
 
 ## Summary
-- 675 nodes · 1022 edges · 38 communities (33 shown, 5 thin omitted)
-- Extraction: 91% EXTRACTED · 9% INFERRED · 0% AMBIGUOUS · INFERRED: 97 edges (avg confidence: 0.51)
+- 674 nodes · 1016 edges · 38 communities (33 shown, 5 thin omitted)
+- Extraction: 90% EXTRACTED · 10% INFERRED · 0% AMBIGUOUS · INFERRED: 97 edges (avg confidence: 0.51)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `0f1575ed`
+- Built from commit: `4848c041`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -33,10 +33,10 @@
 - Token Optimizer
 - sidepanel-logic.test.cjs
 - api-endpoints.test.cjs
-- frontend-static.test.cjs
 - Design QA
 - Publishing Token Optimizer for Gemini and ChatGPT
 - service-worker.test.cjs
+- frontend-static.test.cjs
 - prompts.cjs
 - Chrome Web Store Listing Copy
 - usage.cjs
@@ -182,12 +182,12 @@ Nodes (24): alertForMetric(), boundedInteger(), DEFAULT_ALERT_POLICY, evaluateTe
 
 ### Community 13 - "optimizer-system.cjs"
 Cohesion: 0.15
-Nodes (20): { commonHeaders }, { SYSTEM_ARCHITECTURE }, { telemetrySummary }, {
+Nodes (19): { commonHeaders }, { SYSTEM_ARCHITECTURE }, { telemetrySummary }, {
   commonHeaders,
   publicError,
   takeRateLimit,
   validateOptimizerPayload
-}, { SYSTEM_ARCHITECTURE, runSystemRunInline }, { telemetrySummary }, applyResultTrace(), baseStages() (+12 more)
+}, { SYSTEM_ARCHITECTURE, runSystemRunInline }, { telemetrySummary }, applyResultTrace(), baseStages() (+11 more)
 
 ### Community 14 - "telemetry-report.cjs"
 Cohesion: 0.15
@@ -209,21 +209,21 @@ Nodes (10): assert, context, elements, extensionDir, fs, path, platformsCode, pr
 Cohesion: 0.29
 Nodes (10): assert, { callModel }, freePort(), http, jsonRequest(), listen(), post(), run() (+2 more)
 
-### Community 19 - "frontend-static.test.cjs"
-Cohesion: 0.18
-Nodes (10): assert, faviconPath, fs, htmlFiles, outputsDir, path, privacySource, retiredGenerator (+2 more)
-
-### Community 20 - "Design QA"
+### Community 19 - "Design QA"
 Cohesion: 0.20
 Nodes (9): Comparison History, Comparison Target, Design QA, Findings, Focused Evidence, Follow-up Polish, Implementation Checklist, Interaction And Runtime Checks (+1 more)
 
-### Community 21 - "Publishing Token Optimizer for Gemini and ChatGPT"
+### Community 20 - "Publishing Token Optimizer for Gemini and ChatGPT"
 Cohesion: 0.20
 Nodes (9): Current Wrapper, Local Test Notes, Open Source Use, Package Command, Privacy Policy Notes, Publication Types, Publishing Token Optimizer for Gemini and ChatGPT, Store Listing Assets (+1 more)
 
-### Community 22 - "service-worker.test.cjs"
+### Community 21 - "service-worker.test.cjs"
 Cohesion: 0.20
 Nodes (9): assert, context, extensionDir, fs, panelOptions, path, platformsCode, serviceWorkerCode (+1 more)
+
+### Community 22 - "frontend-static.test.cjs"
+Cohesion: 0.20
+Nodes (9): assert, faviconPath, fs, htmlFiles, outputsDir, path, privacySource, retiredGenerator (+1 more)
 
 ### Community 24 - "Chrome Web Store Listing Copy"
 Cohesion: 0.22
@@ -262,10 +262,10 @@ Nodes (4): Adapter Contract, Add Another Assistant, Layers, Site Adapter Archite
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `MockResponse` connect `MockResponse` to `providers.cjs`?**
-  _High betweenness centrality (0.011) - this node is a cross-community bridge._
+  _High betweenness centrality (0.010) - this node is a cross-community bridge._
 - **Why does `runSelfOptimizingWorkflow()` connect `providers.cjs` to `telemetry.cjs`?**
-  _High betweenness centrality (0.011) - this node is a cross-community bridge._
-- **Why does `summarizeTelemetryEvents()` connect `telemetry-analysis.cjs` to `telemetry.cjs`?**
+  _High betweenness centrality (0.008) - this node is a cross-community bridge._
+- **Why does `recordWorkflowRun()` connect `telemetry.cjs` to `providers.cjs`?**
   _High betweenness centrality (0.003) - this node is a cross-community bridge._
 - **What connects `assert`, `fs`, `path` to the rest of the system?**
   _277 weakly-connected nodes found - possible documentation gaps or missing edges._
