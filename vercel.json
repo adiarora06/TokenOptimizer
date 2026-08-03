@@ -18,6 +18,10 @@
       "destination": "/outputs/home.html"
     },
     {
+      "source": "/favicon.ico",
+      "destination": "/outputs/favicon.svg"
+    },
+    {
       "source": "/workspace",
       "destination": "/outputs/workspace.html"
     },
