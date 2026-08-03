@@ -85,9 +85,9 @@
     "semantic_hash": "840b946d51823d9d4b4bb339c087a59a"
   },
   "optimizer-system.cjs": {
-    "mtime": 1785777092.9851875,
-    "ast_hash": "12e6f71c3ef3b7f8b09415aa3ec3bdc3",
-    "semantic_hash": "12e6f71c3ef3b7f8b09415aa3ec3bdc3"
+    "mtime": 1785778331.4231982,
+    "ast_hash": "38ff18efee0c7d81dd02caffb4ae67e0",
+    "semantic_hash": "38ff18efee0c7d81dd02caffb4ae67e0"
   },
   "outputs/system-worker.js": {
     "mtime": 1785719692.5924644,
@@ -100,9 +100,9 @@
     "semantic_hash": "eb10d940c51f33acda1003dfde7fd0ee"
   },
   "package.json": {
-    "mtime": 1785777163.084322,
-    "ast_hash": "93f2f69b0b6c39cdfd9063624f706878",
-    "semantic_hash": "93f2f69b0b6c39cdfd9063624f706878"
+    "mtime": 1785778125.4662814,
+    "ast_hash": "27bc961cc1a81fc7baedc6b272bec059",
+    "semantic_hash": "27bc961cc1a81fc7baedc6b272bec059"
   },
   "request-guard.cjs": {
     "mtime": 1785734007.3501718,
@@ -115,9 +115,9 @@
     "semantic_hash": "3b283cd41b8c6370a4cb6562561d039c"
   },
   "tests/api-endpoints.test.cjs": {
-    "mtime": 1785777163.3213973,
-    "ast_hash": "14f02957746dcde5369c27f8a7c8b06d",
-    "semantic_hash": "14f02957746dcde5369c27f8a7c8b06d"
+    "mtime": 1785778172.6776783,
+    "ast_hash": "cfe8599ceb2c94a477e6dcdab7325738",
+    "semantic_hash": "cfe8599ceb2c94a477e6dcdab7325738"
   },
   "tests/optimizer-core.test.cjs": {
     "mtime": 1785775826.5391057,
@@ -335,9 +335,9 @@
     "semantic_hash": "bb74ef95d080b87bbe0ef2b9e6a612ec"
   },
   "tests/hosted-api.test.cjs": {
-    "mtime": 1785777163.2078207,
-    "ast_hash": "fba1ea9dec3d4aba8ec048f5b7e4163f",
-    "semantic_hash": "fba1ea9dec3d4aba8ec048f5b7e4163f"
+    "mtime": 1785778172.5792866,
+    "ast_hash": "a28b5f0f76e1e36f782da79bb6079912",
+    "semantic_hash": "a28b5f0f76e1e36f782da79bb6079912"
   },
   "evals/cases.json": {
     "mtime": 1785775755.2567983,
@@ -365,13 +365,28 @@
     "semantic_hash": "eb85a755a49f96170ae90879e9984cf3"
   },
   "core/telemetry.cjs": {
-    "mtime": 1785777045.0916843,
-    "ast_hash": "58238682328390dbb9ade8915e9b2162",
-    "semantic_hash": "58238682328390dbb9ade8915e9b2162"
+    "mtime": 1785778023.6815755,
+    "ast_hash": "bf599c33c227c71444cf8be9f801e1d7",
+    "semantic_hash": "bf599c33c227c71444cf8be9f801e1d7"
   },
   "tests/telemetry.test.cjs": {
-    "mtime": 1785777162.9833527,
-    "ast_hash": "c9b51405271a7a8e628f88ee49bdcf41",
-    "semantic_hash": "c9b51405271a7a8e628f88ee49bdcf41"
+    "mtime": 1785778172.48026,
+    "ast_hash": "4a5cdb5e6dcdc9eee4d64a4152dc6b89",
+    "semantic_hash": "4a5cdb5e6dcdc9eee4d64a4152dc6b89"
+  },
+  "core/telemetry-analysis.cjs": {
+    "mtime": 1785778331.3237472,
+    "ast_hash": "f7a9cd791ee1c67f39f5f10c77491178",
+    "semantic_hash": "f7a9cd791ee1c67f39f5f10c77491178"
+  },
+  "scripts/telemetry-report.cjs": {
+    "mtime": 1785778275.7105238,
+    "ast_hash": "c3c73b2eaa8e49ed61f1125bc1e6818a",
+    "semantic_hash": "c3c73b2eaa8e49ed61f1125bc1e6818a"
+  },
+  "tests/telemetry-analysis.test.cjs": {
+    "mtime": 1785778331.5204015,
+    "ast_hash": "73eb7b270fb05d96e82e59aac806d336",
+    "semantic_hash": "73eb7b270fb05d96e82e59aac806d336"
   }
 }
