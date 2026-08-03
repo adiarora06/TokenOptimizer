@@ -4,12 +4,12 @@
 - cluster-only mode — file stats not available
 
 ## Summary
-- 673 nodes · 1020 edges · 38 communities (33 shown, 5 thin omitted)
-- Extraction: 90% EXTRACTED · 10% INFERRED · 0% AMBIGUOUS · INFERRED: 97 edges (avg confidence: 0.51)
+- 675 nodes · 1022 edges · 38 communities (33 shown, 5 thin omitted)
+- Extraction: 91% EXTRACTED · 9% INFERRED · 0% AMBIGUOUS · INFERRED: 97 edges (avg confidence: 0.51)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `f70f12e2`
+- Built from commit: `0f1575ed`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -33,12 +33,12 @@
 - Token Optimizer
 - sidepanel-logic.test.cjs
 - api-endpoints.test.cjs
+- frontend-static.test.cjs
 - Design QA
 - Publishing Token Optimizer for Gemini and ChatGPT
 - service-worker.test.cjs
 - prompts.cjs
 - Chrome Web Store Listing Copy
-- frontend-static.test.cjs
 - usage.cjs
 - Token Optimizer for Gemini and ChatGPT
 - text.cjs
@@ -209,25 +209,25 @@ Nodes (10): assert, context, elements, extensionDir, fs, path, platformsCode, pr
 Cohesion: 0.29
 Nodes (10): assert, { callModel }, freePort(), http, jsonRequest(), listen(), post(), run() (+2 more)
 
-### Community 19 - "Design QA"
+### Community 19 - "frontend-static.test.cjs"
+Cohesion: 0.18
+Nodes (10): assert, faviconPath, fs, htmlFiles, outputsDir, path, privacySource, retiredGenerator (+2 more)
+
+### Community 20 - "Design QA"
 Cohesion: 0.20
 Nodes (9): Comparison History, Comparison Target, Design QA, Findings, Focused Evidence, Follow-up Polish, Implementation Checklist, Interaction And Runtime Checks (+1 more)
 
-### Community 20 - "Publishing Token Optimizer for Gemini and ChatGPT"
+### Community 21 - "Publishing Token Optimizer for Gemini and ChatGPT"
 Cohesion: 0.20
 Nodes (9): Current Wrapper, Local Test Notes, Open Source Use, Package Command, Privacy Policy Notes, Publication Types, Publishing Token Optimizer for Gemini and ChatGPT, Store Listing Assets (+1 more)
 
-### Community 21 - "service-worker.test.cjs"
+### Community 22 - "service-worker.test.cjs"
 Cohesion: 0.20
 Nodes (9): assert, context, extensionDir, fs, panelOptions, path, platformsCode, serviceWorkerCode (+1 more)
 
-### Community 23 - "Chrome Web Store Listing Copy"
+### Community 24 - "Chrome Web Store Listing Copy"
 Cohesion: 0.22
 Nodes (8): Chrome Web Store Listing Copy, Detailed Description, Extension Name, Permission Justification, Privacy Policy URL, Short Description, Single Purpose Statement, Store Assets
-
-### Community 24 - "frontend-static.test.cjs"
-Cohesion: 0.22
-Nodes (8): assert, fs, htmlFiles, outputsDir, path, privacySource, retiredGenerator, vm
 
 ### Community 26 - "Token Optimizer for Gemini and ChatGPT"
 Cohesion: 0.25
@@ -254,7 +254,7 @@ Cohesion: 0.40
 Nodes (4): Adapter Contract, Add Another Assistant, Layers, Site Adapter Architecture
 
 ## Knowledge Gaps
-- **275 isolated node(s):** `assert`, `fs`, `path`, `vm`, `promptBox` (+270 more)
+- **277 isolated node(s):** `assert`, `fs`, `path`, `vm`, `promptBox` (+272 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **5 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -268,7 +268,7 @@ _Questions this graph is uniquely positioned to answer:_
 - **Why does `summarizeTelemetryEvents()` connect `telemetry-analysis.cjs` to `telemetry.cjs`?**
   _High betweenness centrality (0.003) - this node is a cross-community bridge._
 - **What connects `assert`, `fs`, `path` to the rest of the system?**
-  _275 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _277 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `providers.cjs` be split into smaller, more focused modules?**
   _Cohesion score 0.05376972530683811 - nodes in this community are weakly interconnected._
 - **Should `request-guard.cjs` be split into smaller, more focused modules?**

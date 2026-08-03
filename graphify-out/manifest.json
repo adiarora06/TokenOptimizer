@@ -125,9 +125,9 @@
     "semantic_hash": "89d0563cb7df2f15935d2d59b2400c39"
   },
   "vercel.json": {
-    "mtime": 1785719692.5952463,
-    "ast_hash": "cdaadf6519bb84124bc430a882c26ff1",
-    "semantic_hash": "cdaadf6519bb84124bc430a882c26ff1"
+    "mtime": 1785781273.9678078,
+    "ast_hash": "d5ca695fc155463dcd90dbaf3c572f90",
+    "semantic_hash": "d5ca695fc155463dcd90dbaf3c572f90"
   },
   "scripts/canonical-graph.cjs": {
     "mtime": 1785719692.594803,
@@ -195,9 +195,9 @@
     "semantic_hash": "e15fe811b78cf35a4c475585bd3decbc"
   },
   "tests/frontend-static.test.cjs": {
-    "mtime": 1785774599.5805814,
-    "ast_hash": "e5d450df0a6c3cd6c44091ed264a52fb",
-    "semantic_hash": "e5d450df0a6c3cd6c44091ed264a52fb"
+    "mtime": 1785781273.9682868,
+    "ast_hash": "72592f4525393b20c3bd1d1cc3d5f7fb",
+    "semantic_hash": "72592f4525393b20c3bd1d1cc3d5f7fb"
   },
   ".github/workflows/ci.yml": {
     "mtime": 1785719692.5859432,

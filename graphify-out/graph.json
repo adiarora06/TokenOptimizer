@@ -1610,39 +1610,6 @@
       "id": "scripts_canonical_graph_graph"
     },
     {
-      "label": "vercel.json",
-      "file_type": "code",
-      "source_file": "vercel.json",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 34,
-      "community_name": "vercel.json",
-      "norm_label": "vercel.json",
-      "id": "vercel"
-    },
-    {
-      "label": "headers",
-      "file_type": "code",
-      "source_file": "vercel.json",
-      "source_location": "L2",
-      "_origin": "ast",
-      "community": 34,
-      "community_name": "vercel.json",
-      "norm_label": "headers",
-      "id": "vercel_headers"
-    },
-    {
-      "label": "rewrites",
-      "file_type": "code",
-      "source_file": "vercel.json",
-      "source_location": "L15",
-      "_origin": "ast",
-      "community": 34,
-      "community_name": "vercel.json",
-      "norm_label": "rewrites",
-      "id": "vercel_rewrites"
-    },
-    {
       "label": "README.md",
       "file_type": "document",
       "source_file": "README.md",
@@ -1802,7 +1769,7 @@
       "source_file": "design-qa.md",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 19,
+      "community": 20,
       "community_name": "Design QA",
       "norm_label": "design-qa.md",
       "id": "design_qa"
@@ -1813,7 +1780,7 @@
       "source_file": "design-qa.md",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 19,
+      "community": 20,
       "community_name": "Design QA",
       "norm_label": "design qa",
       "id": "design_qa_design_qa"
@@ -1824,7 +1791,7 @@
       "source_file": "design-qa.md",
       "source_location": "L3",
       "_origin": "ast",
-      "community": 19,
+      "community": 20,
       "community_name": "Design QA",
       "norm_label": "comparison target",
       "id": "design_qa_comparison_target"
@@ -1835,7 +1802,7 @@
       "source_file": "design-qa.md",
       "source_location": "L12",
       "_origin": "ast",
-      "community": 19,
+      "community": 20,
       "community_name": "Design QA",
       "norm_label": "findings",
       "id": "design_qa_findings"
@@ -1846,7 +1813,7 @@
       "source_file": "design-qa.md",
       "source_location": "L21",
       "_origin": "ast",
-      "community": 19,
+      "community": 20,
       "community_name": "Design QA",
       "norm_label": "comparison history",
       "id": "design_qa_comparison_history"
@@ -1857,7 +1824,7 @@
       "source_file": "design-qa.md",
       "source_location": "L23",
       "_origin": "ast",
-      "community": 19,
+      "community": 20,
       "community_name": "Design QA",
       "norm_label": "iteration 1",
       "id": "design_qa_iteration_1"
@@ -1868,7 +1835,7 @@
       "source_file": "design-qa.md",
       "source_location": "L33",
       "_origin": "ast",
-      "community": 19,
+      "community": 20,
       "community_name": "Design QA",
       "norm_label": "focused evidence",
       "id": "design_qa_focused_evidence"
@@ -1879,7 +1846,7 @@
       "source_file": "design-qa.md",
       "source_location": "L37",
       "_origin": "ast",
-      "community": 19,
+      "community": 20,
       "community_name": "Design QA",
       "norm_label": "interaction and runtime checks",
       "id": "design_qa_interaction_and_runtime_checks"
@@ -1890,7 +1857,7 @@
       "source_file": "design-qa.md",
       "source_location": "L48",
       "_origin": "ast",
-      "community": 19,
+      "community": 20,
       "community_name": "Design QA",
       "norm_label": "follow-up polish",
       "id": "design_qa_follow_up_polish"
@@ -1901,7 +1868,7 @@
       "source_file": "design-qa.md",
       "source_location": "L53",
       "_origin": "ast",
-      "community": 19,
+      "community": 20,
       "community_name": "Design QA",
       "norm_label": "implementation checklist",
       "id": "design_qa_implementation_checklist"
@@ -1967,7 +1934,7 @@
       "source_file": "extensions/gemini-token-optimizer/PUBLISHING.md",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 20,
+      "community": 21,
       "community_name": "Publishing Token Optimizer for Gemini and ChatGPT",
       "norm_label": "publishing.md",
       "id": "extensions_gemini_token_optimizer_publishing"
@@ -1978,7 +1945,7 @@
       "source_file": "extensions/gemini-token-optimizer/PUBLISHING.md",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 20,
+      "community": 21,
       "community_name": "Publishing Token Optimizer for Gemini and ChatGPT",
       "norm_label": "publishing token optimizer for gemini and chatgpt",
       "id": "extensions_gemini_token_optimizer_publishing_publishing_token_optimizer_for_gemini_and_chatgpt"
@@ -1989,7 +1956,7 @@
       "source_file": "extensions/gemini-token-optimizer/PUBLISHING.md",
       "source_location": "L5",
       "_origin": "ast",
-      "community": 20,
+      "community": 21,
       "community_name": "Publishing Token Optimizer for Gemini and ChatGPT",
       "norm_label": "current wrapper",
       "id": "extensions_gemini_token_optimizer_publishing_current_wrapper"
@@ -2000,7 +1967,7 @@
       "source_file": "extensions/gemini-token-optimizer/PUBLISHING.md",
       "source_location": "L17",
       "_origin": "ast",
-      "community": 20,
+      "community": 21,
       "community_name": "Publishing Token Optimizer for Gemini and ChatGPT",
       "norm_label": "open source use",
       "id": "extensions_gemini_token_optimizer_publishing_open_source_use"
@@ -2011,7 +1978,7 @@
       "source_file": "extensions/gemini-token-optimizer/PUBLISHING.md",
       "source_location": "L29",
       "_origin": "ast",
-      "community": 20,
+      "community": 21,
       "community_name": "Publishing Token Optimizer for Gemini and ChatGPT",
       "norm_label": "store-ready checklist",
       "id": "extensions_gemini_token_optimizer_publishing_store_ready_checklist"
@@ -2022,7 +1989,7 @@
       "source_file": "extensions/gemini-token-optimizer/PUBLISHING.md",
       "source_location": "L43",
       "_origin": "ast",
-      "community": 20,
+      "community": 21,
       "community_name": "Publishing Token Optimizer for Gemini and ChatGPT",
       "norm_label": "privacy policy notes",
       "id": "extensions_gemini_token_optimizer_publishing_privacy_policy_notes"
@@ -2033,7 +2000,7 @@
       "source_file": "extensions/gemini-token-optimizer/PUBLISHING.md",
       "source_location": "L55",
       "_origin": "ast",
-      "community": 20,
+      "community": 21,
       "community_name": "Publishing Token Optimizer for Gemini and ChatGPT",
       "norm_label": "local test notes",
       "id": "extensions_gemini_token_optimizer_publishing_local_test_notes"
@@ -2044,7 +2011,7 @@
       "source_file": "extensions/gemini-token-optimizer/PUBLISHING.md",
       "source_location": "L73",
       "_origin": "ast",
-      "community": 20,
+      "community": 21,
       "community_name": "Publishing Token Optimizer for Gemini and ChatGPT",
       "norm_label": "package command",
       "id": "extensions_gemini_token_optimizer_publishing_package_command"
@@ -2055,7 +2022,7 @@
       "source_file": "extensions/gemini-token-optimizer/PUBLISHING.md",
       "source_location": "L86",
       "_origin": "ast",
-      "community": 20,
+      "community": 21,
       "community_name": "Publishing Token Optimizer for Gemini and ChatGPT",
       "norm_label": "store listing assets",
       "id": "extensions_gemini_token_optimizer_publishing_store_listing_assets"
@@ -2066,7 +2033,7 @@
       "source_file": "extensions/gemini-token-optimizer/PUBLISHING.md",
       "source_location": "L95",
       "_origin": "ast",
-      "community": 20,
+      "community": 21,
       "community_name": "Publishing Token Optimizer for Gemini and ChatGPT",
       "norm_label": "publication types",
       "id": "extensions_gemini_token_optimizer_publishing_publication_types"
@@ -2165,7 +2132,7 @@
       "source_file": "extensions/gemini-token-optimizer/store-assets/store-listing.md",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 23,
+      "community": 24,
       "community_name": "Chrome Web Store Listing Copy",
       "norm_label": "store-listing.md",
       "id": "extensions_gemini_token_optimizer_store_assets_store_listing"
@@ -2176,7 +2143,7 @@
       "source_file": "extensions/gemini-token-optimizer/store-assets/store-listing.md",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 23,
+      "community": 24,
       "community_name": "Chrome Web Store Listing Copy",
       "norm_label": "chrome web store listing copy",
       "id": "extensions_gemini_token_optimizer_store_assets_store_listing_chrome_web_store_listing_copy"
@@ -2187,7 +2154,7 @@
       "source_file": "extensions/gemini-token-optimizer/store-assets/store-listing.md",
       "source_location": "L3",
       "_origin": "ast",
-      "community": 23,
+      "community": 24,
       "community_name": "Chrome Web Store Listing Copy",
       "norm_label": "extension name",
       "id": "extensions_gemini_token_optimizer_store_assets_store_listing_extension_name"
@@ -2198,7 +2165,7 @@
       "source_file": "extensions/gemini-token-optimizer/store-assets/store-listing.md",
       "source_location": "L7",
       "_origin": "ast",
-      "community": 23,
+      "community": 24,
       "community_name": "Chrome Web Store Listing Copy",
       "norm_label": "short description",
       "id": "extensions_gemini_token_optimizer_store_assets_store_listing_short_description"
@@ -2209,7 +2176,7 @@
       "source_file": "extensions/gemini-token-optimizer/store-assets/store-listing.md",
       "source_location": "L11",
       "_origin": "ast",
-      "community": 23,
+      "community": 24,
       "community_name": "Chrome Web Store Listing Copy",
       "norm_label": "detailed description",
       "id": "extensions_gemini_token_optimizer_store_assets_store_listing_detailed_description"
@@ -2220,7 +2187,7 @@
       "source_file": "extensions/gemini-token-optimizer/store-assets/store-listing.md",
       "source_location": "L51",
       "_origin": "ast",
-      "community": 23,
+      "community": 24,
       "community_name": "Chrome Web Store Listing Copy",
       "norm_label": "single purpose statement",
       "id": "extensions_gemini_token_optimizer_store_assets_store_listing_single_purpose_statement"
@@ -2231,7 +2198,7 @@
       "source_file": "extensions/gemini-token-optimizer/store-assets/store-listing.md",
       "source_location": "L55",
       "_origin": "ast",
-      "community": 23,
+      "community": 24,
       "community_name": "Chrome Web Store Listing Copy",
       "norm_label": "permission justification",
       "id": "extensions_gemini_token_optimizer_store_assets_store_listing_permission_justification"
@@ -2242,7 +2209,7 @@
       "source_file": "extensions/gemini-token-optimizer/store-assets/store-listing.md",
       "source_location": "L63",
       "_origin": "ast",
-      "community": 23,
+      "community": 24,
       "community_name": "Chrome Web Store Listing Copy",
       "norm_label": "store assets",
       "id": "extensions_gemini_token_optimizer_store_assets_store_listing_store_assets"
@@ -2253,7 +2220,7 @@
       "source_file": "extensions/gemini-token-optimizer/store-assets/store-listing.md",
       "source_location": "L69",
       "_origin": "ast",
-      "community": 23,
+      "community": 24,
       "community_name": "Chrome Web Store Listing Copy",
       "norm_label": "privacy policy url",
       "id": "extensions_gemini_token_optimizer_store_assets_store_listing_privacy_policy_url"
@@ -2902,7 +2869,7 @@
       "source_file": "extensions/gemini-token-optimizer/tests/service-worker.test.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 21,
+      "community": 22,
       "norm_label": "service-worker.test.cjs",
       "community_name": "service-worker.test.cjs",
       "id": "extensions_gemini_token_optimizer_tests_service_worker_test"
@@ -2913,7 +2880,7 @@
       "source_file": "extensions/gemini-token-optimizer/tests/service-worker.test.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 21,
+      "community": 22,
       "norm_label": "assert",
       "community_name": "service-worker.test.cjs",
       "id": "extensions_gemini_token_optimizer_tests_service_worker_test_assert"
@@ -2924,7 +2891,7 @@
       "source_file": "extensions/gemini-token-optimizer/tests/service-worker.test.cjs",
       "source_location": "L2",
       "_origin": "ast",
-      "community": 21,
+      "community": 22,
       "norm_label": "fs",
       "community_name": "service-worker.test.cjs",
       "id": "extensions_gemini_token_optimizer_tests_service_worker_test_fs"
@@ -2935,7 +2902,7 @@
       "source_file": "extensions/gemini-token-optimizer/tests/service-worker.test.cjs",
       "source_location": "L3",
       "_origin": "ast",
-      "community": 21,
+      "community": 22,
       "norm_label": "path",
       "community_name": "service-worker.test.cjs",
       "id": "extensions_gemini_token_optimizer_tests_service_worker_test_path"
@@ -2946,7 +2913,7 @@
       "source_file": "extensions/gemini-token-optimizer/tests/service-worker.test.cjs",
       "source_location": "L4",
       "_origin": "ast",
-      "community": 21,
+      "community": 22,
       "norm_label": "vm",
       "community_name": "service-worker.test.cjs",
       "id": "extensions_gemini_token_optimizer_tests_service_worker_test_vm"
@@ -2957,7 +2924,7 @@
       "source_file": "extensions/gemini-token-optimizer/tests/service-worker.test.cjs",
       "source_location": "L6",
       "_origin": "ast",
-      "community": 21,
+      "community": 22,
       "norm_label": "extensiondir",
       "community_name": "service-worker.test.cjs",
       "id": "extensions_gemini_token_optimizer_tests_service_worker_test_extensiondir"
@@ -2968,7 +2935,7 @@
       "source_file": "extensions/gemini-token-optimizer/tests/service-worker.test.cjs",
       "source_location": "L7",
       "_origin": "ast",
-      "community": 21,
+      "community": 22,
       "norm_label": "paneloptions",
       "community_name": "service-worker.test.cjs",
       "id": "extensions_gemini_token_optimizer_tests_service_worker_test_paneloptions"
@@ -2979,7 +2946,7 @@
       "source_file": "extensions/gemini-token-optimizer/tests/service-worker.test.cjs",
       "source_location": "L9",
       "_origin": "ast",
-      "community": 21,
+      "community": 22,
       "norm_label": "context",
       "community_name": "service-worker.test.cjs",
       "id": "extensions_gemini_token_optimizer_tests_service_worker_test_context"
@@ -2990,7 +2957,7 @@
       "source_file": "extensions/gemini-token-optimizer/tests/service-worker.test.cjs",
       "source_location": "L28",
       "_origin": "ast",
-      "community": 21,
+      "community": 22,
       "norm_label": "platformscode",
       "community_name": "service-worker.test.cjs",
       "id": "extensions_gemini_token_optimizer_tests_service_worker_test_platformscode"
@@ -3001,7 +2968,7 @@
       "source_file": "extensions/gemini-token-optimizer/tests/service-worker.test.cjs",
       "source_location": "L29",
       "_origin": "ast",
-      "community": 21,
+      "community": 22,
       "norm_label": "serviceworkercode",
       "community_name": "service-worker.test.cjs",
       "id": "extensions_gemini_token_optimizer_tests_service_worker_test_serviceworkercode"
@@ -3243,7 +3210,7 @@
       "source_file": "core/prompts.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 22,
+      "community": 23,
       "norm_label": "prompts.cjs",
       "community_name": "prompts.cjs",
       "id": "core_prompts"
@@ -3254,7 +3221,7 @@
       "source_file": "core/prompts.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 22,
+      "community": 23,
       "norm_label": "builda2acontractprompt()",
       "community_name": "prompts.cjs",
       "id": "core_prompts_builda2acontractprompt"
@@ -3265,7 +3232,7 @@
       "source_file": "core/prompts.cjs",
       "source_location": "L19",
       "_origin": "ast",
-      "community": 22,
+      "community": 23,
       "norm_label": "builda2aexecutorprompt()",
       "community_name": "prompts.cjs",
       "id": "core_prompts_builda2aexecutorprompt"
@@ -3276,7 +3243,7 @@
       "source_file": "core/prompts.cjs",
       "source_location": "L34",
       "_origin": "ast",
-      "community": 22,
+      "community": 23,
       "norm_label": "builda2averifierprompt()",
       "community_name": "prompts.cjs",
       "id": "core_prompts_builda2averifierprompt"
@@ -3287,7 +3254,7 @@
       "source_file": "core/prompts.cjs",
       "source_location": "L52",
       "_origin": "ast",
-      "community": 22,
+      "community": 23,
       "norm_label": "buildoptimizerprompt()",
       "community_name": "prompts.cjs",
       "id": "core_prompts_buildoptimizerprompt"
@@ -3298,7 +3265,7 @@
       "source_file": "core/prompts.cjs",
       "source_location": "L77",
       "_origin": "ast",
-      "community": 22,
+      "community": 23,
       "norm_label": "scaffoldhints()",
       "community_name": "prompts.cjs",
       "id": "core_prompts_scaffoldhints"
@@ -3309,7 +3276,7 @@
       "source_file": "core/prompts.cjs",
       "source_location": "L87",
       "_origin": "ast",
-      "community": 22,
+      "community": 23,
       "norm_label": "buildexecutorprompt()",
       "community_name": "prompts.cjs",
       "id": "core_prompts_buildexecutorprompt"
@@ -3320,7 +3287,7 @@
       "source_file": "core/prompts.cjs",
       "source_location": "L102",
       "_origin": "ast",
-      "community": 22,
+      "community": 23,
       "norm_label": "buildverifierprompt()",
       "community_name": "prompts.cjs",
       "id": "core_prompts_buildverifierprompt"
@@ -3331,7 +3298,7 @@
       "source_file": "core/prompts.cjs",
       "source_location": "L119",
       "_origin": "ast",
-      "community": 22,
+      "community": 23,
       "norm_label": "builddirectexecutorprompt()",
       "community_name": "prompts.cjs",
       "id": "core_prompts_builddirectexecutorprompt"
@@ -3808,105 +3775,6 @@
       "norm_label": "commonheaders()",
       "community_name": "request-guard.cjs",
       "id": "request_guard_commonheaders"
-    },
-    {
-      "label": "frontend-static.test.cjs",
-      "file_type": "code",
-      "source_file": "tests/frontend-static.test.cjs",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 24,
-      "norm_label": "frontend-static.test.cjs",
-      "community_name": "frontend-static.test.cjs",
-      "id": "tests_frontend_static_test"
-    },
-    {
-      "label": "assert",
-      "file_type": "code",
-      "source_file": "tests/frontend-static.test.cjs",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 24,
-      "norm_label": "assert",
-      "community_name": "frontend-static.test.cjs",
-      "id": "tests_frontend_static_test_assert"
-    },
-    {
-      "label": "fs",
-      "file_type": "code",
-      "source_file": "tests/frontend-static.test.cjs",
-      "source_location": "L2",
-      "_origin": "ast",
-      "community": 24,
-      "norm_label": "fs",
-      "community_name": "frontend-static.test.cjs",
-      "id": "tests_frontend_static_test_fs"
-    },
-    {
-      "label": "path",
-      "file_type": "code",
-      "source_file": "tests/frontend-static.test.cjs",
-      "source_location": "L3",
-      "_origin": "ast",
-      "community": 24,
-      "norm_label": "path",
-      "community_name": "frontend-static.test.cjs",
-      "id": "tests_frontend_static_test_path"
-    },
-    {
-      "label": "vm",
-      "file_type": "code",
-      "source_file": "tests/frontend-static.test.cjs",
-      "source_location": "L4",
-      "_origin": "ast",
-      "community": 24,
-      "norm_label": "vm",
-      "community_name": "frontend-static.test.cjs",
-      "id": "tests_frontend_static_test_vm"
-    },
-    {
-      "label": "outputsDir",
-      "file_type": "code",
-      "source_file": "tests/frontend-static.test.cjs",
-      "source_location": "L6",
-      "_origin": "ast",
-      "community": 24,
-      "norm_label": "outputsdir",
-      "community_name": "frontend-static.test.cjs",
-      "id": "tests_frontend_static_test_outputsdir"
-    },
-    {
-      "label": "privacySource",
-      "file_type": "code",
-      "source_file": "tests/frontend-static.test.cjs",
-      "source_location": "L7",
-      "_origin": "ast",
-      "community": 24,
-      "norm_label": "privacysource",
-      "community_name": "frontend-static.test.cjs",
-      "id": "tests_frontend_static_test_privacysource"
-    },
-    {
-      "label": "retiredGenerator",
-      "file_type": "code",
-      "source_file": "tests/frontend-static.test.cjs",
-      "source_location": "L8",
-      "_origin": "ast",
-      "community": 24,
-      "norm_label": "retiredgenerator",
-      "community_name": "frontend-static.test.cjs",
-      "id": "tests_frontend_static_test_retiredgenerator"
-    },
-    {
-      "label": "htmlFiles",
-      "file_type": "code",
-      "source_file": "tests/frontend-static.test.cjs",
-      "source_location": "L15",
-      "_origin": "ast",
-      "community": 24,
-      "norm_label": "htmlfiles",
-      "community_name": "frontend-static.test.cjs",
-      "id": "tests_frontend_static_test_htmlfiles"
     },
     {
       "label": "handoff.cjs",
@@ -7161,8 +7029,8 @@
       "_origin": "ast",
       "community": 14,
       "norm_label": "telemetry-report.cjs",
-      "id": "scripts_telemetry_report",
-      "community_name": "telemetry-report.cjs"
+      "community_name": "telemetry-report.cjs",
+      "id": "scripts_telemetry_report"
     },
     {
       "label": "fs",
@@ -7172,8 +7040,8 @@
       "_origin": "ast",
       "community": 14,
       "norm_label": "fs",
-      "id": "scripts_telemetry_report_fs",
-      "community_name": "telemetry-report.cjs"
+      "community_name": "telemetry-report.cjs",
+      "id": "scripts_telemetry_report_fs"
     },
     {
       "label": "{ normalizeTelemetryEvent, summarizeTelemetryEvents }",
@@ -7183,8 +7051,8 @@
       "_origin": "ast",
       "community": 14,
       "norm_label": "{ normalizetelemetryevent, summarizetelemetryevents }",
-      "id": "scripts_telemetry_report_normalizetelemetryevent_summarizetelemetryevents",
-      "community_name": "telemetry-report.cjs"
+      "community_name": "telemetry-report.cjs",
+      "id": "scripts_telemetry_report_normalizetelemetryevent_summarizetelemetryevents"
     },
     {
       "label": "EVENT_TYPES",
@@ -7194,8 +7062,8 @@
       "_origin": "ast",
       "community": 14,
       "norm_label": "event_types",
-      "id": "scripts_telemetry_report_event_types",
-      "community_name": "telemetry-report.cjs"
+      "community_name": "telemetry-report.cjs",
+      "id": "scripts_telemetry_report_event_types"
     },
     {
       "label": "parseJsonCandidate()",
@@ -7205,8 +7073,8 @@
       "_origin": "ast",
       "community": 14,
       "norm_label": "parsejsoncandidate()",
-      "id": "scripts_telemetry_report_parsejsoncandidate",
-      "community_name": "telemetry-report.cjs"
+      "community_name": "telemetry-report.cjs",
+      "id": "scripts_telemetry_report_parsejsoncandidate"
     },
     {
       "label": "collectTelemetryEvent()",
@@ -7216,8 +7084,8 @@
       "_origin": "ast",
       "community": 14,
       "norm_label": "collecttelemetryevent()",
-      "id": "scripts_telemetry_report_collecttelemetryevent",
-      "community_name": "telemetry-report.cjs"
+      "community_name": "telemetry-report.cjs",
+      "id": "scripts_telemetry_report_collecttelemetryevent"
     },
     {
       "label": "parseTelemetryInput()",
@@ -7227,8 +7095,8 @@
       "_origin": "ast",
       "community": 14,
       "norm_label": "parsetelemetryinput()",
-      "id": "scripts_telemetry_report_parsetelemetryinput",
-      "community_name": "telemetry-report.cjs"
+      "community_name": "telemetry-report.cjs",
+      "id": "scripts_telemetry_report_parsetelemetryinput"
     },
     {
       "label": "formatNumber()",
@@ -7238,8 +7106,8 @@
       "_origin": "ast",
       "community": 14,
       "norm_label": "formatnumber()",
-      "id": "scripts_telemetry_report_formatnumber",
-      "community_name": "telemetry-report.cjs"
+      "community_name": "telemetry-report.cjs",
+      "id": "scripts_telemetry_report_formatnumber"
     },
     {
       "label": "formatTelemetryReport()",
@@ -7249,8 +7117,8 @@
       "_origin": "ast",
       "community": 14,
       "norm_label": "formattelemetryreport()",
-      "id": "scripts_telemetry_report_formattelemetryreport",
-      "community_name": "telemetry-report.cjs"
+      "community_name": "telemetry-report.cjs",
+      "id": "scripts_telemetry_report_formattelemetryreport"
     },
     {
       "label": "parseArguments()",
@@ -7260,8 +7128,8 @@
       "_origin": "ast",
       "community": 14,
       "norm_label": "parsearguments()",
-      "id": "scripts_telemetry_report_parsearguments",
-      "community_name": "telemetry-report.cjs"
+      "community_name": "telemetry-report.cjs",
+      "id": "scripts_telemetry_report_parsearguments"
     },
     {
       "label": "helpText()",
@@ -7271,8 +7139,8 @@
       "_origin": "ast",
       "community": 14,
       "norm_label": "helptext()",
-      "id": "scripts_telemetry_report_helptext",
-      "community_name": "telemetry-report.cjs"
+      "community_name": "telemetry-report.cjs",
+      "id": "scripts_telemetry_report_helptext"
     },
     {
       "label": "exitCodeForHealth()",
@@ -7282,8 +7150,8 @@
       "_origin": "ast",
       "community": 14,
       "norm_label": "exitcodeforhealth()",
-      "id": "scripts_telemetry_report_exitcodeforhealth",
-      "community_name": "telemetry-report.cjs"
+      "community_name": "telemetry-report.cjs",
+      "id": "scripts_telemetry_report_exitcodeforhealth"
     },
     {
       "label": "main()",
@@ -7293,8 +7161,8 @@
       "_origin": "ast",
       "community": 14,
       "norm_label": "main()",
-      "id": "scripts_telemetry_report_main",
-      "community_name": "telemetry-report.cjs"
+      "community_name": "telemetry-report.cjs",
+      "id": "scripts_telemetry_report_main"
     },
     {
       "label": "telemetry-analysis.test.cjs",
@@ -7304,8 +7172,8 @@
       "_origin": "ast",
       "community": 14,
       "norm_label": "telemetry-analysis.test.cjs",
-      "id": "tests_telemetry_analysis_test",
-      "community_name": "telemetry-report.cjs"
+      "community_name": "telemetry-report.cjs",
+      "id": "tests_telemetry_analysis_test"
     },
     {
       "label": "assert",
@@ -7315,8 +7183,8 @@
       "_origin": "ast",
       "community": 14,
       "norm_label": "assert",
-      "id": "tests_telemetry_analysis_test_assert",
-      "community_name": "telemetry-report.cjs"
+      "community_name": "telemetry-report.cjs",
+      "id": "tests_telemetry_analysis_test_assert"
     },
     {
       "label": "{ spawnSync }",
@@ -7326,8 +7194,8 @@
       "_origin": "ast",
       "community": 14,
       "norm_label": "{ spawnsync }",
-      "id": "tests_telemetry_analysis_test_spawnsync",
-      "community_name": "telemetry-report.cjs"
+      "community_name": "telemetry-report.cjs",
+      "id": "tests_telemetry_analysis_test_spawnsync"
     },
     {
       "label": "path",
@@ -7337,8 +7205,8 @@
       "_origin": "ast",
       "community": 14,
       "norm_label": "path",
-      "id": "tests_telemetry_analysis_test_path",
-      "community_name": "telemetry-report.cjs"
+      "community_name": "telemetry-report.cjs",
+      "id": "tests_telemetry_analysis_test_path"
     },
     {
       "label": "{ summarizeTelemetryEvents, telemetryAlertPolicy }",
@@ -7348,8 +7216,8 @@
       "_origin": "ast",
       "community": 14,
       "norm_label": "{ summarizetelemetryevents, telemetryalertpolicy }",
-      "id": "tests_telemetry_analysis_test_summarizetelemetryevents_telemetryalertpolicy",
-      "community_name": "telemetry-report.cjs"
+      "community_name": "telemetry-report.cjs",
+      "id": "tests_telemetry_analysis_test_summarizetelemetryevents_telemetryalertpolicy"
     },
     {
       "label": "{\n  exitCodeForHealth,\n  formatTelemetryReport,\n  parseTelemetryInput\n}",
@@ -7359,8 +7227,8 @@
       "_origin": "ast",
       "community": 14,
       "norm_label": "{\n  exitcodeforhealth,\n  formattelemetryreport,\n  parsetelemetryinput\n}",
-      "id": "tests_telemetry_analysis_test_exitcodeforhealth_formattelemetryreport_parsetelemetryinput",
-      "community_name": "telemetry-report.cjs"
+      "community_name": "telemetry-report.cjs",
+      "id": "tests_telemetry_analysis_test_exitcodeforhealth_formattelemetryreport_parsetelemetryinput"
     },
     {
       "label": "baseTime",
@@ -7370,8 +7238,8 @@
       "_origin": "ast",
       "community": 14,
       "norm_label": "basetime",
-      "id": "tests_telemetry_analysis_test_basetime",
-      "community_name": "telemetry-report.cjs"
+      "community_name": "telemetry-report.cjs",
+      "id": "tests_telemetry_analysis_test_basetime"
     },
     {
       "label": "providerEvent()",
@@ -7381,8 +7249,8 @@
       "_origin": "ast",
       "community": 14,
       "norm_label": "providerevent()",
-      "id": "tests_telemetry_analysis_test_providerevent",
-      "community_name": "telemetry-report.cjs"
+      "community_name": "telemetry-report.cjs",
+      "id": "tests_telemetry_analysis_test_providerevent"
     },
     {
       "label": "workflowEvent()",
@@ -7392,8 +7260,8 @@
       "_origin": "ast",
       "community": 14,
       "norm_label": "workflowevent()",
-      "id": "tests_telemetry_analysis_test_workflowevent",
-      "community_name": "telemetry-report.cjs"
+      "community_name": "telemetry-report.cjs",
+      "id": "tests_telemetry_analysis_test_workflowevent"
     },
     {
       "label": "run()",
@@ -7403,8 +7271,162 @@
       "_origin": "ast",
       "community": 14,
       "norm_label": "run()",
-      "id": "tests_telemetry_analysis_test_run",
-      "community_name": "telemetry-report.cjs"
+      "community_name": "telemetry-report.cjs",
+      "id": "tests_telemetry_analysis_test_run"
+    },
+    {
+      "label": "frontend-static.test.cjs",
+      "file_type": "code",
+      "source_file": "tests/frontend-static.test.cjs",
+      "source_location": "L1",
+      "_origin": "ast",
+      "community": 19,
+      "norm_label": "frontend-static.test.cjs",
+      "id": "tests_frontend_static_test",
+      "community_name": "frontend-static.test.cjs"
+    },
+    {
+      "label": "assert",
+      "file_type": "code",
+      "source_file": "tests/frontend-static.test.cjs",
+      "source_location": "L1",
+      "_origin": "ast",
+      "community": 19,
+      "norm_label": "assert",
+      "id": "tests_frontend_static_test_assert",
+      "community_name": "frontend-static.test.cjs"
+    },
+    {
+      "label": "fs",
+      "file_type": "code",
+      "source_file": "tests/frontend-static.test.cjs",
+      "source_location": "L2",
+      "_origin": "ast",
+      "community": 19,
+      "norm_label": "fs",
+      "id": "tests_frontend_static_test_fs",
+      "community_name": "frontend-static.test.cjs"
+    },
+    {
+      "label": "path",
+      "file_type": "code",
+      "source_file": "tests/frontend-static.test.cjs",
+      "source_location": "L3",
+      "_origin": "ast",
+      "community": 19,
+      "norm_label": "path",
+      "id": "tests_frontend_static_test_path",
+      "community_name": "frontend-static.test.cjs"
+    },
+    {
+      "label": "vm",
+      "file_type": "code",
+      "source_file": "tests/frontend-static.test.cjs",
+      "source_location": "L4",
+      "_origin": "ast",
+      "community": 19,
+      "norm_label": "vm",
+      "id": "tests_frontend_static_test_vm",
+      "community_name": "frontend-static.test.cjs"
+    },
+    {
+      "label": "outputsDir",
+      "file_type": "code",
+      "source_file": "tests/frontend-static.test.cjs",
+      "source_location": "L6",
+      "_origin": "ast",
+      "community": 19,
+      "norm_label": "outputsdir",
+      "id": "tests_frontend_static_test_outputsdir",
+      "community_name": "frontend-static.test.cjs"
+    },
+    {
+      "label": "privacySource",
+      "file_type": "code",
+      "source_file": "tests/frontend-static.test.cjs",
+      "source_location": "L7",
+      "_origin": "ast",
+      "community": 19,
+      "norm_label": "privacysource",
+      "id": "tests_frontend_static_test_privacysource",
+      "community_name": "frontend-static.test.cjs"
+    },
+    {
+      "label": "retiredGenerator",
+      "file_type": "code",
+      "source_file": "tests/frontend-static.test.cjs",
+      "source_location": "L8",
+      "_origin": "ast",
+      "community": 19,
+      "norm_label": "retiredgenerator",
+      "id": "tests_frontend_static_test_retiredgenerator",
+      "community_name": "frontend-static.test.cjs"
+    },
+    {
+      "label": "faviconPath",
+      "file_type": "code",
+      "source_file": "tests/frontend-static.test.cjs",
+      "source_location": "L9",
+      "_origin": "ast",
+      "community": 19,
+      "norm_label": "faviconpath",
+      "id": "tests_frontend_static_test_faviconpath",
+      "community_name": "frontend-static.test.cjs"
+    },
+    {
+      "label": "vercelConfig",
+      "file_type": "code",
+      "source_file": "tests/frontend-static.test.cjs",
+      "source_location": "L10",
+      "_origin": "ast",
+      "community": 19,
+      "norm_label": "vercelconfig",
+      "id": "tests_frontend_static_test_vercelconfig",
+      "community_name": "frontend-static.test.cjs"
+    },
+    {
+      "label": "htmlFiles",
+      "file_type": "code",
+      "source_file": "tests/frontend-static.test.cjs",
+      "source_location": "L22",
+      "_origin": "ast",
+      "community": 19,
+      "norm_label": "htmlfiles",
+      "id": "tests_frontend_static_test_htmlfiles",
+      "community_name": "frontend-static.test.cjs"
+    },
+    {
+      "label": "vercel.json",
+      "file_type": "code",
+      "source_file": "vercel.json",
+      "source_location": "L1",
+      "_origin": "ast",
+      "community": 34,
+      "norm_label": "vercel.json",
+      "id": "vercel",
+      "community_name": "vercel.json"
+    },
+    {
+      "label": "headers",
+      "file_type": "code",
+      "source_file": "vercel.json",
+      "source_location": "L2",
+      "_origin": "ast",
+      "community": 34,
+      "norm_label": "headers",
+      "id": "vercel_headers",
+      "community_name": "vercel.json"
+    },
+    {
+      "label": "rewrites",
+      "file_type": "code",
+      "source_file": "vercel.json",
+      "source_location": "L15",
+      "_origin": "ast",
+      "community": 34,
+      "norm_label": "rewrites",
+      "id": "vercel_rewrites",
+      "community_name": "vercel.json"
     }
   ],
   "links": [
@@ -10024,28 +10046,6 @@
       "confidence_score": 1.0,
       "source": "scripts_canonical_graph",
       "target": "scripts_canonical_graph_sortdeep"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "vercel.json",
-      "source_location": "L2",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "vercel",
-      "target": "vercel_headers"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "vercel.json",
-      "source_location": "L15",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "vercel",
-      "target": "vercel_rewrites"
     },
     {
       "relation": "contains",
@@ -12943,94 +12943,6 @@
       "confidence_score": 1.0,
       "source": "request_guard_validategeneratepayload",
       "target": "request_guard_validatewith"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "tests/frontend-static.test.cjs",
-      "source_location": "L1",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "tests_frontend_static_test",
-      "target": "tests_frontend_static_test_assert"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "tests/frontend-static.test.cjs",
-      "source_location": "L2",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "tests_frontend_static_test",
-      "target": "tests_frontend_static_test_fs"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "tests/frontend-static.test.cjs",
-      "source_location": "L15",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "tests_frontend_static_test",
-      "target": "tests_frontend_static_test_htmlfiles"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "tests/frontend-static.test.cjs",
-      "source_location": "L6",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "tests_frontend_static_test",
-      "target": "tests_frontend_static_test_outputsdir"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "tests/frontend-static.test.cjs",
-      "source_location": "L3",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "tests_frontend_static_test",
-      "target": "tests_frontend_static_test_path"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "tests/frontend-static.test.cjs",
-      "source_location": "L7",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "tests_frontend_static_test",
-      "target": "tests_frontend_static_test_privacysource"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "tests/frontend-static.test.cjs",
-      "source_location": "L8",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "tests_frontend_static_test",
-      "target": "tests_frontend_static_test_retiredgenerator"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "tests/frontend-static.test.cjs",
-      "source_location": "L4",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "tests_frontend_static_test",
-      "target": "tests_frontend_static_test_vm"
     },
     {
       "relation": "contains",
@@ -19126,8 +19038,140 @@
       "confidence_score": 1.0,
       "source": "tests_telemetry_analysis_test_run",
       "target": "tests_telemetry_analysis_test_workflowevent"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/frontend-static.test.cjs",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "tests_frontend_static_test",
+      "target": "tests_frontend_static_test_assert"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/frontend-static.test.cjs",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "tests_frontend_static_test",
+      "target": "tests_frontend_static_test_faviconpath"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/frontend-static.test.cjs",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "tests_frontend_static_test",
+      "target": "tests_frontend_static_test_fs"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/frontend-static.test.cjs",
+      "source_location": "L22",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "tests_frontend_static_test",
+      "target": "tests_frontend_static_test_htmlfiles"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/frontend-static.test.cjs",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "tests_frontend_static_test",
+      "target": "tests_frontend_static_test_outputsdir"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/frontend-static.test.cjs",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "tests_frontend_static_test",
+      "target": "tests_frontend_static_test_path"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/frontend-static.test.cjs",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "tests_frontend_static_test",
+      "target": "tests_frontend_static_test_privacysource"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/frontend-static.test.cjs",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "tests_frontend_static_test",
+      "target": "tests_frontend_static_test_retiredgenerator"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/frontend-static.test.cjs",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "tests_frontend_static_test",
+      "target": "tests_frontend_static_test_vercelconfig"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/frontend-static.test.cjs",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "tests_frontend_static_test",
+      "target": "tests_frontend_static_test_vm"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "vercel.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "vercel",
+      "target": "vercel_headers"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "vercel.json",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "vercel",
+      "target": "vercel_rewrites"
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "f70f12e2f9bc973418c867ce67e04c1290882d48"
+  "built_at_commit": "0f1575ed6bd81668179b30d0daa44e46385b0360"
 }
