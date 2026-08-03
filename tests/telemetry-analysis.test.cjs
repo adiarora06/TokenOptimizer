@@ -127,19 +127,28 @@ function run() {
 
   const secret = ["sk", "report-secret-value-123456789"].join("_");
   const direct = JSON.stringify(providerEvent(20));
-  const wrapped = JSON.stringify({ level: "info", message: JSON.stringify(workflowEvent(20)) });
+  const nestedProvider = providerEvent(23);
+  const nestedWorkflow = workflowEvent(20);
+  const wrapped = JSON.stringify({
+    level: "info",
+    message: JSON.stringify(nestedProvider),
+    logs: [
+      { level: "info", message: JSON.stringify(nestedProvider) },
+      { level: "info", message: JSON.stringify(nestedWorkflow) }
+    ]
+  });
   const prefixed = JSON.stringify({ text: `stdout: ${JSON.stringify(providerEvent(21))}` });
   const forged = JSON.stringify(providerEvent(22, { provider: secret, failureCode: secret, outcome: "failure" }));
-  const parsed = parseTelemetryInput([direct, wrapped, prefixed, forged, `unrelated ${secret}`].join("\n"));
-  assert.equal(parsed.events.length, 4);
-  assert.equal(parsed.recordsRead, 5);
+  const parsed = parseTelemetryInput([direct, direct, wrapped, prefixed, forged, `unrelated ${secret}`].join("\n"));
+  assert.equal(parsed.events.length, 6);
+  assert.equal(parsed.recordsRead, 6);
   assert.equal(parsed.ignoredRecords, 1);
   const parsedSummary = summarizeTelemetryEvents(parsed.events);
   const report = formatTelemetryReport(parsedSummary, {
     eventsAccepted: parsed.events.length,
     ignoredRecords: parsed.ignoredRecords
   });
-  assert.match(report, /Provider attempts: 3/);
+  assert.match(report, /Provider attempts: 5/);
   assert.equal(report.includes(secret), false);
   assert.equal(JSON.stringify(parsedSummary).includes(secret), false);
   assert.equal(JSON.stringify(parsed.events).includes(secret), false);
@@ -151,7 +160,7 @@ function run() {
   });
   assert.equal(cli.status, 0, cli.stderr);
   const output = JSON.parse(cli.stdout);
-  assert.equal(output.ingestion.eventsAccepted, 2);
+  assert.equal(output.ingestion.eventsAccepted, 3);
   assert.equal(output.summary.scope, "deployment-log-window");
 
   console.log("deployment telemetry analysis tests passed");

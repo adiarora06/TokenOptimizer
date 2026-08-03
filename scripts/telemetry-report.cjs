@@ -47,10 +47,11 @@ function collectTelemetryEvent(value, output, depth = 0) {
     return true;
   }
 
-  for (const key of ["message", "text", "payload", "data"]) {
-    if (key in value && collectTelemetryEvent(value[key], output, depth + 1)) return true;
+  let found = false;
+  for (const key of ["message", "text", "payload", "data", "logs"]) {
+    if (key in value) found = collectTelemetryEvent(value[key], output, depth + 1) || found;
   }
-  return false;
+  return found;
 }
 
 function parseTelemetryInput(input) {
@@ -66,7 +67,18 @@ function parseTelemetryInput(input) {
 
   for (const record of records) {
     recordsRead += 1;
-    if (!record || !collectTelemetryEvent(record, events)) ignoredRecords += 1;
+    const recordEvents = [];
+    if (!record || !collectTelemetryEvent(record, recordEvents)) {
+      ignoredRecords += 1;
+      continue;
+    }
+    const seenInRecord = new Set();
+    for (const event of recordEvents) {
+      const fingerprint = JSON.stringify(event);
+      if (seenInRecord.has(fingerprint)) continue;
+      seenInRecord.add(fingerprint);
+      events.push(event);
+    }
   }
   return { events, recordsRead, ignoredRecords };
 }
