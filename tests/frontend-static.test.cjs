@@ -7,17 +7,12 @@ const outputsDir = path.resolve(__dirname, "../outputs");
 const privacySource = fs.readFileSync(path.join(outputsDir, "privacy.html"), "utf8");
 const retiredGenerator = path.join(outputsDir, "token-optimizer-file-generator.html");
 const faviconPath = path.join(outputsDir, "favicon.svg");
-const vercelConfig = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../vercel.json"), "utf8"));
 
 assert.match(privacySource, /Token Optimizer for Gemini and ChatGPT/);
 assert.match(privacySource, /does not persist raw or prepared prompt text/i);
 assert.doesNotMatch(privacySource, /stores the latest raw prompt/i);
 assert.equal(fs.existsSync(retiredGenerator), false, "The retired browser-key generator must not be shipped.");
 assert.match(fs.readFileSync(faviconPath, "utf8"), /<svg\b/);
-assert.ok(
-  vercelConfig.rewrites.some((rewrite) => rewrite.source === "/favicon.ico" && rewrite.destination === "/outputs/favicon.svg"),
-  "Vercel should serve the branded favicon at the browser-default path."
-);
 
 const htmlFiles = fs.readdirSync(outputsDir)
   .filter((file) => file.endsWith(".html"))

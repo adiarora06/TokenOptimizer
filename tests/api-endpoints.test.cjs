@@ -177,6 +177,11 @@ async function run() {
     assert.match(retiredGeneratorHtml, /id="prompt"/);
     assert.doesNotMatch(retiredGeneratorHtml, /id="apiKey"/);
 
+    const favicon = await fetch(`${baseUrl}/favicon.ico`);
+    assert.equal(favicon.status, 200);
+    assert.match(favicon.headers.get("content-type") || "", /image\/svg\+xml/);
+    assert.match(await favicon.text(), /<svg\b/);
+
     for (const traversalPath of ["/../package.json", "/%2e%2e/package.json", "/..%2fpackage.json"]) {
       const traversal = await new Promise((resolve, reject) => {
         const request = http.request(

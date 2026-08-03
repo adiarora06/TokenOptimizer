@@ -359,6 +359,7 @@ function serveStatic(req, res) {
   const requestUrl = new URL(req.url, `http://127.0.0.1:${port}`);
   const routeMap = {
     "/": "/home.html",
+    "/favicon.ico": "/favicon.svg",
     "/workspace": "/workspace.html",
     "/token-optimizer-file-generator.html": "/workspace.html",
     "/agent-structure": "/agent-structure.html",
@@ -398,7 +399,8 @@ function serveStatic(req, res) {
       ".css": "text/css; charset=utf-8",
       ".json": "application/json; charset=utf-8",
       ".md": "text/markdown; charset=utf-8",
-      ".png": "image/png"
+      ".png": "image/png",
+      ".svg": "image/svg+xml; charset=utf-8"
     };
     const contentType = contentTypes[ext] || "application/octet-stream";
     res.writeHead(200, {
