@@ -9,7 +9,7 @@
       "source_file": "core/text.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 28,
+      "community": 27,
       "community_name": "text.cjs",
       "norm_label": "text.cjs",
       "id": "core_text"
@@ -20,7 +20,7 @@
       "source_file": "core/text.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 28,
+      "community": 27,
       "community_name": "text.cjs",
       "norm_label": "compactlines()",
       "id": "core_text_compactlines"
@@ -31,7 +31,7 @@
       "source_file": "core/text.cjs",
       "source_location": "L9",
       "_origin": "ast",
-      "community": 28,
+      "community": 27,
       "community_name": "text.cjs",
       "norm_label": "cleanprompttext()",
       "id": "core_text_cleanprompttext"
@@ -42,7 +42,7 @@
       "source_file": "core/text.cjs",
       "source_location": "L16",
       "_origin": "ast",
-      "community": 28,
+      "community": 27,
       "community_name": "text.cjs",
       "norm_label": "striplistprefix()",
       "id": "core_text_striplistprefix"
@@ -53,7 +53,7 @@
       "source_file": "core/text.cjs",
       "source_location": "L20",
       "_origin": "ast",
-      "community": 28,
+      "community": 27,
       "community_name": "text.cjs",
       "norm_label": "withouttrailingellipsis()",
       "id": "core_text_withouttrailingellipsis"
@@ -64,7 +64,7 @@
       "source_file": "core/text.cjs",
       "source_location": "L24",
       "_origin": "ast",
-      "community": 28,
+      "community": 27,
       "community_name": "text.cjs",
       "norm_label": "promptsection()",
       "id": "core_text_promptsection"
@@ -75,7 +75,7 @@
       "source_file": "core/text.cjs",
       "source_location": "L35",
       "_origin": "ast",
-      "community": 28,
+      "community": 27,
       "community_name": "text.cjs",
       "norm_label": "dedupenaturallanguagelines()",
       "id": "core_text_dedupenaturallanguagelines"
@@ -86,7 +86,7 @@
       "source_file": "core/usage.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 26,
+      "community": 25,
       "community_name": "usage.cjs",
       "norm_label": "usage.cjs",
       "id": "core_usage"
@@ -97,7 +97,7 @@
       "source_file": "core/usage.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 26,
+      "community": 25,
       "community_name": "usage.cjs",
       "norm_label": "estimatetokens()",
       "id": "core_usage_estimatetokens"
@@ -108,7 +108,7 @@
       "source_file": "core/usage.cjs",
       "source_location": "L5",
       "_origin": "ast",
-      "community": 26,
+      "community": 25,
       "community_name": "usage.cjs",
       "norm_label": "createtraceid()",
       "id": "core_usage_createtraceid"
@@ -119,7 +119,7 @@
       "source_file": "core/usage.cjs",
       "source_location": "L9",
       "_origin": "ast",
-      "community": 26,
+      "community": 25,
       "community_name": "usage.cjs",
       "norm_label": "normalizeusage()",
       "id": "core_usage_normalizeusage"
@@ -130,7 +130,7 @@
       "source_file": "core/usage.cjs",
       "source_location": "L31",
       "_origin": "ast",
-      "community": 26,
+      "community": 25,
       "community_name": "usage.cjs",
       "norm_label": "modelcost()",
       "id": "core_usage_modelcost"
@@ -141,7 +141,7 @@
       "source_file": "core/usage.cjs",
       "source_location": "L40",
       "_origin": "ast",
-      "community": 26,
+      "community": 25,
       "community_name": "usage.cjs",
       "norm_label": "combineusage()",
       "id": "core_usage_combineusage"
@@ -152,7 +152,7 @@
       "source_file": "core/usage.cjs",
       "source_location": "L67",
       "_origin": "ast",
-      "community": 26,
+      "community": 25,
       "community_name": "usage.cjs",
       "norm_label": "generationrecord()",
       "id": "core_usage_generationrecord"
@@ -163,7 +163,7 @@
       "source_file": "core/usage.cjs",
       "source_location": "L85",
       "_origin": "ast",
-      "community": 26,
+      "community": 25,
       "community_name": "usage.cjs",
       "norm_label": "contextcomparison()",
       "id": "core_usage_contextcomparison"
@@ -218,7 +218,7 @@
       "source_file": "extensions/gemini-token-optimizer/adapters/chatgpt.js",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 30,
+      "community": 29,
       "community_name": "chatgpt.js",
       "norm_label": "chatgpt.js",
       "id": "extensions_gemini_token_optimizer_adapters_chatgpt"
@@ -229,7 +229,7 @@
       "source_file": "extensions/gemini-token-optimizer/adapters/chatgpt.js",
       "source_location": "L16",
       "_origin": "ast",
-      "community": 30,
+      "community": 29,
       "community_name": "chatgpt.js",
       "norm_label": "haspromptlabel()",
       "id": "extensions_gemini_token_optimizer_adapters_chatgpt_haspromptlabel"
@@ -240,7 +240,7 @@
       "source_file": "extensions/gemini-token-optimizer/adapters/chatgpt.js",
       "source_location": "L26",
       "_origin": "ast",
-      "community": 30,
+      "community": 29,
       "community_name": "chatgpt.js",
       "norm_label": "isnearpromptarea()",
       "id": "extensions_gemini_token_optimizer_adapters_chatgpt_isnearpromptarea"
@@ -251,7 +251,7 @@
       "source_file": "extensions/gemini-token-optimizer/adapters/chatgpt.js",
       "source_location": "L30",
       "_origin": "ast",
-      "community": 30,
+      "community": 29,
       "community_name": "chatgpt.js",
       "norm_label": "ishugeeditable()",
       "id": "extensions_gemini_token_optimizer_adapters_chatgpt_ishugeeditable"
@@ -262,7 +262,7 @@
       "source_file": "extensions/gemini-token-optimizer/adapters/chatgpt.js",
       "source_location": "L37",
       "_origin": "ast",
-      "community": 30,
+      "community": 29,
       "community_name": "chatgpt.js",
       "norm_label": "iscandidate()",
       "id": "extensions_gemini_token_optimizer_adapters_chatgpt_iscandidate"
@@ -273,7 +273,7 @@
       "source_file": "extensions/gemini-token-optimizer/adapters/chatgpt.js",
       "source_location": "L45",
       "_origin": "ast",
-      "community": 30,
+      "community": 29,
       "community_name": "chatgpt.js",
       "norm_label": "score()",
       "id": "extensions_gemini_token_optimizer_adapters_chatgpt_score"
@@ -284,7 +284,7 @@
       "source_file": "extensions/gemini-token-optimizer/adapters/gemini.js",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 31,
+      "community": 30,
       "community_name": "gemini.js",
       "norm_label": "gemini.js",
       "id": "extensions_gemini_token_optimizer_adapters_gemini"
@@ -295,7 +295,7 @@
       "source_file": "extensions/gemini-token-optimizer/adapters/gemini.js",
       "source_location": "L14",
       "_origin": "ast",
-      "community": 31,
+      "community": 30,
       "community_name": "gemini.js",
       "norm_label": "haspromptlabel()",
       "id": "extensions_gemini_token_optimizer_adapters_gemini_haspromptlabel"
@@ -306,7 +306,7 @@
       "source_file": "extensions/gemini-token-optimizer/adapters/gemini.js",
       "source_location": "L23",
       "_origin": "ast",
-      "community": 31,
+      "community": 30,
       "community_name": "gemini.js",
       "norm_label": "isnearpromptarea()",
       "id": "extensions_gemini_token_optimizer_adapters_gemini_isnearpromptarea"
@@ -317,7 +317,7 @@
       "source_file": "extensions/gemini-token-optimizer/adapters/gemini.js",
       "source_location": "L27",
       "_origin": "ast",
-      "community": 31,
+      "community": 30,
       "community_name": "gemini.js",
       "norm_label": "ishugeeditable()",
       "id": "extensions_gemini_token_optimizer_adapters_gemini_ishugeeditable"
@@ -328,7 +328,7 @@
       "source_file": "extensions/gemini-token-optimizer/adapters/gemini.js",
       "source_location": "L34",
       "_origin": "ast",
-      "community": 31,
+      "community": 30,
       "community_name": "gemini.js",
       "norm_label": "iscandidate()",
       "id": "extensions_gemini_token_optimizer_adapters_gemini_iscandidate"
@@ -339,7 +339,7 @@
       "source_file": "extensions/gemini-token-optimizer/adapters/gemini.js",
       "source_location": "L42",
       "_origin": "ast",
-      "community": 31,
+      "community": 30,
       "community_name": "gemini.js",
       "norm_label": "score()",
       "id": "extensions_gemini_token_optimizer_adapters_gemini_score"
@@ -350,7 +350,7 @@
       "source_file": "extensions/gemini-token-optimizer/content-bridge.js",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 42,
+      "community": 37,
       "community_name": "content-bridge.js",
       "norm_label": "content-bridge.js",
       "id": "extensions_gemini_token_optimizer_content_bridge"
@@ -361,7 +361,7 @@
       "source_file": "extensions/gemini-token-optimizer/platforms.js",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 40,
+      "community": 35,
       "community_name": "platforms.js",
       "norm_label": "platforms.js",
       "id": "extensions_gemini_token_optimizer_platforms"
@@ -372,7 +372,7 @@
       "source_file": "extensions/gemini-token-optimizer/platforms.js",
       "source_location": "L17",
       "_origin": "ast",
-      "community": 40,
+      "community": 35,
       "community_name": "platforms.js",
       "norm_label": "forurl()",
       "id": "extensions_gemini_token_optimizer_platforms_forurl"
@@ -977,7 +977,7 @@
       "source_file": "outputs/system-worker.js",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 29,
+      "community": 28,
       "community_name": "system-worker.js",
       "norm_label": "system-worker.js",
       "id": "outputs_system_worker"
@@ -988,7 +988,7 @@
       "source_file": "outputs/system-worker.js",
       "source_location": "L18",
       "_origin": "ast",
-      "community": 29,
+      "community": 28,
       "community_name": "system-worker.js",
       "norm_label": "estimatetokens()",
       "id": "outputs_system_worker_estimatetokens"
@@ -999,7 +999,7 @@
       "source_file": "outputs/system-worker.js",
       "source_location": "L22",
       "_origin": "ast",
-      "community": 29,
+      "community": 28,
       "community_name": "system-worker.js",
       "norm_label": "lines()",
       "id": "outputs_system_worker_lines"
@@ -1010,7 +1010,7 @@
       "source_file": "outputs/system-worker.js",
       "source_location": "L29",
       "_origin": "ast",
-      "community": 29,
+      "community": 28,
       "community_name": "system-worker.js",
       "norm_label": "uniquelines()",
       "id": "outputs_system_worker_uniquelines"
@@ -1021,7 +1021,7 @@
       "source_file": "outputs/system-worker.js",
       "source_location": "L41",
       "_origin": "ast",
-      "community": 29,
+      "community": 28,
       "community_name": "system-worker.js",
       "norm_label": "outputstyle()",
       "id": "outputs_system_worker_outputstyle"
@@ -1032,7 +1032,7 @@
       "source_file": "outputs/system-worker.js",
       "source_location": "L49",
       "_origin": "ast",
-      "community": 29,
+      "community": 28,
       "community_name": "system-worker.js",
       "norm_label": "complexityscore()",
       "id": "outputs_system_worker_complexityscore"
@@ -1043,7 +1043,7 @@
       "source_file": "outputs/system-worker.js",
       "source_location": "L58",
       "_origin": "ast",
-      "community": 29,
+      "community": 28,
       "community_name": "system-worker.js",
       "norm_label": "analyzeprompt()",
       "id": "outputs_system_worker_analyzeprompt"
@@ -1571,7 +1571,7 @@
       "source_file": "scripts/canonical-graph.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 35,
+      "community": 32,
       "community_name": "canonical-graph.cjs",
       "norm_label": "canonical-graph.cjs",
       "id": "scripts_canonical_graph"
@@ -1582,7 +1582,7 @@
       "source_file": "scripts/canonical-graph.cjs",
       "source_location": "L8",
       "_origin": "ast",
-      "community": 35,
+      "community": 32,
       "community_name": "canonical-graph.cjs",
       "norm_label": "fs",
       "id": "scripts_canonical_graph_fs"
@@ -1593,7 +1593,7 @@
       "source_file": "scripts/canonical-graph.cjs",
       "source_location": "L10",
       "_origin": "ast",
-      "community": 35,
+      "community": 32,
       "community_name": "canonical-graph.cjs",
       "norm_label": "sortdeep()",
       "id": "scripts_canonical_graph_sortdeep"
@@ -1604,7 +1604,7 @@
       "source_file": "scripts/canonical-graph.cjs",
       "source_location": "L26",
       "_origin": "ast",
-      "community": 35,
+      "community": 32,
       "community_name": "canonical-graph.cjs",
       "norm_label": "graph",
       "id": "scripts_canonical_graph_graph"
@@ -1615,7 +1615,7 @@
       "source_file": "vercel.json",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 39,
+      "community": 34,
       "community_name": "vercel.json",
       "norm_label": "vercel.json",
       "id": "vercel"
@@ -1626,7 +1626,7 @@
       "source_file": "vercel.json",
       "source_location": "L2",
       "_origin": "ast",
-      "community": 39,
+      "community": 34,
       "community_name": "vercel.json",
       "norm_label": "headers",
       "id": "vercel_headers"
@@ -1637,7 +1637,7 @@
       "source_file": "vercel.json",
       "source_location": "L15",
       "_origin": "ast",
-      "community": 39,
+      "community": 34,
       "community_name": "vercel.json",
       "norm_label": "rewrites",
       "id": "vercel_rewrites"
@@ -1648,7 +1648,7 @@
       "source_file": "README.md",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 17,
+      "community": 16,
       "community_name": "Token Optimizer",
       "norm_label": "readme.md",
       "id": "readme"
@@ -1659,7 +1659,7 @@
       "source_file": "README.md",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 17,
+      "community": 16,
       "community_name": "Token Optimizer",
       "norm_label": "token optimizer",
       "id": "readme_token_optimizer"
@@ -1670,7 +1670,7 @@
       "source_file": "README.md",
       "source_location": "L5",
       "_origin": "ast",
-      "community": 17,
+      "community": 16,
       "community_name": "Token Optimizer",
       "norm_label": "run locally",
       "id": "readme_run_locally"
@@ -1681,7 +1681,7 @@
       "source_file": "README.md",
       "source_location": "L17",
       "_origin": "ast",
-      "community": 17,
+      "community": 16,
       "community_name": "Token Optimizer",
       "norm_label": "product shape",
       "id": "readme_product_shape"
@@ -1692,7 +1692,7 @@
       "source_file": "README.md",
       "source_location": "L27",
       "_origin": "ast",
-      "community": 17,
+      "community": 16,
       "community_name": "Token Optimizer",
       "norm_label": "source map",
       "id": "readme_source_map"
@@ -1703,7 +1703,7 @@
       "source_file": "README.md",
       "source_location": "L51",
       "_origin": "ast",
-      "community": 17,
+      "community": 16,
       "community_name": "Token Optimizer",
       "norm_label": "optional provider keys",
       "id": "readme_optional_provider_keys"
@@ -1714,7 +1714,7 @@
       "source_file": "README.md",
       "source_location": "L66",
       "_origin": "ast",
-      "community": 17,
+      "community": 16,
       "community_name": "Token Optimizer",
       "norm_label": "typed contract workflow",
       "id": "readme_typed_contract_workflow"
@@ -1725,7 +1725,7 @@
       "source_file": "README.md",
       "source_location": "L76",
       "_origin": "ast",
-      "community": 17,
+      "community": 16,
       "community_name": "Token Optimizer",
       "norm_label": "execution flow",
       "id": "readme_execution_flow"
@@ -1736,7 +1736,7 @@
       "source_file": "README.md",
       "source_location": "L87",
       "_origin": "ast",
-      "community": 17,
+      "community": 16,
       "community_name": "Token Optimizer",
       "norm_label": "usage semantics",
       "id": "readme_usage_semantics"
@@ -1747,7 +1747,7 @@
       "source_file": "README.md",
       "source_location": "L94",
       "_origin": "ast",
-      "community": 17,
+      "community": 16,
       "community_name": "Token Optimizer",
       "norm_label": "sidecar wrapper loop",
       "id": "readme_sidecar_wrapper_loop"
@@ -1758,7 +1758,7 @@
       "source_file": "README.md",
       "source_location": "L104",
       "_origin": "ast",
-      "community": 17,
+      "community": 16,
       "community_name": "Token Optimizer",
       "norm_label": "graphify code graph",
       "id": "readme_graphify_code_graph"
@@ -1769,7 +1769,7 @@
       "source_file": "README.md",
       "source_location": "L121",
       "_origin": "ast",
-      "community": 17,
+      "community": 16,
       "community_name": "Token Optimizer",
       "norm_label": "assistant extension mvp",
       "id": "readme_assistant_extension_mvp"
@@ -1780,7 +1780,7 @@
       "source_file": "README.md",
       "source_location": "L133",
       "_origin": "ast",
-      "community": 17,
+      "community": 16,
       "community_name": "Token Optimizer",
       "norm_label": "contributing principle",
       "id": "readme_contributing_principle"
@@ -1791,7 +1791,7 @@
       "source_file": "README.md",
       "source_location": "L137",
       "_origin": "ast",
-      "community": 17,
+      "community": 16,
       "community_name": "Token Optimizer",
       "norm_label": "license",
       "id": "readme_license"
@@ -1802,7 +1802,7 @@
       "source_file": "design-qa.md",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 20,
+      "community": 19,
       "community_name": "Design QA",
       "norm_label": "design-qa.md",
       "id": "design_qa"
@@ -1813,7 +1813,7 @@
       "source_file": "design-qa.md",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 20,
+      "community": 19,
       "community_name": "Design QA",
       "norm_label": "design qa",
       "id": "design_qa_design_qa"
@@ -1824,7 +1824,7 @@
       "source_file": "design-qa.md",
       "source_location": "L3",
       "_origin": "ast",
-      "community": 20,
+      "community": 19,
       "community_name": "Design QA",
       "norm_label": "comparison target",
       "id": "design_qa_comparison_target"
@@ -1835,7 +1835,7 @@
       "source_file": "design-qa.md",
       "source_location": "L12",
       "_origin": "ast",
-      "community": 20,
+      "community": 19,
       "community_name": "Design QA",
       "norm_label": "findings",
       "id": "design_qa_findings"
@@ -1846,7 +1846,7 @@
       "source_file": "design-qa.md",
       "source_location": "L21",
       "_origin": "ast",
-      "community": 20,
+      "community": 19,
       "community_name": "Design QA",
       "norm_label": "comparison history",
       "id": "design_qa_comparison_history"
@@ -1857,7 +1857,7 @@
       "source_file": "design-qa.md",
       "source_location": "L23",
       "_origin": "ast",
-      "community": 20,
+      "community": 19,
       "community_name": "Design QA",
       "norm_label": "iteration 1",
       "id": "design_qa_iteration_1"
@@ -1868,7 +1868,7 @@
       "source_file": "design-qa.md",
       "source_location": "L33",
       "_origin": "ast",
-      "community": 20,
+      "community": 19,
       "community_name": "Design QA",
       "norm_label": "focused evidence",
       "id": "design_qa_focused_evidence"
@@ -1879,7 +1879,7 @@
       "source_file": "design-qa.md",
       "source_location": "L37",
       "_origin": "ast",
-      "community": 20,
+      "community": 19,
       "community_name": "Design QA",
       "norm_label": "interaction and runtime checks",
       "id": "design_qa_interaction_and_runtime_checks"
@@ -1890,7 +1890,7 @@
       "source_file": "design-qa.md",
       "source_location": "L48",
       "_origin": "ast",
-      "community": 20,
+      "community": 19,
       "community_name": "Design QA",
       "norm_label": "follow-up polish",
       "id": "design_qa_follow_up_polish"
@@ -1901,7 +1901,7 @@
       "source_file": "design-qa.md",
       "source_location": "L53",
       "_origin": "ast",
-      "community": 20,
+      "community": 19,
       "community_name": "Design QA",
       "norm_label": "implementation checklist",
       "id": "design_qa_implementation_checklist"
@@ -1912,7 +1912,7 @@
       "source_file": "extensions/gemini-token-optimizer/ADAPTERS.md",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 33,
+      "community": 31,
       "community_name": "Site Adapter Architecture",
       "norm_label": "adapters.md",
       "id": "extensions_gemini_token_optimizer_adapters"
@@ -1923,7 +1923,7 @@
       "source_file": "extensions/gemini-token-optimizer/ADAPTERS.md",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 33,
+      "community": 31,
       "community_name": "Site Adapter Architecture",
       "norm_label": "site adapter architecture",
       "id": "extensions_gemini_token_optimizer_adapters_site_adapter_architecture"
@@ -1934,7 +1934,7 @@
       "source_file": "extensions/gemini-token-optimizer/ADAPTERS.md",
       "source_location": "L5",
       "_origin": "ast",
-      "community": 33,
+      "community": 31,
       "community_name": "Site Adapter Architecture",
       "norm_label": "layers",
       "id": "extensions_gemini_token_optimizer_adapters_layers"
@@ -1945,7 +1945,7 @@
       "source_file": "extensions/gemini-token-optimizer/ADAPTERS.md",
       "source_location": "L14",
       "_origin": "ast",
-      "community": 33,
+      "community": 31,
       "community_name": "Site Adapter Architecture",
       "norm_label": "adapter contract",
       "id": "extensions_gemini_token_optimizer_adapters_adapter_contract"
@@ -1956,7 +1956,7 @@
       "source_file": "extensions/gemini-token-optimizer/ADAPTERS.md",
       "source_location": "L35",
       "_origin": "ast",
-      "community": 33,
+      "community": 31,
       "community_name": "Site Adapter Architecture",
       "norm_label": "add another assistant",
       "id": "extensions_gemini_token_optimizer_adapters_add_another_assistant"
@@ -1967,7 +1967,7 @@
       "source_file": "extensions/gemini-token-optimizer/PUBLISHING.md",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 21,
+      "community": 20,
       "community_name": "Publishing Token Optimizer for Gemini and ChatGPT",
       "norm_label": "publishing.md",
       "id": "extensions_gemini_token_optimizer_publishing"
@@ -1978,7 +1978,7 @@
       "source_file": "extensions/gemini-token-optimizer/PUBLISHING.md",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 21,
+      "community": 20,
       "community_name": "Publishing Token Optimizer for Gemini and ChatGPT",
       "norm_label": "publishing token optimizer for gemini and chatgpt",
       "id": "extensions_gemini_token_optimizer_publishing_publishing_token_optimizer_for_gemini_and_chatgpt"
@@ -1989,7 +1989,7 @@
       "source_file": "extensions/gemini-token-optimizer/PUBLISHING.md",
       "source_location": "L5",
       "_origin": "ast",
-      "community": 21,
+      "community": 20,
       "community_name": "Publishing Token Optimizer for Gemini and ChatGPT",
       "norm_label": "current wrapper",
       "id": "extensions_gemini_token_optimizer_publishing_current_wrapper"
@@ -2000,7 +2000,7 @@
       "source_file": "extensions/gemini-token-optimizer/PUBLISHING.md",
       "source_location": "L17",
       "_origin": "ast",
-      "community": 21,
+      "community": 20,
       "community_name": "Publishing Token Optimizer for Gemini and ChatGPT",
       "norm_label": "open source use",
       "id": "extensions_gemini_token_optimizer_publishing_open_source_use"
@@ -2011,7 +2011,7 @@
       "source_file": "extensions/gemini-token-optimizer/PUBLISHING.md",
       "source_location": "L29",
       "_origin": "ast",
-      "community": 21,
+      "community": 20,
       "community_name": "Publishing Token Optimizer for Gemini and ChatGPT",
       "norm_label": "store-ready checklist",
       "id": "extensions_gemini_token_optimizer_publishing_store_ready_checklist"
@@ -2022,7 +2022,7 @@
       "source_file": "extensions/gemini-token-optimizer/PUBLISHING.md",
       "source_location": "L43",
       "_origin": "ast",
-      "community": 21,
+      "community": 20,
       "community_name": "Publishing Token Optimizer for Gemini and ChatGPT",
       "norm_label": "privacy policy notes",
       "id": "extensions_gemini_token_optimizer_publishing_privacy_policy_notes"
@@ -2033,7 +2033,7 @@
       "source_file": "extensions/gemini-token-optimizer/PUBLISHING.md",
       "source_location": "L55",
       "_origin": "ast",
-      "community": 21,
+      "community": 20,
       "community_name": "Publishing Token Optimizer for Gemini and ChatGPT",
       "norm_label": "local test notes",
       "id": "extensions_gemini_token_optimizer_publishing_local_test_notes"
@@ -2044,7 +2044,7 @@
       "source_file": "extensions/gemini-token-optimizer/PUBLISHING.md",
       "source_location": "L73",
       "_origin": "ast",
-      "community": 21,
+      "community": 20,
       "community_name": "Publishing Token Optimizer for Gemini and ChatGPT",
       "norm_label": "package command",
       "id": "extensions_gemini_token_optimizer_publishing_package_command"
@@ -2055,7 +2055,7 @@
       "source_file": "extensions/gemini-token-optimizer/PUBLISHING.md",
       "source_location": "L86",
       "_origin": "ast",
-      "community": 21,
+      "community": 20,
       "community_name": "Publishing Token Optimizer for Gemini and ChatGPT",
       "norm_label": "store listing assets",
       "id": "extensions_gemini_token_optimizer_publishing_store_listing_assets"
@@ -2066,7 +2066,7 @@
       "source_file": "extensions/gemini-token-optimizer/PUBLISHING.md",
       "source_location": "L95",
       "_origin": "ast",
-      "community": 21,
+      "community": 20,
       "community_name": "Publishing Token Optimizer for Gemini and ChatGPT",
       "norm_label": "publication types",
       "id": "extensions_gemini_token_optimizer_publishing_publication_types"
@@ -2077,7 +2077,7 @@
       "source_file": "extensions/gemini-token-optimizer/README.md",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 27,
+      "community": 26,
       "community_name": "Token Optimizer for Gemini and ChatGPT",
       "norm_label": "gemini-token-optimizer/readme.md",
       "id": "extensions_gemini_token_optimizer_readme"
@@ -2088,7 +2088,7 @@
       "source_file": "extensions/gemini-token-optimizer/README.md",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 27,
+      "community": 26,
       "community_name": "Token Optimizer for Gemini and ChatGPT",
       "norm_label": "token optimizer for gemini and chatgpt",
       "id": "extensions_gemini_token_optimizer_readme_token_optimizer_for_gemini_and_chatgpt"
@@ -2099,7 +2099,7 @@
       "source_file": "extensions/gemini-token-optimizer/README.md",
       "source_location": "L5",
       "_origin": "ast",
-      "community": 27,
+      "community": 26,
       "community_name": "Token Optimizer for Gemini and ChatGPT",
       "norm_label": "what it does",
       "id": "extensions_gemini_token_optimizer_readme_what_it_does"
@@ -2110,7 +2110,7 @@
       "source_file": "extensions/gemini-token-optimizer/README.md",
       "source_location": "L17",
       "_origin": "ast",
-      "community": 27,
+      "community": 26,
       "community_name": "Token Optimizer for Gemini and ChatGPT",
       "norm_label": "load locally",
       "id": "extensions_gemini_token_optimizer_readme_load_locally"
@@ -2121,7 +2121,7 @@
       "source_file": "extensions/gemini-token-optimizer/README.md",
       "source_location": "L31",
       "_origin": "ast",
-      "community": 27,
+      "community": 26,
       "community_name": "Token Optimizer for Gemini and ChatGPT",
       "norm_label": "backend",
       "id": "extensions_gemini_token_optimizer_readme_backend"
@@ -2132,7 +2132,7 @@
       "source_file": "extensions/gemini-token-optimizer/README.md",
       "source_location": "L39",
       "_origin": "ast",
-      "community": 27,
+      "community": 26,
       "community_name": "Token Optimizer for Gemini and ChatGPT",
       "norm_label": "package for upload later",
       "id": "extensions_gemini_token_optimizer_readme_package_for_upload_later"
@@ -2143,7 +2143,7 @@
       "source_file": "extensions/gemini-token-optimizer/README.md",
       "source_location": "L52",
       "_origin": "ast",
-      "community": 27,
+      "community": 26,
       "community_name": "Token Optimizer for Gemini and ChatGPT",
       "norm_label": "privacy shape",
       "id": "extensions_gemini_token_optimizer_readme_privacy_shape"
@@ -2154,7 +2154,7 @@
       "source_file": "extensions/gemini-token-optimizer/README.md",
       "source_location": "L56",
       "_origin": "ast",
-      "community": 27,
+      "community": 26,
       "community_name": "Token Optimizer for Gemini and ChatGPT",
       "norm_label": "extend the wrapper",
       "id": "extensions_gemini_token_optimizer_readme_extend_the_wrapper"
@@ -2165,7 +2165,7 @@
       "source_file": "extensions/gemini-token-optimizer/store-assets/store-listing.md",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 24,
+      "community": 23,
       "community_name": "Chrome Web Store Listing Copy",
       "norm_label": "store-listing.md",
       "id": "extensions_gemini_token_optimizer_store_assets_store_listing"
@@ -2176,7 +2176,7 @@
       "source_file": "extensions/gemini-token-optimizer/store-assets/store-listing.md",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 24,
+      "community": 23,
       "community_name": "Chrome Web Store Listing Copy",
       "norm_label": "chrome web store listing copy",
       "id": "extensions_gemini_token_optimizer_store_assets_store_listing_chrome_web_store_listing_copy"
@@ -2187,7 +2187,7 @@
       "source_file": "extensions/gemini-token-optimizer/store-assets/store-listing.md",
       "source_location": "L3",
       "_origin": "ast",
-      "community": 24,
+      "community": 23,
       "community_name": "Chrome Web Store Listing Copy",
       "norm_label": "extension name",
       "id": "extensions_gemini_token_optimizer_store_assets_store_listing_extension_name"
@@ -2198,7 +2198,7 @@
       "source_file": "extensions/gemini-token-optimizer/store-assets/store-listing.md",
       "source_location": "L7",
       "_origin": "ast",
-      "community": 24,
+      "community": 23,
       "community_name": "Chrome Web Store Listing Copy",
       "norm_label": "short description",
       "id": "extensions_gemini_token_optimizer_store_assets_store_listing_short_description"
@@ -2209,7 +2209,7 @@
       "source_file": "extensions/gemini-token-optimizer/store-assets/store-listing.md",
       "source_location": "L11",
       "_origin": "ast",
-      "community": 24,
+      "community": 23,
       "community_name": "Chrome Web Store Listing Copy",
       "norm_label": "detailed description",
       "id": "extensions_gemini_token_optimizer_store_assets_store_listing_detailed_description"
@@ -2220,7 +2220,7 @@
       "source_file": "extensions/gemini-token-optimizer/store-assets/store-listing.md",
       "source_location": "L51",
       "_origin": "ast",
-      "community": 24,
+      "community": 23,
       "community_name": "Chrome Web Store Listing Copy",
       "norm_label": "single purpose statement",
       "id": "extensions_gemini_token_optimizer_store_assets_store_listing_single_purpose_statement"
@@ -2231,7 +2231,7 @@
       "source_file": "extensions/gemini-token-optimizer/store-assets/store-listing.md",
       "source_location": "L55",
       "_origin": "ast",
-      "community": 24,
+      "community": 23,
       "community_name": "Chrome Web Store Listing Copy",
       "norm_label": "permission justification",
       "id": "extensions_gemini_token_optimizer_store_assets_store_listing_permission_justification"
@@ -2242,7 +2242,7 @@
       "source_file": "extensions/gemini-token-optimizer/store-assets/store-listing.md",
       "source_location": "L63",
       "_origin": "ast",
-      "community": 24,
+      "community": 23,
       "community_name": "Chrome Web Store Listing Copy",
       "norm_label": "store assets",
       "id": "extensions_gemini_token_optimizer_store_assets_store_listing_store_assets"
@@ -2253,7 +2253,7 @@
       "source_file": "extensions/gemini-token-optimizer/store-assets/store-listing.md",
       "source_location": "L69",
       "_origin": "ast",
-      "community": 24,
+      "community": 23,
       "community_name": "Chrome Web Store Listing Copy",
       "norm_label": "privacy policy url",
       "id": "extensions_gemini_token_optimizer_store_assets_store_listing_privacy_policy_url"
@@ -2638,7 +2638,7 @@
       "source_file": "extensions/gemini-token-optimizer/service-worker.js",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 41,
+      "community": 36,
       "norm_label": "service-worker.js",
       "community_name": "service-worker.js",
       "id": "extensions_gemini_token_optimizer_service_worker"
@@ -2649,7 +2649,7 @@
       "source_file": "extensions/gemini-token-optimizer/service-worker.js",
       "source_location": "L23",
       "_origin": "ast",
-      "community": 41,
+      "community": 36,
       "norm_label": "setpanelfortab()",
       "community_name": "service-worker.js",
       "id": "extensions_gemini_token_optimizer_service_worker_setpanelfortab"
@@ -2902,7 +2902,7 @@
       "source_file": "extensions/gemini-token-optimizer/tests/service-worker.test.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 22,
+      "community": 21,
       "norm_label": "service-worker.test.cjs",
       "community_name": "service-worker.test.cjs",
       "id": "extensions_gemini_token_optimizer_tests_service_worker_test"
@@ -2913,7 +2913,7 @@
       "source_file": "extensions/gemini-token-optimizer/tests/service-worker.test.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 22,
+      "community": 21,
       "norm_label": "assert",
       "community_name": "service-worker.test.cjs",
       "id": "extensions_gemini_token_optimizer_tests_service_worker_test_assert"
@@ -2924,7 +2924,7 @@
       "source_file": "extensions/gemini-token-optimizer/tests/service-worker.test.cjs",
       "source_location": "L2",
       "_origin": "ast",
-      "community": 22,
+      "community": 21,
       "norm_label": "fs",
       "community_name": "service-worker.test.cjs",
       "id": "extensions_gemini_token_optimizer_tests_service_worker_test_fs"
@@ -2935,7 +2935,7 @@
       "source_file": "extensions/gemini-token-optimizer/tests/service-worker.test.cjs",
       "source_location": "L3",
       "_origin": "ast",
-      "community": 22,
+      "community": 21,
       "norm_label": "path",
       "community_name": "service-worker.test.cjs",
       "id": "extensions_gemini_token_optimizer_tests_service_worker_test_path"
@@ -2946,7 +2946,7 @@
       "source_file": "extensions/gemini-token-optimizer/tests/service-worker.test.cjs",
       "source_location": "L4",
       "_origin": "ast",
-      "community": 22,
+      "community": 21,
       "norm_label": "vm",
       "community_name": "service-worker.test.cjs",
       "id": "extensions_gemini_token_optimizer_tests_service_worker_test_vm"
@@ -2957,7 +2957,7 @@
       "source_file": "extensions/gemini-token-optimizer/tests/service-worker.test.cjs",
       "source_location": "L6",
       "_origin": "ast",
-      "community": 22,
+      "community": 21,
       "norm_label": "extensiondir",
       "community_name": "service-worker.test.cjs",
       "id": "extensions_gemini_token_optimizer_tests_service_worker_test_extensiondir"
@@ -2968,7 +2968,7 @@
       "source_file": "extensions/gemini-token-optimizer/tests/service-worker.test.cjs",
       "source_location": "L7",
       "_origin": "ast",
-      "community": 22,
+      "community": 21,
       "norm_label": "paneloptions",
       "community_name": "service-worker.test.cjs",
       "id": "extensions_gemini_token_optimizer_tests_service_worker_test_paneloptions"
@@ -2979,7 +2979,7 @@
       "source_file": "extensions/gemini-token-optimizer/tests/service-worker.test.cjs",
       "source_location": "L9",
       "_origin": "ast",
-      "community": 22,
+      "community": 21,
       "norm_label": "context",
       "community_name": "service-worker.test.cjs",
       "id": "extensions_gemini_token_optimizer_tests_service_worker_test_context"
@@ -2990,7 +2990,7 @@
       "source_file": "extensions/gemini-token-optimizer/tests/service-worker.test.cjs",
       "source_location": "L28",
       "_origin": "ast",
-      "community": 22,
+      "community": 21,
       "norm_label": "platformscode",
       "community_name": "service-worker.test.cjs",
       "id": "extensions_gemini_token_optimizer_tests_service_worker_test_platformscode"
@@ -3001,7 +3001,7 @@
       "source_file": "extensions/gemini-token-optimizer/tests/service-worker.test.cjs",
       "source_location": "L29",
       "_origin": "ast",
-      "community": 22,
+      "community": 21,
       "norm_label": "serviceworkercode",
       "community_name": "service-worker.test.cjs",
       "id": "extensions_gemini_token_optimizer_tests_service_worker_test_serviceworkercode"
@@ -3012,7 +3012,7 @@
       "source_file": "extensions/gemini-token-optimizer/tests/sidepanel-logic.test.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 18,
+      "community": 17,
       "norm_label": "sidepanel-logic.test.cjs",
       "community_name": "sidepanel-logic.test.cjs",
       "id": "extensions_gemini_token_optimizer_tests_sidepanel_logic_test"
@@ -3023,7 +3023,7 @@
       "source_file": "extensions/gemini-token-optimizer/tests/sidepanel-logic.test.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 18,
+      "community": 17,
       "norm_label": "assert",
       "community_name": "sidepanel-logic.test.cjs",
       "id": "extensions_gemini_token_optimizer_tests_sidepanel_logic_test_assert"
@@ -3034,7 +3034,7 @@
       "source_file": "extensions/gemini-token-optimizer/tests/sidepanel-logic.test.cjs",
       "source_location": "L2",
       "_origin": "ast",
-      "community": 18,
+      "community": 17,
       "norm_label": "fs",
       "community_name": "sidepanel-logic.test.cjs",
       "id": "extensions_gemini_token_optimizer_tests_sidepanel_logic_test_fs"
@@ -3045,7 +3045,7 @@
       "source_file": "extensions/gemini-token-optimizer/tests/sidepanel-logic.test.cjs",
       "source_location": "L3",
       "_origin": "ast",
-      "community": 18,
+      "community": 17,
       "norm_label": "path",
       "community_name": "sidepanel-logic.test.cjs",
       "id": "extensions_gemini_token_optimizer_tests_sidepanel_logic_test_path"
@@ -3056,7 +3056,7 @@
       "source_file": "extensions/gemini-token-optimizer/tests/sidepanel-logic.test.cjs",
       "source_location": "L4",
       "_origin": "ast",
-      "community": 18,
+      "community": 17,
       "norm_label": "vm",
       "community_name": "sidepanel-logic.test.cjs",
       "id": "extensions_gemini_token_optimizer_tests_sidepanel_logic_test_vm"
@@ -3067,7 +3067,7 @@
       "source_file": "extensions/gemini-token-optimizer/tests/sidepanel-logic.test.cjs",
       "source_location": "L6",
       "_origin": "ast",
-      "community": 18,
+      "community": 17,
       "norm_label": "extensiondir",
       "community_name": "sidepanel-logic.test.cjs",
       "id": "extensions_gemini_token_optimizer_tests_sidepanel_logic_test_extensiondir"
@@ -3078,7 +3078,7 @@
       "source_file": "extensions/gemini-token-optimizer/tests/sidepanel-logic.test.cjs",
       "source_location": "L7",
       "_origin": "ast",
-      "community": 18,
+      "community": 17,
       "norm_label": "elements",
       "community_name": "sidepanel-logic.test.cjs",
       "id": "extensions_gemini_token_optimizer_tests_sidepanel_logic_test_elements"
@@ -3089,7 +3089,7 @@
       "source_file": "extensions/gemini-token-optimizer/tests/sidepanel-logic.test.cjs",
       "source_location": "L9",
       "_origin": "ast",
-      "community": 18,
+      "community": 17,
       "norm_label": "element()",
       "community_name": "sidepanel-logic.test.cjs",
       "id": "extensions_gemini_token_optimizer_tests_sidepanel_logic_test_element"
@@ -3100,7 +3100,7 @@
       "source_file": "extensions/gemini-token-optimizer/tests/sidepanel-logic.test.cjs",
       "source_location": "L27",
       "_origin": "ast",
-      "community": 18,
+      "community": 17,
       "norm_label": "preparedresponse",
       "community_name": "sidepanel-logic.test.cjs",
       "id": "extensions_gemini_token_optimizer_tests_sidepanel_logic_test_preparedresponse"
@@ -3111,7 +3111,7 @@
       "source_file": "extensions/gemini-token-optimizer/tests/sidepanel-logic.test.cjs",
       "source_location": "L39",
       "_origin": "ast",
-      "community": 18,
+      "community": 17,
       "norm_label": "context",
       "community_name": "sidepanel-logic.test.cjs",
       "id": "extensions_gemini_token_optimizer_tests_sidepanel_logic_test_context"
@@ -3122,7 +3122,7 @@
       "source_file": "extensions/gemini-token-optimizer/tests/sidepanel-logic.test.cjs",
       "source_location": "L60",
       "_origin": "ast",
-      "community": 18,
+      "community": 17,
       "norm_label": "platformscode",
       "community_name": "sidepanel-logic.test.cjs",
       "id": "extensions_gemini_token_optimizer_tests_sidepanel_logic_test_platformscode"
@@ -3133,7 +3133,7 @@
       "source_file": "extensions/gemini-token-optimizer/tests/sidepanel-logic.test.cjs",
       "source_location": "L61",
       "_origin": "ast",
-      "community": 18,
+      "community": 17,
       "norm_label": "sidepanelcode",
       "community_name": "sidepanel-logic.test.cjs",
       "id": "extensions_gemini_token_optimizer_tests_sidepanel_logic_test_sidepanelcode"
@@ -3144,7 +3144,7 @@
       "source_file": "core/contracts.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "contracts.cjs",
       "community_name": "request-guard.cjs",
       "id": "core_contracts"
@@ -3155,7 +3155,7 @@
       "source_file": "core/contracts.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "{ z }",
       "community_name": "request-guard.cjs",
       "id": "core_contracts_z"
@@ -3166,7 +3166,7 @@
       "source_file": "core/contracts.cjs",
       "source_location": "L3",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "{ redactsensitivetext }",
       "community_name": "request-guard.cjs",
       "id": "core_contracts_redactsensitivetext"
@@ -3177,7 +3177,7 @@
       "source_file": "core/contracts.cjs",
       "source_location": "L5",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "compactstring()",
       "community_name": "request-guard.cjs",
       "id": "core_contracts_compactstring"
@@ -3188,7 +3188,7 @@
       "source_file": "core/contracts.cjs",
       "source_location": "L6",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "compactlist()",
       "community_name": "request-guard.cjs",
       "id": "core_contracts_compactlist"
@@ -3199,7 +3199,7 @@
       "source_file": "core/contracts.cjs",
       "source_location": "L8",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "handoffcontractschema",
       "community_name": "request-guard.cjs",
       "id": "core_contracts_handoffcontractschema"
@@ -3210,7 +3210,7 @@
       "source_file": "core/contracts.cjs",
       "source_location": "L26",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "parsejsonobject()",
       "community_name": "request-guard.cjs",
       "id": "core_contracts_parsejsonobject"
@@ -3221,7 +3221,7 @@
       "source_file": "core/contracts.cjs",
       "source_location": "L45",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "canonicalcontract()",
       "community_name": "request-guard.cjs",
       "id": "core_contracts_canonicalcontract"
@@ -3232,7 +3232,7 @@
       "source_file": "core/contracts.cjs",
       "source_location": "L69",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "validatehandoffcontract()",
       "community_name": "request-guard.cjs",
       "id": "core_contracts_validatehandoffcontract"
@@ -3243,7 +3243,7 @@
       "source_file": "core/prompts.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 23,
+      "community": 22,
       "norm_label": "prompts.cjs",
       "community_name": "prompts.cjs",
       "id": "core_prompts"
@@ -3254,7 +3254,7 @@
       "source_file": "core/prompts.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 23,
+      "community": 22,
       "norm_label": "builda2acontractprompt()",
       "community_name": "prompts.cjs",
       "id": "core_prompts_builda2acontractprompt"
@@ -3265,7 +3265,7 @@
       "source_file": "core/prompts.cjs",
       "source_location": "L19",
       "_origin": "ast",
-      "community": 23,
+      "community": 22,
       "norm_label": "builda2aexecutorprompt()",
       "community_name": "prompts.cjs",
       "id": "core_prompts_builda2aexecutorprompt"
@@ -3276,7 +3276,7 @@
       "source_file": "core/prompts.cjs",
       "source_location": "L34",
       "_origin": "ast",
-      "community": 23,
+      "community": 22,
       "norm_label": "builda2averifierprompt()",
       "community_name": "prompts.cjs",
       "id": "core_prompts_builda2averifierprompt"
@@ -3287,7 +3287,7 @@
       "source_file": "core/prompts.cjs",
       "source_location": "L52",
       "_origin": "ast",
-      "community": 23,
+      "community": 22,
       "norm_label": "buildoptimizerprompt()",
       "community_name": "prompts.cjs",
       "id": "core_prompts_buildoptimizerprompt"
@@ -3298,7 +3298,7 @@
       "source_file": "core/prompts.cjs",
       "source_location": "L77",
       "_origin": "ast",
-      "community": 23,
+      "community": 22,
       "norm_label": "scaffoldhints()",
       "community_name": "prompts.cjs",
       "id": "core_prompts_scaffoldhints"
@@ -3309,7 +3309,7 @@
       "source_file": "core/prompts.cjs",
       "source_location": "L87",
       "_origin": "ast",
-      "community": 23,
+      "community": 22,
       "norm_label": "buildexecutorprompt()",
       "community_name": "prompts.cjs",
       "id": "core_prompts_buildexecutorprompt"
@@ -3320,7 +3320,7 @@
       "source_file": "core/prompts.cjs",
       "source_location": "L102",
       "_origin": "ast",
-      "community": 23,
+      "community": 22,
       "norm_label": "buildverifierprompt()",
       "community_name": "prompts.cjs",
       "id": "core_prompts_buildverifierprompt"
@@ -3331,7 +3331,7 @@
       "source_file": "core/prompts.cjs",
       "source_location": "L119",
       "_origin": "ast",
-      "community": 23,
+      "community": 22,
       "norm_label": "builddirectexecutorprompt()",
       "community_name": "prompts.cjs",
       "id": "core_prompts_builddirectexecutorprompt"
@@ -3342,7 +3342,7 @@
       "source_file": "api/provider-status.js",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 37,
+      "community": 33,
       "norm_label": "provider-status.js",
       "community_name": "provider-status.js",
       "id": "api_provider_status"
@@ -3353,7 +3353,7 @@
       "source_file": "api/provider-status.js",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 37,
+      "community": 33,
       "norm_label": "{ providerstatus }",
       "community_name": "provider-status.js",
       "id": "api_provider_status_providerstatus"
@@ -3364,7 +3364,7 @@
       "source_file": "api/provider-status.js",
       "source_location": "L2",
       "_origin": "ast",
-      "community": 37,
+      "community": 33,
       "norm_label": "{ commonheaders }",
       "community_name": "provider-status.js",
       "id": "api_provider_status_commonheaders"
@@ -3375,7 +3375,7 @@
       "source_file": "api/prepare-handoff.js",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "prepare-handoff.js",
       "community_name": "request-guard.cjs",
       "id": "api_prepare_handoff"
@@ -3386,7 +3386,7 @@
       "source_file": "api/prepare-handoff.js",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "{ prepareportablehandoff }",
       "community_name": "request-guard.cjs",
       "id": "api_prepare_handoff_prepareportablehandoff"
@@ -3397,7 +3397,7 @@
       "source_file": "api/prepare-handoff.js",
       "source_location": "L2",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "{\n  commonheaders,\n  publicerror,\n  takeratelimit,\n  validateoptimizerpayload\n}",
       "community_name": "request-guard.cjs",
       "id": "api_prepare_handoff_commonheaders_publicerror_takeratelimit_validateoptimizerpayload"
@@ -3408,7 +3408,7 @@
       "source_file": "core/security.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "security.cjs",
       "community_name": "request-guard.cjs",
       "id": "core_security"
@@ -3419,7 +3419,7 @@
       "source_file": "core/security.cjs",
       "source_location": "L2",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "net",
       "community_name": "request-guard.cjs",
       "id": "core_security_net"
@@ -3430,7 +3430,7 @@
       "source_file": "core/security.cjs",
       "source_location": "L4",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "secret_patterns",
       "community_name": "request-guard.cjs",
       "id": "core_security_secret_patterns"
@@ -3441,7 +3441,7 @@
       "source_file": "core/security.cjs",
       "source_location": "L18",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "redactsensitivetext()",
       "community_name": "request-guard.cjs",
       "id": "core_security_redactsensitivetext"
@@ -3452,7 +3452,7 @@
       "source_file": "core/security.cjs",
       "source_location": "L35",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "safeerrormessage()",
       "community_name": "request-guard.cjs",
       "id": "core_security_safeerrormessage"
@@ -3463,7 +3463,7 @@
       "source_file": "core/security.cjs",
       "source_location": "L41",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "privateendpointsallowed()",
       "community_name": "request-guard.cjs",
       "id": "core_security_privateendpointsallowed"
@@ -3474,7 +3474,7 @@
       "source_file": "core/security.cjs",
       "source_location": "L45",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "parseipv4()",
       "community_name": "request-guard.cjs",
       "id": "core_security_parseipv4"
@@ -3485,7 +3485,7 @@
       "source_file": "core/security.cjs",
       "source_location": "L51",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "ispublicipv4()",
       "community_name": "request-guard.cjs",
       "id": "core_security_ispublicipv4"
@@ -3496,7 +3496,7 @@
       "source_file": "core/security.cjs",
       "source_location": "L68",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "parseipv6()",
       "community_name": "request-guard.cjs",
       "id": "core_security_parseipv6"
@@ -3507,7 +3507,7 @@
       "source_file": "core/security.cjs",
       "source_location": "L87",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "matchesipv6prefix()",
       "community_name": "request-guard.cjs",
       "id": "core_security_matchesipv6prefix"
@@ -3518,7 +3518,7 @@
       "source_file": "core/security.cjs",
       "source_location": "L92",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "ispublicipv6()",
       "community_name": "request-guard.cjs",
       "id": "core_security_ispublicipv6"
@@ -3529,7 +3529,7 @@
       "source_file": "core/security.cjs",
       "source_location": "L110",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "ispublicipaddress()",
       "community_name": "request-guard.cjs",
       "id": "core_security_ispublicipaddress"
@@ -3540,7 +3540,7 @@
       "source_file": "core/security.cjs",
       "source_location": "L117",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "assertsafeproviderendpoint()",
       "community_name": "request-guard.cjs",
       "id": "core_security_assertsafeproviderendpoint"
@@ -3551,7 +3551,7 @@
       "source_file": "core/security.cjs",
       "source_location": "L146",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "resolvesafeproviderendpoint()",
       "community_name": "request-guard.cjs",
       "id": "core_security_resolvesafeproviderendpoint"
@@ -3562,7 +3562,7 @@
       "source_file": "request-guard.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "request-guard.cjs",
       "community_name": "request-guard.cjs",
       "id": "request_guard"
@@ -3573,7 +3573,7 @@
       "source_file": "request-guard.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "{ z }",
       "community_name": "request-guard.cjs",
       "id": "request_guard_z"
@@ -3584,7 +3584,7 @@
       "source_file": "request-guard.cjs",
       "source_location": "L2",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "net",
       "community_name": "request-guard.cjs",
       "id": "request_guard_net"
@@ -3595,7 +3595,7 @@
       "source_file": "request-guard.cjs",
       "source_location": "L3",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "{ safeerrormessage }",
       "community_name": "request-guard.cjs",
       "id": "request_guard_safeerrormessage"
@@ -3606,7 +3606,7 @@
       "source_file": "request-guard.cjs",
       "source_location": "L5",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "boundedinteger()",
       "community_name": "request-guard.cjs",
       "id": "request_guard_boundedinteger"
@@ -3617,7 +3617,7 @@
       "source_file": "request-guard.cjs",
       "source_location": "L11",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "max_input_chars",
       "community_name": "request-guard.cjs",
       "id": "request_guard_max_input_chars"
@@ -3628,7 +3628,7 @@
       "source_file": "request-guard.cjs",
       "source_location": "L12",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "rate_profiles",
       "community_name": "request-guard.cjs",
       "id": "request_guard_rate_profiles"
@@ -3639,7 +3639,7 @@
       "source_file": "request-guard.cjs",
       "source_location": "L22",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "buckets",
       "community_name": "request-guard.cjs",
       "id": "request_guard_buckets"
@@ -3650,7 +3650,7 @@
       "source_file": "request-guard.cjs",
       "source_location": "L24",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "requiredstring()",
       "community_name": "request-guard.cjs",
       "id": "request_guard_requiredstring"
@@ -3661,7 +3661,7 @@
       "source_file": "request-guard.cjs",
       "source_location": "L28",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "providerconfigschema",
       "community_name": "request-guard.cjs",
       "id": "request_guard_providerconfigschema"
@@ -3672,7 +3672,7 @@
       "source_file": "request-guard.cjs",
       "source_location": "L36",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "optimizerpayloadschema",
       "community_name": "request-guard.cjs",
       "id": "request_guard_optimizerpayloadschema"
@@ -3683,7 +3683,7 @@
       "source_file": "request-guard.cjs",
       "source_location": "L51",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "a2apayloadschema",
       "community_name": "request-guard.cjs",
       "id": "request_guard_a2apayloadschema"
@@ -3694,7 +3694,7 @@
       "source_file": "request-guard.cjs",
       "source_location": "L60",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "generatepayloadschema",
       "community_name": "request-guard.cjs",
       "id": "request_guard_generatepayloadschema"
@@ -3705,7 +3705,7 @@
       "source_file": "request-guard.cjs",
       "source_location": "L65",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "normalizedip()",
       "community_name": "request-guard.cjs",
       "id": "request_guard_normalizedip"
@@ -3716,7 +3716,7 @@
       "source_file": "request-guard.cjs",
       "source_location": "L75",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "clientkey()",
       "community_name": "request-guard.cjs",
       "id": "request_guard_clientkey"
@@ -3727,7 +3727,7 @@
       "source_file": "request-guard.cjs",
       "source_location": "L81",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "takeratelimit()",
       "community_name": "request-guard.cjs",
       "id": "request_guard_takeratelimit"
@@ -3738,7 +3738,7 @@
       "source_file": "request-guard.cjs",
       "source_location": "L109",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "validateoptimizerpayload()",
       "community_name": "request-guard.cjs",
       "id": "request_guard_validateoptimizerpayload"
@@ -3749,7 +3749,7 @@
       "source_file": "request-guard.cjs",
       "source_location": "L118",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "validatewith()",
       "community_name": "request-guard.cjs",
       "id": "request_guard_validatewith"
@@ -3760,7 +3760,7 @@
       "source_file": "request-guard.cjs",
       "source_location": "L124",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "validatea2apayload()",
       "community_name": "request-guard.cjs",
       "id": "request_guard_validatea2apayload"
@@ -3771,7 +3771,7 @@
       "source_file": "request-guard.cjs",
       "source_location": "L128",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "validategeneratepayload()",
       "community_name": "request-guard.cjs",
       "id": "request_guard_validategeneratepayload"
@@ -3782,7 +3782,7 @@
       "source_file": "request-guard.cjs",
       "source_location": "L132",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "publicerror()",
       "community_name": "request-guard.cjs",
       "id": "request_guard_publicerror"
@@ -3793,7 +3793,7 @@
       "source_file": "request-guard.cjs",
       "source_location": "L140",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "abortsignalonclose()",
       "community_name": "request-guard.cjs",
       "id": "request_guard_abortsignalonclose"
@@ -3804,7 +3804,7 @@
       "source_file": "request-guard.cjs",
       "source_location": "L148",
       "_origin": "ast",
-      "community": 0,
+      "community": 1,
       "norm_label": "commonheaders()",
       "community_name": "request-guard.cjs",
       "id": "request_guard_commonheaders"
@@ -3815,7 +3815,7 @@
       "source_file": "tests/frontend-static.test.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 25,
+      "community": 24,
       "norm_label": "frontend-static.test.cjs",
       "community_name": "frontend-static.test.cjs",
       "id": "tests_frontend_static_test"
@@ -3826,7 +3826,7 @@
       "source_file": "tests/frontend-static.test.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 25,
+      "community": 24,
       "norm_label": "assert",
       "community_name": "frontend-static.test.cjs",
       "id": "tests_frontend_static_test_assert"
@@ -3837,7 +3837,7 @@
       "source_file": "tests/frontend-static.test.cjs",
       "source_location": "L2",
       "_origin": "ast",
-      "community": 25,
+      "community": 24,
       "norm_label": "fs",
       "community_name": "frontend-static.test.cjs",
       "id": "tests_frontend_static_test_fs"
@@ -3848,7 +3848,7 @@
       "source_file": "tests/frontend-static.test.cjs",
       "source_location": "L3",
       "_origin": "ast",
-      "community": 25,
+      "community": 24,
       "norm_label": "path",
       "community_name": "frontend-static.test.cjs",
       "id": "tests_frontend_static_test_path"
@@ -3859,7 +3859,7 @@
       "source_file": "tests/frontend-static.test.cjs",
       "source_location": "L4",
       "_origin": "ast",
-      "community": 25,
+      "community": 24,
       "norm_label": "vm",
       "community_name": "frontend-static.test.cjs",
       "id": "tests_frontend_static_test_vm"
@@ -3870,7 +3870,7 @@
       "source_file": "tests/frontend-static.test.cjs",
       "source_location": "L6",
       "_origin": "ast",
-      "community": 25,
+      "community": 24,
       "norm_label": "outputsdir",
       "community_name": "frontend-static.test.cjs",
       "id": "tests_frontend_static_test_outputsdir"
@@ -3881,7 +3881,7 @@
       "source_file": "tests/frontend-static.test.cjs",
       "source_location": "L7",
       "_origin": "ast",
-      "community": 25,
+      "community": 24,
       "norm_label": "privacysource",
       "community_name": "frontend-static.test.cjs",
       "id": "tests_frontend_static_test_privacysource"
@@ -3892,7 +3892,7 @@
       "source_file": "tests/frontend-static.test.cjs",
       "source_location": "L8",
       "_origin": "ast",
-      "community": 25,
+      "community": 24,
       "norm_label": "retiredgenerator",
       "community_name": "frontend-static.test.cjs",
       "id": "tests_frontend_static_test_retiredgenerator"
@@ -3903,7 +3903,7 @@
       "source_file": "tests/frontend-static.test.cjs",
       "source_location": "L15",
       "_origin": "ast",
-      "community": 25,
+      "community": 24,
       "norm_label": "htmlfiles",
       "community_name": "frontend-static.test.cjs",
       "id": "tests_frontend_static_test_htmlfiles"
@@ -4684,9 +4684,9 @@
       "source_file": "api/a2a-run.js",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 12,
+      "community": 0,
       "norm_label": "a2a-run.js",
-      "community_name": "optimizer-core.cjs",
+      "community_name": "providers.cjs",
       "id": "api_a2a_run"
     },
     {
@@ -4695,9 +4695,9 @@
       "source_file": "api/a2a-run.js",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 12,
+      "community": 0,
       "norm_label": "{ runblanka2akit }",
-      "community_name": "optimizer-core.cjs",
+      "community_name": "providers.cjs",
       "id": "api_a2a_run_runblanka2akit"
     },
     {
@@ -4706,9 +4706,9 @@
       "source_file": "api/a2a-run.js",
       "source_location": "L2",
       "_origin": "ast",
-      "community": 12,
+      "community": 0,
       "norm_label": "{\n  abortsignalonclose,\n  commonheaders,\n  publicerror,\n  takeratelimit,\n  validatea2apayload\n}",
-      "community_name": "optimizer-core.cjs",
+      "community_name": "providers.cjs",
       "id": "api_a2a_run_abortsignalonclose_commonheaders_publicerror_takeratelimit_validatea2apayload"
     },
     {
@@ -4717,9 +4717,9 @@
       "source_file": "api/generate.js",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 36,
+      "community": 0,
       "norm_label": "generate.js",
-      "community_name": "generate.js",
+      "community_name": "providers.cjs",
       "id": "api_generate"
     },
     {
@@ -4728,9 +4728,9 @@
       "source_file": "api/generate.js",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 36,
+      "community": 0,
       "norm_label": "{ callchatcompletion, createtraceid, generatewithfallback }",
-      "community_name": "generate.js",
+      "community_name": "providers.cjs",
       "id": "api_generate_callchatcompletion_createtraceid_generatewithfallback"
     },
     {
@@ -4739,9 +4739,9 @@
       "source_file": "api/generate.js",
       "source_location": "L2",
       "_origin": "ast",
-      "community": 36,
+      "community": 0,
       "norm_label": "{\n  abortsignalonclose,\n  commonheaders,\n  publicerror,\n  takeratelimit,\n  validategeneratepayload\n}",
-      "community_name": "generate.js",
+      "community_name": "providers.cjs",
       "id": "api_generate_abortsignalonclose_commonheaders_publicerror_takeratelimit_validategeneratepayload"
     },
     {
@@ -4750,9 +4750,9 @@
       "source_file": "api/optimize-run.js",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 12,
+      "community": 0,
       "norm_label": "optimize-run.js",
-      "community_name": "optimizer-core.cjs",
+      "community_name": "providers.cjs",
       "id": "api_optimize_run"
     },
     {
@@ -4761,9 +4761,9 @@
       "source_file": "api/optimize-run.js",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 12,
+      "community": 0,
       "norm_label": "{ runselfoptimizingworkflow }",
-      "community_name": "optimizer-core.cjs",
+      "community_name": "providers.cjs",
       "id": "api_optimize_run_runselfoptimizingworkflow"
     },
     {
@@ -4772,9 +4772,9 @@
       "source_file": "api/optimize-run.js",
       "source_location": "L2",
       "_origin": "ast",
-      "community": 12,
+      "community": 0,
       "norm_label": "{\n  abortsignalonclose,\n  commonheaders,\n  publicerror,\n  takeratelimit,\n  validateoptimizerpayload\n}",
-      "community_name": "optimizer-core.cjs",
+      "community_name": "providers.cjs",
       "id": "api_optimize_run_abortsignalonclose_commonheaders_publicerror_takeratelimit_validateoptimizerpayload"
     },
     {
@@ -4783,9 +4783,9 @@
       "source_file": "api/optimize-stream.js",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 32,
+      "community": 0,
       "norm_label": "optimize-stream.js",
-      "community_name": "optimize-stream.js",
+      "community_name": "providers.cjs",
       "id": "api_optimize_stream"
     },
     {
@@ -4794,9 +4794,9 @@
       "source_file": "api/optimize-stream.js",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 32,
+      "community": 0,
       "norm_label": "{ createtraceid, runselfoptimizingworkflow }",
-      "community_name": "optimize-stream.js",
+      "community_name": "providers.cjs",
       "id": "api_optimize_stream_createtraceid_runselfoptimizingworkflow"
     },
     {
@@ -4805,9 +4805,9 @@
       "source_file": "api/optimize-stream.js",
       "source_location": "L2",
       "_origin": "ast",
-      "community": 32,
+      "community": 0,
       "norm_label": "{\n  abortsignalonclose,\n  commonheaders,\n  publicerror,\n  takeratelimit,\n  validateoptimizerpayload\n}",
-      "community_name": "optimize-stream.js",
+      "community_name": "providers.cjs",
       "id": "api_optimize_stream_abortsignalonclose_commonheaders_publicerror_takeratelimit_validateoptimizerpayload"
     },
     {
@@ -4816,9 +4816,9 @@
       "source_file": "api/optimize-stream.js",
       "source_location": "L10",
       "_origin": "ast",
-      "community": 32,
+      "community": 0,
       "norm_label": "writeevent()",
-      "community_name": "optimize-stream.js",
+      "community_name": "providers.cjs",
       "id": "api_optimize_stream_writeevent"
     },
     {
@@ -4827,9 +4827,9 @@
       "source_file": "api/optimize-stream.js",
       "source_location": "L66",
       "_origin": "ast",
-      "community": 32,
+      "community": 0,
       "norm_label": "onevent()",
-      "community_name": "optimize-stream.js",
+      "community_name": "providers.cjs",
       "id": "api_optimize_stream_onevent"
     },
     {
@@ -4838,9 +4838,9 @@
       "source_file": "api/system-overview.js",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 12,
+      "community": 13,
       "norm_label": "system-overview.js",
-      "community_name": "optimizer-core.cjs",
+      "community_name": "optimizer-system.cjs",
       "id": "api_system_overview"
     },
     {
@@ -4849,9 +4849,9 @@
       "source_file": "api/system-overview.js",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 12,
+      "community": 13,
       "norm_label": "{ system_architecture }",
-      "community_name": "optimizer-core.cjs",
+      "community_name": "optimizer-system.cjs",
       "id": "api_system_overview_system_architecture"
     },
     {
@@ -4860,9 +4860,9 @@
       "source_file": "api/system-overview.js",
       "source_location": "L2",
       "_origin": "ast",
-      "community": 12,
+      "community": 13,
       "norm_label": "{ telemetrysummary }",
-      "community_name": "optimizer-core.cjs",
+      "community_name": "optimizer-system.cjs",
       "id": "api_system_overview_telemetrysummary"
     },
     {
@@ -4871,9 +4871,9 @@
       "source_file": "api/system-overview.js",
       "source_location": "L3",
       "_origin": "ast",
-      "community": 12,
+      "community": 13,
       "norm_label": "{ commonheaders }",
-      "community_name": "optimizer-core.cjs",
+      "community_name": "optimizer-system.cjs",
       "id": "api_system_overview_commonheaders"
     },
     {
@@ -4915,9 +4915,9 @@
       "source_file": "api/workflow-run.js",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 38,
+      "community": 0,
       "norm_label": "workflow-run.js",
-      "community_name": "workflow-run.js",
+      "community_name": "providers.cjs",
       "id": "api_workflow_run"
     },
     {
@@ -4926,9 +4926,9 @@
       "source_file": "api/workflow-run.js",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 38,
+      "community": 0,
       "norm_label": "{ runblanka2akit }",
-      "community_name": "workflow-run.js",
+      "community_name": "providers.cjs",
       "id": "api_workflow_run_runblanka2akit"
     },
     {
@@ -4937,9 +4937,9 @@
       "source_file": "api/workflow-run.js",
       "source_location": "L2",
       "_origin": "ast",
-      "community": 38,
+      "community": 0,
       "norm_label": "{\n  abortsignalonclose,\n  commonheaders,\n  publicerror,\n  takeratelimit,\n  validatea2apayload\n}",
-      "community_name": "workflow-run.js",
+      "community_name": "providers.cjs",
       "id": "api_workflow_run_abortsignalonclose_commonheaders_publicerror_takeratelimit_validatea2apayload"
     },
     {
@@ -4948,7 +4948,7 @@
       "source_file": "core/providers.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 15,
+      "community": 0,
       "norm_label": "providers.cjs",
       "community_name": "providers.cjs",
       "id": "core_providers"
@@ -4959,7 +4959,7 @@
       "source_file": "core/providers.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 15,
+      "community": 0,
       "norm_label": "http",
       "community_name": "providers.cjs",
       "id": "core_providers_http"
@@ -4970,7 +4970,7 @@
       "source_file": "core/providers.cjs",
       "source_location": "L2",
       "_origin": "ast",
-      "community": 15,
+      "community": 0,
       "norm_label": "https",
       "community_name": "providers.cjs",
       "id": "core_providers_https"
@@ -4981,7 +4981,7 @@
       "source_file": "core/providers.cjs",
       "source_location": "L4",
       "_origin": "ast",
-      "community": 15,
+      "community": 0,
       "norm_label": "{ estimatetokens, modelcost, normalizeusage }",
       "community_name": "providers.cjs",
       "id": "core_providers_estimatetokens_modelcost_normalizeusage"
@@ -4992,7 +4992,7 @@
       "source_file": "core/providers.cjs",
       "source_location": "L5",
       "_origin": "ast",
-      "community": 15,
+      "community": 0,
       "norm_label": "{ resolvesafeproviderendpoint, safeerrormessage }",
       "community_name": "providers.cjs",
       "id": "core_providers_resolvesafeproviderendpoint_safeerrormessage"
@@ -5003,7 +5003,7 @@
       "source_file": "core/providers.cjs",
       "source_location": "L6",
       "_origin": "ast",
-      "community": 15,
+      "community": 0,
       "norm_label": "{ recordproviderattempt }",
       "community_name": "providers.cjs",
       "id": "core_providers_recordproviderattempt"
@@ -5014,7 +5014,7 @@
       "source_file": "core/providers.cjs",
       "source_location": "L8",
       "_origin": "ast",
-      "community": 15,
+      "community": 0,
       "norm_label": "boundednumber()",
       "community_name": "providers.cjs",
       "id": "core_providers_boundednumber"
@@ -5025,7 +5025,7 @@
       "source_file": "core/providers.cjs",
       "source_location": "L14",
       "_origin": "ast",
-      "community": 15,
+      "community": 0,
       "norm_label": "providerlimits()",
       "community_name": "providers.cjs",
       "id": "core_providers_providerlimits"
@@ -5036,7 +5036,7 @@
       "source_file": "core/providers.cjs",
       "source_location": "L21",
       "_origin": "ast",
-      "community": 15,
+      "community": 0,
       "norm_label": "createrequestsignal()",
       "community_name": "providers.cjs",
       "id": "core_providers_createrequestsignal"
@@ -5047,7 +5047,7 @@
       "source_file": "core/providers.cjs",
       "source_location": "L36",
       "_origin": "ast",
-      "community": 15,
+      "community": 0,
       "norm_label": "normalizechatcompletionurl()",
       "community_name": "providers.cjs",
       "id": "core_providers_normalizechatcompletionurl"
@@ -5058,7 +5058,7 @@
       "source_file": "core/providers.cjs",
       "source_location": "L43",
       "_origin": "ast",
-      "community": 15,
+      "community": 0,
       "norm_label": "pinnedlookup()",
       "community_name": "providers.cjs",
       "id": "core_providers_pinnedlookup"
@@ -5069,7 +5069,7 @@
       "source_file": "core/providers.cjs",
       "source_location": "L61",
       "_origin": "ast",
-      "community": 15,
+      "community": 0,
       "norm_label": "requestprovider()",
       "community_name": "providers.cjs",
       "id": "core_providers_requestprovider"
@@ -5080,9 +5080,9 @@
       "source_file": "core/providers.cjs",
       "source_location": "L114",
       "_origin": "ast",
-      "community": 16,
+      "community": 0,
       "norm_label": "resolveprovider()",
-      "community_name": "workflow.cjs",
+      "community_name": "providers.cjs",
       "id": "core_providers_resolveprovider"
     },
     {
@@ -5091,7 +5091,7 @@
       "source_file": "core/providers.cjs",
       "source_location": "L179",
       "_origin": "ast",
-      "community": 15,
+      "community": 0,
       "norm_label": "testcompletion()",
       "community_name": "providers.cjs",
       "id": "core_providers_testcompletion"
@@ -5102,7 +5102,7 @@
       "source_file": "core/providers.cjs",
       "source_location": "L252",
       "_origin": "ast",
-      "community": 15,
+      "community": 0,
       "norm_label": "executemodelcall()",
       "community_name": "providers.cjs",
       "id": "core_providers_executemodelcall"
@@ -5113,9 +5113,9 @@
       "source_file": "core/providers.cjs",
       "source_location": "L351",
       "_origin": "ast",
-      "community": 16,
+      "community": 0,
       "norm_label": "callmodel()",
-      "community_name": "workflow.cjs",
+      "community_name": "providers.cjs",
       "id": "core_providers_callmodel"
     },
     {
@@ -5124,9 +5124,9 @@
       "source_file": "core/providers.cjs",
       "source_location": "L374",
       "_origin": "ast",
-      "community": 34,
+      "community": 0,
       "norm_label": "callchatcompletion()",
-      "community_name": "callChatCompletion",
+      "community_name": "providers.cjs",
       "id": "core_providers_callchatcompletion"
     },
     {
@@ -5135,9 +5135,9 @@
       "source_file": "core/providers.cjs",
       "source_location": "L397",
       "_origin": "ast",
-      "community": 34,
+      "community": 0,
       "norm_label": "generatewithfallback()",
-      "community_name": "callChatCompletion",
+      "community_name": "providers.cjs",
       "id": "core_providers_generatewithfallback"
     },
     {
@@ -5146,9 +5146,9 @@
       "source_file": "core/providers.cjs",
       "source_location": "L441",
       "_origin": "ast",
-      "community": 34,
+      "community": 0,
       "norm_label": "fallbackattemptmessage()",
-      "community_name": "callChatCompletion",
+      "community_name": "providers.cjs",
       "id": "core_providers_fallbackattemptmessage"
     },
     {
@@ -5157,9 +5157,9 @@
       "source_file": "core/providers.cjs",
       "source_location": "L461",
       "_origin": "ast",
-      "community": 34,
+      "community": 0,
       "norm_label": "callworkflowprovider()",
-      "community_name": "callChatCompletion",
+      "community_name": "providers.cjs",
       "id": "core_providers_callworkflowprovider"
     },
     {
@@ -5168,9 +5168,9 @@
       "source_file": "core/providers.cjs",
       "source_location": "L471",
       "_origin": "ast",
-      "community": 12,
+      "community": 0,
       "norm_label": "providerstatus()",
-      "community_name": "optimizer-core.cjs",
+      "community_name": "providers.cjs",
       "id": "core_providers_providerstatus"
     },
     {
@@ -5179,9 +5179,9 @@
       "source_file": "core/workflow.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 16,
+      "community": 0,
       "norm_label": "workflow.cjs",
-      "community_name": "workflow.cjs",
+      "community_name": "providers.cjs",
       "id": "core_workflow"
     },
     {
@@ -5190,9 +5190,9 @@
       "source_file": "core/workflow.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 16,
+      "community": 0,
       "norm_label": "{ combineusage, contextcomparison, createtraceid, estimatetokens, generationrecord }",
-      "community_name": "workflow.cjs",
+      "community_name": "providers.cjs",
       "id": "core_workflow_combineusage_contextcomparison_createtraceid_estimatetokens_generationrecord"
     },
     {
@@ -5201,9 +5201,9 @@
       "source_file": "core/workflow.cjs",
       "source_location": "L2",
       "_origin": "ast",
-      "community": 16,
+      "community": 0,
       "norm_label": "{ redactsensitivetext, safeerrormessage }",
-      "community_name": "workflow.cjs",
+      "community_name": "providers.cjs",
       "id": "core_workflow_redactsensitivetext_safeerrormessage"
     },
     {
@@ -5212,9 +5212,9 @@
       "source_file": "core/workflow.cjs",
       "source_location": "L3",
       "_origin": "ast",
-      "community": 16,
+      "community": 0,
       "norm_label": "{ callmodel, callworkflowprovider, resolveprovider }",
-      "community_name": "workflow.cjs",
+      "community_name": "providers.cjs",
       "id": "core_workflow_callmodel_callworkflowprovider_resolveprovider"
     },
     {
@@ -5223,9 +5223,9 @@
       "source_file": "core/workflow.cjs",
       "source_location": "L4",
       "_origin": "ast",
-      "community": 16,
+      "community": 0,
       "norm_label": "{ analyzeworkflowshape, buildofflinecontract }",
-      "community_name": "workflow.cjs",
+      "community_name": "providers.cjs",
       "id": "core_workflow_analyzeworkflowshape_buildofflinecontract"
     },
     {
@@ -5234,9 +5234,9 @@
       "source_file": "core/workflow.cjs",
       "source_location": "L5",
       "_origin": "ast",
-      "community": 16,
+      "community": 0,
       "norm_label": "{ validatehandoffcontract }",
-      "community_name": "workflow.cjs",
+      "community_name": "providers.cjs",
       "id": "core_workflow_validatehandoffcontract"
     },
     {
@@ -5245,9 +5245,9 @@
       "source_file": "core/workflow.cjs",
       "source_location": "L6",
       "_origin": "ast",
-      "community": 16,
+      "community": 0,
       "norm_label": "{ recordworkflowrun }",
-      "community_name": "workflow.cjs",
+      "community_name": "providers.cjs",
       "id": "core_workflow_recordworkflowrun"
     },
     {
@@ -5256,9 +5256,9 @@
       "source_file": "core/workflow.cjs",
       "source_location": "L7",
       "_origin": "ast",
-      "community": 16,
+      "community": 0,
       "norm_label": "{\n  builda2acontractprompt,\n  builda2aexecutorprompt,\n  builda2averifierprompt,\n  builddirectexecutorprompt,\n  buildexecutorprompt,\n  buildoptimizerprompt,\n  buildverifierprompt\n}",
-      "community_name": "workflow.cjs",
+      "community_name": "providers.cjs",
       "id": "core_workflow_builda2acontractprompt_builda2aexecutorprompt_builda2averifierprompt_builddirectexecutorprompt_buildexecutorprompt_buildoptimizerprompt_buildverifierprompt"
     },
     {
@@ -5267,9 +5267,9 @@
       "source_file": "core/workflow.cjs",
       "source_location": "L17",
       "_origin": "ast",
-      "community": 16,
+      "community": 0,
       "norm_label": "emitworkflowevent()",
-      "community_name": "workflow.cjs",
+      "community_name": "providers.cjs",
       "id": "core_workflow_emitworkflowevent"
     },
     {
@@ -5278,9 +5278,9 @@
       "source_file": "core/workflow.cjs",
       "source_location": "L22",
       "_origin": "ast",
-      "community": 16,
+      "community": 0,
       "norm_label": "createworkflowbudget()",
-      "community_name": "workflow.cjs",
+      "community_name": "providers.cjs",
       "id": "core_workflow_createworkflowbudget"
     },
     {
@@ -5289,9 +5289,9 @@
       "source_file": "core/workflow.cjs",
       "source_location": "L41",
       "_origin": "ast",
-      "community": 16,
+      "community": 0,
       "norm_label": "buildblanka2akit()",
-      "community_name": "workflow.cjs",
+      "community_name": "providers.cjs",
       "id": "core_workflow_buildblanka2akit"
     },
     {
@@ -5300,9 +5300,9 @@
       "source_file": "core/workflow.cjs",
       "source_location": "L120",
       "_origin": "ast",
-      "community": 16,
+      "community": 0,
       "norm_label": "runblanka2akit()",
-      "community_name": "workflow.cjs",
+      "community_name": "providers.cjs",
       "id": "core_workflow_runblanka2akit"
     },
     {
@@ -5311,9 +5311,9 @@
       "source_file": "core/workflow.cjs",
       "source_location": "L331",
       "_origin": "ast",
-      "community": 16,
+      "community": 0,
       "norm_label": "runselfoptimizingworkflow()",
-      "community_name": "workflow.cjs",
+      "community_name": "providers.cjs",
       "id": "core_workflow_runselfoptimizingworkflow"
     },
     {
@@ -5322,9 +5322,9 @@
       "source_file": "optimizer-core.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 12,
+      "community": 0,
       "norm_label": "optimizer-core.cjs",
-      "community_name": "optimizer-core.cjs",
+      "community_name": "providers.cjs",
       "id": "optimizer_core"
     },
     {
@@ -5333,9 +5333,9 @@
       "source_file": "optimizer-core.cjs",
       "source_location": "L5",
       "_origin": "ast",
-      "community": 12,
+      "community": 0,
       "norm_label": "{ combineusage, createtraceid, estimatetokens }",
-      "community_name": "optimizer-core.cjs",
+      "community_name": "providers.cjs",
       "id": "optimizer_core_combineusage_createtraceid_estimatetokens"
     },
     {
@@ -5344,9 +5344,9 @@
       "source_file": "optimizer-core.cjs",
       "source_location": "L6",
       "_origin": "ast",
-      "community": 12,
+      "community": 0,
       "norm_label": "{ redactsensitivetext }",
-      "community_name": "optimizer-core.cjs",
+      "community_name": "providers.cjs",
       "id": "optimizer_core_redactsensitivetext"
     },
     {
@@ -5355,9 +5355,9 @@
       "source_file": "optimizer-core.cjs",
       "source_location": "L7",
       "_origin": "ast",
-      "community": 12,
+      "community": 0,
       "norm_label": "{ callchatcompletion, generatewithfallback, providerstatus }",
-      "community_name": "optimizer-core.cjs",
+      "community_name": "providers.cjs",
       "id": "optimizer_core_callchatcompletion_generatewithfallback_providerstatus"
     },
     {
@@ -5366,9 +5366,9 @@
       "source_file": "optimizer-core.cjs",
       "source_location": "L8",
       "_origin": "ast",
-      "community": 12,
+      "community": 0,
       "norm_label": "{ analyzeworkflowshape }",
-      "community_name": "optimizer-core.cjs",
+      "community_name": "providers.cjs",
       "id": "optimizer_core_analyzeworkflowshape"
     },
     {
@@ -5377,9 +5377,9 @@
       "source_file": "optimizer-core.cjs",
       "source_location": "L9",
       "_origin": "ast",
-      "community": 12,
+      "community": 0,
       "norm_label": "{ prepareportablehandoff }",
-      "community_name": "optimizer-core.cjs",
+      "community_name": "providers.cjs",
       "id": "optimizer_core_prepareportablehandoff"
     },
     {
@@ -5388,9 +5388,9 @@
       "source_file": "optimizer-core.cjs",
       "source_location": "L10",
       "_origin": "ast",
-      "community": 12,
+      "community": 0,
       "norm_label": "{ runblanka2akit, runselfoptimizingworkflow }",
-      "community_name": "optimizer-core.cjs",
+      "community_name": "providers.cjs",
       "id": "optimizer_core_runblanka2akit_runselfoptimizingworkflow"
     },
     {
@@ -5399,9 +5399,9 @@
       "source_file": "optimizer-core.cjs",
       "source_location": "L11",
       "_origin": "ast",
-      "community": 12,
+      "community": 13,
       "norm_label": "{ telemetrysummary }",
-      "community_name": "optimizer-core.cjs",
+      "community_name": "optimizer-system.cjs",
       "id": "optimizer_core_telemetrysummary"
     },
     {
@@ -5707,10 +5707,10 @@
       "source_file": "core/telemetry-analysis.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 1,
+      "community": 12,
       "norm_label": "telemetry-analysis.cjs",
-      "id": "core_telemetry_analysis",
-      "community_name": "telemetry-analysis.cjs"
+      "community_name": "telemetry-analysis.cjs",
+      "id": "core_telemetry_analysis"
     },
     {
       "label": "DEFAULT_ALERT_POLICY",
@@ -5718,10 +5718,10 @@
       "source_file": "core/telemetry-analysis.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 1,
+      "community": 12,
       "norm_label": "default_alert_policy",
-      "id": "core_telemetry_analysis_default_alert_policy",
-      "community_name": "telemetry-analysis.cjs"
+      "community_name": "telemetry-analysis.cjs",
+      "id": "core_telemetry_analysis_default_alert_policy"
     },
     {
       "label": "KNOWN_PROVIDERS",
@@ -5729,10 +5729,10 @@
       "source_file": "core/telemetry-analysis.cjs",
       "source_location": "L11",
       "_origin": "ast",
-      "community": 1,
+      "community": 12,
       "norm_label": "known_providers",
-      "id": "core_telemetry_analysis_known_providers",
-      "community_name": "telemetry-analysis.cjs"
+      "community_name": "telemetry-analysis.cjs",
+      "id": "core_telemetry_analysis_known_providers"
     },
     {
       "label": "KNOWN_ROUTES",
@@ -5740,10 +5740,10 @@
       "source_file": "core/telemetry-analysis.cjs",
       "source_location": "L12",
       "_origin": "ast",
-      "community": 1,
+      "community": 12,
       "norm_label": "known_routes",
-      "id": "core_telemetry_analysis_known_routes",
-      "community_name": "telemetry-analysis.cjs"
+      "community_name": "telemetry-analysis.cjs",
+      "id": "core_telemetry_analysis_known_routes"
     },
     {
       "label": "KNOWN_ENDPOINTS",
@@ -5751,10 +5751,10 @@
       "source_file": "core/telemetry-analysis.cjs",
       "source_location": "L13",
       "_origin": "ast",
-      "community": 1,
+      "community": 12,
       "norm_label": "known_endpoints",
-      "id": "core_telemetry_analysis_known_endpoints",
-      "community_name": "telemetry-analysis.cjs"
+      "community_name": "telemetry-analysis.cjs",
+      "id": "core_telemetry_analysis_known_endpoints"
     },
     {
       "label": "KNOWN_STAGES",
@@ -5762,10 +5762,10 @@
       "source_file": "core/telemetry-analysis.cjs",
       "source_location": "L22",
       "_origin": "ast",
-      "community": 1,
+      "community": 12,
       "norm_label": "known_stages",
-      "id": "core_telemetry_analysis_known_stages",
-      "community_name": "telemetry-analysis.cjs"
+      "community_name": "telemetry-analysis.cjs",
+      "id": "core_telemetry_analysis_known_stages"
     },
     {
       "label": "KNOWN_STATUSES",
@@ -5773,10 +5773,10 @@
       "source_file": "core/telemetry-analysis.cjs",
       "source_location": "L23",
       "_origin": "ast",
-      "community": 1,
+      "community": 12,
       "norm_label": "known_statuses",
-      "id": "core_telemetry_analysis_known_statuses",
-      "community_name": "telemetry-analysis.cjs"
+      "community_name": "telemetry-analysis.cjs",
+      "id": "core_telemetry_analysis_known_statuses"
     },
     {
       "label": "KNOWN_FAILURE_CODES",
@@ -5784,10 +5784,10 @@
       "source_file": "core/telemetry-analysis.cjs",
       "source_location": "L24",
       "_origin": "ast",
-      "community": 1,
+      "community": 12,
       "norm_label": "known_failure_codes",
-      "id": "core_telemetry_analysis_known_failure_codes",
-      "community_name": "telemetry-analysis.cjs"
+      "community_name": "telemetry-analysis.cjs",
+      "id": "core_telemetry_analysis_known_failure_codes"
     },
     {
       "label": "normalizedEnum()",
@@ -5795,10 +5795,10 @@
       "source_file": "core/telemetry-analysis.cjs",
       "source_location": "L36",
       "_origin": "ast",
-      "community": 1,
+      "community": 12,
       "norm_label": "normalizedenum()",
-      "id": "core_telemetry_analysis_normalizedenum",
-      "community_name": "telemetry-analysis.cjs"
+      "community_name": "telemetry-analysis.cjs",
+      "id": "core_telemetry_analysis_normalizedenum"
     },
     {
       "label": "normalizedTraceId()",
@@ -5806,10 +5806,10 @@
       "source_file": "core/telemetry-analysis.cjs",
       "source_location": "L41",
       "_origin": "ast",
-      "community": 1,
+      "community": 12,
       "norm_label": "normalizedtraceid()",
-      "id": "core_telemetry_analysis_normalizedtraceid",
-      "community_name": "telemetry-analysis.cjs"
+      "community_name": "telemetry-analysis.cjs",
+      "id": "core_telemetry_analysis_normalizedtraceid"
     },
     {
       "label": "normalizedTimestamp()",
@@ -5817,10 +5817,10 @@
       "source_file": "core/telemetry-analysis.cjs",
       "source_location": "L46",
       "_origin": "ast",
-      "community": 1,
+      "community": 12,
       "norm_label": "normalizedtimestamp()",
-      "id": "core_telemetry_analysis_normalizedtimestamp",
-      "community_name": "telemetry-analysis.cjs"
+      "community_name": "telemetry-analysis.cjs",
+      "id": "core_telemetry_analysis_normalizedtimestamp"
     },
     {
       "label": "finiteNumber()",
@@ -5828,10 +5828,10 @@
       "source_file": "core/telemetry-analysis.cjs",
       "source_location": "L52",
       "_origin": "ast",
-      "community": 1,
+      "community": 12,
       "norm_label": "finitenumber()",
-      "id": "core_telemetry_analysis_finitenumber",
-      "community_name": "telemetry-analysis.cjs"
+      "community_name": "telemetry-analysis.cjs",
+      "id": "core_telemetry_analysis_finitenumber"
     },
     {
       "label": "nonNegativeNumber()",
@@ -5839,10 +5839,10 @@
       "source_file": "core/telemetry-analysis.cjs",
       "source_location": "L57",
       "_origin": "ast",
-      "community": 1,
+      "community": 12,
       "norm_label": "nonnegativenumber()",
-      "id": "core_telemetry_analysis_nonnegativenumber",
-      "community_name": "telemetry-analysis.cjs"
+      "community_name": "telemetry-analysis.cjs",
+      "id": "core_telemetry_analysis_nonnegativenumber"
     },
     {
       "label": "optionalPositiveNumber()",
@@ -5850,10 +5850,10 @@
       "source_file": "core/telemetry-analysis.cjs",
       "source_location": "L61",
       "_origin": "ast",
-      "community": 1,
+      "community": 12,
       "norm_label": "optionalpositivenumber()",
-      "id": "core_telemetry_analysis_optionalpositivenumber",
-      "community_name": "telemetry-analysis.cjs"
+      "community_name": "telemetry-analysis.cjs",
+      "id": "core_telemetry_analysis_optionalpositivenumber"
     },
     {
       "label": "optionalNonNegativeNumber()",
@@ -5861,10 +5861,10 @@
       "source_file": "core/telemetry-analysis.cjs",
       "source_location": "L67",
       "_origin": "ast",
-      "community": 1,
+      "community": 12,
       "norm_label": "optionalnonnegativenumber()",
-      "id": "core_telemetry_analysis_optionalnonnegativenumber",
-      "community_name": "telemetry-analysis.cjs"
+      "community_name": "telemetry-analysis.cjs",
+      "id": "core_telemetry_analysis_optionalnonnegativenumber"
     },
     {
       "label": "boundedInteger()",
@@ -5872,10 +5872,10 @@
       "source_file": "core/telemetry-analysis.cjs",
       "source_location": "L73",
       "_origin": "ast",
-      "community": 1,
+      "community": 12,
       "norm_label": "boundedinteger()",
-      "id": "core_telemetry_analysis_boundedinteger",
-      "community_name": "telemetry-analysis.cjs"
+      "community_name": "telemetry-analysis.cjs",
+      "id": "core_telemetry_analysis_boundedinteger"
     },
     {
       "label": "normalizeTelemetryEvent()",
@@ -5883,10 +5883,10 @@
       "source_file": "core/telemetry-analysis.cjs",
       "source_location": "L79",
       "_origin": "ast",
-      "community": 1,
+      "community": 12,
       "norm_label": "normalizetelemetryevent()",
-      "id": "core_telemetry_analysis_normalizetelemetryevent",
-      "community_name": "telemetry-analysis.cjs"
+      "community_name": "telemetry-analysis.cjs",
+      "id": "core_telemetry_analysis_normalizetelemetryevent"
     },
     {
       "label": "thresholdPair()",
@@ -5894,10 +5894,10 @@
       "source_file": "core/telemetry-analysis.cjs",
       "source_location": "L132",
       "_origin": "ast",
-      "community": 1,
+      "community": 12,
       "norm_label": "thresholdpair()",
-      "id": "core_telemetry_analysis_thresholdpair",
-      "community_name": "telemetry-analysis.cjs"
+      "community_name": "telemetry-analysis.cjs",
+      "id": "core_telemetry_analysis_thresholdpair"
     },
     {
       "label": "telemetryAlertPolicy()",
@@ -5905,10 +5905,10 @@
       "source_file": "core/telemetry-analysis.cjs",
       "source_location": "L145",
       "_origin": "ast",
-      "community": 1,
+      "community": 12,
       "norm_label": "telemetryalertpolicy()",
-      "id": "core_telemetry_analysis_telemetryalertpolicy",
-      "community_name": "telemetry-analysis.cjs"
+      "community_name": "telemetry-analysis.cjs",
+      "id": "core_telemetry_analysis_telemetryalertpolicy"
     },
     {
       "label": "increment()",
@@ -5916,10 +5916,10 @@
       "source_file": "core/telemetry-analysis.cjs",
       "source_location": "L216",
       "_origin": "ast",
-      "community": 1,
+      "community": 12,
       "norm_label": "increment()",
-      "id": "core_telemetry_analysis_increment",
-      "community_name": "telemetry-analysis.cjs"
+      "community_name": "telemetry-analysis.cjs",
+      "id": "core_telemetry_analysis_increment"
     },
     {
       "label": "ratePercent()",
@@ -5927,10 +5927,10 @@
       "source_file": "core/telemetry-analysis.cjs",
       "source_location": "L220",
       "_origin": "ast",
-      "community": 1,
+      "community": 12,
       "norm_label": "ratepercent()",
-      "id": "core_telemetry_analysis_ratepercent",
-      "community_name": "telemetry-analysis.cjs"
+      "community_name": "telemetry-analysis.cjs",
+      "id": "core_telemetry_analysis_ratepercent"
     },
     {
       "label": "percentile()",
@@ -5938,10 +5938,10 @@
       "source_file": "core/telemetry-analysis.cjs",
       "source_location": "L225",
       "_origin": "ast",
-      "community": 1,
+      "community": 12,
       "norm_label": "percentile()",
-      "id": "core_telemetry_analysis_percentile",
-      "community_name": "telemetry-analysis.cjs"
+      "community_name": "telemetry-analysis.cjs",
+      "id": "core_telemetry_analysis_percentile"
     },
     {
       "label": "alertForMetric()",
@@ -5949,10 +5949,10 @@
       "source_file": "core/telemetry-analysis.cjs",
       "source_location": "L232",
       "_origin": "ast",
-      "community": 1,
+      "community": 12,
       "norm_label": "alertformetric()",
-      "id": "core_telemetry_analysis_alertformetric",
-      "community_name": "telemetry-analysis.cjs"
+      "community_name": "telemetry-analysis.cjs",
+      "id": "core_telemetry_analysis_alertformetric"
     },
     {
       "label": "evaluateTelemetryHealth()",
@@ -5960,10 +5960,10 @@
       "source_file": "core/telemetry-analysis.cjs",
       "source_location": "L258",
       "_origin": "ast",
-      "community": 1,
+      "community": 12,
       "norm_label": "evaluatetelemetryhealth()",
-      "id": "core_telemetry_analysis_evaluatetelemetryhealth",
-      "community_name": "telemetry-analysis.cjs"
+      "community_name": "telemetry-analysis.cjs",
+      "id": "core_telemetry_analysis_evaluatetelemetryhealth"
     },
     {
       "label": "summarizeTelemetryEvents()",
@@ -5971,10 +5971,10 @@
       "source_file": "core/telemetry-analysis.cjs",
       "source_location": "L336",
       "_origin": "ast",
-      "community": 1,
+      "community": 12,
       "norm_label": "summarizetelemetryevents()",
-      "id": "core_telemetry_analysis_summarizetelemetryevents",
-      "community_name": "telemetry-analysis.cjs"
+      "community_name": "telemetry-analysis.cjs",
+      "id": "core_telemetry_analysis_summarizetelemetryevents"
     },
     {
       "label": "telemetry.cjs",
@@ -5984,8 +5984,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "telemetry.cjs",
-      "id": "core_telemetry",
-      "community_name": "telemetry.cjs"
+      "community_name": "telemetry.cjs",
+      "id": "core_telemetry"
     },
     {
       "label": "{ summarizeTelemetryEvents }",
@@ -5995,8 +5995,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "{ summarizetelemetryevents }",
-      "id": "core_telemetry_summarizetelemetryevents",
-      "community_name": "telemetry.cjs"
+      "community_name": "telemetry.cjs",
+      "id": "core_telemetry_summarizetelemetryevents"
     },
     {
       "label": "KNOWN_ENDPOINTS",
@@ -6006,8 +6006,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "known_endpoints",
-      "id": "core_telemetry_known_endpoints",
-      "community_name": "telemetry.cjs"
+      "community_name": "telemetry.cjs",
+      "id": "core_telemetry_known_endpoints"
     },
     {
       "label": "KNOWN_PROVIDERS",
@@ -6017,8 +6017,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "known_providers",
-      "id": "core_telemetry_known_providers",
-      "community_name": "telemetry.cjs"
+      "community_name": "telemetry.cjs",
+      "id": "core_telemetry_known_providers"
     },
     {
       "label": "KNOWN_ROUTES",
@@ -6028,8 +6028,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "known_routes",
-      "id": "core_telemetry_known_routes",
-      "community_name": "telemetry.cjs"
+      "community_name": "telemetry.cjs",
+      "id": "core_telemetry_known_routes"
     },
     {
       "label": "KNOWN_STAGES",
@@ -6039,8 +6039,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "known_stages",
-      "id": "core_telemetry_known_stages",
-      "community_name": "telemetry.cjs"
+      "community_name": "telemetry.cjs",
+      "id": "core_telemetry_known_stages"
     },
     {
       "label": "KNOWN_STATUSES",
@@ -6050,8 +6050,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "known_statuses",
-      "id": "core_telemetry_known_statuses",
-      "community_name": "telemetry.cjs"
+      "community_name": "telemetry.cjs",
+      "id": "core_telemetry_known_statuses"
     },
     {
       "label": "boundedInteger()",
@@ -6061,8 +6061,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "boundedinteger()",
-      "id": "core_telemetry_boundedinteger",
-      "community_name": "telemetry.cjs"
+      "community_name": "telemetry.cjs",
+      "id": "core_telemetry_boundedinteger"
     },
     {
       "label": "flagEnabled()",
@@ -6072,8 +6072,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "flagenabled()",
-      "id": "core_telemetry_flagenabled",
-      "community_name": "telemetry.cjs"
+      "community_name": "telemetry.cjs",
+      "id": "core_telemetry_flagenabled"
     },
     {
       "label": "configuration",
@@ -6083,8 +6083,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "configuration",
-      "id": "core_telemetry_configuration",
-      "community_name": "telemetry.cjs"
+      "community_name": "telemetry.cjs",
+      "id": "core_telemetry_configuration"
     },
     {
       "label": "events",
@@ -6094,8 +6094,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "events",
-      "id": "core_telemetry_events",
-      "community_name": "telemetry.cjs"
+      "community_name": "telemetry.cjs",
+      "id": "core_telemetry_events"
     },
     {
       "label": "normalizeEnum()",
@@ -6105,8 +6105,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "normalizeenum()",
-      "id": "core_telemetry_normalizeenum",
-      "community_name": "telemetry.cjs"
+      "community_name": "telemetry.cjs",
+      "id": "core_telemetry_normalizeenum"
     },
     {
       "label": "normalizeEndpoint()",
@@ -6116,8 +6116,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "normalizeendpoint()",
-      "id": "core_telemetry_normalizeendpoint",
-      "community_name": "telemetry.cjs"
+      "community_name": "telemetry.cjs",
+      "id": "core_telemetry_normalizeendpoint"
     },
     {
       "label": "normalizeProvider()",
@@ -6127,8 +6127,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "normalizeprovider()",
-      "id": "core_telemetry_normalizeprovider",
-      "community_name": "telemetry.cjs"
+      "community_name": "telemetry.cjs",
+      "id": "core_telemetry_normalizeprovider"
     },
     {
       "label": "normalizeRoute()",
@@ -6138,8 +6138,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "normalizeroute()",
-      "id": "core_telemetry_normalizeroute",
-      "community_name": "telemetry.cjs"
+      "community_name": "telemetry.cjs",
+      "id": "core_telemetry_normalizeroute"
     },
     {
       "label": "normalizeStage()",
@@ -6149,8 +6149,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "normalizestage()",
-      "id": "core_telemetry_normalizestage",
-      "community_name": "telemetry.cjs"
+      "community_name": "telemetry.cjs",
+      "id": "core_telemetry_normalizestage"
     },
     {
       "label": "normalizeStatus()",
@@ -6160,8 +6160,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "normalizestatus()",
-      "id": "core_telemetry_normalizestatus",
-      "community_name": "telemetry.cjs"
+      "community_name": "telemetry.cjs",
+      "id": "core_telemetry_normalizestatus"
     },
     {
       "label": "normalizeTraceId()",
@@ -6171,8 +6171,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "normalizetraceid()",
-      "id": "core_telemetry_normalizetraceid",
-      "community_name": "telemetry.cjs"
+      "community_name": "telemetry.cjs",
+      "id": "core_telemetry_normalizetraceid"
     },
     {
       "label": "nonNegativeNumber()",
@@ -6182,8 +6182,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "nonnegativenumber()",
-      "id": "core_telemetry_nonnegativenumber",
-      "community_name": "telemetry.cjs"
+      "community_name": "telemetry.cjs",
+      "id": "core_telemetry_nonnegativenumber"
     },
     {
       "label": "nullableCost()",
@@ -6193,8 +6193,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "nullablecost()",
-      "id": "core_telemetry_nullablecost",
-      "community_name": "telemetry.cjs"
+      "community_name": "telemetry.cjs",
+      "id": "core_telemetry_nullablecost"
     },
     {
       "label": "classifyFailure()",
@@ -6204,8 +6204,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "classifyfailure()",
-      "id": "core_telemetry_classifyfailure",
-      "community_name": "telemetry.cjs"
+      "community_name": "telemetry.cjs",
+      "id": "core_telemetry_classifyfailure"
     },
     {
       "label": "storeEvent()",
@@ -6215,8 +6215,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "storeevent()",
-      "id": "core_telemetry_storeevent",
-      "community_name": "telemetry.cjs"
+      "community_name": "telemetry.cjs",
+      "id": "core_telemetry_storeevent"
     },
     {
       "label": "recordProviderAttempt()",
@@ -6226,8 +6226,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "recordproviderattempt()",
-      "id": "core_telemetry_recordproviderattempt",
-      "community_name": "telemetry.cjs"
+      "community_name": "telemetry.cjs",
+      "id": "core_telemetry_recordproviderattempt"
     },
     {
       "label": "recordWorkflowRun()",
@@ -6237,8 +6237,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "recordworkflowrun()",
-      "id": "core_telemetry_recordworkflowrun",
-      "community_name": "telemetry.cjs"
+      "community_name": "telemetry.cjs",
+      "id": "core_telemetry_recordworkflowrun"
     },
     {
       "label": "telemetrySummary()",
@@ -6248,8 +6248,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "telemetrysummary()",
-      "id": "core_telemetry_telemetrysummary",
-      "community_name": "telemetry.cjs"
+      "community_name": "telemetry.cjs",
+      "id": "core_telemetry_telemetrysummary"
     },
     {
       "label": "resetTelemetry()",
@@ -6259,8 +6259,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "resettelemetry()",
-      "id": "core_telemetry_resettelemetry",
-      "community_name": "telemetry.cjs"
+      "community_name": "telemetry.cjs",
+      "id": "core_telemetry_resettelemetry"
     },
     {
       "label": "optimizer-system.cjs",
@@ -6270,8 +6270,8 @@
       "_origin": "ast",
       "community": 13,
       "norm_label": "optimizer-system.cjs",
-      "id": "optimizer_system",
-      "community_name": "optimizer-system.cjs"
+      "community_name": "optimizer-system.cjs",
+      "id": "optimizer_system"
     },
     {
       "label": "{\n  estimateTokens,\n  runBlankA2AKit,\n  runSelfOptimizingWorkflow\n}",
@@ -6281,8 +6281,8 @@
       "_origin": "ast",
       "community": 13,
       "norm_label": "{\n  estimatetokens,\n  runblanka2akit,\n  runselfoptimizingworkflow\n}",
-      "id": "optimizer_system_estimatetokens_runblanka2akit_runselfoptimizingworkflow",
-      "community_name": "optimizer-system.cjs"
+      "community_name": "optimizer-system.cjs",
+      "id": "optimizer_system_estimatetokens_runblanka2akit_runselfoptimizingworkflow"
     },
     {
       "label": "SYSTEM_ARCHITECTURE",
@@ -6292,8 +6292,8 @@
       "_origin": "ast",
       "community": 13,
       "norm_label": "system_architecture",
-      "id": "optimizer_system_system_architecture",
-      "community_name": "optimizer-system.cjs"
+      "community_name": "optimizer-system.cjs",
+      "id": "optimizer_system_system_architecture"
     },
     {
       "label": "compactTitle()",
@@ -6303,8 +6303,8 @@
       "_origin": "ast",
       "community": 13,
       "norm_label": "compacttitle()",
-      "id": "optimizer_system_compacttitle",
-      "community_name": "optimizer-system.cjs"
+      "community_name": "optimizer-system.cjs",
+      "id": "optimizer_system_compacttitle"
     },
     {
       "label": "createId()",
@@ -6314,8 +6314,8 @@
       "_origin": "ast",
       "community": 13,
       "norm_label": "createid()",
-      "id": "optimizer_system_createid",
-      "community_name": "optimizer-system.cjs"
+      "community_name": "optimizer-system.cjs",
+      "id": "optimizer_system_createid"
     },
     {
       "label": "nowIso()",
@@ -6325,8 +6325,8 @@
       "_origin": "ast",
       "community": 13,
       "norm_label": "nowiso()",
-      "id": "optimizer_system_nowiso",
-      "community_name": "optimizer-system.cjs"
+      "community_name": "optimizer-system.cjs",
+      "id": "optimizer_system_nowiso"
     },
     {
       "label": "baseStages()",
@@ -6336,8 +6336,8 @@
       "_origin": "ast",
       "community": 13,
       "norm_label": "basestages()",
-      "id": "optimizer_system_basestages",
-      "community_name": "optimizer-system.cjs"
+      "community_name": "optimizer-system.cjs",
+      "id": "optimizer_system_basestages"
     },
     {
       "label": "updateStage()",
@@ -6347,8 +6347,8 @@
       "_origin": "ast",
       "community": 13,
       "norm_label": "updatestage()",
-      "id": "optimizer_system_updatestage",
-      "community_name": "optimizer-system.cjs"
+      "community_name": "optimizer-system.cjs",
+      "id": "optimizer_system_updatestage"
     },
     {
       "label": "stageFromTrace()",
@@ -6358,8 +6358,8 @@
       "_origin": "ast",
       "community": 13,
       "norm_label": "stagefromtrace()",
-      "id": "optimizer_system_stagefromtrace",
-      "community_name": "optimizer-system.cjs"
+      "community_name": "optimizer-system.cjs",
+      "id": "optimizer_system_stagefromtrace"
     },
     {
       "label": "applyResultTrace()",
@@ -6369,8 +6369,8 @@
       "_origin": "ast",
       "community": 13,
       "norm_label": "applyresulttrace()",
-      "id": "optimizer_system_applyresulttrace",
-      "community_name": "optimizer-system.cjs"
+      "community_name": "optimizer-system.cjs",
+      "id": "optimizer_system_applyresulttrace"
     },
     {
       "label": "publicRun()",
@@ -6380,8 +6380,8 @@
       "_origin": "ast",
       "community": 13,
       "norm_label": "publicrun()",
-      "id": "optimizer_system_publicrun",
-      "community_name": "optimizer-system.cjs"
+      "community_name": "optimizer-system.cjs",
+      "id": "optimizer_system_publicrun"
     },
     {
       "label": "executeSystemRun()",
@@ -6391,8 +6391,8 @@
       "_origin": "ast",
       "community": 13,
       "norm_label": "executesystemrun()",
-      "id": "optimizer_system_executesystemrun",
-      "community_name": "optimizer-system.cjs"
+      "community_name": "optimizer-system.cjs",
+      "id": "optimizer_system_executesystemrun"
     },
     {
       "label": "createRun()",
@@ -6402,8 +6402,8 @@
       "_origin": "ast",
       "community": 13,
       "norm_label": "createrun()",
-      "id": "optimizer_system_createrun",
-      "community_name": "optimizer-system.cjs"
+      "community_name": "optimizer-system.cjs",
+      "id": "optimizer_system_createrun"
     },
     {
       "label": "createOptimizerSystem()",
@@ -6413,8 +6413,8 @@
       "_origin": "ast",
       "community": 13,
       "norm_label": "createoptimizersystem()",
-      "id": "optimizer_system_createoptimizersystem",
-      "community_name": "optimizer-system.cjs"
+      "community_name": "optimizer-system.cjs",
+      "id": "optimizer_system_createoptimizersystem"
     },
     {
       "label": "runSystemRunInline()",
@@ -6424,8 +6424,8 @@
       "_origin": "ast",
       "community": 13,
       "norm_label": "runsystemruninline()",
-      "id": "optimizer_system_runsystemruninline",
-      "community_name": "optimizer-system.cjs"
+      "community_name": "optimizer-system.cjs",
+      "id": "optimizer_system_runsystemruninline"
     },
     {
       "label": "package.json",
@@ -6435,8 +6435,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "package.json",
-      "id": "package",
-      "community_name": "scripts"
+      "community_name": "scripts",
+      "id": "package"
     },
     {
       "label": "name",
@@ -6446,8 +6446,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "name",
-      "id": "package_name",
-      "community_name": "scripts"
+      "community_name": "scripts",
+      "id": "package_name"
     },
     {
       "label": "version",
@@ -6457,8 +6457,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "version",
-      "id": "package_version",
-      "community_name": "scripts"
+      "community_name": "scripts",
+      "id": "package_version"
     },
     {
       "label": "description",
@@ -6468,8 +6468,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "description",
-      "id": "package_description",
-      "community_name": "scripts"
+      "community_name": "scripts",
+      "id": "package_description"
     },
     {
       "label": "private",
@@ -6479,8 +6479,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "private",
-      "id": "package_private",
-      "community_name": "scripts"
+      "community_name": "scripts",
+      "id": "package_private"
     },
     {
       "label": "license",
@@ -6490,8 +6490,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "license",
-      "id": "package_license",
-      "community_name": "scripts"
+      "community_name": "scripts",
+      "id": "package_license"
     },
     {
       "label": "main",
@@ -6501,8 +6501,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "main",
-      "id": "package_main",
-      "community_name": "scripts"
+      "community_name": "scripts",
+      "id": "package_main"
     },
     {
       "label": "engines",
@@ -6512,8 +6512,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "engines",
-      "id": "package_engines",
-      "community_name": "scripts"
+      "community_name": "scripts",
+      "id": "package_engines"
     },
     {
       "label": "node",
@@ -6523,8 +6523,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "node",
-      "id": "package_engines_node",
-      "community_name": "scripts"
+      "community_name": "scripts",
+      "id": "package_engines_node"
     },
     {
       "label": "scripts",
@@ -6534,8 +6534,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "scripts",
-      "id": "package_scripts",
-      "community_name": "scripts"
+      "community_name": "scripts",
+      "id": "package_scripts"
     },
     {
       "label": "start",
@@ -6545,8 +6545,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "start",
-      "id": "package_scripts_start",
-      "community_name": "scripts"
+      "community_name": "scripts",
+      "id": "package_scripts_start"
     },
     {
       "label": "eval",
@@ -6556,8 +6556,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "eval",
-      "id": "package_scripts_eval",
-      "community_name": "scripts"
+      "community_name": "scripts",
+      "id": "package_scripts_eval"
     },
     {
       "label": "eval:json",
@@ -6567,8 +6567,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "eval:json",
-      "id": "package_scripts_eval_json",
-      "community_name": "scripts"
+      "community_name": "scripts",
+      "id": "package_scripts_eval_json"
     },
     {
       "label": "eval:live",
@@ -6578,8 +6578,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "eval:live",
-      "id": "package_scripts_eval_live",
-      "community_name": "scripts"
+      "community_name": "scripts",
+      "id": "package_scripts_eval_live"
     },
     {
       "label": "telemetry:report",
@@ -6589,8 +6589,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "telemetry:report",
-      "id": "package_scripts_telemetry_report",
-      "community_name": "scripts"
+      "community_name": "scripts",
+      "id": "package_scripts_telemetry_report"
     },
     {
       "label": "test",
@@ -6600,8 +6600,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "test",
-      "id": "package_scripts_test",
-      "community_name": "scripts"
+      "community_name": "scripts",
+      "id": "package_scripts_test"
     },
     {
       "label": "test:core",
@@ -6611,8 +6611,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "test:core",
-      "id": "package_scripts_test_core",
-      "community_name": "scripts"
+      "community_name": "scripts",
+      "id": "package_scripts_test_core"
     },
     {
       "label": "test:telemetry",
@@ -6622,8 +6622,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "test:telemetry",
-      "id": "package_scripts_test_telemetry",
-      "community_name": "scripts"
+      "community_name": "scripts",
+      "id": "package_scripts_test_telemetry"
     },
     {
       "label": "test:eval",
@@ -6633,8 +6633,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "test:eval",
-      "id": "package_scripts_test_eval",
-      "community_name": "scripts"
+      "community_name": "scripts",
+      "id": "package_scripts_test_eval"
     },
     {
       "label": "test:api",
@@ -6644,8 +6644,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "test:api",
-      "id": "package_scripts_test_api",
-      "community_name": "scripts"
+      "community_name": "scripts",
+      "id": "package_scripts_test_api"
     },
     {
       "label": "test:hosted",
@@ -6655,8 +6655,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "test:hosted",
-      "id": "package_scripts_test_hosted",
-      "community_name": "scripts"
+      "community_name": "scripts",
+      "id": "package_scripts_test_hosted"
     },
     {
       "label": "test:frontend",
@@ -6666,8 +6666,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "test:frontend",
-      "id": "package_scripts_test_frontend",
-      "community_name": "scripts"
+      "community_name": "scripts",
+      "id": "package_scripts_test_frontend"
     },
     {
       "label": "test:extension",
@@ -6677,8 +6677,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "test:extension",
-      "id": "package_scripts_test_extension",
-      "community_name": "scripts"
+      "community_name": "scripts",
+      "id": "package_scripts_test_extension"
     },
     {
       "label": "dependencies",
@@ -6688,8 +6688,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "dependencies",
-      "id": "package_dependencies",
-      "community_name": "scripts"
+      "community_name": "scripts",
+      "id": "package_dependencies"
     },
     {
       "label": "zod",
@@ -6699,8 +6699,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "zod",
-      "id": "package_dependencies_zod",
-      "community_name": "scripts"
+      "community_name": "scripts",
+      "id": "package_dependencies_zod"
     },
     {
       "label": "zod",
@@ -6710,8 +6710,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "zod",
-      "id": "zod",
-      "community_name": "scripts"
+      "community_name": "scripts",
+      "id": "zod"
     },
     {
       "label": "//devDependencies",
@@ -6721,8 +6721,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "//devdependencies",
-      "id": "package_devdependencies",
-      "community_name": "scripts"
+      "community_name": "scripts",
+      "id": "package_devdependencies"
     },
     {
       "label": "@tabler/icons-webfont",
@@ -6732,8 +6732,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "@tabler/icons-webfont",
-      "id": "package_devdependencies_tabler_icons_webfont",
-      "community_name": "scripts"
+      "community_name": "scripts",
+      "id": "package_devdependencies_tabler_icons_webfont"
     },
     {
       "label": "@tabler/icons-webfont",
@@ -6743,8 +6743,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "@tabler/icons-webfont",
-      "id": "tabler_icons_webfont",
-      "community_name": "scripts"
+      "community_name": "scripts",
+      "id": "tabler_icons_webfont"
     },
     {
       "label": "dompurify",
@@ -6754,8 +6754,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "dompurify",
-      "id": "package_devdependencies_dompurify",
-      "community_name": "scripts"
+      "community_name": "scripts",
+      "id": "package_devdependencies_dompurify"
     },
     {
       "label": "dompurify",
@@ -6765,8 +6765,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "dompurify",
-      "id": "dompurify",
-      "community_name": "scripts"
+      "community_name": "scripts",
+      "id": "dompurify"
     },
     {
       "label": "marked",
@@ -6776,8 +6776,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "marked",
-      "id": "package_devdependencies_marked",
-      "community_name": "scripts"
+      "community_name": "scripts",
+      "id": "package_devdependencies_marked"
     },
     {
       "label": "marked",
@@ -6787,151 +6787,8 @@
       "_origin": "ast",
       "community": 5,
       "norm_label": "marked",
-      "id": "marked",
-      "community_name": "scripts"
-    },
-    {
-      "label": "telemetry-report.cjs",
-      "file_type": "code",
-      "source_file": "scripts/telemetry-report.cjs",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "telemetry-report.cjs",
-      "id": "scripts_telemetry_report",
-      "community_name": "telemetry-analysis.cjs"
-    },
-    {
-      "label": "fs",
-      "file_type": "code",
-      "source_file": "scripts/telemetry-report.cjs",
-      "source_location": "L3",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "fs",
-      "id": "scripts_telemetry_report_fs",
-      "community_name": "telemetry-analysis.cjs"
-    },
-    {
-      "label": "{ normalizeTelemetryEvent, summarizeTelemetryEvents }",
-      "file_type": "code",
-      "source_file": "scripts/telemetry-report.cjs",
-      "source_location": "L5",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "{ normalizetelemetryevent, summarizetelemetryevents }",
-      "id": "scripts_telemetry_report_normalizetelemetryevent_summarizetelemetryevents",
-      "community_name": "telemetry-analysis.cjs"
-    },
-    {
-      "label": "EVENT_TYPES",
-      "file_type": "code",
-      "source_file": "scripts/telemetry-report.cjs",
-      "source_location": "L8",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "event_types",
-      "id": "scripts_telemetry_report_event_types",
-      "community_name": "telemetry-analysis.cjs"
-    },
-    {
-      "label": "parseJsonCandidate()",
-      "file_type": "code",
-      "source_file": "scripts/telemetry-report.cjs",
-      "source_location": "L10",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "parsejsoncandidate()",
-      "id": "scripts_telemetry_report_parsejsoncandidate",
-      "community_name": "telemetry-analysis.cjs"
-    },
-    {
-      "label": "collectTelemetryEvent()",
-      "file_type": "code",
-      "source_file": "scripts/telemetry-report.cjs",
-      "source_location": "L27",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "collecttelemetryevent()",
-      "id": "scripts_telemetry_report_collecttelemetryevent",
-      "community_name": "telemetry-analysis.cjs"
-    },
-    {
-      "label": "parseTelemetryInput()",
-      "file_type": "code",
-      "source_file": "scripts/telemetry-report.cjs",
-      "source_location": "L56",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "parsetelemetryinput()",
-      "id": "scripts_telemetry_report_parsetelemetryinput",
-      "community_name": "telemetry-analysis.cjs"
-    },
-    {
-      "label": "formatNumber()",
-      "file_type": "code",
-      "source_file": "scripts/telemetry-report.cjs",
-      "source_location": "L74",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "formatnumber()",
-      "id": "scripts_telemetry_report_formatnumber",
-      "community_name": "telemetry-analysis.cjs"
-    },
-    {
-      "label": "formatTelemetryReport()",
-      "file_type": "code",
-      "source_file": "scripts/telemetry-report.cjs",
-      "source_location": "L78",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "formattelemetryreport()",
-      "id": "scripts_telemetry_report_formattelemetryreport",
-      "community_name": "telemetry-analysis.cjs"
-    },
-    {
-      "label": "parseArguments()",
-      "file_type": "code",
-      "source_file": "scripts/telemetry-report.cjs",
-      "source_location": "L122",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "parsearguments()",
-      "id": "scripts_telemetry_report_parsearguments",
-      "community_name": "telemetry-analysis.cjs"
-    },
-    {
-      "label": "helpText()",
-      "file_type": "code",
-      "source_file": "scripts/telemetry-report.cjs",
-      "source_location": "L140",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "helptext()",
-      "id": "scripts_telemetry_report_helptext",
-      "community_name": "telemetry-analysis.cjs"
-    },
-    {
-      "label": "exitCodeForHealth()",
-      "file_type": "code",
-      "source_file": "scripts/telemetry-report.cjs",
-      "source_location": "L149",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "exitcodeforhealth()",
-      "id": "scripts_telemetry_report_exitcodeforhealth",
-      "community_name": "telemetry-analysis.cjs"
-    },
-    {
-      "label": "main()",
-      "file_type": "code",
-      "source_file": "scripts/telemetry-report.cjs",
-      "source_location": "L156",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "main()",
-      "id": "scripts_telemetry_report_main",
-      "community_name": "telemetry-analysis.cjs"
+      "community_name": "scripts",
+      "id": "marked"
     },
     {
       "label": "api-endpoints.test.cjs",
@@ -6939,10 +6796,10 @@
       "source_file": "tests/api-endpoints.test.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 19,
+      "community": 18,
       "norm_label": "api-endpoints.test.cjs",
-      "id": "tests_api_endpoints_test",
-      "community_name": "api-endpoints.test.cjs"
+      "community_name": "api-endpoints.test.cjs",
+      "id": "tests_api_endpoints_test"
     },
     {
       "label": "assert",
@@ -6950,10 +6807,10 @@
       "source_file": "tests/api-endpoints.test.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 19,
+      "community": 18,
       "norm_label": "assert",
-      "id": "tests_api_endpoints_test_assert",
-      "community_name": "api-endpoints.test.cjs"
+      "community_name": "api-endpoints.test.cjs",
+      "id": "tests_api_endpoints_test_assert"
     },
     {
       "label": "http",
@@ -6961,10 +6818,10 @@
       "source_file": "tests/api-endpoints.test.cjs",
       "source_location": "L2",
       "_origin": "ast",
-      "community": 19,
+      "community": 18,
       "norm_label": "http",
-      "id": "tests_api_endpoints_test_http",
-      "community_name": "api-endpoints.test.cjs"
+      "community_name": "api-endpoints.test.cjs",
+      "id": "tests_api_endpoints_test_http"
     },
     {
       "label": "{ spawn }",
@@ -6972,10 +6829,10 @@
       "source_file": "tests/api-endpoints.test.cjs",
       "source_location": "L3",
       "_origin": "ast",
-      "community": 19,
+      "community": 18,
       "norm_label": "{ spawn }",
-      "id": "tests_api_endpoints_test_spawn",
-      "community_name": "api-endpoints.test.cjs"
+      "community_name": "api-endpoints.test.cjs",
+      "id": "tests_api_endpoints_test_spawn"
     },
     {
       "label": "{ callModel }",
@@ -6983,10 +6840,10 @@
       "source_file": "tests/api-endpoints.test.cjs",
       "source_location": "L4",
       "_origin": "ast",
-      "community": 19,
+      "community": 18,
       "norm_label": "{ callmodel }",
-      "id": "tests_api_endpoints_test_callmodel",
-      "community_name": "api-endpoints.test.cjs"
+      "community_name": "api-endpoints.test.cjs",
+      "id": "tests_api_endpoints_test_callmodel"
     },
     {
       "label": "listen()",
@@ -6994,10 +6851,10 @@
       "source_file": "tests/api-endpoints.test.cjs",
       "source_location": "L6",
       "_origin": "ast",
-      "community": 19,
+      "community": 18,
       "norm_label": "listen()",
-      "id": "tests_api_endpoints_test_listen",
-      "community_name": "api-endpoints.test.cjs"
+      "community_name": "api-endpoints.test.cjs",
+      "id": "tests_api_endpoints_test_listen"
     },
     {
       "label": "freePort()",
@@ -7005,10 +6862,10 @@
       "source_file": "tests/api-endpoints.test.cjs",
       "source_location": "L13",
       "_origin": "ast",
-      "community": 19,
+      "community": 18,
       "norm_label": "freeport()",
-      "id": "tests_api_endpoints_test_freeport",
-      "community_name": "api-endpoints.test.cjs"
+      "community_name": "api-endpoints.test.cjs",
+      "id": "tests_api_endpoints_test_freeport"
     },
     {
       "label": "waitForServer()",
@@ -7016,10 +6873,10 @@
       "source_file": "tests/api-endpoints.test.cjs",
       "source_location": "L20",
       "_origin": "ast",
-      "community": 19,
+      "community": 18,
       "norm_label": "waitforserver()",
-      "id": "tests_api_endpoints_test_waitforserver",
-      "community_name": "api-endpoints.test.cjs"
+      "community_name": "api-endpoints.test.cjs",
+      "id": "tests_api_endpoints_test_waitforserver"
     },
     {
       "label": "jsonRequest()",
@@ -7027,10 +6884,10 @@
       "source_file": "tests/api-endpoints.test.cjs",
       "source_location": "L35",
       "_origin": "ast",
-      "community": 19,
+      "community": 18,
       "norm_label": "jsonrequest()",
-      "id": "tests_api_endpoints_test_jsonrequest",
-      "community_name": "api-endpoints.test.cjs"
+      "community_name": "api-endpoints.test.cjs",
+      "id": "tests_api_endpoints_test_jsonrequest"
     },
     {
       "label": "post()",
@@ -7038,10 +6895,10 @@
       "source_file": "tests/api-endpoints.test.cjs",
       "source_location": "L47",
       "_origin": "ast",
-      "community": 19,
+      "community": 18,
       "norm_label": "post()",
-      "id": "tests_api_endpoints_test_post",
-      "community_name": "api-endpoints.test.cjs"
+      "community_name": "api-endpoints.test.cjs",
+      "id": "tests_api_endpoints_test_post"
     },
     {
       "label": "run()",
@@ -7049,10 +6906,10 @@
       "source_file": "tests/api-endpoints.test.cjs",
       "source_location": "L55",
       "_origin": "ast",
-      "community": 19,
+      "community": 18,
       "norm_label": "run()",
-      "id": "tests_api_endpoints_test_run",
-      "community_name": "api-endpoints.test.cjs"
+      "community_name": "api-endpoints.test.cjs",
+      "id": "tests_api_endpoints_test_run"
     },
     {
       "label": "hosted-api.test.cjs",
@@ -7060,10 +6917,10 @@
       "source_file": "tests/hosted-api.test.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 14,
+      "community": 15,
       "norm_label": "hosted-api.test.cjs",
-      "id": "tests_hosted_api_test",
-      "community_name": "MockResponse"
+      "community_name": "MockResponse",
+      "id": "tests_hosted_api_test"
     },
     {
       "label": "assert",
@@ -7071,10 +6928,10 @@
       "source_file": "tests/hosted-api.test.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 14,
+      "community": 15,
       "norm_label": "assert",
-      "id": "tests_hosted_api_test_assert",
-      "community_name": "MockResponse"
+      "community_name": "MockResponse",
+      "id": "tests_hosted_api_test_assert"
     },
     {
       "label": "{ EventEmitter }",
@@ -7082,10 +6939,10 @@
       "source_file": "tests/hosted-api.test.cjs",
       "source_location": "L2",
       "_origin": "ast",
-      "community": 14,
+      "community": 15,
       "norm_label": "{ eventemitter }",
-      "id": "tests_hosted_api_test_eventemitter",
-      "community_name": "MockResponse"
+      "community_name": "MockResponse",
+      "id": "tests_hosted_api_test_eventemitter"
     },
     {
       "label": "handlers",
@@ -7093,10 +6950,10 @@
       "source_file": "tests/hosted-api.test.cjs",
       "source_location": "L7",
       "_origin": "ast",
-      "community": 14,
+      "community": 15,
       "norm_label": "handlers",
-      "id": "tests_hosted_api_test_handlers",
-      "community_name": "MockResponse"
+      "community_name": "MockResponse",
+      "id": "tests_hosted_api_test_handlers"
     },
     {
       "label": "request()",
@@ -7104,10 +6961,10 @@
       "source_file": "tests/hosted-api.test.cjs",
       "source_location": "L21",
       "_origin": "ast",
-      "community": 14,
+      "community": 15,
       "norm_label": "request()",
-      "id": "tests_hosted_api_test_request",
-      "community_name": "MockResponse"
+      "community_name": "MockResponse",
+      "id": "tests_hosted_api_test_request"
     },
     {
       "label": "MockResponse",
@@ -7115,10 +6972,10 @@
       "source_file": "tests/hosted-api.test.cjs",
       "source_location": "L31",
       "_origin": "ast",
-      "community": 14,
+      "community": 15,
       "norm_label": "mockresponse",
-      "id": "tests_hosted_api_test_mockresponse",
-      "community_name": "MockResponse"
+      "community_name": "MockResponse",
+      "id": "tests_hosted_api_test_mockresponse"
     },
     {
       "label": ".constructor()",
@@ -7126,10 +6983,10 @@
       "source_file": "tests/hosted-api.test.cjs",
       "source_location": "L32",
       "_origin": "ast",
-      "community": 14,
+      "community": 15,
       "norm_label": ".constructor()",
-      "id": "tests_hosted_api_test_mockresponse_constructor",
-      "community_name": "MockResponse"
+      "community_name": "MockResponse",
+      "id": "tests_hosted_api_test_mockresponse_constructor"
     },
     {
       "label": ".setHeader()",
@@ -7137,10 +6994,10 @@
       "source_file": "tests/hosted-api.test.cjs",
       "source_location": "L41",
       "_origin": "ast",
-      "community": 14,
+      "community": 15,
       "norm_label": ".setheader()",
-      "id": "tests_hosted_api_test_mockresponse_setheader",
-      "community_name": "MockResponse"
+      "community_name": "MockResponse",
+      "id": "tests_hosted_api_test_mockresponse_setheader"
     },
     {
       "label": ".writeHead()",
@@ -7148,10 +7005,10 @@
       "source_file": "tests/hosted-api.test.cjs",
       "source_location": "L45",
       "_origin": "ast",
-      "community": 14,
+      "community": 15,
       "norm_label": ".writehead()",
-      "id": "tests_hosted_api_test_mockresponse_writehead",
-      "community_name": "MockResponse"
+      "community_name": "MockResponse",
+      "id": "tests_hosted_api_test_mockresponse_writehead"
     },
     {
       "label": ".status()",
@@ -7159,10 +7016,10 @@
       "source_file": "tests/hosted-api.test.cjs",
       "source_location": "L51",
       "_origin": "ast",
-      "community": 15,
+      "community": 0,
       "norm_label": ".status()",
-      "id": "tests_hosted_api_test_mockresponse_status",
-      "community_name": "providers.cjs"
+      "community_name": "providers.cjs",
+      "id": "tests_hosted_api_test_mockresponse_status"
     },
     {
       "label": ".json()",
@@ -7170,10 +7027,10 @@
       "source_file": "tests/hosted-api.test.cjs",
       "source_location": "L56",
       "_origin": "ast",
-      "community": 14,
+      "community": 15,
       "norm_label": ".json()",
-      "id": "tests_hosted_api_test_mockresponse_json",
-      "community_name": "MockResponse"
+      "community_name": "MockResponse",
+      "id": "tests_hosted_api_test_mockresponse_json"
     },
     {
       "label": ".write()",
@@ -7181,10 +7038,10 @@
       "source_file": "tests/hosted-api.test.cjs",
       "source_location": "L62",
       "_origin": "ast",
-      "community": 14,
+      "community": 15,
       "norm_label": ".write()",
-      "id": "tests_hosted_api_test_mockresponse_write",
-      "community_name": "MockResponse"
+      "community_name": "MockResponse",
+      "id": "tests_hosted_api_test_mockresponse_write"
     },
     {
       "label": ".end()",
@@ -7192,10 +7049,10 @@
       "source_file": "tests/hosted-api.test.cjs",
       "source_location": "L67",
       "_origin": "ast",
-      "community": 14,
+      "community": 15,
       "norm_label": ".end()",
-      "id": "tests_hosted_api_test_mockresponse_end",
-      "community_name": "MockResponse"
+      "community_name": "MockResponse",
+      "id": "tests_hosted_api_test_mockresponse_end"
     },
     {
       "label": ".flushHeaders()",
@@ -7203,10 +7060,10 @@
       "source_file": "tests/hosted-api.test.cjs",
       "source_location": "L73",
       "_origin": "ast",
-      "community": 14,
+      "community": 15,
       "norm_label": ".flushheaders()",
-      "id": "tests_hosted_api_test_mockresponse_flushheaders",
-      "community_name": "MockResponse"
+      "community_name": "MockResponse",
+      "id": "tests_hosted_api_test_mockresponse_flushheaders"
     },
     {
       "label": ".text()",
@@ -7214,10 +7071,10 @@
       "source_file": "tests/hosted-api.test.cjs",
       "source_location": "L75",
       "_origin": "ast",
-      "community": 14,
+      "community": 15,
       "norm_label": ".text()",
-      "id": "tests_hosted_api_test_mockresponse_text",
-      "community_name": "MockResponse"
+      "community_name": "MockResponse",
+      "id": "tests_hosted_api_test_mockresponse_text"
     },
     {
       "label": "invoke()",
@@ -7225,10 +7082,10 @@
       "source_file": "tests/hosted-api.test.cjs",
       "source_location": "L80",
       "_origin": "ast",
-      "community": 14,
+      "community": 15,
       "norm_label": "invoke()",
-      "id": "tests_hosted_api_test_invoke",
-      "community_name": "MockResponse"
+      "community_name": "MockResponse",
+      "id": "tests_hosted_api_test_invoke"
     },
     {
       "label": "run()",
@@ -7236,120 +7093,10 @@
       "source_file": "tests/hosted-api.test.cjs",
       "source_location": "L86",
       "_origin": "ast",
-      "community": 14,
+      "community": 15,
       "norm_label": "run()",
-      "id": "tests_hosted_api_test_run",
-      "community_name": "MockResponse"
-    },
-    {
-      "label": "telemetry-analysis.test.cjs",
-      "file_type": "code",
-      "source_file": "tests/telemetry-analysis.test.cjs",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "telemetry-analysis.test.cjs",
-      "id": "tests_telemetry_analysis_test",
-      "community_name": "telemetry-analysis.cjs"
-    },
-    {
-      "label": "assert",
-      "file_type": "code",
-      "source_file": "tests/telemetry-analysis.test.cjs",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "assert",
-      "id": "tests_telemetry_analysis_test_assert",
-      "community_name": "telemetry-analysis.cjs"
-    },
-    {
-      "label": "{ spawnSync }",
-      "file_type": "code",
-      "source_file": "tests/telemetry-analysis.test.cjs",
-      "source_location": "L2",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "{ spawnsync }",
-      "id": "tests_telemetry_analysis_test_spawnsync",
-      "community_name": "telemetry-analysis.cjs"
-    },
-    {
-      "label": "path",
-      "file_type": "code",
-      "source_file": "tests/telemetry-analysis.test.cjs",
-      "source_location": "L3",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "path",
-      "id": "tests_telemetry_analysis_test_path",
-      "community_name": "telemetry-analysis.cjs"
-    },
-    {
-      "label": "{ summarizeTelemetryEvents, telemetryAlertPolicy }",
-      "file_type": "code",
-      "source_file": "tests/telemetry-analysis.test.cjs",
-      "source_location": "L7",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "{ summarizetelemetryevents, telemetryalertpolicy }",
-      "id": "tests_telemetry_analysis_test_summarizetelemetryevents_telemetryalertpolicy",
-      "community_name": "telemetry-analysis.cjs"
-    },
-    {
-      "label": "{\n  exitCodeForHealth,\n  formatTelemetryReport,\n  parseTelemetryInput\n}",
-      "file_type": "code",
-      "source_file": "tests/telemetry-analysis.test.cjs",
-      "source_location": "L8",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "{\n  exitcodeforhealth,\n  formattelemetryreport,\n  parsetelemetryinput\n}",
-      "id": "tests_telemetry_analysis_test_exitcodeforhealth_formattelemetryreport_parsetelemetryinput",
-      "community_name": "telemetry-analysis.cjs"
-    },
-    {
-      "label": "baseTime",
-      "file_type": "code",
-      "source_file": "tests/telemetry-analysis.test.cjs",
-      "source_location": "L14",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "basetime",
-      "id": "tests_telemetry_analysis_test_basetime",
-      "community_name": "telemetry-analysis.cjs"
-    },
-    {
-      "label": "providerEvent()",
-      "file_type": "code",
-      "source_file": "tests/telemetry-analysis.test.cjs",
-      "source_location": "L16",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "providerevent()",
-      "id": "tests_telemetry_analysis_test_providerevent",
-      "community_name": "telemetry-analysis.cjs"
-    },
-    {
-      "label": "workflowEvent()",
-      "file_type": "code",
-      "source_file": "tests/telemetry-analysis.test.cjs",
-      "source_location": "L41",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "workflowevent()",
-      "id": "tests_telemetry_analysis_test_workflowevent",
-      "community_name": "telemetry-analysis.cjs"
-    },
-    {
-      "label": "run()",
-      "file_type": "code",
-      "source_file": "tests/telemetry-analysis.test.cjs",
-      "source_location": "L63",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "run()",
-      "id": "tests_telemetry_analysis_test_run",
-      "community_name": "telemetry-analysis.cjs"
+      "community_name": "MockResponse",
+      "id": "tests_hosted_api_test_run"
     },
     {
       "label": "telemetry.test.cjs",
@@ -7359,8 +7106,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "telemetry.test.cjs",
-      "id": "tests_telemetry_test",
-      "community_name": "telemetry.cjs"
+      "community_name": "telemetry.cjs",
+      "id": "tests_telemetry_test"
     },
     {
       "label": "assert",
@@ -7370,8 +7117,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "assert",
-      "id": "tests_telemetry_test_assert",
-      "community_name": "telemetry.cjs"
+      "community_name": "telemetry.cjs",
+      "id": "tests_telemetry_test_assert"
     },
     {
       "label": "{ generateWithFallback, runSelfOptimizingWorkflow }",
@@ -7381,8 +7128,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "{ generatewithfallback, runselfoptimizingworkflow }",
-      "id": "tests_telemetry_test_generatewithfallback_runselfoptimizingworkflow",
-      "community_name": "telemetry.cjs"
+      "community_name": "telemetry.cjs",
+      "id": "tests_telemetry_test_generatewithfallback_runselfoptimizingworkflow"
     },
     {
       "label": "{\n  classifyFailure,\n  recordProviderAttempt,\n  recordWorkflowRun,\n  resetTelemetry,\n  telemetrySummary\n}",
@@ -7392,8 +7139,8 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "{\n  classifyfailure,\n  recordproviderattempt,\n  recordworkflowrun,\n  resettelemetry,\n  telemetrysummary\n}",
-      "id": "tests_telemetry_test_classifyfailure_recordproviderattempt_recordworkflowrun_resettelemetry_telemetrysummary",
-      "community_name": "telemetry.cjs"
+      "community_name": "telemetry.cjs",
+      "id": "tests_telemetry_test_classifyfailure_recordproviderattempt_recordworkflowrun_resettelemetry_telemetrysummary"
     },
     {
       "label": "run()",
@@ -7403,8 +7150,261 @@
       "_origin": "ast",
       "community": 6,
       "norm_label": "run()",
-      "id": "tests_telemetry_test_run",
-      "community_name": "telemetry.cjs"
+      "community_name": "telemetry.cjs",
+      "id": "tests_telemetry_test_run"
+    },
+    {
+      "label": "telemetry-report.cjs",
+      "file_type": "code",
+      "source_file": "scripts/telemetry-report.cjs",
+      "source_location": "L1",
+      "_origin": "ast",
+      "community": 14,
+      "norm_label": "telemetry-report.cjs",
+      "id": "scripts_telemetry_report",
+      "community_name": "telemetry-report.cjs"
+    },
+    {
+      "label": "fs",
+      "file_type": "code",
+      "source_file": "scripts/telemetry-report.cjs",
+      "source_location": "L3",
+      "_origin": "ast",
+      "community": 14,
+      "norm_label": "fs",
+      "id": "scripts_telemetry_report_fs",
+      "community_name": "telemetry-report.cjs"
+    },
+    {
+      "label": "{ normalizeTelemetryEvent, summarizeTelemetryEvents }",
+      "file_type": "code",
+      "source_file": "scripts/telemetry-report.cjs",
+      "source_location": "L5",
+      "_origin": "ast",
+      "community": 14,
+      "norm_label": "{ normalizetelemetryevent, summarizetelemetryevents }",
+      "id": "scripts_telemetry_report_normalizetelemetryevent_summarizetelemetryevents",
+      "community_name": "telemetry-report.cjs"
+    },
+    {
+      "label": "EVENT_TYPES",
+      "file_type": "code",
+      "source_file": "scripts/telemetry-report.cjs",
+      "source_location": "L8",
+      "_origin": "ast",
+      "community": 14,
+      "norm_label": "event_types",
+      "id": "scripts_telemetry_report_event_types",
+      "community_name": "telemetry-report.cjs"
+    },
+    {
+      "label": "parseJsonCandidate()",
+      "file_type": "code",
+      "source_file": "scripts/telemetry-report.cjs",
+      "source_location": "L10",
+      "_origin": "ast",
+      "community": 14,
+      "norm_label": "parsejsoncandidate()",
+      "id": "scripts_telemetry_report_parsejsoncandidate",
+      "community_name": "telemetry-report.cjs"
+    },
+    {
+      "label": "collectTelemetryEvent()",
+      "file_type": "code",
+      "source_file": "scripts/telemetry-report.cjs",
+      "source_location": "L27",
+      "_origin": "ast",
+      "community": 14,
+      "norm_label": "collecttelemetryevent()",
+      "id": "scripts_telemetry_report_collecttelemetryevent",
+      "community_name": "telemetry-report.cjs"
+    },
+    {
+      "label": "parseTelemetryInput()",
+      "file_type": "code",
+      "source_file": "scripts/telemetry-report.cjs",
+      "source_location": "L57",
+      "_origin": "ast",
+      "community": 14,
+      "norm_label": "parsetelemetryinput()",
+      "id": "scripts_telemetry_report_parsetelemetryinput",
+      "community_name": "telemetry-report.cjs"
+    },
+    {
+      "label": "formatNumber()",
+      "file_type": "code",
+      "source_file": "scripts/telemetry-report.cjs",
+      "source_location": "L86",
+      "_origin": "ast",
+      "community": 14,
+      "norm_label": "formatnumber()",
+      "id": "scripts_telemetry_report_formatnumber",
+      "community_name": "telemetry-report.cjs"
+    },
+    {
+      "label": "formatTelemetryReport()",
+      "file_type": "code",
+      "source_file": "scripts/telemetry-report.cjs",
+      "source_location": "L90",
+      "_origin": "ast",
+      "community": 14,
+      "norm_label": "formattelemetryreport()",
+      "id": "scripts_telemetry_report_formattelemetryreport",
+      "community_name": "telemetry-report.cjs"
+    },
+    {
+      "label": "parseArguments()",
+      "file_type": "code",
+      "source_file": "scripts/telemetry-report.cjs",
+      "source_location": "L134",
+      "_origin": "ast",
+      "community": 14,
+      "norm_label": "parsearguments()",
+      "id": "scripts_telemetry_report_parsearguments",
+      "community_name": "telemetry-report.cjs"
+    },
+    {
+      "label": "helpText()",
+      "file_type": "code",
+      "source_file": "scripts/telemetry-report.cjs",
+      "source_location": "L152",
+      "_origin": "ast",
+      "community": 14,
+      "norm_label": "helptext()",
+      "id": "scripts_telemetry_report_helptext",
+      "community_name": "telemetry-report.cjs"
+    },
+    {
+      "label": "exitCodeForHealth()",
+      "file_type": "code",
+      "source_file": "scripts/telemetry-report.cjs",
+      "source_location": "L161",
+      "_origin": "ast",
+      "community": 14,
+      "norm_label": "exitcodeforhealth()",
+      "id": "scripts_telemetry_report_exitcodeforhealth",
+      "community_name": "telemetry-report.cjs"
+    },
+    {
+      "label": "main()",
+      "file_type": "code",
+      "source_file": "scripts/telemetry-report.cjs",
+      "source_location": "L168",
+      "_origin": "ast",
+      "community": 14,
+      "norm_label": "main()",
+      "id": "scripts_telemetry_report_main",
+      "community_name": "telemetry-report.cjs"
+    },
+    {
+      "label": "telemetry-analysis.test.cjs",
+      "file_type": "code",
+      "source_file": "tests/telemetry-analysis.test.cjs",
+      "source_location": "L1",
+      "_origin": "ast",
+      "community": 14,
+      "norm_label": "telemetry-analysis.test.cjs",
+      "id": "tests_telemetry_analysis_test",
+      "community_name": "telemetry-report.cjs"
+    },
+    {
+      "label": "assert",
+      "file_type": "code",
+      "source_file": "tests/telemetry-analysis.test.cjs",
+      "source_location": "L1",
+      "_origin": "ast",
+      "community": 14,
+      "norm_label": "assert",
+      "id": "tests_telemetry_analysis_test_assert",
+      "community_name": "telemetry-report.cjs"
+    },
+    {
+      "label": "{ spawnSync }",
+      "file_type": "code",
+      "source_file": "tests/telemetry-analysis.test.cjs",
+      "source_location": "L2",
+      "_origin": "ast",
+      "community": 14,
+      "norm_label": "{ spawnsync }",
+      "id": "tests_telemetry_analysis_test_spawnsync",
+      "community_name": "telemetry-report.cjs"
+    },
+    {
+      "label": "path",
+      "file_type": "code",
+      "source_file": "tests/telemetry-analysis.test.cjs",
+      "source_location": "L3",
+      "_origin": "ast",
+      "community": 14,
+      "norm_label": "path",
+      "id": "tests_telemetry_analysis_test_path",
+      "community_name": "telemetry-report.cjs"
+    },
+    {
+      "label": "{ summarizeTelemetryEvents, telemetryAlertPolicy }",
+      "file_type": "code",
+      "source_file": "tests/telemetry-analysis.test.cjs",
+      "source_location": "L7",
+      "_origin": "ast",
+      "community": 14,
+      "norm_label": "{ summarizetelemetryevents, telemetryalertpolicy }",
+      "id": "tests_telemetry_analysis_test_summarizetelemetryevents_telemetryalertpolicy",
+      "community_name": "telemetry-report.cjs"
+    },
+    {
+      "label": "{\n  exitCodeForHealth,\n  formatTelemetryReport,\n  parseTelemetryInput\n}",
+      "file_type": "code",
+      "source_file": "tests/telemetry-analysis.test.cjs",
+      "source_location": "L8",
+      "_origin": "ast",
+      "community": 14,
+      "norm_label": "{\n  exitcodeforhealth,\n  formattelemetryreport,\n  parsetelemetryinput\n}",
+      "id": "tests_telemetry_analysis_test_exitcodeforhealth_formattelemetryreport_parsetelemetryinput",
+      "community_name": "telemetry-report.cjs"
+    },
+    {
+      "label": "baseTime",
+      "file_type": "code",
+      "source_file": "tests/telemetry-analysis.test.cjs",
+      "source_location": "L14",
+      "_origin": "ast",
+      "community": 14,
+      "norm_label": "basetime",
+      "id": "tests_telemetry_analysis_test_basetime",
+      "community_name": "telemetry-report.cjs"
+    },
+    {
+      "label": "providerEvent()",
+      "file_type": "code",
+      "source_file": "tests/telemetry-analysis.test.cjs",
+      "source_location": "L16",
+      "_origin": "ast",
+      "community": 14,
+      "norm_label": "providerevent()",
+      "id": "tests_telemetry_analysis_test_providerevent",
+      "community_name": "telemetry-report.cjs"
+    },
+    {
+      "label": "workflowEvent()",
+      "file_type": "code",
+      "source_file": "tests/telemetry-analysis.test.cjs",
+      "source_location": "L41",
+      "_origin": "ast",
+      "community": 14,
+      "norm_label": "workflowevent()",
+      "id": "tests_telemetry_analysis_test_workflowevent",
+      "community_name": "telemetry-report.cjs"
+    },
+    {
+      "label": "run()",
+      "file_type": "code",
+      "source_file": "tests/telemetry-analysis.test.cjs",
+      "source_location": "L63",
+      "_origin": "ast",
+      "community": 14,
+      "norm_label": "run()",
+      "id": "tests_telemetry_analysis_test_run",
+      "community_name": "telemetry-report.cjs"
     }
   ],
   "links": [
@@ -16617,30 +16617,6 @@
       "target": "core_telemetry_analysis_thresholdpair"
     },
     {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/telemetry-report.cjs",
-      "source_location": "L5",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "scripts_telemetry_report",
-      "target": "core_telemetry_analysis"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "tests/telemetry-analysis.test.cjs",
-      "source_location": "L7",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "tests_telemetry_analysis_test",
-      "target": "core_telemetry_analysis"
-    },
-    {
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
@@ -16797,30 +16773,6 @@
       "target": "core_telemetry_analysis_normalizetelemetryevent"
     },
     {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/telemetry-report.cjs",
-      "source_location": "L5",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "scripts_telemetry_report",
-      "target": "core_telemetry_analysis_normalizetelemetryevent"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "scripts/telemetry-report.cjs",
-      "source_location": "L44",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "scripts_telemetry_report_collecttelemetryevent",
-      "target": "core_telemetry_analysis_normalizetelemetryevent"
-    },
-    {
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
@@ -16842,30 +16794,6 @@
       "_origin": "ast",
       "confidence_score": 1.0,
       "source": "core_telemetry_analysis_summarizetelemetryevents",
-      "target": "core_telemetry_analysis_telemetryalertpolicy"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "tests/telemetry-analysis.test.cjs",
-      "source_location": "L7",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "tests_telemetry_analysis_test",
-      "target": "core_telemetry_analysis_telemetryalertpolicy"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "tests/telemetry-analysis.test.cjs",
-      "source_location": "L120",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "tests_telemetry_analysis_test_run",
       "target": "core_telemetry_analysis_telemetryalertpolicy"
     },
     {
@@ -16950,54 +16878,6 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "core_telemetry_telemetrysummary",
-      "target": "core_telemetry_analysis_summarizetelemetryevents"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/telemetry-report.cjs",
-      "source_location": "L5",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "scripts_telemetry_report",
-      "target": "core_telemetry_analysis_summarizetelemetryevents"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "scripts/telemetry-report.cjs",
-      "source_location": "L167",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "scripts_telemetry_report_main",
-      "target": "core_telemetry_analysis_summarizetelemetryevents"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "tests/telemetry-analysis.test.cjs",
-      "source_location": "L7",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "tests_telemetry_analysis_test",
-      "target": "core_telemetry_analysis_summarizetelemetryevents"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "tests/telemetry-analysis.test.cjs",
-      "source_location": "L83",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "tests_telemetry_analysis_test_run",
       "target": "core_telemetry_analysis_summarizetelemetryevents"
     },
     {
@@ -18345,336 +18225,6 @@
       "target": "marked"
     },
     {
-      "relation": "indirect_call",
-      "confidence": "INFERRED",
-      "source_file": "scripts/telemetry-report.cjs",
-      "source_location": "L186",
-      "weight": 1.0,
-      "_origin": "ast",
-      "context": "collection",
-      "confidence_score": 0.5,
-      "source": "scripts_telemetry_report",
-      "target": "scripts_telemetry_report_collecttelemetryevent"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/telemetry-report.cjs",
-      "source_location": "L8",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "scripts_telemetry_report",
-      "target": "scripts_telemetry_report_event_types"
-    },
-    {
-      "relation": "indirect_call",
-      "confidence": "INFERRED",
-      "source_file": "scripts/telemetry-report.cjs",
-      "source_location": "L187",
-      "weight": 1.0,
-      "_origin": "ast",
-      "context": "collection",
-      "confidence_score": 0.5,
-      "source": "scripts_telemetry_report",
-      "target": "scripts_telemetry_report_exitcodeforhealth"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/telemetry-report.cjs",
-      "source_location": "L74",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "scripts_telemetry_report",
-      "target": "scripts_telemetry_report_formatnumber"
-    },
-    {
-      "relation": "indirect_call",
-      "confidence": "INFERRED",
-      "source_file": "scripts/telemetry-report.cjs",
-      "source_location": "L188",
-      "weight": 1.0,
-      "_origin": "ast",
-      "context": "collection",
-      "confidence_score": 0.5,
-      "source": "scripts_telemetry_report",
-      "target": "scripts_telemetry_report_formattelemetryreport"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/telemetry-report.cjs",
-      "source_location": "L3",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "scripts_telemetry_report",
-      "target": "scripts_telemetry_report_fs"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/telemetry-report.cjs",
-      "source_location": "L140",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "scripts_telemetry_report",
-      "target": "scripts_telemetry_report_helptext"
-    },
-    {
-      "relation": "indirect_call",
-      "confidence": "INFERRED",
-      "source_file": "scripts/telemetry-report.cjs",
-      "source_location": "L189",
-      "weight": 1.0,
-      "_origin": "ast",
-      "context": "collection",
-      "confidence_score": 0.5,
-      "source": "scripts_telemetry_report",
-      "target": "scripts_telemetry_report_main"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/telemetry-report.cjs",
-      "source_location": "L5",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "scripts_telemetry_report",
-      "target": "scripts_telemetry_report_normalizetelemetryevent_summarizetelemetryevents"
-    },
-    {
-      "relation": "indirect_call",
-      "confidence": "INFERRED",
-      "source_file": "scripts/telemetry-report.cjs",
-      "source_location": "L190",
-      "weight": 1.0,
-      "_origin": "ast",
-      "context": "collection",
-      "confidence_score": 0.5,
-      "source": "scripts_telemetry_report",
-      "target": "scripts_telemetry_report_parsearguments"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/telemetry-report.cjs",
-      "source_location": "L10",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "scripts_telemetry_report",
-      "target": "scripts_telemetry_report_parsejsoncandidate"
-    },
-    {
-      "relation": "indirect_call",
-      "confidence": "INFERRED",
-      "source_file": "scripts/telemetry-report.cjs",
-      "source_location": "L191",
-      "weight": 1.0,
-      "_origin": "ast",
-      "context": "collection",
-      "confidence_score": 0.5,
-      "source": "scripts_telemetry_report",
-      "target": "scripts_telemetry_report_parsetelemetryinput"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "tests/telemetry-analysis.test.cjs",
-      "source_location": "L8",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "tests_telemetry_analysis_test",
-      "target": "scripts_telemetry_report"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/telemetry-report.cjs",
-      "source_location": "L30",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "scripts_telemetry_report_collecttelemetryevent",
-      "target": "scripts_telemetry_report_parsejsoncandidate"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/telemetry-report.cjs",
-      "source_location": "L62",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "scripts_telemetry_report_parsetelemetryinput",
-      "target": "scripts_telemetry_report_parsejsoncandidate"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/telemetry-report.cjs",
-      "source_location": "L69",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "scripts_telemetry_report_parsetelemetryinput",
-      "target": "scripts_telemetry_report_collecttelemetryevent"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/telemetry-report.cjs",
-      "source_location": "L166",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "scripts_telemetry_report_main",
-      "target": "scripts_telemetry_report_parsetelemetryinput"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "tests/telemetry-analysis.test.cjs",
-      "source_location": "L8",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "tests_telemetry_analysis_test",
-      "target": "scripts_telemetry_report_parsetelemetryinput"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "tests/telemetry-analysis.test.cjs",
-      "source_location": "L133",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "tests_telemetry_analysis_test_run",
-      "target": "scripts_telemetry_report_parsetelemetryinput"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/telemetry-report.cjs",
-      "source_location": "L85",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "scripts_telemetry_report_formattelemetryreport",
-      "target": "scripts_telemetry_report_formatnumber"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/telemetry-report.cjs",
-      "source_location": "L175",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "scripts_telemetry_report_main",
-      "target": "scripts_telemetry_report_formattelemetryreport"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "tests/telemetry-analysis.test.cjs",
-      "source_location": "L8",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "tests_telemetry_analysis_test",
-      "target": "scripts_telemetry_report_formattelemetryreport"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "tests/telemetry-analysis.test.cjs",
-      "source_location": "L138",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "tests_telemetry_analysis_test_run",
-      "target": "scripts_telemetry_report_formattelemetryreport"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/telemetry-report.cjs",
-      "source_location": "L158",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "scripts_telemetry_report_main",
-      "target": "scripts_telemetry_report_parsearguments"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/telemetry-report.cjs",
-      "source_location": "L160",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "scripts_telemetry_report_main",
-      "target": "scripts_telemetry_report_helptext"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/telemetry-report.cjs",
-      "source_location": "L176",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "scripts_telemetry_report_main",
-      "target": "scripts_telemetry_report_exitcodeforhealth"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "tests/telemetry-analysis.test.cjs",
-      "source_location": "L8",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "tests_telemetry_analysis_test",
-      "target": "scripts_telemetry_report_exitcodeforhealth"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "tests/telemetry-analysis.test.cjs",
-      "source_location": "L99",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "tests_telemetry_analysis_test_run",
-      "target": "scripts_telemetry_report_exitcodeforhealth"
-    },
-    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "tests/api-endpoints.test.cjs",
@@ -19083,6 +18633,380 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "tests/telemetry.test.cjs",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "tests_telemetry_test",
+      "target": "tests_telemetry_test_assert"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/telemetry.test.cjs",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "tests_telemetry_test",
+      "target": "tests_telemetry_test_classifyfailure_recordproviderattempt_recordworkflowrun_resettelemetry_telemetrysummary"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/telemetry.test.cjs",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "tests_telemetry_test",
+      "target": "tests_telemetry_test_generatewithfallback_runselfoptimizingworkflow"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/telemetry.test.cjs",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "tests_telemetry_test",
+      "target": "tests_telemetry_test_run"
+    },
+    {
+      "relation": "indirect_call",
+      "confidence": "INFERRED",
+      "source_file": "scripts/telemetry-report.cjs",
+      "source_location": "L198",
+      "weight": 1.0,
+      "_origin": "ast",
+      "context": "collection",
+      "confidence_score": 0.5,
+      "source": "scripts_telemetry_report",
+      "target": "scripts_telemetry_report_collecttelemetryevent"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/telemetry-report.cjs",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "scripts_telemetry_report",
+      "target": "scripts_telemetry_report_event_types"
+    },
+    {
+      "relation": "indirect_call",
+      "confidence": "INFERRED",
+      "source_file": "scripts/telemetry-report.cjs",
+      "source_location": "L199",
+      "weight": 1.0,
+      "_origin": "ast",
+      "context": "collection",
+      "confidence_score": 0.5,
+      "source": "scripts_telemetry_report",
+      "target": "scripts_telemetry_report_exitcodeforhealth"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/telemetry-report.cjs",
+      "source_location": "L86",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "scripts_telemetry_report",
+      "target": "scripts_telemetry_report_formatnumber"
+    },
+    {
+      "relation": "indirect_call",
+      "confidence": "INFERRED",
+      "source_file": "scripts/telemetry-report.cjs",
+      "source_location": "L200",
+      "weight": 1.0,
+      "_origin": "ast",
+      "context": "collection",
+      "confidence_score": 0.5,
+      "source": "scripts_telemetry_report",
+      "target": "scripts_telemetry_report_formattelemetryreport"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/telemetry-report.cjs",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "scripts_telemetry_report",
+      "target": "scripts_telemetry_report_fs"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/telemetry-report.cjs",
+      "source_location": "L152",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "scripts_telemetry_report",
+      "target": "scripts_telemetry_report_helptext"
+    },
+    {
+      "relation": "indirect_call",
+      "confidence": "INFERRED",
+      "source_file": "scripts/telemetry-report.cjs",
+      "source_location": "L201",
+      "weight": 1.0,
+      "_origin": "ast",
+      "context": "collection",
+      "confidence_score": 0.5,
+      "source": "scripts_telemetry_report",
+      "target": "scripts_telemetry_report_main"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/telemetry-report.cjs",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "scripts_telemetry_report",
+      "target": "scripts_telemetry_report_normalizetelemetryevent_summarizetelemetryevents"
+    },
+    {
+      "relation": "indirect_call",
+      "confidence": "INFERRED",
+      "source_file": "scripts/telemetry-report.cjs",
+      "source_location": "L202",
+      "weight": 1.0,
+      "_origin": "ast",
+      "context": "collection",
+      "confidence_score": 0.5,
+      "source": "scripts_telemetry_report",
+      "target": "scripts_telemetry_report_parsearguments"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/telemetry-report.cjs",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "scripts_telemetry_report",
+      "target": "scripts_telemetry_report_parsejsoncandidate"
+    },
+    {
+      "relation": "indirect_call",
+      "confidence": "INFERRED",
+      "source_file": "scripts/telemetry-report.cjs",
+      "source_location": "L203",
+      "weight": 1.0,
+      "_origin": "ast",
+      "context": "collection",
+      "confidence_score": 0.5,
+      "source": "scripts_telemetry_report",
+      "target": "scripts_telemetry_report_parsetelemetryinput"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/telemetry-analysis.test.cjs",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "tests_telemetry_analysis_test",
+      "target": "scripts_telemetry_report"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/telemetry-report.cjs",
+      "source_location": "L30",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "scripts_telemetry_report_collecttelemetryevent",
+      "target": "scripts_telemetry_report_parsejsoncandidate"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/telemetry-report.cjs",
+      "source_location": "L63",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "scripts_telemetry_report_parsetelemetryinput",
+      "target": "scripts_telemetry_report_parsejsoncandidate"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/telemetry-report.cjs",
+      "source_location": "L71",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "scripts_telemetry_report_parsetelemetryinput",
+      "target": "scripts_telemetry_report_collecttelemetryevent"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/telemetry-report.cjs",
+      "source_location": "L178",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "scripts_telemetry_report_main",
+      "target": "scripts_telemetry_report_parsetelemetryinput"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/telemetry-analysis.test.cjs",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "tests_telemetry_analysis_test",
+      "target": "scripts_telemetry_report_parsetelemetryinput"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tests/telemetry-analysis.test.cjs",
+      "source_location": "L142",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_telemetry_analysis_test_run",
+      "target": "scripts_telemetry_report_parsetelemetryinput"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/telemetry-report.cjs",
+      "source_location": "L97",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "scripts_telemetry_report_formattelemetryreport",
+      "target": "scripts_telemetry_report_formatnumber"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/telemetry-report.cjs",
+      "source_location": "L187",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "scripts_telemetry_report_main",
+      "target": "scripts_telemetry_report_formattelemetryreport"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/telemetry-analysis.test.cjs",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "tests_telemetry_analysis_test",
+      "target": "scripts_telemetry_report_formattelemetryreport"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tests/telemetry-analysis.test.cjs",
+      "source_location": "L147",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_telemetry_analysis_test_run",
+      "target": "scripts_telemetry_report_formattelemetryreport"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/telemetry-report.cjs",
+      "source_location": "L170",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "scripts_telemetry_report_main",
+      "target": "scripts_telemetry_report_parsearguments"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/telemetry-report.cjs",
+      "source_location": "L172",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "scripts_telemetry_report_main",
+      "target": "scripts_telemetry_report_helptext"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/telemetry-report.cjs",
+      "source_location": "L188",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "scripts_telemetry_report_main",
+      "target": "scripts_telemetry_report_exitcodeforhealth"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/telemetry-analysis.test.cjs",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "tests_telemetry_analysis_test",
+      "target": "scripts_telemetry_report_exitcodeforhealth"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tests/telemetry-analysis.test.cjs",
+      "source_location": "L99",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_telemetry_analysis_test_run",
+      "target": "scripts_telemetry_report_exitcodeforhealth"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "tests/telemetry-analysis.test.cjs",
       "source_location": "L1",
       "weight": 1.0,
@@ -19202,52 +19126,8 @@
       "confidence_score": 1.0,
       "source": "tests_telemetry_analysis_test_run",
       "target": "tests_telemetry_analysis_test_workflowevent"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "tests/telemetry.test.cjs",
-      "source_location": "L1",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "tests_telemetry_test",
-      "target": "tests_telemetry_test_assert"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "tests/telemetry.test.cjs",
-      "source_location": "L9",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "tests_telemetry_test",
-      "target": "tests_telemetry_test_classifyfailure_recordproviderattempt_recordworkflowrun_resettelemetry_telemetrysummary"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "tests/telemetry.test.cjs",
-      "source_location": "L8",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "tests_telemetry_test",
-      "target": "tests_telemetry_test_generatewithfallback_runselfoptimizingworkflow"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "tests/telemetry.test.cjs",
-      "source_location": "L17",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "tests_telemetry_test",
-      "target": "tests_telemetry_test_run"
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "5fce1ddaafc241bc141ac98a1c25401f4dd2b18b"
+  "built_at_commit": "f70f12e2f9bc973418c867ce67e04c1290882d48"
 }

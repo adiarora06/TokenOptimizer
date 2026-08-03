@@ -380,13 +380,13 @@
     "semantic_hash": "f7a9cd791ee1c67f39f5f10c77491178"
   },
   "scripts/telemetry-report.cjs": {
-    "mtime": 1785778275.7105238,
-    "ast_hash": "c3c73b2eaa8e49ed61f1125bc1e6818a",
-    "semantic_hash": "c3c73b2eaa8e49ed61f1125bc1e6818a"
+    "mtime": 1785781045.8087945,
+    "ast_hash": "8d680a9b857d6e297d24115ebac84081",
+    "semantic_hash": "8d680a9b857d6e297d24115ebac84081"
   },
   "tests/telemetry-analysis.test.cjs": {
-    "mtime": 1785778331.5204015,
-    "ast_hash": "73eb7b270fb05d96e82e59aac806d336",
-    "semantic_hash": "73eb7b270fb05d96e82e59aac806d336"
+    "mtime": 1785781045.8092544,
+    "ast_hash": "02e165a3ad19af84555e5b96de95a8b0",
+    "semantic_hash": "02e165a3ad19af84555e5b96de95a8b0"
   }
 }
