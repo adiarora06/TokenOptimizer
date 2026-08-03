@@ -100,9 +100,9 @@
     "semantic_hash": "eb10d940c51f33acda1003dfde7fd0ee"
   },
   "package.json": {
-    "mtime": 1785733254.0799015,
-    "ast_hash": "c99c93c09fa2d327aa48ffc0f2844f53",
-    "semantic_hash": "c99c93c09fa2d327aa48ffc0f2844f53"
+    "mtime": 1785775565.4802685,
+    "ast_hash": "8dd7e4e7cf48bee52f862417c0aacb20",
+    "semantic_hash": "8dd7e4e7cf48bee52f862417c0aacb20"
   },
   "request-guard.cjs": {
     "mtime": 1785734007.3501718,
@@ -120,9 +120,9 @@
     "semantic_hash": "738538efa63e73b77a4176d6d057eda1"
   },
   "tests/optimizer-core.test.cjs": {
-    "mtime": 1785774558.7641506,
-    "ast_hash": "4c1795eb926a984901a5e031fe2004ab",
-    "semantic_hash": "4c1795eb926a984901a5e031fe2004ab"
+    "mtime": 1785775826.5391057,
+    "ast_hash": "89d0563cb7df2f15935d2d59b2400c39",
+    "semantic_hash": "89d0563cb7df2f15935d2d59b2400c39"
   },
   "vercel.json": {
     "mtime": 1785719692.5952463,
@@ -135,9 +135,9 @@
     "semantic_hash": "a41304eaf8b91bf94b7847bfeea6f873"
   },
   "core/handoff.cjs": {
-    "mtime": 1785719692.5870786,
-    "ast_hash": "36b3c4190349e03705db05221a98f899",
-    "semantic_hash": "36b3c4190349e03705db05221a98f899"
+    "mtime": 1785775826.3437443,
+    "ast_hash": "9ff0fef821770347e974015e73e9d6be",
+    "semantic_hash": "9ff0fef821770347e974015e73e9d6be"
   },
   "core/prompts.cjs": {
     "mtime": 1785732810.939707,
@@ -150,9 +150,9 @@
     "semantic_hash": "98996741e79e2fe25b9680291be717db"
   },
   "core/routing.cjs": {
-    "mtime": 1785732894.6439476,
-    "ast_hash": "f9c4dfb71050a819e5144fc2c0cb4ae5",
-    "semantic_hash": "f9c4dfb71050a819e5144fc2c0cb4ae5"
+    "mtime": 1785775826.4413726,
+    "ast_hash": "27cf7631bf60375493835a54bf36d747",
+    "semantic_hash": "27cf7631bf60375493835a54bf36d747"
   },
   "core/security.cjs": {
     "mtime": 1785734007.1389499,
@@ -338,5 +338,30 @@
     "mtime": 1785733820.3995697,
     "ast_hash": "825dd9afe490567f454c0a07092e9525",
     "semantic_hash": "825dd9afe490567f454c0a07092e9525"
+  },
+  "evals/cases.json": {
+    "mtime": 1785775755.2567983,
+    "ast_hash": "d7f0285ce804cb9e445f18fb5fabd771",
+    "semantic_hash": "d7f0285ce804cb9e445f18fb5fabd771"
+  },
+  "evals/harness.cjs": {
+    "mtime": 1785775755.3539076,
+    "ast_hash": "44b78a10e85540f70d28eb5f37463a9a",
+    "semantic_hash": "44b78a10e85540f70d28eb5f37463a9a"
+  },
+  "evals/run-evals.cjs": {
+    "mtime": 1785775755.4506888,
+    "ast_hash": "81d65fef9f21bca955df4b06c0fbec55",
+    "semantic_hash": "81d65fef9f21bca955df4b06c0fbec55"
+  },
+  "evals/thresholds.json": {
+    "mtime": 1785775431.4842184,
+    "ast_hash": "aa618274349635c9132f1ba82191dd21",
+    "semantic_hash": "aa618274349635c9132f1ba82191dd21"
+  },
+  "tests/eval-harness.test.cjs": {
+    "mtime": 1785775761.4553542,
+    "ast_hash": "eb85a755a49f96170ae90879e9984cf3",
+    "semantic_hash": "eb85a755a49f96170ae90879e9984cf3"
   }
 }
