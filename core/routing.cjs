@@ -27,13 +27,18 @@ function analyzeWorkflowShape(rawInput, options = {}) {
   const lower = text.toLowerCase();
   const rawTokens = estimateTokens(text);
   const lines = compactLines(text, 40);
-  const constraintCount = lines.filter((line) => /(must|should|don't|do not|avoid|need|want|require|constraint|use|with|without)/i.test(line)).length;
+  const constraintPattern = /\b(must|should|don't|do not|avoid|need|want|require|constraint|use|with|without|accept|add|check|define|explain|identify|include|keep|preserve|provide|return|set|support|treat|verify)\b/i;
+  const constraintCount = new Set(lines
+    .filter((line) => constraintPattern.test(line))
+    .map((line) => line.replace(/\s+/g, " ").trim().toLowerCase())).size;
   const hasCodeOrFiles = /\b(code|program|function|component|repo|file|api|schema|database|deploy|extension|test)\b/.test(lower);
   const hasWorkflow = /\b(agent|workflow|architecture|handoff|multi-agent|multi agent|provider|route|orchestrat)\b/.test(lower);
   const hasLongContext = rawTokens > 450 || lines.length > 14;
   const hasMultiDeliverable = (text.match(/\b(and|also|plus|then)\b/gi) || []).length >= 3;
   const hasStructuredOutput = /\b(json|yaml|schema|table|csv|xml|api response|exact format)\b/.test(lower);
-  const hasHighImpactAction = /\b(delete|publish|deploy|migrate|production|security|legal|medical|financial|payment|credential|database migration)\b/.test(lower);
+  const destructiveText = lower.replace(/\bdelete\s+\/[^\s,;]*/g, "");
+  const hasDestructiveAction = /\b(?:delete|drop|truncate|destroy|erase)\b/.test(destructiveText);
+  const hasHighImpactAction = hasDestructiveAction || /\b(publish|deploy|migrate|production|security|legal|medical|financial|payment|credential|database migration)\b/.test(lower);
   const asksForVerification = /\b(verify|validate|double-check|double check|test thoroughly|review for errors|fact-check|fact check)\b/.test(lower);
   const taskType = hasCodeOrFiles ? "build" : hasWorkflow ? "workflow" : hasStructuredOutput ? "structured" : "general";
   let complexity = 0;
@@ -41,9 +46,9 @@ function analyzeWorkflowShape(rawInput, options = {}) {
   if (rawTokens > 360) complexity += 1;
   if (hasLongContext) complexity += 1;
   if (hasCodeOrFiles || hasWorkflow) complexity += 1;
-  if (constraintCount > 3 || hasMultiDeliverable) complexity += 1;
+  if (constraintCount >= 3 || hasMultiDeliverable) complexity += 1;
   if (hasStructuredOutput) complexity += 1;
-  const risk = Number(hasHighImpactAction) + Number(asksForVerification) + Number(hasStructuredOutput && constraintCount > 2);
+  const risk = Number(hasHighImpactAction) + Number(asksForVerification) + Number(hasStructuredOutput && constraintCount >= 3);
 
   let route = complexity <= 1
     ? "direct"

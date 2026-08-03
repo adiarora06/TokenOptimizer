@@ -95,6 +95,24 @@ The browser and orchestration layers are intentionally separate:
 - **Provider boundaries** reject private or reserved production addresses, validate and pin DNS results, reject redirects, and cap output tokens and response bytes.
 - **Timeouts** use one workflow-wide deadline, so adding contract or verification stages cannot multiply the requested time budget.
 
+## Evaluation And Regression Baseline
+
+Run the deterministic benchmark before changing routing, handoff preparation, contracts, or token accounting:
+
+```bash
+npm run eval
+```
+
+The benchmark is free and checks expected routing, constraint retention, secret removal, repeat-preparation stability, zero-call preparation, and aggregate prompt-token movement across representative general, structured, code, API, workflow, security, and high-impact tasks. It is also part of `npm test`.
+
+An opt-in live comparison runs the same objective output checks against one raw single-call baseline and the adaptive workflow:
+
+```bash
+npm run eval:live -- --provider openai
+```
+
+Live mode uses configured provider credentials and can incur multiple model calls. See `evals/README.md` for case design, thresholds, JSON output, and focused diagnostics.
+
 ## Sidecar Wrapper Loop
 
 The background mode is for working beside an active LLM or IDE:

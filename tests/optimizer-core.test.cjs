@@ -213,6 +213,14 @@ ${JSON.stringify({
   assert.equal(direct.route, "direct");
   assert.equal(direct.verificationNeeded, false);
 
+  const apiContractRoute = analyzeWorkflowShape(`Design an API contract.
+Requirements:
+- Include POST /exports.
+- Include DELETE /exports/{id}.
+- Return JSON examples.`);
+  assert.equal(apiContractRoute.route, "contract");
+  assert.equal(apiContractRoute.signals.highImpact, false, "documenting a DELETE endpoint is not a destructive action");
+
   const verified = analyzeWorkflowShape(
     "Deploy this database migration to production, verify every constraint, return JSON, and review it for security errors.",
     { routePreference: "verified" }
@@ -245,6 +253,32 @@ ${JSON.stringify({
   assert.equal(compactPortable.tokenReport.modelCalls, 0);
   assert.ok(compactPortable.tokenReport.optimizedPromptTokens < compactPortable.tokenReport.rawInputTokens);
   assert.equal((compactPortable.optimizedPrompt.match(/Keep provider keys/g) || []).length, 1);
+
+  const requirementsPortable = preparePortableHandoff({
+    rawInput: `Build a JavaScript function named groupBy.
+Requirements:
+- Accept an array and a key selector function.
+- Do not mutate the input array.
+- Support missing keys.
+- Include three tests.`,
+    target: "chatgpt"
+  });
+  assert.equal(requirementsPortable.workflowShape.route, "contract");
+  assert.match(requirementsPortable.optimizedPrompt, /key selector function/i);
+  assert.match(requirementsPortable.optimizedPrompt, /Do not mutate/i);
+  assert.match(requirementsPortable.optimizedPrompt, /Include three tests/i);
+
+  const topicalPortable = preparePortableHandoff({
+    rawInput: `Explain token optimization and handoff contracts.
+Requirements:
+- Compare their purposes.
+- Include one practical example.
+- Avoid internal implementation claims.`,
+    target: "chatgpt"
+  });
+  assert.match(topicalPortable.optimizedPrompt, /token optimization and handoff contracts/i);
+  assert.match(topicalPortable.optimizedPrompt, /Compare their purposes/i);
+  assert.match(topicalPortable.optimizedPrompt, /practical example/i);
 
   const wrappedPortable = preparePortableHandoff({
     rawInput: `Complete this task directly and concisely.

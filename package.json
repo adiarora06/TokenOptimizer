@@ -10,8 +10,12 @@
   },
   "scripts": {
     "start": "node server.cjs",
-    "test": "npm run test:core && npm run test:api && npm run test:hosted && npm run test:frontend && npm run test:extension",
+    "eval": "node evals/run-evals.cjs",
+    "eval:json": "node evals/run-evals.cjs --json",
+    "eval:live": "node evals/run-evals.cjs --live",
+    "test": "npm run test:core && npm run test:eval && npm run test:api && npm run test:hosted && npm run test:frontend && npm run test:extension",
     "test:core": "node tests/optimizer-core.test.cjs",
+    "test:eval": "node tests/eval-harness.test.cjs",
     "test:api": "node tests/api-endpoints.test.cjs",
     "test:hosted": "node tests/hosted-api.test.cjs",
     "test:frontend": "node tests/frontend-static.test.cjs",
