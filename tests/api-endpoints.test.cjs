@@ -172,6 +172,11 @@ async function run() {
       assert.match(response.headers.get("content-type") || "", /text\/html/, path);
     }
 
+    const retiredGeneratorAlias = await fetch(`${baseUrl}/token-optimizer-file-generator.html`);
+    const retiredGeneratorHtml = await retiredGeneratorAlias.text();
+    assert.match(retiredGeneratorHtml, /id="prompt"/);
+    assert.doesNotMatch(retiredGeneratorHtml, /id="apiKey"/);
+
     for (const traversalPath of ["/../package.json", "/%2e%2e/package.json", "/..%2fpackage.json"]) {
       const traversal = await new Promise((resolve, reject) => {
         const request = http.request(

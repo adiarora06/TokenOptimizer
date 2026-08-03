@@ -8,7 +8,9 @@ Token Optimizer uses two complementary request-control layers. The application l
 - Zero-model-call prompt preparation has a separate 60 requests per IP per 60 seconds bucket, so preparation traffic cannot exhaust the model-call allowance.
 - Vercel's overwritten `x-forwarded-for` value is trusted only when `VERCEL=1`. Standalone deployments use the socket address unless `TOKEN_OPTIMIZER_TRUST_PROXY=1` is explicitly configured behind a proxy that overwrites the header.
 - Input characters, output tokens, response bytes, workflow duration, provider redirects, and custom provider network destinations are bounded separately.
+- Caller-selected models and LiteLLM base URLs are honored only when the caller supplies its own API credential. Requests that use server-managed credentials stay on the server-configured model and endpoint.
 - Provider-controlled error text is redacted before it is returned to the browser or saved in workflow history.
+- Failed fallback attempts expose only classified status messages, never raw provider-controlled error text.
 
 The defaults and supported overrides are documented in `.env.local.example`.
 

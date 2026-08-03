@@ -6,6 +6,7 @@ process.env.TOKEN_OPTIMIZER_TEST_MODE = "1";
 const {
   analyzeWorkflowShape,
   combineUsage,
+  generateWithFallback,
   preparePortableHandoff,
   redactSensitiveText,
   runBlankA2AKit,
@@ -17,6 +18,7 @@ const {
   resolveSafeProviderEndpoint,
   safeErrorMessage
 } = require("../core/security.cjs");
+const { resolveProvider } = require("../core/providers.cjs");
 const { validateHandoffContract } = require("../core/contracts.cjs");
 const { buildOfflineContract } = require("../core/routing.cjs");
 const { createWorkflowBudget } = require("../core/workflow.cjs");
@@ -44,6 +46,52 @@ async function run() {
   assert.equal(modernRedacted.types.length, 6);
   for (const value of modernSecrets) {
     assert.equal(modernRedacted.text.includes(value), false, value.slice(0, 12));
+  }
+
+  const fallbackResult = await generateWithFallback(`FALLBACK_SECRET_FIXTURE ${secret}`, { timeoutMs: 5_000 });
+  assert.equal(fallbackResult.attempts.length, 1);
+  assert.equal(fallbackResult.attempts[0].provider, "groq");
+  assert.equal(fallbackResult.attempts[0].error, "Provider request failed");
+  assert.equal(JSON.stringify(fallbackResult.attempts).includes(secret), false);
+
+  const priorProviderEnv = {
+    OPENAI_API_KEY: process.env.OPENAI_API_KEY,
+    OPENAI_MODEL: process.env.OPENAI_MODEL,
+    LITELLM_API_KEY: process.env.LITELLM_API_KEY,
+    LITELLM_BASE_URL: process.env.LITELLM_BASE_URL,
+    LITELLM_MODEL: process.env.LITELLM_MODEL
+  };
+  process.env.OPENAI_API_KEY = "server-openai-key";
+  process.env.OPENAI_MODEL = "server-approved-model";
+  process.env.LITELLM_API_KEY = "server-litellm-key";
+  process.env.LITELLM_BASE_URL = "https://trusted-litellm.example/v1";
+  process.env.LITELLM_MODEL = "server-litellm-model";
+  try {
+    const serverFunded = resolveProvider({ provider: "openai", model: "caller-premium-model" });
+    assert.equal(serverFunded.apiKey, "server-openai-key");
+    assert.equal(serverFunded.model, "server-approved-model");
+
+    const callerFunded = resolveProvider({
+      provider: "openai",
+      apiKey: "caller-openai-key",
+      model: "caller-selected-model"
+    });
+    assert.equal(callerFunded.apiKey, "caller-openai-key");
+    assert.equal(callerFunded.model, "caller-selected-model");
+
+    const protectedLiteLlm = resolveProvider({
+      provider: "litellm",
+      baseUrl: "https://caller-endpoint.example/v1",
+      model: "caller-selected-model"
+    });
+    assert.equal(protectedLiteLlm.apiKey, "server-litellm-key");
+    assert.equal(protectedLiteLlm.baseUrl, "https://trusted-litellm.example/v1/chat/completions");
+    assert.equal(protectedLiteLlm.model, "server-litellm-model");
+  } finally {
+    for (const [name, value] of Object.entries(priorProviderEnv)) {
+      if (value === undefined) delete process.env[name];
+      else process.env[name] = value;
+    }
   }
 
   assert.throws(() => assertSafeProviderEndpoint("not a url"), /valid URL/);

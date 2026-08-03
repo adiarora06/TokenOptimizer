@@ -2,7 +2,7 @@ const http = require("node:http");
 const https = require("node:https");
 
 const { estimateTokens, modelCost, normalizeUsage } = require("./usage.cjs");
-const { resolveSafeProviderEndpoint } = require("./security.cjs");
+const { resolveSafeProviderEndpoint, safeErrorMessage } = require("./security.cjs");
 
 function boundedNumber(value, fallback, min, max) {
   const parsed = Number(value);
@@ -112,36 +112,40 @@ function requestProvider({ endpoint, addresses, headers, body, signal, maxRespon
 
 function resolveProvider(config = {}) {
   const provider = config.provider || "offline";
+  const callerApiKey = String(config.apiKey || "").trim();
+  const callerOwnsCredential = Boolean(callerApiKey);
+  const callerModel = callerOwnsCredential ? String(config.model || "").trim() : "";
+  const callerBaseUrl = callerOwnsCredential ? String(config.baseUrl || "").trim() : "";
   const presets = {
     groq: {
       label: "Groq",
-      apiKey: config.apiKey || process.env.GROQ_API_KEY,
+      apiKey: callerApiKey || process.env.GROQ_API_KEY,
       baseUrl: "https://api.groq.com/openai/v1",
-      model: config.model || process.env.GROQ_MODEL || "llama-3.3-70b-versatile"
+      model: callerModel || process.env.GROQ_MODEL || "llama-3.3-70b-versatile"
     },
     openai: {
       label: "OpenAI",
-      apiKey: config.apiKey || process.env.OPENAI_API_KEY,
+      apiKey: callerApiKey || process.env.OPENAI_API_KEY,
       baseUrl: "https://api.openai.com/v1",
-      model: config.model || process.env.OPENAI_MODEL || "gpt-4.1-mini"
+      model: callerModel || process.env.OPENAI_MODEL || "gpt-4.1-mini"
     },
     openrouter: {
       label: "OpenRouter",
-      apiKey: config.apiKey || process.env.OPENROUTER_API_KEY,
+      apiKey: callerApiKey || process.env.OPENROUTER_API_KEY,
       baseUrl: "https://openrouter.ai/api/v1",
-      model: config.model || process.env.OPENROUTER_MODEL || "openai/gpt-4.1-mini"
+      model: callerModel || process.env.OPENROUTER_MODEL || "openai/gpt-4.1-mini"
     },
     xai: {
       label: "xAI/Grok",
-      apiKey: config.apiKey || process.env.XAI_API_KEY,
+      apiKey: callerApiKey || process.env.XAI_API_KEY,
       baseUrl: "https://api.x.ai/v1",
-      model: config.model || process.env.XAI_MODEL || "grok-4.3"
+      model: callerModel || process.env.XAI_MODEL || "grok-4.3"
     },
     litellm: {
       label: "LiteLLM",
-      apiKey: config.apiKey || process.env.LITELLM_API_KEY || "",
-      baseUrl: config.baseUrl || process.env.LITELLM_BASE_URL || "http://localhost:4000/v1",
-      model: config.model || process.env.LITELLM_MODEL || "gpt-4.1-mini"
+      apiKey: callerApiKey || process.env.LITELLM_API_KEY || "",
+      baseUrl: callerBaseUrl || process.env.LITELLM_BASE_URL || "http://localhost:4000/v1",
+      model: callerModel || process.env.LITELLM_MODEL || "gpt-4.1-mini"
     },
     custom: {
       label: config.label || "Custom OpenAI-compatible",
@@ -171,8 +175,11 @@ function resolveProvider(config = {}) {
   };
 }
 
-function testCompletion({ prompt, system }) {
+function testCompletion({ prompt, system, provider }) {
   if (process.env.NODE_ENV !== "test" || process.env.TOKEN_OPTIMIZER_TEST_MODE !== "1") return null;
+  if (provider === "groq" && /FALLBACK_SECRET_FIXTURE/.test(prompt)) {
+    throw new Error(`Provider echoed ${prompt}`);
+  }
   const binarySearchTask = /binary search/i.test(prompt) && /(?:target|find)\s+7/i.test(prompt);
   const content = binarySearchTask
     ? `## Binary Search for 7
@@ -255,7 +262,7 @@ async function callModel({
     throw new Error("Offline provider does not make model calls");
   }
   if (["groq", "openai"].includes(resolved.provider)) {
-    const fixture = testCompletion({ prompt, system });
+    const fixture = testCompletion({ prompt, system, provider: resolved.provider });
     if (fixture) return { ...fixture, providerLabel: resolved.label };
   }
   if (!resolved.baseUrl) {
@@ -377,7 +384,7 @@ async function generateWithFallback(prompt, options = {}) {
       });
       return { ...result, attempts };
     } catch (error) {
-      attempts.push({ provider, error: error.message });
+      attempts.push({ provider, error: fallbackAttemptMessage(error) });
     }
   }
   const details = attempts.map((attempt) => `${attempt.provider}: ${attempt.error}`).join("; ");
@@ -390,6 +397,26 @@ async function generateWithFallback(prompt, options = {}) {
   error.attempts = attempts;
   error.cause = details;
   throw error;
+}
+
+function fallbackAttemptMessage(error) {
+  const message = safeErrorMessage(error, "Provider request failed");
+  const stableMessages = [
+    /^(?:Groq|OpenAI) API key is not configured$/,
+    /^Provider request timed out$/,
+    /^Request cancelled$/,
+    /^Provider redirects are disabled$/,
+    /^Provider response exceeded the \d+-byte limit$/,
+    /^(?:Groq|OpenAI) returned no message content$/,
+    /^(?:Groq|OpenAI) response was truncated at the output token limit$/,
+    /^Provider endpoint DNS lookup (?:failed|returned no addresses)$/,
+    /^Private provider endpoints are disabled in production$/,
+    /^Provider endpoints must use HTTPS in production$/
+  ];
+  if (stableMessages.some((pattern) => pattern.test(message))) return message;
+  if (/\b(?:429|rate.?limit)\b/i.test(message)) return "Provider rate limit reached";
+  if (/\b(?:timeout|timed out)\b/i.test(message)) return "Provider request timed out";
+  return "Provider request failed";
 }
 
 async function callWorkflowProvider(selectedProvider, prompt, system, options = {}) {
