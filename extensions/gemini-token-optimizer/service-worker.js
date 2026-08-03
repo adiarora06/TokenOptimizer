@@ -1,4 +1,4 @@
-const GEMINI_HOST = "gemini.google.com";
+import "./platforms.js";
 
 chrome.runtime.onInstalled.addListener(() => {
   chrome.sidePanel
@@ -21,12 +21,7 @@ chrome.tabs.onActivated.addListener(async ({ tabId }) => {
 });
 
 function setPanelForTab(tabId, url) {
-  let enabled = false;
-  try {
-    enabled = new URL(url).host === GEMINI_HOST;
-  } catch {
-    enabled = false;
-  }
+  const enabled = Boolean(globalThis.TokenOptimizerPlatformRegistry?.forUrl(url));
 
   chrome.sidePanel
     .setOptions({

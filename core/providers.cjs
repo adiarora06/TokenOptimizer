@@ -1,5 +1,21 @@
+const http = require("node:http");
+const https = require("node:https");
+
 const { estimateTokens, modelCost, normalizeUsage } = require("./usage.cjs");
-const { assertSafeProviderEndpoint } = require("./security.cjs");
+const { resolveSafeProviderEndpoint } = require("./security.cjs");
+
+function boundedNumber(value, fallback, min, max) {
+  const parsed = Number(value);
+  if (!Number.isFinite(parsed)) return fallback;
+  return Math.min(max, Math.max(min, Math.round(parsed)));
+}
+
+function providerLimits() {
+  return {
+    maxOutputTokens: boundedNumber(process.env.TOKEN_OPTIMIZER_MAX_OUTPUT_TOKENS, 4_096, 128, 32_768),
+    maxResponseBytes: boundedNumber(process.env.TOKEN_OPTIMIZER_MAX_RESPONSE_BYTES, 1_048_576, 16_384, 4_194_304)
+  };
+}
 
 function createRequestSignal(externalSignal, timeoutMs = 45_000) {
   const controller = new AbortController();
@@ -21,6 +37,77 @@ function normalizeChatCompletionUrl(baseUrl) {
   if (!trimmed) return "";
   if (trimmed.endsWith("/chat/completions")) return trimmed;
   return `${trimmed}/chat/completions`;
+}
+
+function pinnedLookup(addresses) {
+  if (!addresses?.length) return undefined;
+  const ordered = [...addresses].sort((left, right) => left.family - right.family);
+  return (_hostname, options, callback) => {
+    const requestedFamily = typeof options === "object" ? Number(options.family || 0) : 0;
+    const candidates = requestedFamily ? ordered.filter((item) => item.family === requestedFamily) : ordered;
+    const selected = candidates[0];
+    if (!selected) {
+      const error = new Error("Provider endpoint has no validated address for the requested network family");
+      error.code = "ENOTFOUND";
+      callback(error);
+      return;
+    }
+    if (typeof options === "object" && options.all) callback(null, candidates);
+    else callback(null, selected.address, selected.family);
+  };
+}
+
+function requestProvider({ endpoint, addresses, headers, body, signal, maxResponseBytes }) {
+  return new Promise((resolve, reject) => {
+    const transport = endpoint.protocol === "https:" ? https : http;
+    let settled = false;
+    const finish = (error, value) => {
+      if (settled) return;
+      settled = true;
+      if (error) reject(error);
+      else resolve(value);
+    };
+    const request = transport.request(endpoint, {
+      method: "POST",
+      headers: {
+        ...headers,
+        "content-length": String(Buffer.byteLength(body))
+      },
+      lookup: pinnedLookup(addresses),
+      signal
+    }, (response) => {
+      const status = Number(response.statusCode || 0);
+      if (status >= 300 && status < 400) {
+        response.resume();
+        finish(new Error("Provider redirects are disabled"));
+        return;
+      }
+      const declaredBytes = Number(response.headers["content-length"] || 0);
+      if (declaredBytes > maxResponseBytes) {
+        response.resume();
+        finish(new Error(`Provider response exceeded the ${maxResponseBytes}-byte limit`));
+        return;
+      }
+      const chunks = [];
+      let receivedBytes = 0;
+      response.on("data", (chunk) => {
+        receivedBytes += chunk.length;
+        if (receivedBytes > maxResponseBytes) {
+          response.destroy(new Error(`Provider response exceeded the ${maxResponseBytes}-byte limit`));
+          return;
+        }
+        chunks.push(chunk);
+      });
+      response.on("end", () => finish(null, {
+        ok: status >= 200 && status < 300,
+        status,
+        text: Buffer.concat(chunks).toString("utf8")
+      }));
+      response.on("error", (error) => finish(error));
+    });
+    request.on("error", (error) => finish(error));
+    request.end(body);
+  });
 }
 
 function resolveProvider(config = {}) {
@@ -154,7 +241,15 @@ The request was completed through the test execution route.
 // Single provider caller behind every route: named env-configured providers
 // (groq, openai) and bring-your-own-endpoint kit providers share the same
 // request, timeout, parsing, and usage accounting path.
-async function callModel({ providerConfig = {}, prompt, system, signal, timeoutMs = 45_000 }) {
+async function callModel({
+  providerConfig = {},
+  prompt,
+  system,
+  signal,
+  timeoutMs = 45_000,
+  acceptTruncated = false,
+  maxOutputTokens
+}) {
   const resolved = resolveProvider(providerConfig);
   if (resolved.provider === "offline") {
     throw new Error("Offline provider does not make model calls");
@@ -172,7 +267,9 @@ async function callModel({ providerConfig = {}, prompt, system, signal, timeoutM
   if (!resolved.apiKey && resolved.provider !== "litellm") {
     throw new Error(`${resolved.label} API key is not configured`);
   }
-  assertSafeProviderEndpoint(resolved.baseUrl);
+  const safeEndpoint = await resolveSafeProviderEndpoint(resolved.baseUrl);
+  const limits = providerLimits();
+  const outputTokenLimit = boundedNumber(maxOutputTokens, limits.maxOutputTokens, 128, limits.maxOutputTokens);
 
   const headers = {
     "content-type": "application/json"
@@ -184,37 +281,39 @@ async function callModel({ providerConfig = {}, prompt, system, signal, timeoutM
   const startedAt = Date.now();
   const requestSignal = createRequestSignal(signal, timeoutMs);
   let response;
-  let text;
   try {
-    response = await fetch(resolved.baseUrl, {
-      method: "POST",
-      headers,
-      body: JSON.stringify({
-        model: resolved.model,
-        messages: [
-          {
-            role: "system",
-            content: system || "You are a precise contract workflow node. Use compact handoffs, preserve intent, and avoid exposing secrets."
-          },
-          {
-            role: "user",
-            content: prompt
-          }
-        ],
-        temperature: 0.2
-      }),
-      signal: requestSignal.signal
+    const body = JSON.stringify({
+      model: resolved.model,
+      messages: [
+        {
+          role: "system",
+          content: system || "You are a precise contract workflow node. Use compact handoffs, preserve intent, and avoid exposing secrets."
+        },
+        {
+          role: "user",
+          content: prompt
+        }
+      ],
+      temperature: 0.2,
+      max_tokens: outputTokenLimit
     });
-    text = await response.text();
+    response = await requestProvider({
+      endpoint: safeEndpoint.endpoint,
+      addresses: safeEndpoint.addresses,
+      headers,
+      body,
+      signal: requestSignal.signal,
+      maxResponseBytes: limits.maxResponseBytes
+    });
   } finally {
     requestSignal.cleanup();
   }
 
   let data;
   try {
-    data = JSON.parse(text);
+    data = JSON.parse(response.text);
   } catch {
-    data = { raw: text };
+    data = { raw: response.text };
   }
 
   if (!response.ok) {
@@ -224,6 +323,10 @@ async function callModel({ providerConfig = {}, prompt, system, signal, timeoutM
 
   const content = data.choices?.[0]?.message?.content;
   if (!content) throw new Error(`${resolved.label} returned no message content`);
+  const finishReason = data.choices?.[0]?.finish_reason || null;
+  if (finishReason === "length" && !acceptTruncated) {
+    throw new Error(`${resolved.label} response was truncated at the output token limit`);
+  }
   const usage = normalizeUsage(data);
   usage.estimatedCostUsd = modelCost(resolved.provider, usage);
   return {
@@ -231,27 +334,29 @@ async function callModel({ providerConfig = {}, prompt, system, signal, timeoutM
     provider: resolved.provider,
     providerLabel: resolved.label,
     model: resolved.model,
-    finishReason: data.choices?.[0]?.finish_reason || null,
+    finishReason,
     usage,
     latencyMs: Date.now() - startedAt
   };
 }
 
-async function callChatCompletion({ provider, prompt, system, signal, timeoutMs = 45_000 }) {
+async function callChatCompletion({ provider, prompt, system, signal, timeoutMs = 45_000, acceptTruncated, maxOutputTokens }) {
   if (!["groq", "openai"].includes(provider)) throw new Error("Unsupported provider route");
   return callModel({
     providerConfig: { provider },
     prompt,
     system: system || "Generate concise, correct outputs. Preserve user intent, avoid secrets, and use as few tokens as practical.",
     signal,
-    timeoutMs
+    timeoutMs,
+    acceptTruncated,
+    maxOutputTokens
   });
 }
 
 async function generateWithFallback(prompt, options = {}) {
   const perAttemptMs = options.timeoutMs || 45_000;
-  const totalBudgetMs = Math.min(Math.max(perAttemptMs, 60_000), 120_000);
-  const deadline = Date.now() + totalBudgetMs;
+  const totalBudgetMs = Math.min(Math.max(perAttemptMs, 5_000), 120_000);
+  const deadline = Number(options.deadlineAt) || Date.now() + totalBudgetMs;
   const attempts = [];
   for (const provider of ["groq", "openai"]) {
     if (options.signal?.aborted) {

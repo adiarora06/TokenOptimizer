@@ -1,7 +1,8 @@
 const { combineUsage, contextComparison, createTraceId, estimateTokens, generationRecord } = require("./usage.cjs");
-const { redactSensitiveText } = require("./security.cjs");
+const { redactSensitiveText, safeErrorMessage } = require("./security.cjs");
 const { callModel, callWorkflowProvider, resolveProvider } = require("./providers.cjs");
 const { analyzeWorkflowShape, buildOfflineContract } = require("./routing.cjs");
+const { validateHandoffContract } = require("./contracts.cjs");
 const {
   buildA2AContractPrompt,
   buildA2AExecutorPrompt,
@@ -15,6 +16,25 @@ const {
 async function emitWorkflowEvent(onEvent, event) {
   if (typeof onEvent !== "function") return;
   await onEvent({ ...event, at: new Date().toISOString() });
+}
+
+function createWorkflowBudget(timeoutMs) {
+  const requested = Number(timeoutMs);
+  const totalMs = Number.isFinite(requested)
+    ? Math.min(120_000, Math.max(5_000, Math.round(requested)))
+    : 45_000;
+  const deadlineAt = Date.now() + totalMs;
+  return {
+    deadlineAt,
+    totalMs,
+    remaining(stage) {
+      const remainingMs = deadlineAt - Date.now();
+      if (remainingMs < 1_000) {
+        throw new Error(`Workflow time budget was exhausted before the ${stage} stage`);
+      }
+      return remainingMs;
+    }
+  };
 }
 
 function buildBlankA2AKit(rawInput, options = {}) {
@@ -98,6 +118,7 @@ function buildBlankA2AKit(rawInput, options = {}) {
 
 async function runBlankA2AKit({ rawInput, providerConfig = {}, options = {}, signal }) {
   const startedAt = Date.now();
+  const workflowBudget = createWorkflowBudget(options.timeoutMs);
   const rawTokens = estimateTokens(rawInput);
   const security = redactSensitiveText(rawInput);
   const safeInput = security.text;
@@ -128,6 +149,7 @@ async function runBlankA2AKit({ rawInput, providerConfig = {}, options = {}, sig
   let contractOutput = JSON.stringify(kit, null, 2);
   let executorOutput = "";
   let finalAnswer = "";
+  let contractValidation = { source: "local_fallback", issues: [] };
 
   const contractPrompt = buildA2AContractPrompt(safeInput, kit);
   optimizedPrompts.push({
@@ -150,14 +172,24 @@ async function runBlankA2AKit({ rawInput, providerConfig = {}, options = {}, sig
         prompt: contractPrompt,
         system: "You are a Contract Builder. Convert messy user input into compact, safe, token-bounded handoff contracts.",
         signal,
-        timeoutMs: options.timeoutMs
+        timeoutMs: workflowBudget.remaining("contract"),
+        acceptTruncated: true,
+        maxOutputTokens: 2_000
       });
-      contractOutput = contractResult.content;
+      contractValidation = validateHandoffContract(contractResult.content, kit.handoff_contract, {
+        finishReason: contractResult.finishReason
+      });
+      contractOutput = contractValidation.output;
+      kit.handoff_contract = contractValidation.contract;
+      kit.goal = contractValidation.contract.goal;
       generations.push(generationRecord("contract", contractResult));
       providerUsed = contractResult.provider;
       providerLabel = contractResult.providerLabel;
       modelUsed = contractResult.model;
       trace[trace.length - 1].status = "done";
+      trace[trace.length - 1].detail = contractValidation.source === "provider"
+        ? "Validated the provider contract against the typed handoff schema."
+        : "Provider contract validation failed; substituted the safe local contract.";
 
       if (options.mode === "contract-only") {
         trace.push({
@@ -185,7 +217,8 @@ async function runBlankA2AKit({ rawInput, providerConfig = {}, options = {}, sig
           prompt: executorPrompt,
           system: "You are an Executor Agent. Produce the best final work product from the compact handoff contract.",
           signal,
-          timeoutMs: options.timeoutMs
+          timeoutMs: workflowBudget.remaining("execution"),
+          maxOutputTokens: contractValidation.contract.token_budget.executor_target
         });
         generations.push(generationRecord("execute", executorResult));
         executorOutput = executorResult.content;
@@ -210,7 +243,8 @@ async function runBlankA2AKit({ rawInput, providerConfig = {}, options = {}, sig
           prompt: verifierPrompt,
           system: "You are a Verifier Agent. Fix drift, preserve intent, and return a compact final answer.",
           signal,
-          timeoutMs: options.timeoutMs
+          timeoutMs: workflowBudget.remaining("verification"),
+          maxOutputTokens: contractValidation.contract.token_budget.executor_target
         });
         generations.push(generationRecord("verify", verifierResult));
         finalAnswer = verifierResult.content;
@@ -218,7 +252,7 @@ async function runBlankA2AKit({ rawInput, providerConfig = {}, options = {}, sig
         trace[trace.length - 1].status = "done";
       }
     } catch (error) {
-      providerError = signal?.aborted ? "Run cancelled" : error.message;
+      providerError = signal?.aborted ? "Run cancelled" : safeErrorMessage(error, "Model execution stopped");
       executionStatus = signal?.aborted ? "cancelled" : "provider_error";
       trace.push({
         phase: "error",
@@ -252,6 +286,7 @@ async function runBlankA2AKit({ rawInput, providerConfig = {}, options = {}, sig
     },
     kit,
     contractOutput,
+    contractValidation,
     executorOutput,
     finalAnswer,
     optimizedPrompts,
@@ -281,6 +316,7 @@ async function runBlankA2AKit({ rawInput, providerConfig = {}, options = {}, sig
 
 async function runSelfOptimizingWorkflow({ rawInput, provider, options = {}, onEvent, signal, traceId = createTraceId() }) {
   const startedAt = Date.now();
+  const workflowBudget = createWorkflowBudget(options.timeoutMs);
   const selectedProvider = provider || "groq-openai-fallback";
   const security = redactSensitiveText(rawInput);
   const safeInput = security.text;
@@ -354,6 +390,8 @@ async function runSelfOptimizingWorkflow({ rawInput, provider, options = {}, onE
   let providerUsed = null;
   let modelUsed = null;
   let optimizerOutput = JSON.stringify(offlineContract, null, 2);
+  let handoffContract = offlineContract;
+  let contractValidation = { source: "not_used", issues: [] };
   let executorOutput = "";
   let finalAnswer = "";
   let providerError = null;
@@ -386,7 +424,12 @@ async function runSelfOptimizingWorkflow({ rawInput, provider, options = {}, onE
           selectedProvider,
           directPrompt,
           "Complete the user's task directly. Preserve requested deliverables and avoid internal process commentary.",
-          { signal, timeoutMs: options.timeoutMs }
+          {
+            signal,
+            timeoutMs: workflowBudget.remaining("execution"),
+            deadlineAt: workflowBudget.deadlineAt,
+            maxOutputTokens: offlineContract.token_budget.executor_target
+          }
         );
         generations.push(generationRecord("execute", directResult));
         executorOutput = directResult.content;
@@ -402,15 +445,31 @@ async function runSelfOptimizingWorkflow({ rawInput, provider, options = {}, onE
           selectedProvider,
           optimizerPrompt,
           "You are a Contract Builder. Preserve intent, remove repetition, and return compact execution state.",
-          { signal, timeoutMs: options.timeoutMs }
+          {
+            signal,
+            timeoutMs: workflowBudget.remaining("contract"),
+            deadlineAt: workflowBudget.deadlineAt,
+            acceptTruncated: true,
+            maxOutputTokens: 2_000
+          }
         );
         generations.push(generationRecord("contract", optimizerResult));
-        optimizerOutput = optimizerResult.content;
+        contractValidation = validateHandoffContract(optimizerResult.content, offlineContract, {
+          finishReason: optimizerResult.finishReason
+        });
+        handoffContract = contractValidation.contract;
+        optimizerOutput = contractValidation.output;
         providerUsed = optimizerResult.provider;
         modelUsed = optimizerResult.model;
-        await finishTrace(contractTrace, "done", "Compact execution context is ready.");
+        await finishTrace(
+          contractTrace,
+          "done",
+          contractValidation.source === "provider"
+            ? "Validated compact execution context against the typed handoff schema."
+            : "Provider contract validation failed; substituted the safe local contract."
+        );
 
-        const executorPrompt = buildExecutorPrompt(optimizerOutput, offlineContract);
+        const executorPrompt = buildExecutorPrompt(optimizerOutput, handoffContract);
         optimizedPrompts.push({
           agent: "Executor Agent",
           purpose: "Execute the task using only the compact handoff contract.",
@@ -422,7 +481,12 @@ async function runSelfOptimizingWorkflow({ rawInput, provider, options = {}, onE
           selectedProvider,
           executorPrompt,
           "You are an Executor Agent. Produce the best final work product from the compact handoff contract.",
-          { signal, timeoutMs: options.timeoutMs }
+          {
+            signal,
+            timeoutMs: workflowBudget.remaining("execution"),
+            deadlineAt: workflowBudget.deadlineAt,
+            maxOutputTokens: handoffContract.token_budget.executor_target
+          }
         );
         generations.push(generationRecord("execute", executorResult));
         executorOutput = executorResult.content;
@@ -445,7 +509,12 @@ async function runSelfOptimizingWorkflow({ rawInput, provider, options = {}, onE
             selectedProvider,
             verifierPrompt,
             "You are a Verifier Agent. Fix drift, preserve intent, and return a compact final answer without process commentary.",
-            { signal, timeoutMs: options.timeoutMs }
+            {
+              signal,
+              timeoutMs: workflowBudget.remaining("verification"),
+              deadlineAt: workflowBudget.deadlineAt,
+              maxOutputTokens: handoffContract.token_budget.executor_target
+            }
           );
           generations.push(generationRecord("verify", verifierResult));
           finalAnswer = verifierResult.content;
@@ -457,7 +526,7 @@ async function runSelfOptimizingWorkflow({ rawInput, provider, options = {}, onE
         }
       }
     } catch (error) {
-      providerError = signal?.aborted ? "Run cancelled" : error.message;
+      providerError = signal?.aborted ? "Run cancelled" : safeErrorMessage(error, "Model execution stopped");
       executionStatus = signal?.aborted ? "cancelled" : "provider_error";
       finalAnswer = "";
       executorOutput = "";
@@ -495,7 +564,8 @@ async function runSelfOptimizingWorkflow({ rawInput, provider, options = {}, onE
       redactions: security.count,
       types: security.types
     },
-    handoffContract: offlineContract,
+    handoffContract,
+    contractValidation,
     optimizerOutput,
     executorOutput,
     finalAnswer,
@@ -531,6 +601,7 @@ async function runSelfOptimizingWorkflow({ rawInput, provider, options = {}, onE
 
 module.exports = {
   buildBlankA2AKit,
+  createWorkflowBudget,
   runBlankA2AKit,
   runSelfOptimizingWorkflow
 };

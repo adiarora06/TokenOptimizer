@@ -13,6 +13,15 @@ function writeEvent(res, event, data) {
 }
 
 module.exports = async function handler(req, res) {
+  if (req.method !== "POST") {
+    res.writeHead(405, {
+      ...commonHeaders(),
+      allow: "POST",
+      "content-type": "application/json; charset=utf-8"
+    });
+    res.end(JSON.stringify({ error: "Method not allowed" }));
+    return;
+  }
   const rate = takeRateLimit(req);
   if (!rate.allowed) {
     res.writeHead(429, {
@@ -21,12 +30,6 @@ module.exports = async function handler(req, res) {
       "retry-after": String(rate.retryAfterSeconds)
     });
     res.end(JSON.stringify({ error: "Too many runs. Please wait a moment and try again." }));
-    return;
-  }
-
-  if (req.method !== "POST") {
-    res.writeHead(405, { ...commonHeaders(rate), "content-type": "application/json; charset=utf-8" });
-    res.end(JSON.stringify({ error: "Method not allowed" }));
     return;
   }
 

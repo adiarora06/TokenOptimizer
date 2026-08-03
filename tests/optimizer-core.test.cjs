@@ -11,9 +11,17 @@ const {
   runBlankA2AKit,
   runSelfOptimizingWorkflow
 } = require("../optimizer-core.cjs");
-const { assertSafeProviderEndpoint } = require("../core/security.cjs");
+const {
+  assertSafeProviderEndpoint,
+  isPublicIpAddress,
+  resolveSafeProviderEndpoint,
+  safeErrorMessage
+} = require("../core/security.cjs");
+const { validateHandoffContract } = require("../core/contracts.cjs");
+const { buildOfflineContract } = require("../core/routing.cjs");
+const { createWorkflowBudget } = require("../core/workflow.cjs");
 const { contextComparison } = require("../core/usage.cjs");
-const { takeRateLimit } = require("../request-guard.cjs");
+const { clientKey, takeRateLimit } = require("../request-guard.cjs");
 
 async function run() {
   const secret = ["gsk", "abcdefghijklmnopqrstuvwxyz123456"].join("_");
@@ -21,6 +29,7 @@ async function run() {
   assert.equal(redacted.count, 2);
   assert.equal(redacted.text.includes(secret), false);
   assert.match(redacted.text, /\[REDACTED_SECRET\]/);
+  assert.equal(safeErrorMessage(new Error(`Provider echoed Bearer ${secret}`)).includes(secret), false);
 
   const modernSecrets = [
     ["AKIA", "ABCDEFGHIJKLMNOP"].join(""),
@@ -42,7 +51,9 @@ async function run() {
   assert.throws(() => assertSafeProviderEndpoint("https://user:pass@example.com/v1"), /URL credentials/);
   assert.equal(assertSafeProviderEndpoint("http://localhost:4000/v1"), "http://localhost:4000/v1");
   const priorEnv = process.env.NODE_ENV;
+  const priorPrivateEndpointFlag = process.env.TOKEN_OPTIMIZER_ALLOW_PRIVATE_ENDPOINTS;
   process.env.NODE_ENV = "production";
+  process.env.TOKEN_OPTIMIZER_ALLOW_PRIVATE_ENDPOINTS = "0";
   try {
     for (const blocked of [
       "http://localhost:4000/v1",
@@ -56,20 +67,99 @@ async function run() {
     }
     assert.throws(() => assertSafeProviderEndpoint("http://api.example.com/v1"), /HTTPS in production/);
     assert.equal(assertSafeProviderEndpoint("https://api.example.com/v1"), "https://api.example.com/v1");
+    for (const address of ["::", "::1", "fc00::1", "fe80::1", "::ffff:127.0.0.1", "2001:db8::1", "203.0.113.5"]) {
+      assert.equal(isPublicIpAddress(address), false, address);
+    }
+    assert.equal(isPublicIpAddress("8.8.8.8"), true);
+    assert.equal(isPublicIpAddress("2606:4700:4700::1111"), true);
+
+    await assert.rejects(
+      resolveSafeProviderEndpoint("https://provider.example/v1", {
+        lookup: async () => [{ address: "10.0.0.8", family: 4 }]
+      }),
+      /private provider endpoints/i
+    );
+    const resolvedEndpoint = await resolveSafeProviderEndpoint("https://provider.example/v1", {
+      lookup: async () => [{ address: "93.184.216.34", family: 4 }]
+    });
+    assert.deepEqual(resolvedEndpoint.addresses, [{ address: "93.184.216.34", family: 4 }]);
   } finally {
     process.env.NODE_ENV = priorEnv;
+    if (priorPrivateEndpointFlag === undefined) delete process.env.TOKEN_OPTIMIZER_ALLOW_PRIVATE_ENDPOINTS;
+    else process.env.TOKEN_OPTIMIZER_ALLOW_PRIVATE_ENDPOINTS = priorPrivateEndpointFlag;
   }
 
-  const rateRequest = (ip, device) => ({
-    headers: device ? { "x-token-optimizer-device": device } : {},
+  const fallbackContract = buildOfflineContract("Create a concise JSON migration plan.");
+  const validContract = validateHandoffContract(`\`\`\`json
+${JSON.stringify({
+    goal: "Create the migration plan",
+    facts: [secret],
+    constraints: ["Return JSON"],
+    decisions: [],
+    required_output: ["migration plan"],
+    sources: ["user_input"],
+    open_questions: [],
+    next_action: "Create the plan",
+    output_style: "JSON only",
+    token_budget: { executor_max: 500 }
+  })}
+\`\`\``, fallbackContract);
+  assert.equal(validContract.source, "provider");
+  assert.equal(validContract.output.includes(secret), false);
+  assert.equal(validContract.contract.token_budget.executor_target, 500);
+
+  const invalidContract = validateHandoffContract("not JSON", fallbackContract);
+  assert.equal(invalidContract.source, "local_fallback");
+  assert.deepEqual(invalidContract.contract, fallbackContract);
+  const truncatedContract = validateHandoffContract("{}", fallbackContract, { finishReason: "length" });
+  assert.equal(truncatedContract.source, "local_fallback");
+  assert.match(truncatedContract.issues[0], /truncated/i);
+
+  const realDateNow = Date.now;
+  let fakeNow = 10_000;
+  Date.now = () => fakeNow;
+  try {
+    const budget = createWorkflowBudget(5_000);
+    assert.equal(budget.remaining("contract"), 5_000);
+    fakeNow += 4_100;
+    assert.throws(() => budget.remaining("execution"), /exhausted before the execution stage/i);
+  } finally {
+    Date.now = realDateNow;
+  }
+
+  const rateRequest = (ip, device, headers = {}) => ({
+    headers: { ...(device ? { "x-token-optimizer-device": device } : {}), ...headers },
     socket: { remoteAddress: ip }
   });
+  const priorVercel = process.env.VERCEL;
+  const priorTrustProxy = process.env.TOKEN_OPTIMIZER_TRUST_PROXY;
+  delete process.env.VERCEL;
+  delete process.env.TOKEN_OPTIMIZER_TRUST_PROXY;
+  assert.equal(
+    clientKey(rateRequest("203.0.113.20", null, { "x-forwarded-for": "8.8.8.8" })),
+    "203.0.113.20",
+    "standalone servers must ignore spoofable forwarding headers"
+  );
+  process.env.VERCEL = "1";
+  assert.equal(
+    clientKey(rateRequest("127.0.0.1", null, { "x-forwarded-for": "8.8.4.4" })),
+    "8.8.4.4",
+    "Vercel-overwritten forwarding headers identify the public client"
+  );
+  if (priorVercel === undefined) delete process.env.VERCEL;
+  else process.env.VERCEL = priorVercel;
+  if (priorTrustProxy === undefined) delete process.env.TOKEN_OPTIMIZER_TRUST_PROXY;
+  else process.env.TOKEN_OPTIMIZER_TRUST_PROXY = priorTrustProxy;
+
   let lastRate = null;
   for (let i = 0; i < 21; i += 1) {
     lastRate = takeRateLimit(rateRequest("203.0.113.9", `device_${i}`));
   }
   assert.equal(lastRate.allowed, false, "rotating device headers must not mint fresh rate buckets");
   assert.equal(takeRateLimit(rateRequest("203.0.113.10")).allowed, true, "a different IP gets its own bucket");
+  const preparationRate = takeRateLimit(rateRequest("203.0.113.9"), { scope: "preparation" });
+  assert.equal(preparationRate.allowed, true, "free prompt preparation must not share the billable model-call bucket");
+  assert.equal(preparationRate.scope, "preparation");
 
   const direct = analyzeWorkflowShape("Summarize this paragraph in three bullets.");
   assert.equal(direct.route, "direct");

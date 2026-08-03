@@ -8,6 +8,12 @@ const {
 } = require("../request-guard.cjs");
 
 module.exports = async function handler(req, res) {
+  for (const [name, value] of Object.entries(commonHeaders())) res.setHeader(name, value);
+  if (req.method !== "POST") {
+    res.setHeader("allow", "POST");
+    res.status(405).json({ error: "Method not allowed" });
+    return;
+  }
   const rate = takeRateLimit(req);
   for (const [name, value] of Object.entries(commonHeaders(rate))) res.setHeader(name, value);
   if (!rate.allowed) {
@@ -15,11 +21,6 @@ module.exports = async function handler(req, res) {
     res.status(429).json({ error: "Too many runs. Please wait a moment and try again." });
     return;
   }
-  if (req.method !== "POST") {
-    res.status(405).json({ error: "Method not allowed" });
-    return;
-  }
-
   try {
     const parsed = validateA2APayload(req.body);
     if (!parsed.ok) {

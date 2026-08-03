@@ -1,6 +1,19 @@
 const { estimateTokens } = require("./usage.cjs");
 const { compactLines } = require("./text.cjs");
 
+function compactContractLine(value, maxLength = 600) {
+  const parts = String(value || "").split(/(?<=[.!?])\s+/);
+  const seen = new Set();
+  const compact = parts.filter((part) => {
+    const key = part.replace(/\s+/g, " ").trim().toLowerCase();
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  }).join(" ").trim();
+  if (compact.length <= maxLength) return compact;
+  return `${compact.slice(0, maxLength - 1).trimEnd()}…`;
+}
+
 function outputStyleFor(text) {
   const lower = String(text || "").toLowerCase();
   if (/\b(json|api|schema|yaml|structured)\b/.test(lower)) return "Return structured output without extra narration.";
@@ -70,12 +83,13 @@ function analyzeWorkflowShape(rawInput, options = {}) {
 }
 
 function buildOfflineContract(rawInput) {
-  const lines = compactLines(rawInput, 10);
+  const lines = compactLines(rawInput, 10).map((line) => compactContractLine(line));
   const firstLine = lines[0] || "Complete the user's requested task.";
   const likelyGoal = firstLine.length > 180 ? `${firstLine.slice(0, 177)}...` : firstLine;
   const constraints = lines
     .filter((line) => /(must|should|don't|do not|avoid|need|want|require|constraint|use|with|without)/i.test(line))
-    .slice(0, 6);
+    .slice(0, 6)
+    .map((line) => compactContractLine(line, 400));
   const outputStyle = outputStyleFor(rawInput);
   const shape = analyzeWorkflowShape(rawInput);
 

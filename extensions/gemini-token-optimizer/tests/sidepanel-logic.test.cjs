@@ -63,16 +63,16 @@ const sidepanelCode = fs
   .replace(/\ninit\(\);\s*$/, "\n");
 
 vm.runInNewContext(`${platformsCode}\n${sidepanelCode}
-this.__looksPrepared = looksPrepared;
 this.__platformForUrl = platformForUrl;
 this.__requestPreparation = requestPreparation;
 this.__renderMetrics = renderMetrics;
+this.__rawPromptForPreparation = rawPromptForPreparation;
 `, context);
 
 assert.equal(context.__platformForUrl("https://gemini.google.com/app").id, "gemini");
+assert.equal(context.__platformForUrl("https://chatgpt.com/").id, "chatgpt");
+assert.equal(context.__platformForUrl("https://chat.openai.com/c/example").id, "chatgpt");
 assert.equal(context.__platformForUrl("https://example.com"), null);
-assert.equal(context.__looksPrepared("Complete this task directly.\nTask:\nBuild it."), true);
-assert.equal(context.__looksPrepared("Build a clean implementation."), false);
 
 context.__renderMetrics(preparedResponse);
 assert.equal(element("rawTokenMetric").textContent, 24);
@@ -82,6 +82,10 @@ assert.equal(element("modelCallMetric").textContent, 0);
 assert.equal(element("routeNote").textContent, "Prepared without calling a model.");
 
 (async () => {
+  const promptAboutOptimization = "Explain token optimization and handoff contracts.";
+  element("rawPrompt").value = promptAboutOptimization;
+  assert.equal(await context.__rawPromptForPreparation(), promptAboutOptimization);
+
   const result = await context.__requestPreparation(
     "Create a binary search program for range(0, 70).",
     { id: "gemini" }

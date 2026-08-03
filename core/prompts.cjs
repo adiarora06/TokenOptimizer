@@ -54,16 +54,14 @@ function buildOptimizerPrompt(rawInput, offlineContract) {
 
 Convert the raw user input into a compact handoff contract for downstream nodes.
 
+Return valid JSON only with these keys:
+{"goal":"","facts":[],"constraints":[],"decisions":[],"required_output":[],"sources":["user_input"],"open_questions":[],"next_action":"","output_style":"","token_budget":{"executor_max":${offlineContract.token_budget.executor_target}}}
+
 Rules:
 - Preserve the user's actual goal, constraints, and important nuance.
 - Do not include secrets.
 - Remove repeated instructions and irrelevant history.
-- Return compact Markdown with these sections only:
-  1. Goal
-  2. Required Context
-  3. Constraints
-  4. Optimized Executor Prompt
-  5. Token-Saving Notes
+- Do not add Markdown fences or prose outside the JSON object.
 
 Offline hints:
 ${JSON.stringify(scaffoldHints(offlineContract), null, 2)}

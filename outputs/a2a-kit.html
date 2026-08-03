@@ -687,7 +687,7 @@ ${result.finalAnswer || "No final answer returned."}
 - Raw input tokens: ${report.rawInputTokens || 0}
 - Workflow prompt tokens: ${report.optimizedPromptTokens || 0}
 - Repeated-context baseline tokens: ${report.estimatedNaiveThreeStepTokens || 0}
-- Estimated context delta tokens: ${report.estimatedContextDeltaTokens ?? report.estimatedSavingsTokens || 0}
+- Estimated context delta tokens: ${report.estimatedContextDeltaTokens ?? report.estimatedSavingsTokens ?? 0}
 - Estimated context reduction: ${report.estimatedSavingsPercent || 0}%
 
 ## Route

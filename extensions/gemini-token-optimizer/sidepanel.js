@@ -1,5 +1,4 @@
 const PREPARE_ENDPOINT = "https://tok-pi-gilt.vercel.app/api/prepare-handoff";
-const recentPromptKey = "tokenOptimizerLastRawPrompt";
 const preparationHistoryKey = "tokenOptimizerPreparationHistory";
 
 const state = {
@@ -54,13 +53,6 @@ function estimateTokens(text) {
   return Math.max(0, Math.ceil(String(text || "").length / 4));
 }
 
-function looksPrepared(text) {
-  const value = String(text || "").trim();
-  return /^Complete this task directly/i.test(value) ||
-    /\n(?:Task|Important context|Requirements|Output):/i.test(value) ||
-    /token optimization|handoff contracts|internal agent workflow/i.test(value);
-}
-
 function platformForUrl(url) {
   return globalThis.TokenOptimizerPlatformRegistry?.forUrl(url) || null;
 }
@@ -81,16 +73,6 @@ async function messageTarget(message) {
   } catch {
     throw new Error(`${target.label} is not ready yet. Refresh the page, focus its prompt box, and try again.`);
   }
-}
-
-async function getRecentRawPrompt() {
-  const data = await chrome.storage.local.get(recentPromptKey);
-  return String(data[recentPromptKey] || "").trim();
-}
-
-async function rememberRawPrompt(prompt) {
-  if (!prompt || looksPrepared(prompt)) return;
-  await chrome.storage.local.set({ [recentPromptKey]: prompt });
 }
 
 async function recordPreparation(result, target) {
@@ -142,7 +124,7 @@ async function checkConnection() {
     setStatus("Ready", `${target.label} wrapper connected`, "Capture a rough prompt or prepare and insert it in one click.", false, "capture");
   } catch (error) {
     el("connectionPill").textContent = "No assistant";
-    setStatus("Ready", "Open Gemini to connect", error.message, false, "capture");
+    setStatus("Ready", "Open Gemini or ChatGPT to connect", error.message, false, "capture");
   }
 }
 
@@ -153,7 +135,6 @@ async function capturePrompt({ quiet = false } = {}) {
   el("rawPrompt").value = response.prompt;
   state.lastResult = null;
   updateDraftTokenPill();
-  await rememberRawPrompt(response.prompt);
   if (!quiet) {
     setStatus("Captured", "Prompt captured", "Prepare it, or prepare and insert it in one click.", false, "capture");
     toast("Prompt captured");
@@ -164,10 +145,8 @@ async function capturePrompt({ quiet = false } = {}) {
 async function rawPromptForPreparation() {
   let prompt = el("rawPrompt").value.trim();
   if (!prompt) prompt = await capturePrompt({ quiet: true });
-  if (looksPrepared(prompt)) prompt = await getRecentRawPrompt() || prompt;
   if (!prompt) throw new Error("Paste a prompt or focus a prompt box first.");
   el("rawPrompt").value = prompt;
-  await rememberRawPrompt(prompt);
   return prompt;
 }
 

@@ -124,12 +124,18 @@ async function handleApi(req, res) {
     "/api/workflow-run",
     "/api/a2a-run"
   ]);
-  const rate = req.method === "POST" && rateLimitedPaths.has(pathname) ? takeRateLimit(req) : null;
+  const rate = req.method === "POST" && rateLimitedPaths.has(pathname)
+    ? takeRateLimit(req, { scope: pathname === "/api/prepare-handoff" ? "preparation" : "billable" })
+    : null;
   if (rate && !rate.allowed) {
     sendJson(
       res,
       429,
-      { error: "Too many runs. Please wait a moment and try again." },
+      {
+        error: rate.scope === "preparation"
+          ? "Too many preparations. Please wait a moment and try again."
+          : "Too many runs. Please wait a moment and try again."
+      },
       { ...commonHeaders(rate), "retry-after": String(rate.retryAfterSeconds) }
     );
     return;
@@ -171,7 +177,7 @@ async function handleApi(req, res) {
       const body = await readJson(req);
       const parsed = validateOptimizerPayload(body);
       if (!parsed.ok) {
-        sendJson(res, 400, { error: parsed.error });
+        sendJson(res, 400, { error: parsed.error }, commonHeaders(rate));
         return;
       }
       const run = optimizerSystem.start({
@@ -185,7 +191,7 @@ async function handleApi(req, res) {
       });
       sendJson(res, 202, { run }, commonHeaders(rate));
     } catch (error) {
-      sendJson(res, 500, { error: publicError(error) });
+      sendJson(res, 500, { error: publicError(error) }, commonHeaders(rate));
     }
     return;
   }
@@ -196,7 +202,7 @@ async function handleApi(req, res) {
       const body = await readJson(req);
       const parsed = validateOptimizerPayload(body);
       if (!parsed.ok) {
-        sendJson(res, 400, { error: parsed.error });
+        sendJson(res, 400, { error: parsed.error }, commonHeaders(rate));
         return;
       }
 
@@ -226,7 +232,7 @@ async function handleApi(req, res) {
       writeSse(res, "result", { result });
       res.end();
     } catch (error) {
-      if (!res.headersSent) sendJson(res, 500, { error: publicError(error) });
+      if (!res.headersSent) sendJson(res, 500, { error: publicError(error) }, commonHeaders(rate));
       else {
         writeSse(res, "error", { error: publicError(error) });
         res.end();
@@ -242,7 +248,7 @@ async function handleApi(req, res) {
       const body = await readJson(req);
       const parsed = validateGeneratePayload(body);
       if (!parsed.ok) {
-        sendJson(res, 400, { error: parsed.error });
+        sendJson(res, 400, { error: parsed.error }, commonHeaders(rate));
         return;
       }
       const provider = parsed.data.provider || "groq-openai-fallback";
@@ -253,9 +259,9 @@ async function handleApi(req, res) {
         : provider === "groq"
           ? await callChatCompletion({ provider: "groq", prompt, signal })
           : await generateWithFallback(prompt, { signal });
-      sendJson(res, 200, result);
+      sendJson(res, 200, result, commonHeaders(rate));
     } catch (error) {
-      sendJson(res, 500, { error: publicError(error) });
+      sendJson(res, 500, { error: publicError(error) }, commonHeaders(rate));
     }
     return;
   }
@@ -265,7 +271,7 @@ async function handleApi(req, res) {
       const body = await readJson(req);
       const parsed = validateOptimizerPayload(body);
       if (!parsed.ok) {
-        sendJson(res, 400, { error: parsed.error });
+        sendJson(res, 400, { error: parsed.error }, commonHeaders(rate));
         return;
       }
       const result = preparePortableHandoff({
@@ -275,7 +281,7 @@ async function handleApi(req, res) {
       });
       sendJson(res, 200, result, commonHeaders(rate));
     } catch (error) {
-      sendJson(res, 500, { error: publicError(error) });
+      sendJson(res, 500, { error: publicError(error) }, commonHeaders(rate));
     }
     return;
   }
@@ -285,7 +291,7 @@ async function handleApi(req, res) {
       const body = await readJson(req);
       const parsed = validateOptimizerPayload(body);
       if (!parsed.ok) {
-        sendJson(res, 400, { error: parsed.error });
+        sendJson(res, 400, { error: parsed.error }, commonHeaders(rate));
         return;
       }
       const result = await runSelfOptimizingWorkflow({
@@ -296,7 +302,7 @@ async function handleApi(req, res) {
       });
       sendJson(res, 200, result, commonHeaders(rate));
     } catch (error) {
-      sendJson(res, 500, { error: publicError(error) });
+      sendJson(res, 500, { error: publicError(error) }, commonHeaders(rate));
     }
     return;
   }
@@ -306,7 +312,7 @@ async function handleApi(req, res) {
       const body = await readJson(req);
       const parsed = validateA2APayload(body);
       if (!parsed.ok) {
-        sendJson(res, 400, { error: parsed.error });
+        sendJson(res, 400, { error: parsed.error }, commonHeaders(rate));
         return;
       }
       const result = await runBlankA2AKit({
@@ -315,9 +321,9 @@ async function handleApi(req, res) {
         options: parsed.data.options || {},
         signal: abortSignalOnClose(res)
       });
-      sendJson(res, 200, result);
+      sendJson(res, 200, result, commonHeaders(rate));
     } catch (error) {
-      sendJson(res, 500, { error: publicError(error) });
+      sendJson(res, 500, { error: publicError(error) }, commonHeaders(rate));
     }
     return;
   }

@@ -37,12 +37,13 @@ http://127.0.0.1:8787
 - `graphify-out/GRAPH_REPORT.md`: generated architecture report with hubs, communities, and high-impact connections.
 - `outputs/prompt-history.html`: prompt history and side-panel audit log.
 - `outputs/stats.html`: session and all-time usage insights.
-- `extensions/gemini-token-optimizer`: local unpacked Chrome extension MVP for Gemini.
+- `extensions/gemini-token-optimizer`: local unpacked Chrome extension for Gemini and ChatGPT.
 - `extensions/gemini-token-optimizer/ADAPTERS.md`: reusable site-adapter contract for future AI assistants.
 - `extensions/gemini-token-optimizer/PUBLISHING.md`: Chrome Web Store readiness checklist.
 - `optimizer-core.cjs`: public entry point for the optimizer core modules.
 - `core/`: focused modules for provider adapters, adaptive routing, handoff preparation, the prompt library, secret removal, usage accounting, and the workflow runners.
 - `request-guard.cjs`: payload validation, public error shaping, response hardening, and request throttling.
+- `PRODUCTION_SECURITY.md`: application limits and the staged Vercel Firewall rollout runbook.
 - `api/optimize-stream.js`: hosted server-sent event endpoint for live run progress.
 - `api/prepare-handoff.js`: deterministic, zero-model-call prompt preparation for wrappers.
 - `server.cjs`: local static server and streaming API implementation.
@@ -89,7 +90,10 @@ The browser and orchestration layers are intentionally separate:
 - **Input/output tokens** use provider-reported totals when available and are labeled as estimates otherwise.
 - **Context saved** compares the compact prompts against the planned repeated-input baseline; it is always labeled as an estimate.
 - **Cost** appears only when a provider reports it or model pricing rates are configured on the server.
-- **Secrets** matching supported key and credential patterns are removed before model transmission.
+- **Secrets** matching supported key and credential patterns are removed before model transmission and from provider errors before they reach browser history.
+- **Contracts** are parsed as JSON and schema-validated before an executor can use them; malformed or truncated contracts fall back to compact local state.
+- **Provider boundaries** reject private or reserved production addresses, validate and pin DNS results, reject redirects, and cap output tokens and response bytes.
+- **Timeouts** use one workflow-wide deadline, so adding contract or verification stages cannot multiply the requested time budget.
 
 ## Sidecar Wrapper Loop
 
@@ -118,7 +122,7 @@ uvx --from graphifyy graphify extract . --code-only
 uvx --from graphifyy graphify cluster-only .
 ```
 
-## Gemini Extension MVP
+## Assistant Extension MVP
 
 Load the extension locally:
 
@@ -126,7 +130,7 @@ Load the extension locally:
 2. Enable **Developer mode**.
 3. Click **Load unpacked**.
 4. Select `extensions/gemini-token-optimizer`.
-5. Open `https://gemini.google.com` and click the extension icon.
+5. Open `https://gemini.google.com` or `https://chatgpt.com` and click the extension icon.
 
 The extension uses a Chrome side panel. It does not auto-send messages and it does not run a provider model while preparing the prompt. Gemini and ChatGPT ship as reference adapters; the internal adapter bridge can support additional assistants by adding one `adapters/<site>.js` file and a `content_scripts` entry, without changing the core workflow.
 

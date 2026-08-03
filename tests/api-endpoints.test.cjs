@@ -1,6 +1,7 @@
 const assert = require("node:assert/strict");
 const http = require("node:http");
 const { spawn } = require("node:child_process");
+const { callModel } = require("../core/providers.cjs");
 
 function listen(server) {
   return new Promise((resolve, reject) => {
@@ -52,11 +53,41 @@ function post(body) {
 }
 
 async function run() {
+  const providerRequests = [];
+  const providerEchoSecret = ["gsk", "providererrorabcdefghijklmnopqrstuvwxyz"].join("_");
   const providerStub = http.createServer(async (req, res) => {
     let body = "";
     for await (const chunk of req) body += chunk;
-    const prompt = JSON.parse(body || "{}").messages?.at(-1)?.content || "";
-    const content = prompt.includes("Contract Builder")
+    const payload = JSON.parse(body || "{}");
+    providerRequests.push(payload);
+    const prompt = payload.messages?.at(-1)?.content || "";
+    if (prompt.includes("ERROR_SECRET_FIXTURE")) {
+      res.writeHead(400, { "content-type": "application/json" });
+      res.end(JSON.stringify({ error: { message: `Provider echoed Bearer ${providerEchoSecret}` } }));
+      return;
+    }
+    if (prompt.includes("REDIRECT_FIXTURE")) {
+      res.writeHead(302, { location: "http://127.0.0.1/internal-target" });
+      res.end();
+      return;
+    }
+    if (prompt.includes("OVERSIZED_FIXTURE")) {
+      const oversized = JSON.stringify({
+        choices: [{ message: { content: "x".repeat(20_000) }, finish_reason: "stop" }]
+      });
+      res.writeHead(200, {
+        "content-type": "application/json",
+        "content-length": String(Buffer.byteLength(oversized))
+      });
+      res.end(oversized);
+      return;
+    }
+    const contractCall = prompt.includes("Contract Builder");
+    const invalidContract = contractCall && prompt.includes("INVALID_CONTRACT_FIXTURE");
+    const truncatedContract = contractCall && prompt.includes("TRUNCATED_CONTRACT_FIXTURE");
+    const content = invalidContract
+      ? "not valid JSON"
+      : contractCall
       ? JSON.stringify({
         goal: "Reply with a short confirmation",
         facts: [],
@@ -71,11 +102,18 @@ async function run() {
       : "OK";
     res.writeHead(200, { "content-type": "application/json" });
     res.end(JSON.stringify({
-      choices: [{ message: { content }, finish_reason: "stop" }],
+      choices: [{ message: { content }, finish_reason: truncatedContract || prompt.includes("TRUNCATED_OUTPUT_FIXTURE") ? "length" : "stop" }],
       usage: { prompt_tokens: 20, completion_tokens: 5, total_tokens: 25 }
     }));
   });
   const providerPort = await listen(providerStub);
+  const providerConfig = {
+    provider: "custom",
+    label: "Test provider",
+    baseUrl: `http://127.0.0.1:${providerPort}/v1`,
+    model: "fixture",
+    apiKey: "test-key"
+  };
   const appPort = await freePort();
   const child = spawn(process.execPath, ["server.cjs"], {
     cwd: require("node:path").resolve(__dirname, ".."),
@@ -94,6 +132,26 @@ async function run() {
 
   try {
     await waitForServer(baseUrl, child);
+
+    await assert.rejects(
+      callModel({ providerConfig, prompt: "REDIRECT_FIXTURE" }),
+      /redirects are disabled/i
+    );
+    await assert.rejects(
+      callModel({ providerConfig, prompt: "TRUNCATED_OUTPUT_FIXTURE" }),
+      /truncated at the output token limit/i
+    );
+    const priorResponseLimit = process.env.TOKEN_OPTIMIZER_MAX_RESPONSE_BYTES;
+    process.env.TOKEN_OPTIMIZER_MAX_RESPONSE_BYTES = "16384";
+    try {
+      await assert.rejects(
+        callModel({ providerConfig, prompt: "OVERSIZED_FIXTURE" }),
+        /exceeded the 16384-byte limit/i
+      );
+    } finally {
+      if (priorResponseLimit === undefined) delete process.env.TOKEN_OPTIMIZER_MAX_RESPONSE_BYTES;
+      else process.env.TOKEN_OPTIMIZER_MAX_RESPONSE_BYTES = priorResponseLimit;
+    }
 
     const pages = [
       "/",
@@ -156,6 +214,7 @@ async function run() {
     assert.equal(prepared.response.status, 200);
     assert.equal(prepared.data.tokenReport.modelCalls, 0);
     assert.match(prepared.data.optimizedPrompt, /reply with OK/i);
+    assert.equal(prepared.response.headers.get("x-ratelimit-scope"), "preparation");
 
     const generated = await jsonRequest(baseUrl, "/api/generate", post({
       prompt: "Reply with OK",
@@ -163,6 +222,7 @@ async function run() {
     }));
     assert.equal(generated.response.status, 200);
     assert.equal(generated.data.usage.source, "provider");
+    assert.equal(generated.response.headers.get("x-ratelimit-scope"), "billable");
 
     const optimized = await jsonRequest(baseUrl, "/api/optimize-run", post({
       input: "Reply with OK",
@@ -184,13 +244,6 @@ async function run() {
     assert.match(streamed.text, /"traceId":"trace_/);
     assert.match(streamed.text, /"agent":"Coordinator"/);
 
-    const providerConfig = {
-      provider: "custom",
-      label: "Test provider",
-      baseUrl: `http://127.0.0.1:${providerPort}/v1`,
-      model: "fixture",
-      apiKey: "test-key"
-    };
     const workflow = await jsonRequest(baseUrl, "/api/workflow-run", post({
       input: "Reply with OK",
       providerConfig
@@ -198,6 +251,36 @@ async function run() {
     assert.equal(workflow.response.status, 200);
     assert.equal(workflow.data.executionStatus, "completed");
     assert.equal(workflow.data.providerUsage.modelCalls, 3);
+    assert.equal(workflow.data.contractValidation.source, "provider");
+
+    const invalidContractWorkflow = await jsonRequest(baseUrl, "/api/workflow-run", post({
+      input: "INVALID_CONTRACT_FIXTURE: Reply with OK",
+      providerConfig
+    }));
+    assert.equal(invalidContractWorkflow.response.status, 200);
+    assert.equal(invalidContractWorkflow.data.executionStatus, "completed");
+    assert.equal(invalidContractWorkflow.data.contractValidation.source, "local_fallback");
+    assert.doesNotThrow(() => JSON.parse(invalidContractWorkflow.data.contractOutput));
+    assert.ok(invalidContractWorkflow.data.trace.some((item) => /substituted the safe local contract/i.test(item.detail)));
+
+    const truncatedContractWorkflow = await jsonRequest(baseUrl, "/api/a2a-run", post({
+      input: "TRUNCATED_CONTRACT_FIXTURE: Reply with OK",
+      providerConfig,
+      options: { mode: "contract-only" }
+    }));
+    assert.equal(truncatedContractWorkflow.response.status, 200);
+    assert.equal(truncatedContractWorkflow.data.contractValidation.source, "local_fallback");
+    assert.match(truncatedContractWorkflow.data.contractValidation.issues[0], /truncated/i);
+
+    const redactedProviderError = await jsonRequest(baseUrl, "/api/a2a-run", post({
+      input: "ERROR_SECRET_FIXTURE: Reply with OK",
+      providerConfig,
+      options: { mode: "contract-only" }
+    }));
+    assert.equal(redactedProviderError.response.status, 200);
+    assert.equal(redactedProviderError.data.executionStatus, "provider_error");
+    assert.equal(redactedProviderError.data.providerError.includes(providerEchoSecret), false);
+    assert.match(redactedProviderError.data.providerError, /\[REDACTED_SECRET\]/);
 
     const a2a = await jsonRequest(baseUrl, "/api/a2a-run", post({
       input: "Reply with OK",
@@ -260,6 +343,8 @@ async function run() {
 
     const missing = await jsonRequest(baseUrl, "/api/not-real");
     assert.equal(missing.response.status, 404);
+    assert.ok(providerRequests.length > 0);
+    assert.ok(providerRequests.every((request) => Number.isInteger(request.max_tokens) && request.max_tokens > 0));
     console.log("API endpoint smoke tests passed");
   } catch (error) {
     if (childOutput.trim()) console.error(childOutput.trim());
