@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="/workspace.css">
   <script defer src="/vendor/marked/marked.umd.js"></script>
   <script defer src="/vendor/dompurify/purify.min.js"></script>
+  <script defer src="/prompt-compiler.js"></script>
   <script defer src="/workspace.js"></script>
 </head>
 <body>
@@ -122,11 +123,13 @@
           <strong>Waiting for a prompt</strong>
         </div>
         <details class="route-details" id="routeDetails">
-          <summary>Why this route?</summary>
+          <summary>Inspect prompt</summary>
           <p id="routeReason">Automatic mode chooses the least expensive route that can still cover the request.</p>
           <dl id="routeFacts">
             <div><dt>Route</dt><dd>Automatic</dd></div>
-            <div><dt>Comparison</dt><dd>Not run</dd></div>
+            <div><dt>Constraints</dt><dd>Waiting</dd></div>
+            <div><dt>Planned calls</dt><dd>Waiting</dd></div>
+            <div><dt>Token budget</dt><dd>Waiting</dd></div>
           </dl>
         </details>
       </aside>
@@ -157,7 +160,7 @@
           <div class="completed-result hidden" id="completedResult">
             <div class="result-header">
               <div>
-                <span class="result-kicker"><i class="ti ti-circle-check-filled" aria-hidden="true"></i> Result ready</span>
+                <span class="result-kicker" id="resultKicker"><i class="ti ti-circle-check-filled" aria-hidden="true"></i> Result ready</span>
                 <h2 id="resultTitle">Completed result</h2>
               </div>
               <div class="result-actions">
@@ -172,6 +175,17 @@
               <span>Open full result</span>
               <i class="ti ti-chevron-down" aria-hidden="true"></i>
             </button>
+            <details class="acceptance-details" id="acceptanceDetails" hidden>
+              <summary>
+                <span id="acceptanceSummary">Acceptance gates</span>
+                <i class="ti ti-chevron-down" aria-hidden="true"></i>
+              </summary>
+              <div class="repair-summary" id="repairSummary" hidden>
+                <i class="ti ti-tool" aria-hidden="true"></i>
+                <span><strong id="repairHeadline">Repaired locally</strong><small id="repairActions"></small></span>
+              </div>
+              <ul id="acceptanceGateList"></ul>
+            </details>
             <div class="result-footnote" id="resultFootnote"></div>
           </div>
 

@@ -16,6 +16,16 @@ jobs:
   test:
     name: Tests (Node ${{ matrix.node }})
     runs-on: ubuntu-latest
+    services:
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
     strategy:
       fail-fast: false
       matrix:
@@ -30,6 +40,8 @@ jobs:
         run: npm ci
       - name: Run test suites
         run: npm test
+        env:
+          TOKEN_OPTIMIZER_REDIS_SMOKE_URL: redis://127.0.0.1:6379
 
   # Regenerates the committed Graphify code map with the same commands that
   # produced it (AST-only, no API cost) and fails when graphify-out/graph.json

@@ -341,12 +341,30 @@ Output:
   assert.ok(result.tokenReport.estimatedContextDeltaTokens <= 0, "direct route adds framing, cannot save context");
   assert.equal(result.tokenReport.estimatedSavingsTokens, 0);
   assert.equal(result.tokenReport.addsFramingOverhead, result.tokenReport.estimatedContextDeltaTokens < 0);
+  assert.equal(result.acceptanceReport.status, "passed");
+  assert.equal(result.acceptanceReport.failedCount, 0);
+  assert.ok(result.trace.some((item) => item.phase === "acceptance" && item.status === "done"));
   assert.ok(events.some((event) => event.stage === "execute"));
   assert.ok(events.some((event) => event.type === "complete"));
   assert.ok(events.every((event) => event.traceId === result.traceId));
   assert.ok(result.trace.every((item) => item.actionId.startsWith(result.traceId)));
   assert.ok(result.trace.every((item) => item.agent && item.at && Number.isFinite(item.durationMs)));
   assert.ok(result.trace.find((item) => item.phase === "execute").finishedAt);
+
+  const repairedResult = await runSelfOptimizingWorkflow({
+    rawInput: "REPAIR_JSON_FIXTURE Return one JSON object. Use exactly the keys status and owner. Set status to open. Set owner to Maya. Do not add Markdown or explanatory prose.",
+    provider: "openai",
+    options: { routePreference: "fast" }
+  });
+  assert.equal(repairedResult.executionStatus, "completed");
+  assert.equal(repairedResult.tokenReport.modelCalls, 1);
+  assert.equal(repairedResult.repairReport.status, "repaired");
+  assert.equal(repairedResult.repairReport.modelCalls, 0);
+  assert.equal(repairedResult.repairReport.actionCount, 3);
+  assert.equal(repairedResult.acceptanceReport.status, "passed");
+  assert.deepEqual(JSON.parse(repairedResult.finalAnswer), { status: "open", owner: "Maya" });
+  assert.ok(repairedResult.trace.some((item) => item.phase === "repair" && item.status === "done"));
+  assert.equal(repairedResult.trace.filter((item) => item.phase === "acceptance").length, 2);
 
   const verifiedResult = await runSelfOptimizingWorkflow({
     rawInput: "Prepare a production database migration, return the exact JSON change plan, verify every constraint, and review it for security errors.",
@@ -357,6 +375,8 @@ Output:
   assert.equal(verifiedResult.workflowShape.route, "full");
   assert.equal(verifiedResult.tokenReport.modelCalls, 3);
   assert.ok(verifiedResult.trace.some((item) => item.phase === "verify"));
+  assert.equal(verifiedResult.acceptanceReport.status, "failed", "the generic fixture is not the requested exact JSON");
+  assert.ok(verifiedResult.trace.some((item) => item.phase === "acceptance" && item.status === "error"));
   // Full route plans three calls, so the repeated-context baseline is 3x raw.
   assert.equal(verifiedResult.tokenReport.comparison.plannedModelCalls, 3);
   assert.equal(
@@ -400,6 +420,17 @@ Output:
     prepared.tokenReport.estimatedNaiveThreeStepTokens,
     prepared.tokenReport.rawInputTokens
   );
+
+  const repairedKit = await runBlankA2AKit({
+    rawInput: "REPAIR_JSON_FIXTURE Return one JSON object. Use exactly the keys status and owner. Set status to open. Set owner to Maya. Do not add Markdown or explanatory prose.",
+    providerConfig: { provider: "openai" }
+  });
+  assert.equal(repairedKit.executionStatus, "completed");
+  assert.equal(repairedKit.providerUsage.modelCalls, 3);
+  assert.equal(repairedKit.repairReport.status, "repaired");
+  assert.equal(repairedKit.acceptanceReport.status, "passed");
+  assert.deepEqual(JSON.parse(repairedKit.finalAnswer), { status: "open", owner: "Maya" });
+  assert.ok(repairedKit.trace.some((item) => item.phase === "repair" && item.status === "done"));
 
   process.env.NODE_ENV = "production";
   process.env.TOKEN_OPTIMIZER_ALLOW_PRIVATE_ENDPOINTS = "0";

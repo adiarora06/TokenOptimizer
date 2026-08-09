@@ -45,13 +45,32 @@ async function run() {
     telemetryContext: { endpoint: "/api/optimize-run" }
   });
   assert.equal(workflow.executionStatus, "completed");
+  assert.equal(workflow.qualityStatus, "passed");
 
   summary = telemetrySummary({ includeEvents: true });
   assert.equal(summary.totals.workflowRuns, 1);
   assert.equal(summary.totals.completedRuns, 1);
   assert.equal(summary.routes.direct, 1);
   assert.equal(summary.totals.workflowModelCalls, 1);
+  assert.equal(summary.totals.acceptanceEvaluatedRuns, 1);
+  assert.equal(summary.totals.acceptancePassedRuns, 1);
+  assert.equal(summary.totals.acceptancePassPercent, 100);
+  assert.equal(summary.totals.qualityPassedRuns, 1);
+  assert.equal(summary.events.find((event) => event.type === "workflow_run").repairStatus, "not_needed");
   assert.equal(JSON.stringify(summary).includes(secret), false);
+
+  const repairedWorkflow = await runSelfOptimizingWorkflow({
+    rawInput: "REPAIR_JSON_FIXTURE Return one JSON object. Use exactly the keys status and owner. Set status to open. Set owner to Maya. Do not add Markdown or explanatory prose.",
+    provider: "openai",
+    options: { routePreference: "fast" },
+    telemetryContext: { endpoint: "/api/optimize-run" }
+  });
+  assert.equal(repairedWorkflow.repairReport.status, "repaired");
+  assert.equal(repairedWorkflow.qualityStatus, "repaired");
+  summary = telemetrySummary({ includeEvents: true });
+  assert.equal(summary.totals.locallyRepairedRuns, 1);
+  assert.equal(summary.totals.localRepairActions, 3);
+  assert.equal(summary.totals.qualityRepairedRuns, 1);
 
   recordProviderAttempt({
     provider: `custom-${secret}`,

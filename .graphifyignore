@@ -2,4 +2,6 @@
 node_modules/
 graphify-out/
 outputs/vendor/
+outputs/prompt-compiler.js
+extensions/gemini-token-optimizer/prompt-compiler.js
 *.zip

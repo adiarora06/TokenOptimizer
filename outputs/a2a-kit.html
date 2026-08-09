@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Optimized IDE</title>
+  <script src="/prompt-compiler.js"></script>
   <script>
     document.documentElement.dataset.theme = localStorage.getItem("tokenOptimizerTheme") || "light";
   </script>
@@ -606,7 +607,7 @@
     }
 
     function estimateTokens(text) {
-      return Math.max(1, Math.ceil(String(text || "").length / 4));
+      return globalThis.TokenOptimizerCompiler.estimateTokens(text);
     }
 
     function setStatus(title, detail, running = false) {
@@ -672,7 +673,8 @@ ${item.prompt}
 
 ${trace.map((item) => `- ${item.agent} (${item.status}): ${item.detail}`).join("\n")}
 
-Status: ${result.executionStatus || "unknown"}
+Execution: ${result.executionStatus || "unknown"}
+Quality: ${result.qualityStatus || "not_run"}
 Model calls: ${result.tokenReport?.modelCalls || 0}`;
     }
 
@@ -691,7 +693,8 @@ ${result.finalAnswer || "No final answer returned."}
 - Estimated context reduction: ${report.estimatedSavingsPercent || 0}%
 
 ## Route
-- Status: ${result.executionStatus || "unknown"}
+- Execution: ${result.executionStatus || "unknown"}
+- Quality: ${result.qualityStatus || "not_run"}
 - Model calls: ${report.modelCalls || 0}`;
     }
 
@@ -713,7 +716,7 @@ ${result.finalAnswer || "No final answer returned."}
           <div class="summary-card"><span>Raw Tokens</span><strong>${report.rawInputTokens || 0}</strong></div>
           <div class="summary-card"><span>Workflow Tokens</span><strong>${report.optimizedPromptTokens || 0}</strong></div>
           <div class="summary-card"><span>Saved</span><strong>${report.estimatedSavingsPercent || 0}%</strong></div>
-          <div class="summary-card"><span>Status</span><strong>${result.executionStatus === "completed" ? "Completed" : result.executionStatus === "prompt_ready" ? "Prompt ready" : "Needs attention"}</strong></div>
+        <div class="summary-card"><span>Quality</span><strong>${result.qualityStatus === "repaired" ? "Repaired" : result.qualityStatus === "passed" ? "Passed" : result.qualityStatus === "needs_review" ? "Needs review" : result.executionStatus === "prompt_ready" ? "Not run" : "Needs attention"}</strong></div>
         </div>
         <pre style="min-height: 220px; max-height: 360px">${escapeHtml(visibleAnswer)}</pre>
         <div class="actions" style="margin-top: 12px; justify-content: flex-start">
@@ -783,9 +786,10 @@ ${result.finalAnswer || "No final answer returned."}
         const providerConfig = contractOnly
           ? { provider: "groq" }
           : selectedProviderConfig();
+        const idempotencyKey = globalThis.crypto?.randomUUID?.() || `kit-${Date.now()}-${Math.random().toString(36).slice(2)}`;
         const response = await fetch("/api/workflow-run", {
           method: "POST",
-          headers: { "content-type": "application/json" },
+          headers: { "content-type": "application/json", "idempotency-key": idempotencyKey },
           body: JSON.stringify({
             input,
             providerConfig,
@@ -798,7 +802,7 @@ ${result.finalAnswer || "No final answer returned."}
         state.resultExpanded = false;
         state.sections.result = formatResult(result);
         state.sections.trace = formatTrace(result);
-        state.sections.contract = result.contractOutput || "";
+        state.sections.contract = JSON.stringify(result.handoffContract || result.kit?.handoff_contract || {}, null, 2);
         state.sections.prompts = formatPrompts(result);
         state.sections.kit = JSON.stringify(result.kit || {}, null, 2);
         state.activeView = contractOnly ? "contract" : "result";
@@ -807,8 +811,10 @@ ${result.finalAnswer || "No final answer returned."}
           setStatus("Needs attention", "Model execution stopped. The prepared contract and prompts are still available.", false);
         } else if (result.executionStatus === "prompt_ready") {
           setStatus("Contract ready", "The compact contract is ready. No task execution was claimed.", false);
+        } else if (result.qualityStatus === "needs_review") {
+          setStatus("Needs review", result.acceptanceReport?.summary || "Execution completed, but quality checks need review.", false);
         } else {
-          setStatus("Done", "The optimized workflow completed the one-shot run.", false);
+          setStatus(result.qualityStatus === "repaired" ? "Repaired" : "Done", "The optimized workflow completed and passed its quality checks.", false);
         }
       } catch (error) {
         setStatus("Error", error.message, false);

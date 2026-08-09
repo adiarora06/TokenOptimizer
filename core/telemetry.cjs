@@ -24,6 +24,9 @@ const KNOWN_PROVIDERS = new Set([
 const KNOWN_ROUTES = new Set(["direct", "contract", "full", "kit", "unknown"]);
 const KNOWN_STAGES = new Set(["contract", "execute", "generate", "verify", "unknown"]);
 const KNOWN_STATUSES = new Set(["cancelled", "completed", "prompt_ready", "provider_error"]);
+const KNOWN_QUALITY_STATUSES = new Set(["needs_review", "not_run", "passed", "repaired"]);
+const KNOWN_ACCEPTANCE_STATUSES = new Set(["failed", "not_run", "passed"]);
+const KNOWN_REPAIR_STATUSES = new Set(["not_run", "not_needed", "partial", "repaired", "unavailable"]);
 
 function boundedInteger(value, fallback, min, max) {
   const parsed = Number(value);
@@ -75,6 +78,18 @@ function normalizeStage(value) {
 
 function normalizeStatus(value) {
   return normalizeEnum(value, KNOWN_STATUSES, "provider_error");
+}
+
+function normalizeAcceptanceStatus(value) {
+  return normalizeEnum(value, KNOWN_ACCEPTANCE_STATUSES, "not_run");
+}
+
+function normalizeQualityStatus(value) {
+  return normalizeEnum(value, KNOWN_QUALITY_STATUSES, "not_run");
+}
+
+function normalizeRepairStatus(value) {
+  return normalizeEnum(value, KNOWN_REPAIR_STATUSES, "not_run");
 }
 
 function normalizeTraceId(value) {
@@ -174,6 +189,7 @@ function recordWorkflowRun(result = {}, context = {}) {
     endpoint: normalizeEndpoint(context.endpoint),
     route: normalizeRoute(result.workflowShape?.route || (result.mode === "contract-workflow-kit-run" ? "kit" : "unknown")),
     status,
+    qualityStatus: normalizeQualityStatus(result.qualityStatus),
     failureCode: status === "provider_error" || status === "cancelled"
       ? classifyFailure(result.providerError || status)
       : null,
@@ -183,6 +199,11 @@ function recordWorkflowRun(result = {}, context = {}) {
     redactions: nonNegativeNumber(result.securityReport?.redactions),
     rawInputTokens: nonNegativeNumber(tokenReport.rawInputTokens),
     optimizedPromptTokens: nonNegativeNumber(tokenReport.optimizedPromptTokens),
+    acceptanceStatus: normalizeAcceptanceStatus(result.acceptanceReport?.status),
+    acceptanceGateCount: nonNegativeNumber(result.acceptanceReport?.gateCount),
+    acceptanceFailedGates: nonNegativeNumber(result.acceptanceReport?.failedCount),
+    repairStatus: normalizeRepairStatus(result.repairReport?.status),
+    repairActionCount: nonNegativeNumber(result.repairReport?.actionCount),
     elapsedMs: nonNegativeNumber(result.elapsedMs)
   });
 }

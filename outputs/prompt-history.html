@@ -570,7 +570,23 @@
     }
 
     function outcomeLabel(outcome) {
-      return outcome === "succeeded" ? "Task succeeded" : outcome === "cancelled" ? "Task cancelled" : "Task failed";
+      return outcome === "succeeded" ? "Execution succeeded" : outcome === "cancelled" ? "Execution cancelled" : "Execution failed";
+    }
+
+    function qualityFor(item) {
+      if (["passed", "repaired", "needs_review", "not_run"].includes(item.qualityStatus)) return item.qualityStatus;
+      if (item.acceptanceStatus === "failed") return "needs_review";
+      if (item.repairStatus === "repaired") return "repaired";
+      if (item.acceptanceStatus === "passed") return "passed";
+      return "not_run";
+    }
+
+    function qualityLabel(item) {
+      const quality = qualityFor(item);
+      if (quality === "needs_review") return "Quality needs review";
+      if (quality === "repaired") return "Quality repaired";
+      if (quality === "passed") return "Quality passed";
+      return "Quality not run";
     }
 
     function actionStatus(status) {
@@ -657,7 +673,7 @@
         return `
           <article class="audit-card" data-outcome="${escapeHtml(outcome)}">
             <div class="audit-card-head">
-              <span class="audit-outcome"><span class="outcome-dot"></span>${escapeHtml(outcomeLabel(outcome))}</span>
+              <span class="audit-outcome"><span class="outcome-dot"></span>${escapeHtml(outcomeLabel(outcome))} · ${escapeHtml(qualityLabel(item))}</span>
               <span class="run-duration">${escapeHtml(fmtDuration(item.elapsedMs))}</span>
             </div>
             <div>
@@ -704,6 +720,7 @@
               <span>${escapeHtml(item.mode || "workspace")}</span>
               <span>${escapeHtml(item.route || providerLabels[item.provider] || item.provider || "automatic")}</span>
               <span>${escapeHtml(item.status || "saved")}</span>
+              <span>${escapeHtml(qualityLabel(item))}</span>
               <span>${item.tokens || Math.ceil(promptText(item).length / 4)} tokens</span>
               <span>${escapeHtml(new Date(item.createdAt || Date.now()).toLocaleString())}</span>
             </div>
@@ -769,6 +786,7 @@
           `Mode: ${item.mode || "n/a"}`,
           `Route: ${item.provider || "n/a"}`,
           `Status: ${item.status || "n/a"}`,
+          `Quality: ${qualityLabel(item)}`,
           `Input tokens: ${item.actualInputTokens || item.rawTokens || 0}`,
           `Output tokens: ${item.actualOutputTokens || item.optimizedTokens || 0}`,
           `Estimated context reduction: ${item.savingsPercent == null ? "n/a" : item.savingsPercent + "%"}`,

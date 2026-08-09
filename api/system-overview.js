@@ -1,6 +1,6 @@
 const { SYSTEM_ARCHITECTURE } = require("../optimizer-system.cjs");
 const { telemetrySummary } = require("../optimizer-core.cjs");
-const { commonHeaders } = require("../request-guard.cjs");
+const { commonHeaders, requestGuardBackend } = require("../request-guard.cjs");
 
 module.exports = function handler(req, res) {
   for (const [name, value] of Object.entries(commonHeaders())) res.setHeader(name, value);
@@ -11,6 +11,7 @@ module.exports = function handler(req, res) {
   }
   res.status(200).json({
     architecture: SYSTEM_ARCHITECTURE,
+    coordination: requestGuardBackend(),
     runs: [],
     telemetry: telemetrySummary()
   });

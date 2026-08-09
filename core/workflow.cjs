@@ -3,6 +3,13 @@ const { redactSensitiveText, safeErrorMessage } = require("./security.cjs");
 const { callModel, callWorkflowProvider, resolveProvider } = require("./providers.cjs");
 const { analyzeWorkflowShape, buildOfflineContract } = require("./routing.cjs");
 const { validateHandoffContract } = require("./contracts.cjs");
+const {
+  compileAcceptanceGates,
+  evaluateAcceptanceGates,
+  repairAcceptanceFailures,
+  skippedAcceptanceReport,
+  skippedRepairReport
+} = require("./acceptance.cjs");
 const { recordWorkflowRun } = require("./telemetry.cjs");
 const {
   buildA2AContractPrompt,
@@ -36,6 +43,14 @@ function createWorkflowBudget(timeoutMs) {
       return remainingMs;
     }
   };
+}
+
+function deriveQualityStatus({ executionStatus, acceptanceReport, repairReport } = {}) {
+  if (executionStatus !== "completed") return "not_run";
+  if (acceptanceReport?.status === "failed") return "needs_review";
+  if (acceptanceReport?.status !== "passed") return "not_run";
+  if (repairReport?.status === "repaired") return "repaired";
+  return "passed";
 }
 
 function buildBlankA2AKit(rawInput, options = {}) {
@@ -281,9 +296,59 @@ async function runBlankA2AKit({
     });
   }
 
+  let acceptanceReport = skippedAcceptanceReport();
+  let repairReport = skippedRepairReport();
+  if (executionStatus === "completed") {
+    const compiledAcceptance = compileAcceptanceGates(safeInput);
+    acceptanceReport = evaluateAcceptanceGates({
+      rawInput: safeInput,
+      output: finalAnswer,
+      compiled: compiledAcceptance
+    });
+    trace.push({
+      phase: "acceptance",
+      agent: "Acceptance Gates",
+      status: acceptanceReport.passed ? "done" : "error",
+      detail: acceptanceReport.summary
+    });
+    if (!acceptanceReport.passed) {
+      const repair = repairAcceptanceFailures({
+        rawInput: safeInput,
+        output: finalAnswer,
+        compiled: compiledAcceptance,
+        acceptanceReport
+      });
+      finalAnswer = repair.output;
+      acceptanceReport = repair.acceptanceReport;
+      repairReport = repair.repairReport;
+      trace.push({
+        phase: "repair",
+        agent: "Local Repair",
+        status: repairReport.improved ? "done" : "skipped",
+        detail: repairReport.summary
+      });
+      if (repairReport.improved) {
+        trace.push({
+          phase: "acceptance",
+          agent: "Acceptance Gates",
+          status: acceptanceReport.passed ? "done" : "error",
+          detail: `Re-check: ${acceptanceReport.summary}`
+        });
+      }
+    } else {
+      repairReport = repairAcceptanceFailures({
+        rawInput: safeInput,
+        output: finalAnswer,
+        compiled: compiledAcceptance,
+        acceptanceReport
+      }).repairReport;
+    }
+  }
+
   const optimizedPromptTokens = optimizedPrompts.reduce((sum, item) => sum + item.tokens, 0);
   const comparison = contextComparison(rawTokens, optimizedPromptTokens, optimizedPrompts.length);
   const providerUsage = combineUsage(generations);
+  const qualityStatus = deriveQualityStatus({ executionStatus, acceptanceReport, repairReport });
   const result = {
     traceId,
     mode: "contract-workflow-kit-run",
@@ -292,6 +357,9 @@ async function runBlankA2AKit({
     model: modelUsed,
     providerError,
     executionStatus,
+    qualityStatus,
+    acceptanceReport,
+    repairReport,
     securityReport: {
       redactions: security.count,
       types: security.types
@@ -461,7 +529,6 @@ async function runSelfOptimizingWorkflow({
         modelUsed = directResult.model;
         executionStatus = "completed";
         await finishTrace(executionTrace, "done", "Generated the result in one model call.");
-        await addTrace("verify", "done", "Checked response completeness without another model call.", "Local Validator");
       } else {
         const contractTrace = await addTrace("contract", "running", "Converting the request into compact execution context.", "Contract Builder");
         const optimizerResult = await callWorkflowProvider(
@@ -547,8 +614,6 @@ async function runSelfOptimizingWorkflow({
           providerUsed = verifierResult.provider;
           modelUsed = verifierResult.model;
           await finishTrace(verifierTrace, "done", "Validated the result against the request.");
-        } else {
-          await addTrace("verify", "done", "Checked required sections without another model call.", "Local Validator");
         }
       }
     } catch (error) {
@@ -564,10 +629,60 @@ async function runSelfOptimizingWorkflow({
     await addTrace("execute", "skipped", "The optimized prompt is ready, but no model execution route was selected.", "Prompt Builder");
   }
 
+  let acceptanceReport = skippedAcceptanceReport();
+  let repairReport = skippedRepairReport();
+  if (executionStatus === "completed") {
+    const compiledAcceptance = compileAcceptanceGates(safeInput);
+    acceptanceReport = evaluateAcceptanceGates({
+      rawInput: safeInput,
+      output: finalAnswer,
+      compiled: compiledAcceptance
+    });
+    await addTrace(
+      "acceptance",
+      acceptanceReport.passed ? "done" : "error",
+      acceptanceReport.summary,
+      "Acceptance Gates"
+    );
+    if (!acceptanceReport.passed) {
+      const repair = repairAcceptanceFailures({
+        rawInput: safeInput,
+        output: finalAnswer,
+        compiled: compiledAcceptance,
+        acceptanceReport
+      });
+      finalAnswer = repair.output;
+      acceptanceReport = repair.acceptanceReport;
+      repairReport = repair.repairReport;
+      await addTrace(
+        "repair",
+        repairReport.improved ? "done" : "skipped",
+        repairReport.summary,
+        "Local Repair"
+      );
+      if (repairReport.improved) {
+        await addTrace(
+          "acceptance",
+          acceptanceReport.passed ? "done" : "error",
+          `Re-check: ${acceptanceReport.summary}`,
+          "Acceptance Gates"
+        );
+      }
+    } else {
+      repairReport = repairAcceptanceFailures({
+        rawInput: safeInput,
+        output: finalAnswer,
+        compiled: compiledAcceptance,
+        acceptanceReport
+      }).repairReport;
+    }
+  }
+
   const optimizedPromptTokens = optimizedPrompts.reduce((sum, item) => sum + item.tokens, 0);
   const comparison = contextComparison(rawTokens, optimizedPromptTokens, optimizedPrompts.length);
   const providerUsage = combineUsage(generations);
   const optimizedPrompt = optimizedPrompts[optimizedPrompts.length - 1]?.prompt || directPrompt;
+  const qualityStatus = deriveQualityStatus({ executionStatus, acceptanceReport, repairReport });
 
   await emitWorkflowEvent(onEvent, {
     type: "complete",
@@ -575,7 +690,12 @@ async function runSelfOptimizingWorkflow({
     agent: "Coordinator",
     stage: executionStatus === "completed" ? "complete" : "execute",
     status: executionStatus,
-    detail: executionStatus === "completed" ? "Result ready." : providerError || "Optimized prompt ready."
+    qualityStatus,
+    detail: executionStatus === "completed"
+      ? acceptanceReport.passed
+        ? "Result ready and acceptance gates passed."
+        : "Result generated; acceptance gates need review."
+      : providerError || "Optimized prompt ready."
   });
 
   const result = {
@@ -585,6 +705,9 @@ async function runSelfOptimizingWorkflow({
     model: modelUsed,
     providerError,
     executionStatus,
+    qualityStatus,
+    acceptanceReport,
+    repairReport,
     workflowShape,
     securityReport: {
       redactions: security.count,
@@ -630,6 +753,7 @@ async function runSelfOptimizingWorkflow({
 module.exports = {
   buildBlankA2AKit,
   createWorkflowBudget,
+  deriveQualityStatus,
   runBlankA2AKit,
   runSelfOptimizingWorkflow
 };

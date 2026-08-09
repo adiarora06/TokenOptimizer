@@ -48,6 +48,7 @@ function workflowEvent(index, overrides = {}) {
     endpoint: "/api/optimize-run",
     route: "direct",
     status: "completed",
+    qualityStatus: "passed",
     failureCode: null,
     provider: "openai",
     modelCalls: 1,
@@ -55,6 +56,8 @@ function workflowEvent(index, overrides = {}) {
     redactions: 0,
     rawInputTokens: 10,
     optimizedPromptTokens: 12,
+    repairStatus: "not_needed",
+    repairActionCount: 0,
     elapsedMs: 2_000,
     ...overrides
   };
@@ -74,10 +77,16 @@ function run() {
     } : index === 9 ? {
       latencyMs: 12_000
     } : {}));
-    events.push(workflowEvent(index, index < 2 ? {
-      status: "provider_error",
-      failureCode: "timeout"
-    } : {}));
+    const workflowOverrides = index < 2
+      ? { status: "provider_error", qualityStatus: "not_run", failureCode: "timeout", repairStatus: "not_run" }
+      : index === 2
+        ? { qualityStatus: "repaired", repairStatus: "repaired", repairActionCount: 2 }
+        : index === 3
+          ? { qualityStatus: "needs_review", repairStatus: "partial", repairActionCount: 1 }
+        : index === 4
+            ? { qualityStatus: "needs_review", repairStatus: "unavailable" }
+            : {};
+    events.push(workflowEvent(index, workflowOverrides));
   }
 
   const summary = summarizeTelemetryEvents(events, { scope: "deployment-log-window" });
@@ -87,6 +96,14 @@ function run() {
   assert.equal(summary.totals.fallbackChains, 9);
   assert.equal(summary.totals.fallbackRetries, 1);
   assert.equal(summary.totals.workflowRuns, 10);
+  assert.equal(summary.totals.locallyRepairedRuns, 1);
+  assert.equal(summary.totals.partiallyRepairedRuns, 1);
+  assert.equal(summary.totals.unavailableRepairRuns, 1);
+  assert.equal(summary.totals.localRepairActions, 3);
+  assert.equal(summary.totals.qualityPassedRuns, 5);
+  assert.equal(summary.totals.qualityRepairedRuns, 1);
+  assert.equal(summary.totals.qualityNeedsReviewRuns, 2);
+  assert.equal(summary.totals.qualityNotRunRuns, 2);
   assert.equal(summary.health.status, "warning");
   assert.equal(summary.health.metrics.providerFailurePercent, 20);
   assert.equal(summary.health.metrics.workflowFailurePercent, 20);
@@ -149,6 +166,7 @@ function run() {
     ignoredRecords: parsed.ignoredRecords
   });
   assert.match(report, /Provider attempts: 5/);
+  assert.match(report, /Local repair actions:/);
   assert.equal(report.includes(secret), false);
   assert.equal(JSON.stringify(parsedSummary).includes(secret), false);
   assert.equal(JSON.stringify(parsed.events).includes(secret), false);

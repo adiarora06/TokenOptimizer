@@ -1,5 +1,8 @@
 const PREPARE_ENDPOINT = "https://tok-pi-gilt.vercel.app/api/prepare-handoff";
 const preparationHistoryKey = "tokenOptimizerPreparationHistory";
+const compiler = globalThis.TokenOptimizerCompiler;
+
+if (!compiler) throw new Error("Prompt compiler failed to load.");
 
 const state = {
   activeStage: "capture",
@@ -50,7 +53,7 @@ function toast(message) {
 }
 
 function estimateTokens(text) {
-  return Math.max(0, Math.ceil(String(text || "").length / 4));
+  return compiler.estimateTokens(text);
 }
 
 function platformForUrl(url) {
@@ -98,6 +101,7 @@ function renderMetrics(result) {
   const saved = Number(report.estimatedSavingsTokens || 0);
   const percent = Number(report.estimatedSavingsPercent || 0);
   const calls = Number(report.modelCalls || 0);
+  const route = result?.workflowShape?.route;
 
   el("tokenPill").textContent = `${prepared} ready`;
   el("rawTokenMetric").textContent = raw;
@@ -106,7 +110,7 @@ function renderMetrics(result) {
   el("modelCallMetric").textContent = calls;
   el("metrics").hidden = false;
   el("routeNote").textContent = calls === 0
-    ? "Prepared without calling a model."
+    ? `${route ? `${route[0].toUpperCase()}${route.slice(1)} route · ` : ""}Prepared without calling a model.`
     : `${calls} preparation model call${calls === 1 ? "" : "s"}.`;
   el("routeNote").hidden = false;
 }

@@ -58,11 +58,12 @@ const context = {
 context.globalThis = context;
 
 const platformsCode = fs.readFileSync(path.join(extensionDir, "platforms.js"), "utf8");
+const compilerCode = fs.readFileSync(path.join(extensionDir, "prompt-compiler.js"), "utf8");
 const sidepanelCode = fs
   .readFileSync(path.join(extensionDir, "sidepanel.js"), "utf8")
   .replace(/\ninit\(\);\s*$/, "\n");
 
-vm.runInNewContext(`${platformsCode}\n${sidepanelCode}
+vm.runInNewContext(`${platformsCode}\n${compilerCode}\n${sidepanelCode}
 this.__platformForUrl = platformForUrl;
 this.__requestPreparation = requestPreparation;
 this.__renderMetrics = renderMetrics;

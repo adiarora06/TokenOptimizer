@@ -44,12 +44,18 @@ async function jsonRequest(baseUrl, path, options = {}) {
   return { response, data, text };
 }
 
-function post(body) {
+function post(body, headers = {}) {
   return {
     method: "POST",
-    headers: { "content-type": "application/json" },
+    headers: { "content-type": "application/json", ...headers },
     body: JSON.stringify(body)
   };
+}
+
+function assertSafePublicResult(result) {
+  for (const field of ["contractOutput", "executorOutput", "generations", "optimizerOutput"]) {
+    assert.equal(field in result, false, `${field} must not cross the public API boundary`);
+  }
 }
 
 async function run() {
@@ -243,8 +249,43 @@ async function run() {
     }));
     assert.equal(optimized.response.status, 200);
     assert.equal(optimized.data.executionStatus, "completed");
+    assert.equal(optimized.data.qualityStatus, "passed");
+    assert.equal(optimized.data.acceptanceReport.status, "passed");
+    assert.equal(optimized.data.repairReport.status, "not_needed");
     assert.match(optimized.data.traceId, /^trace_/);
     assert.ok(optimized.data.trace.every((item) => item.agent && item.actionId));
+    assertSafePublicResult(optimized.data);
+
+    const repaired = await jsonRequest(baseUrl, "/api/optimize-run", post({
+      input: "REPAIR_JSON_FIXTURE Return one JSON object. Use exactly the keys status and owner. Set status to open. Set owner to Maya. Do not add Markdown or explanatory prose.",
+      provider: "openai",
+      options: { routePreference: "fast" }
+    }));
+    assert.equal(repaired.response.status, 200);
+    assert.equal(repaired.data.qualityStatus, "repaired");
+    assert.deepEqual(JSON.parse(repaired.data.finalAnswer), { status: "open", owner: "Maya" });
+    assertSafePublicResult(repaired.data);
+    assert.equal(JSON.stringify(repaired.data).includes('"status":"closed"'), false);
+
+    const idempotentBody = {
+      input: "Reply with OK for the server idempotency check",
+      provider: "openai",
+      options: { routePreference: "fast" }
+    };
+    const idempotencyHeaders = { "idempotency-key": "server_idempotency_0001" };
+    const idempotentFirst = await jsonRequest(baseUrl, "/api/optimize-run", post(idempotentBody, idempotencyHeaders));
+    const idempotentReplay = await jsonRequest(baseUrl, "/api/optimize-run", post(idempotentBody, idempotencyHeaders));
+    assert.equal(idempotentFirst.response.status, 200);
+    assert.equal(idempotentReplay.response.status, 200);
+    assert.equal(idempotentFirst.response.headers.get("x-idempotency-status"), "started");
+    assert.equal(idempotentReplay.response.headers.get("x-idempotency-status"), "replayed");
+    assert.deepEqual(idempotentReplay.data, idempotentFirst.data);
+    const idempotencyConflict = await jsonRequest(baseUrl, "/api/optimize-run", post({
+      ...idempotentBody,
+      input: "A different request"
+    }, idempotencyHeaders));
+    assert.equal(idempotencyConflict.response.status, 409);
+    assert.equal(idempotencyConflict.data.code, "idempotency_conflict");
 
     const streamed = await jsonRequest(baseUrl, "/api/optimize-stream", post({
       input: "Reply with OK",
@@ -254,8 +295,12 @@ async function run() {
     assert.match(streamed.response.headers.get("content-type") || "", /text\/event-stream/);
     assert.match(streamed.text, /event: result/);
     assert.match(streamed.text, /"executionStatus":"completed"/);
+    assert.match(streamed.text, /"qualityStatus":"passed"/);
+    assert.match(streamed.text, /"acceptanceReport":\{"version":"1\.0\.0","status":"passed"/);
+    assert.match(streamed.text, /"repairReport":\{"version":"1\.0\.0","status":"not_needed"/);
     assert.match(streamed.text, /"traceId":"trace_/);
     assert.match(streamed.text, /"agent":"Coordinator"/);
+    assert.doesNotMatch(streamed.text, /"executorOutput"|"optimizerOutput"|"contractOutput"|"generations"/);
 
     const workflow = await jsonRequest(baseUrl, "/api/workflow-run", post({
       input: "Reply with OK",
@@ -263,8 +308,12 @@ async function run() {
     }));
     assert.equal(workflow.response.status, 200);
     assert.equal(workflow.data.executionStatus, "completed");
+    assert.equal(workflow.data.qualityStatus, "passed");
     assert.equal(workflow.data.providerUsage.modelCalls, 3);
     assert.equal(workflow.data.contractValidation.source, "provider");
+    assert.equal(workflow.data.acceptanceReport.status, "passed");
+    assert.equal(workflow.data.repairReport.status, "not_needed");
+    assertSafePublicResult(workflow.data);
 
     const invalidContractWorkflow = await jsonRequest(baseUrl, "/api/workflow-run", post({
       input: "INVALID_CONTRACT_FIXTURE: Reply with OK",
@@ -273,7 +322,8 @@ async function run() {
     assert.equal(invalidContractWorkflow.response.status, 200);
     assert.equal(invalidContractWorkflow.data.executionStatus, "completed");
     assert.equal(invalidContractWorkflow.data.contractValidation.source, "local_fallback");
-    assert.doesNotThrow(() => JSON.parse(invalidContractWorkflow.data.contractOutput));
+    assert.equal("contractOutput" in invalidContractWorkflow.data, false);
+    assertSafePublicResult(invalidContractWorkflow.data);
     assert.ok(invalidContractWorkflow.data.trace.some((item) => /substituted the safe local contract/i.test(item.detail)));
 
     const truncatedContractWorkflow = await jsonRequest(baseUrl, "/api/a2a-run", post({
@@ -302,6 +352,7 @@ async function run() {
     }));
     assert.equal(a2a.response.status, 200);
     assert.equal(a2a.data.providerUsage.modelCalls, 1);
+    assertSafePublicResult(a2a.data);
 
     const created = await jsonRequest(baseUrl, "/api/system-runs", post({
       input: "Reply with OK",
@@ -322,6 +373,8 @@ async function run() {
     assert.ok(completedRun, "system run did not complete");
     assert.equal(completedRun.stages.some((stage) => stage.status === "running"), false);
     assert.equal(completedRun.stages.find((stage) => stage.id === "contract").status, "skipped");
+    assert.equal(completedRun.result.qualityStatus, "passed");
+    assertSafePublicResult(completedRun.result);
 
     const methodCases = [
       ["/api/provider-status", "POST"],

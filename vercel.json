@@ -30,6 +30,10 @@
       "destination": "/outputs/workspace.js"
     },
     {
+      "source": "/prompt-compiler.js",
+      "destination": "/outputs/prompt-compiler.js"
+    },
+    {
       "source": "/app-nav.css",
       "destination": "/outputs/app-nav.css"
     },

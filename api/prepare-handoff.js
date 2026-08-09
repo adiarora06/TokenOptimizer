@@ -13,7 +13,17 @@ module.exports = async function handler(req, res) {
     res.status(405).json({ error: "Method not allowed" });
     return;
   }
-  const rate = takeRateLimit(req, { scope: "preparation" });
+  let rate;
+  try {
+    rate = await Promise.resolve(takeRateLimit(req, { scope: "preparation" }));
+  } catch (error) {
+    if (error?.retryAfterSeconds) res.setHeader("retry-after", String(error.retryAfterSeconds));
+    res.status(Number.isInteger(error?.status) ? error.status : 503).json({
+      error: publicError(error),
+      code: error?.code || "coordination_unavailable"
+    });
+    return;
+  }
   for (const [name, value] of Object.entries(commonHeaders(rate))) res.setHeader(name, value);
   if (!rate.allowed) {
     res.setHeader("retry-after", String(rate.retryAfterSeconds));

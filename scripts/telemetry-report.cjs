@@ -97,6 +97,8 @@ function formatTelemetryReport(summary, ingestion = {}) {
     `Provider attempts: ${formatNumber(totals.providerAttempts)} (${formatNumber(totals.failedProviderAttempts)} failed, ${health.metrics.providerFailurePercent}%)`,
     `Fallback retries: ${formatNumber(totals.fallbackRetries)} (${health.metrics.fallbackRetryPercent}% of fallback chains)`,
     `Workflow runs: ${formatNumber(totals.workflowRuns)} (${formatNumber(totals.failedRuns)} failed, ${health.metrics.workflowFailurePercent}%)`,
+    `Acceptance: ${formatNumber(totals.acceptancePassedRuns)}/${formatNumber(totals.acceptanceEvaluatedRuns)} passed; ${formatNumber(totals.locallyRepairedRuns)} fully and ${formatNumber(totals.partiallyRepairedRuns)} partially repaired locally`,
+    `Local repair actions: ${formatNumber(totals.localRepairActions)} (zero model calls)`,
     `Provider latency: ${formatNumber(totals.averageProviderLatencyMs)} ms average, ${formatNumber(health.metrics.p95ProviderLatencyMs)} ms p95`,
     `Usage: ${formatNumber(totals.totalTokens)} tokens, ${totals.estimatedCostUsd == null ? "cost unavailable" : `$${formatNumber(totals.estimatedCostUsd)}`}`
   ];

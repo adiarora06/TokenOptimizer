@@ -181,8 +181,13 @@ function testCompletion({ prompt, system, provider }) {
   if (provider === "groq" && /FALLBACK_SECRET_FIXTURE/.test(prompt)) {
     throw new Error(`Provider echoed ${prompt}`);
   }
+  const repairJsonTask = /REPAIR_JSON_FIXTURE/.test(prompt);
   const binarySearchTask = /binary search/i.test(prompt) && /(?:target|find)\s+7/i.test(prompt);
-  const content = binarySearchTask
+  const content = repairJsonTask
+    ? `\`\`\`json
+{"status":"closed","owner":"Maya","extra":true}
+\`\`\``
+    : binarySearchTask
     ? `## Binary Search for 7
 
 The target is found in **3 comparisons** using the inclusive range 0 through 69.

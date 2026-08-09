@@ -21,6 +21,9 @@ const KNOWN_ENDPOINTS = new Set([
 ]);
 const KNOWN_STAGES = new Set(["contract", "execute", "generate", "verify", "unknown"]);
 const KNOWN_STATUSES = new Set(["cancelled", "completed", "prompt_ready", "provider_error"]);
+const KNOWN_QUALITY_STATUSES = new Set(["needs_review", "not_run", "passed", "repaired"]);
+const KNOWN_ACCEPTANCE_STATUSES = new Set(["failed", "not_run", "passed"]);
+const KNOWN_REPAIR_STATUSES = new Set(["not_run", "not_needed", "partial", "repaired", "unavailable"]);
 const KNOWN_FAILURE_CODES = new Set([
   "budget_exhausted",
   "cancelled",
@@ -114,6 +117,7 @@ function normalizeTelemetryEvent(event) {
       endpoint: normalizedEnum(event.endpoint, KNOWN_ENDPOINTS, "core"),
       route: normalizedEnum(event.route, KNOWN_ROUTES, "unknown"),
       status,
+      qualityStatus: normalizedEnum(event.qualityStatus, KNOWN_QUALITY_STATUSES, "not_run"),
       failureCode: status === "provider_error" || status === "cancelled"
         ? normalizedEnum(event.failureCode, KNOWN_FAILURE_CODES, "unknown")
         : null,
@@ -123,6 +127,11 @@ function normalizeTelemetryEvent(event) {
       redactions: nonNegativeNumber(event.redactions),
       rawInputTokens: nonNegativeNumber(event.rawInputTokens),
       optimizedPromptTokens: nonNegativeNumber(event.optimizedPromptTokens),
+      acceptanceStatus: normalizedEnum(event.acceptanceStatus, KNOWN_ACCEPTANCE_STATUSES, "not_run"),
+      acceptanceGateCount: nonNegativeNumber(event.acceptanceGateCount),
+      acceptanceFailedGates: nonNegativeNumber(event.acceptanceFailedGates),
+      repairStatus: normalizedEnum(event.repairStatus, KNOWN_REPAIR_STATUSES, "not_run"),
+      repairActionCount: nonNegativeNumber(event.repairActionCount),
       elapsedMs: nonNegativeNumber(event.elapsedMs)
     };
   }
@@ -341,8 +350,21 @@ function summarizeTelemetryEvents(inputEvents = [], options = {}) {
     promptReadyRuns: 0,
     failedRuns: 0,
     cancelledRuns: 0,
+    qualityPassedRuns: 0,
+    qualityRepairedRuns: 0,
+    qualityNeedsReviewRuns: 0,
+    qualityNotRunRuns: 0,
     workflowModelCalls: 0,
     redactions: 0,
+    acceptanceEvaluatedRuns: 0,
+    acceptancePassedRuns: 0,
+    acceptanceFailedRuns: 0,
+    acceptanceFailedGates: 0,
+    acceptancePassPercent: 0,
+    locallyRepairedRuns: 0,
+    partiallyRepairedRuns: 0,
+    unavailableRepairRuns: 0,
+    localRepairActions: 0,
     providerAttempts: 0,
     successfulProviderAttempts: 0,
     failedProviderAttempts: 0,
@@ -370,6 +392,20 @@ function summarizeTelemetryEvents(inputEvents = [], options = {}) {
       totals.workflowRuns += 1;
       totals.workflowModelCalls += nonNegativeNumber(event.modelCalls);
       totals.redactions += nonNegativeNumber(event.redactions);
+      if (event.qualityStatus === "passed") totals.qualityPassedRuns += 1;
+      else if (event.qualityStatus === "repaired") totals.qualityRepairedRuns += 1;
+      else if (event.qualityStatus === "needs_review") totals.qualityNeedsReviewRuns += 1;
+      else totals.qualityNotRunRuns += 1;
+      if (event.acceptanceStatus !== "not_run") {
+        totals.acceptanceEvaluatedRuns += 1;
+        totals.acceptanceFailedGates += nonNegativeNumber(event.acceptanceFailedGates);
+        if (event.acceptanceStatus === "passed") totals.acceptancePassedRuns += 1;
+        else totals.acceptanceFailedRuns += 1;
+      }
+      totals.localRepairActions += nonNegativeNumber(event.repairActionCount);
+      if (event.repairStatus === "repaired") totals.locallyRepairedRuns += 1;
+      else if (event.repairStatus === "partial") totals.partiallyRepairedRuns += 1;
+      else if (event.repairStatus === "unavailable") totals.unavailableRepairRuns += 1;
       increment(routes, normalizedEnum(event.route, KNOWN_ROUTES, "unknown"));
       if (event.status === "completed") totals.completedRuns += 1;
       else if (event.status === "prompt_ready") totals.promptReadyRuns += 1;
@@ -427,6 +463,7 @@ function summarizeTelemetryEvents(inputEvents = [], options = {}) {
   }
 
   totals.estimatedCostUsd = totals.pricedProviderAttempts ? Number(knownCost.toFixed(8)) : null;
+  totals.acceptancePassPercent = ratePercent(totals.acceptancePassedRuns, totals.acceptanceEvaluatedRuns);
   totals.averageProviderLatencyMs = totals.providerAttempts
     ? Math.round(totals.providerLatencyMs / totals.providerAttempts)
     : 0;

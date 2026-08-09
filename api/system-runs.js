@@ -1,8 +1,10 @@
 const { SYSTEM_ARCHITECTURE, runSystemRunInline } = require("../optimizer-system.cjs");
 const {
+  abortSignalOnClose,
+  classifyProviderConfigFunding,
   commonHeaders,
   publicError,
-  takeRateLimit,
+  runBillableRequest,
   validateOptimizerPayload
 } = require("../request-guard.cjs");
 
@@ -24,31 +26,42 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const rate = takeRateLimit(req);
-    for (const [name, value] of Object.entries(commonHeaders(rate))) res.setHeader(name, value);
-    if (!rate.allowed) {
-      res.setHeader("retry-after", String(rate.retryAfterSeconds));
-      res.status(429).json({ error: "Too many runs. Please wait a moment and try again." });
-      return;
-    }
     const parsed = validateOptimizerPayload(req.body);
     if (!parsed.ok) {
       res.status(400).json({ error: parsed.error });
       return;
     }
 
-    const run = await runSystemRunInline({
-      rawInput: parsed.data.input,
-      runType: parsed.data.runType || "optimizer",
-      provider: parsed.data.provider || "groq-openai-fallback",
-      providerConfig: parsed.data.providerConfig || {},
-      options: parsed.data.options || {},
-      source: parsed.data.source || "workspace",
-      sessionId: parsed.data.sessionId || null,
-      telemetryContext: { endpoint: "/api/system-runs" }
+    const runType = parsed.data.runType || "optimizer";
+    const disconnectSignal = abortSignalOnClose(res);
+    const guarded = await runBillableRequest({
+      req,
+      signal: disconnectSignal,
+      payload: parsed.data,
+      endpoint: "/api/system-runs",
+      funding: runType === "kit"
+        ? classifyProviderConfigFunding(parsed.data.providerConfig)
+        : parsed.data.provider === "offline" ? "offline" : "server",
+      execute: ({ signal }) => runSystemRunInline({
+        rawInput: parsed.data.input,
+        runType,
+        provider: parsed.data.provider || "groq-openai-fallback",
+        providerConfig: parsed.data.providerConfig || {},
+        options: parsed.data.options || {},
+        source: parsed.data.source || "workspace",
+        sessionId: parsed.data.sessionId || null,
+        signal,
+        telemetryContext: { endpoint: "/api/system-runs" }
+      })
     });
-
-    res.status(200).json({ run });
+    for (const [name, value] of Object.entries(commonHeaders(guarded.rate))) res.setHeader(name, value);
+    if (!guarded.ok) {
+      if (guarded.retryAfterSeconds) res.setHeader("retry-after", String(guarded.retryAfterSeconds));
+      res.status(guarded.status).json({ error: guarded.error, code: guarded.code });
+      return;
+    }
+    res.setHeader("x-idempotency-status", guarded.idempotencyStatus);
+    res.status(200).json({ run: guarded.value });
   } catch (error) {
     res.status(500).json({ error: publicError(error) });
   }

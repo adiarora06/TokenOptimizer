@@ -18,13 +18,13 @@ const handlers = {
 
 let requestNumber = 0;
 
-function request(method, body) {
+function request(method, body, options = {}) {
   requestNumber += 1;
   return {
     method,
     body,
-    headers: {},
-    socket: { remoteAddress: `198.51.100.${requestNumber}` }
+    headers: options.headers || {},
+    socket: { remoteAddress: options.ip || `198.51.100.${requestNumber}` }
   };
 }
 
@@ -77,10 +77,16 @@ class MockResponse extends EventEmitter {
   }
 }
 
-async function invoke(handler, method, body) {
+async function invoke(handler, method, body, options) {
   const response = new MockResponse();
-  await handler(request(method, body), response);
+  await handler(request(method, body, options), response);
   return response;
+}
+
+function assertSafePublicResult(result) {
+  for (const field of ["contractOutput", "executorOutput", "generations", "optimizerOutput"]) {
+    assert.equal(field in result, false, `${field} must not cross the public API boundary`);
+  }
 }
 
 async function run() {
@@ -155,7 +161,45 @@ async function run() {
   });
   assert.equal(optimized.statusCode, 200);
   assert.equal(optimized.data.executionStatus, "completed");
+  assert.equal(optimized.data.qualityStatus, "passed");
   assert.equal(optimized.data.workflowShape.route, "direct");
+  assert.equal(optimized.data.acceptanceReport.status, "passed");
+  assert.equal(optimized.data.repairReport.status, "not_needed");
+  assertSafePublicResult(optimized.data);
+
+  const repaired = await invoke(handlers.optimize, "POST", {
+    input: "REPAIR_JSON_FIXTURE Return one JSON object. Use exactly the keys status and owner. Set status to open. Set owner to Maya. Do not add Markdown or explanatory prose.",
+    provider: "openai",
+    options: { routePreference: "fast" }
+  });
+  assert.equal(repaired.statusCode, 200);
+  assert.equal(repaired.data.qualityStatus, "repaired");
+  assert.deepEqual(JSON.parse(repaired.data.finalAnswer), { status: "open", owner: "Maya" });
+  assertSafePublicResult(repaired.data);
+  assert.equal(JSON.stringify(repaired.data).includes('"status":"closed"'), false);
+
+  const idempotentBody = {
+    input: "Reply with OK for the idempotency check",
+    provider: "openai",
+    options: { routePreference: "fast" }
+  };
+  const idempotencyOptions = {
+    ip: "198.51.100.240",
+    headers: { "idempotency-key": "hosted_idempotency_0001" }
+  };
+  const idempotentFirst = await invoke(handlers.optimize, "POST", idempotentBody, idempotencyOptions);
+  const idempotentReplay = await invoke(handlers.optimize, "POST", idempotentBody, idempotencyOptions);
+  assert.equal(idempotentFirst.statusCode, 200);
+  assert.equal(idempotentReplay.statusCode, 200);
+  assert.equal(idempotentFirst.headers["x-idempotency-status"], "started");
+  assert.equal(idempotentReplay.headers["x-idempotency-status"], "replayed");
+  assert.deepEqual(idempotentReplay.data, idempotentFirst.data);
+  const idempotencyConflict = await invoke(handlers.optimize, "POST", {
+    ...idempotentBody,
+    input: "A different request"
+  }, idempotencyOptions);
+  assert.equal(idempotencyConflict.statusCode, 409);
+  assert.equal(idempotencyConflict.data.code, "idempotency_conflict");
 
   const stream = await invoke(handlers.stream, "POST", {
     input: "Reply with OK",
@@ -167,6 +211,8 @@ async function run() {
   assert.match(stream.text(), /event: progress/);
   assert.match(stream.text(), /event: result/);
   assert.match(stream.text(), /"executionStatus":"completed"/);
+  assert.match(stream.text(), /"qualityStatus":"passed"/);
+  assert.doesNotMatch(stream.text(), /"executorOutput"|"optimizerOutput"|"contractOutput"|"generations"/);
 
   for (const handler of [handlers.a2a, handlers.workflow]) {
     const response = await invoke(handler, "POST", {
@@ -176,7 +222,9 @@ async function run() {
     });
     assert.equal(response.statusCode, 200);
     assert.equal(response.data.executionStatus, "prompt_ready");
+    assert.equal(response.data.qualityStatus, "not_run");
     assert.equal(response.data.providerUsage.modelCalls, 0);
+    assertSafePublicResult(response.data);
   }
 
   const hostedRuns = await invoke(handlers.systemRuns, "GET");
@@ -192,6 +240,8 @@ async function run() {
   assert.equal(systemRun.statusCode, 200);
   assert.equal(systemRun.data.run.status, "completed");
   assert.equal(systemRun.data.run.result.executionStatus, "completed");
+  assert.equal(systemRun.data.run.result.qualityStatus, "passed");
+  assertSafePublicResult(systemRun.data.run.result);
   assert.equal(systemRun.data.run.stages.some((stage) => stage.status === "running"), false);
 
   const updatedOverview = await invoke(handlers.systemOverview, "GET");

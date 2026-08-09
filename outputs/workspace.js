@@ -1,6 +1,9 @@
 (() => {
   "use strict";
 
+  const compiler = globalThis.TokenOptimizerCompiler;
+  if (!compiler) throw new Error("Prompt compiler failed to load.");
+
   const historyKey = "tokenOptimizerPromptHistory";
   const auditKey = "tokenOptimizerAuditLog";
   const sessionIdKey = "tokenOptimizerSessionId";
@@ -53,7 +56,7 @@
   const deviceId = ensureDeviceId();
 
   function estimateTokens(text) {
-    return Math.max(0, Math.ceil(String(text || "").length / 4));
+    return compiler.estimateTokens(text);
   }
 
   function compactNumber(value) {
@@ -112,23 +115,8 @@
   }
 
   function routeAnalysis(text, preference = "auto") {
-    const lower = String(text || "").toLowerCase();
-    const tokens = estimateTokens(text);
-    const structured = /\b(json|yaml|schema|table|csv|xml|exact format)\b/.test(lower);
-    const highImpact = /\b(delete|publish|deploy|migrate|production|security|legal|medical|financial|payment|credential)\b/.test(lower);
-    const explicitCheck = /\b(verify|validate|double-check|test thoroughly|review for errors|fact-check)\b/.test(lower);
-    const deliverables = (text.match(/\b(and|also|plus|then)\b/gi) || []).length;
-    let complexity = Number(tokens > 140) + Number(tokens > 360) + Number(structured) + Number(deliverables >= 3) + Number(highImpact || explicitCheck);
-    let route = complexity <= 1 ? "direct" : complexity <= 4 && !(highImpact && explicitCheck) ? "contract" : "full";
-    if (preference === "fast") route = "direct";
-    if (preference === "thorough" && route === "direct") route = "contract";
-    if (preference === "verified") route = "full";
-    const reason = route === "direct"
-      ? "A single call can cover this request without adding workflow overhead."
-      : route === "contract"
-        ? "The request has several requirements, so compact structured context helps prevent drift."
-        : "The request is complex or high-impact enough to justify a separate validation pass.";
-    return { tokens, route, reason, routeReason: reason, complexity };
+    const analysis = compiler.analyzeWorkflowShape(text, { routePreference: preference });
+    return { ...analysis, tokens: analysis.rawTokens, reason: analysis.routeReason };
   }
 
   function contextInput() {
@@ -160,7 +148,12 @@
         : "Automatic mode chooses the least expensive route that can still cover the request.";
       el("routeFacts").innerHTML = `
         <div><dt>Likely route</dt><dd>${routeLabel(analysis.route)}</dd></div>
-        <div><dt>Usage</dt><dd>Measured after run</dd></div>
+        <div><dt>Constraints</dt><dd>${analysis.constraintCount}</dd></div>
+        <div><dt>Complexity</dt><dd>${analysis.complexity} / 6</dd></div>
+        <div><dt>Planned calls</dt><dd>${analysis.plannedModelCalls}</dd></div>
+        <div><dt>Input estimate</dt><dd>${compactNumber(analysis.tokenBudget.rawInputEstimate)} tokens</dd></div>
+        <div><dt>Output reserve</dt><dd>${compactNumber(analysis.tokenBudget.executorTarget)} tokens</dd></div>
+        <div><dt>Policy</dt><dd>${analysis.policyVersion}</dd></div>
       `;
     }
   }
@@ -173,7 +166,7 @@
     if (["understand", "intake", "preflight"].includes(stage)) return "understand";
     if (["route", "simplify", "contract", "optimize"].includes(stage)) return "simplify";
     if (["execute", "adapter"].includes(stage)) return "execute";
-    if (["verify", "validate", "complete", "save"].includes(stage)) return "validate";
+    if (["verify", "validate", "acceptance", "repair", "complete", "save"].includes(stage)) return "validate";
     return "execute";
   }
 
@@ -294,9 +287,57 @@
     el("inputTokenSource").textContent = actual ? "Provider measured" : "Prompt estimate";
     el("costSource").textContent = report.estimatedCostUsd == null ? "Pricing unavailable" : "Based on configured rates";
     const isComplete = result.executionStatus === "completed";
-    el("runStatus").dataset.state = isComplete ? "ready" : "error";
-    el("runStatus").innerHTML = `<i class="ti ti-point-filled" aria-hidden="true"></i> ${isComplete ? "Completed" : "Needs attention"}`;
+    const qualityStatus = result.qualityStatus || (result.acceptanceReport?.status === "failed" ? "needs_review" : isComplete ? "passed" : "not_run");
+    const qualityReady = qualityStatus === "passed" || qualityStatus === "repaired";
+    const statusLabel = qualityStatus === "repaired"
+      ? "Repaired"
+      : qualityStatus === "needs_review"
+        ? "Needs review"
+        : isComplete && qualityReady
+          ? "Passed"
+          : "Needs attention";
+    el("runStatus").dataset.state = isComplete ? qualityReady ? "ready" : "warning" : "error";
+    el("runStatus").innerHTML = `<i class="ti ti-point-filled" aria-hidden="true"></i> ${statusLabel}`;
     el("modelCallCount").textContent = `${report.modelCalls || 0} model call${report.modelCalls === 1 ? "" : "s"}`;
+  }
+
+  function renderAcceptance(result) {
+    const report = result.acceptanceReport;
+    const repair = result.repairReport;
+    const details = el("acceptanceDetails");
+    const evaluated = report && report.status !== "not_run" && Array.isArray(report.gates);
+    details.hidden = !evaluated;
+    details.open = Boolean(evaluated && (report.status === "failed" || repair?.improved));
+    if (!evaluated) return;
+
+    const passed = report.status === "passed";
+    const repairAttempted = Boolean(repair?.attempted);
+    const repaired = repair?.status === "repaired" || repair?.status === "partial";
+    const repairSummary = el("repairSummary");
+    repairSummary.hidden = !repairAttempted;
+    repairSummary.dataset.state = repair?.status || "not_run";
+    if (repairAttempted) {
+      const changeCount = repair.actionCount || 0;
+      el("repairHeadline").textContent = repaired
+        ? `${repair.status === "partial" ? "Partially repaired" : "Repaired"} locally · ${changeCount} mechanical change${changeCount === 1 ? "" : "s"} · 0 model calls`
+        : "Original preserved · no safe local repair available";
+      el("repairActions").textContent = repaired
+        ? repair.actions.map((action) => action.label).join(" · ")
+        : "The result still needs review; no facts or missing content were invented.";
+    }
+    el("resultKicker").dataset.state = passed ? "passed" : "failed";
+    el("resultKicker").innerHTML = passed
+      ? '<i class="ti ti-circle-check-filled" aria-hidden="true"></i> Result ready'
+      : '<i class="ti ti-alert-triangle-filled" aria-hidden="true"></i> Result needs review';
+    el("acceptanceSummary").textContent = passed
+      ? `${report.passedCount}/${report.gateCount} acceptance gates passed${repaired ? " after local repair" : ""}`
+      : `${report.failedCount} of ${report.gateCount} acceptance gates need review`;
+    el("acceptanceGateList").innerHTML = report.gates.map((gate) => `
+      <li data-state="${gate.passed ? "passed" : "failed"}">
+        <span class="gate-mark" aria-hidden="true">${gate.passed ? "✓" : "!"}</span>
+        <span><strong>${escapeHtml(gate.label)}</strong><small>${escapeHtml(gate.evidence)}</small></span>
+      </li>
+    `).join("");
   }
 
   function renderRouteDetails(result) {
@@ -304,9 +345,13 @@
     el("routeReason").textContent = result.workflowShape?.routeReason || report.routeReason || "Automatic route selected.";
     el("routeFacts").innerHTML = `
       <div><dt>Route</dt><dd>${routeLabel(result.workflowShape?.route || report.adaptiveRoute)}</dd></div>
+      <div><dt>Constraints</dt><dd>${result.workflowShape?.constraintCount ?? "--"}</dd></div>
+      <div><dt>Complexity</dt><dd>${result.workflowShape?.complexity ?? "--"} / 6</dd></div>
       <div><dt>Model calls</dt><dd>${report.modelCalls || 0}</dd></div>
+      <div><dt>Output reserve</dt><dd>${compactNumber(result.workflowShape?.tokenBudget?.executorTarget || 0)} tokens</dd></div>
       <div><dt>Usage source</dt><dd>${report.actualUsageSource === "provider" ? "Measured" : "Estimated"}</dd></div>
       <div><dt>Context comparison</dt><dd>${escapeHtml(contextComparisonText(report))}</dd></div>
+      <div><dt>Policy</dt><dd>${result.workflowShape?.policyVersion || compiler.COMPILER_VERSION}</dd></div>
     `;
   }
 
@@ -326,8 +371,12 @@
       report.actualUsageSource === "provider" ? `${compactNumber(report.actualTotalTokens)} measured total tokens` : "Usage estimated",
       contextComparisonText(report)
     ];
+    if (result.acceptanceReport?.status === "passed") notes.push(`${result.acceptanceReport.passedCount}/${result.acceptanceReport.gateCount} acceptance gates passed`);
+    if (result.acceptanceReport?.status === "failed") notes.push(`${result.acceptanceReport.failedCount} acceptance gate${result.acceptanceReport.failedCount === 1 ? "" : "s"} need review`);
+    if (["repaired", "partial"].includes(result.repairReport?.status)) notes.push(`Repaired locally (${result.repairReport.actionCount} change${result.repairReport.actionCount === 1 ? "" : "s"}, 0 model calls)`);
     if (result.securityReport?.redactions) notes.push(`${result.securityReport.redactions} sensitive value${result.securityReport.redactions === 1 ? "" : "s"} removed`);
     el("resultFootnote").innerHTML = notes.map((note) => `<span>${escapeHtml(note)}</span>`).join("");
+    renderAcceptance(result);
     renderMetrics(result);
     renderRouteDetails(result);
     setRunView("completed");
@@ -406,10 +455,16 @@
       route: result.workflowShape?.route || report.adaptiveRoute || "automatic",
       mode: "workspace",
       status: result.executionStatus || "completed",
+      qualityStatus: result.qualityStatus || "not_run",
       outcome,
       elapsedMs: result.elapsedMs || Date.now() - state.startedAt,
       createdAt: now,
-      sessionId: session.id
+      sessionId: session.id,
+      acceptanceStatus: result.acceptanceReport?.status || "not_run",
+      acceptancePassed: result.acceptanceReport?.passedCount || 0,
+      acceptanceFailed: result.acceptanceReport?.failedCount || 0,
+      repairStatus: result.repairReport?.status || "not_run",
+      repairActions: result.repairReport?.actionCount || 0
     });
     localStorage.setItem(historyKey, JSON.stringify(history.slice(0, 50)));
 
@@ -422,6 +477,7 @@
       provider: result.workflowShape?.route || report.adaptiveRoute || "automatic",
       route: result.workflowShape?.route || report.adaptiveRoute || "automatic",
       status: result.executionStatus || "completed",
+      qualityStatus: result.qualityStatus || "not_run",
       outcome,
       failureReason: outcome === "failed" || outcome === "cancelled" ? result.providerError || "Execution stopped." : "",
       createdAt: now,
@@ -439,6 +495,11 @@
       elapsedMs: result.elapsedMs || 0,
       modelCalls: report.modelCalls || 0,
       routeReason: result.workflowShape?.routeReason || report.routeReason || "",
+      acceptanceStatus: result.acceptanceReport?.status || "not_run",
+      acceptancePassed: result.acceptanceReport?.passedCount || 0,
+      acceptanceFailed: result.acceptanceReport?.failedCount || 0,
+      repairStatus: result.repairReport?.status || "not_run",
+      repairActions: result.repairReport?.actionCount || 0,
       agentActions,
       phases: agentActions
     });
@@ -504,6 +565,7 @@
         headers: {
           "content-type": "application/json",
           accept: "text/event-stream",
+          "idempotency-key": state.activeTraceId,
           "x-token-optimizer-device": deviceId
         },
         body: JSON.stringify({
@@ -543,11 +605,23 @@
       saveRun(visiblePrompt, result);
       if (result.executionStatus === "completed" && result.finalAnswer) {
         renderCompleted(result, visiblePrompt);
-        updateTimeline({ stage: "validate", status: "done", detail: "Result checked and ready." });
-        el("timelineSummary").dataset.state = "ready";
-        el("timelineSummary").querySelector(".summary-state").innerHTML = '<i class="ti ti-circle-check-filled" aria-hidden="true"></i> Completed';
+        const acceptanceFailed = result.qualityStatus === "needs_review" || result.acceptanceReport?.status === "failed";
+        updateTimeline({
+          stage: "validate",
+          status: acceptanceFailed ? "error" : "done",
+          detail: acceptanceFailed ? result.acceptanceReport.summary : "Result checked and ready."
+        });
+        el("timelineSummary").dataset.state = acceptanceFailed ? "warning" : "ready";
+        el("timelineSummary").querySelector(".summary-state").innerHTML = acceptanceFailed
+          ? '<i class="ti ti-alert-triangle-filled" aria-hidden="true"></i> Needs review'
+          : '<i class="ti ti-circle-check-filled" aria-hidden="true"></i> Completed';
         el("timelineSummary").querySelector("strong").textContent = `Finished in ${formatDuration(state.finishedElapsedMs)}`;
-        setLiveStatus("Completed", "Result ready to open, copy, or continue.", "ready", "validate");
+        setLiveStatus(
+          acceptanceFailed ? "Needs review" : "Completed",
+          acceptanceFailed ? result.acceptanceReport.summary : "Result ready to open, copy, or continue.",
+          acceptanceFailed ? "warning" : "ready",
+          "validate"
+        );
       } else {
         renderError(result);
         setLiveStatus("Needs attention", result.providerError || "Execution could not finish.", "error", "execute");
@@ -556,6 +630,7 @@
       if (error.name === "AbortError") {
         const cancelled = {
           executionStatus: "cancelled",
+          qualityStatus: "not_run",
           traceId: state.activeTraceId,
           providerError: "Run cancelled",
           optimizedPrompt: state.lastResult?.optimizedPrompt || input,
@@ -569,6 +644,7 @@
       } else {
         const failed = {
           executionStatus: "provider_error",
+          qualityStatus: "not_run",
           traceId: state.activeTraceId,
           providerError: error.message,
           optimizedPrompt: input,
