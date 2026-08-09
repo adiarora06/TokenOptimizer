@@ -520,8 +520,8 @@
         <div id="routeBreakdown" class="bar-list"></div>
       </article>
       <article class="panel">
-        <h3>Status Mix</h3>
-        <p class="muted">Completed, fallback, contract-only, or kit runs.</p>
+        <h3>Quality Mix</h3>
+        <p class="muted">Passed, locally repaired, needs review, or not run.</p>
         <div id="statusBreakdown" class="bar-list"></div>
       </article>
     </section>
@@ -621,6 +621,7 @@
         estimatedCostUsd: item.estimatedCostUsd == null ? null : Number(item.estimatedCostUsd),
         elapsedMs: safeNumber(item.elapsedMs),
         modelCalls: safeNumber(item.modelCalls),
+        qualityStatus: item.qualityStatus || (item.acceptanceStatus === "failed" ? "needs_review" : item.repairStatus === "repaired" ? "repaired" : item.acceptanceStatus === "passed" ? "passed" : "not_run"),
         createdAt: item.createdAt || new Date(0).toISOString()
       };
     }
@@ -755,7 +756,7 @@
             <div class="meta">
               <span>${escapeHtml(item.mode || "mode")}</span>
               <span>${escapeHtml(item.provider || "route")}</span>
-              <span>${escapeHtml(item.status || "status")}</span>
+              <span>${escapeHtml(item.qualityStatus || "not_run")}</span>
               <span>${compact(item.rawTokens)} input</span>
               <span>${compact(item.optimizedTokens)} output</span>
               <span>${compact(item.savedTokens)} context saved est.</span>
@@ -790,7 +791,7 @@
       renderTrend(runs);
       renderBars("modeBreakdown", byKey(runs, "mode", "unknown"));
       renderBars("routeBreakdown", byKey(runs, "provider", "unknown"));
-      renderBars("statusBreakdown", byKey(runs, "status", "unknown"));
+      renderBars("statusBreakdown", byKey(runs, "qualityStatus", "not_run"));
       renderRecent(runs);
 
       el("allRange").textContent = dateRange(runs);

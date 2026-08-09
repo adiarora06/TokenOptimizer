@@ -451,6 +451,7 @@ h1, h2, h3, p { margin: 0; }
 .timeline-summary strong { overflow: hidden; font-size: 13px; text-overflow: ellipsis; white-space: nowrap; }
 .timeline-summary[data-state="running"] .summary-state { color: var(--brand); }
 .timeline-summary[data-state="error"] .summary-state { color: var(--danger); }
+.timeline-summary[data-state="warning"] .summary-state { color: var(--warn); }
 
 .route-details { margin-top: 18px; color: var(--muted); font-size: 13px; }
 .route-details summary { width: fit-content; cursor: pointer; color: var(--text); font-weight: 720; }
@@ -485,6 +486,7 @@ h1, h2, h3, p { margin: 0; }
 .metrics-strip .metric-status { color: var(--good); font-size: 16px; }
 .metrics-strip .metric-status[data-state="running"] { color: var(--brand); }
 .metrics-strip .metric-status[data-state="error"] { color: var(--danger); }
+.metrics-strip .metric-status[data-state="warning"] { color: var(--warn); }
 
 .result-surface {
   position: relative;
@@ -563,6 +565,7 @@ h1, h2, h3, p { margin: 0; }
   font-size: 12px;
   font-weight: 820;
 }
+.result-kicker[data-state="failed"] { color: var(--warn); }
 
 .result-header h2 { margin-top: 3px; font-size: 18px; }
 .result-actions { flex-wrap: wrap; justify-content: flex-end; }
@@ -618,6 +621,64 @@ h1, h2, h3, p { margin: 0; }
 }
 .expand-result:hover { background: var(--surface-soft); }
 
+.acceptance-details {
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+  padding: 0 20px;
+}
+
+.acceptance-details summary {
+  display: flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  cursor: pointer;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 760;
+}
+
+.acceptance-details[open] summary i { transform: rotate(180deg); }
+.repair-summary {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+  margin: 0 0 14px;
+  border: 1px solid color-mix(in srgb, var(--good) 28%, var(--line));
+  border-radius: 10px;
+  background: var(--good-soft);
+  padding: 11px 12px;
+  color: var(--good);
+}
+.repair-summary[hidden] { display: none; }
+.repair-summary > i { margin-top: 1px; font-size: 18px; }
+.repair-summary strong { display: block; color: var(--text); font-size: 13px; }
+.repair-summary small { display: block; margin-top: 3px; color: var(--muted); font-size: 12px; line-height: 1.45; }
+.repair-summary[data-state="unavailable"] {
+  border-color: color-mix(in srgb, var(--warn) 28%, var(--line));
+  background: var(--warn-soft);
+  color: var(--warn);
+}
+.acceptance-details ul { display: grid; gap: 9px; margin: 0; padding: 0 0 16px; list-style: none; }
+.acceptance-details li { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 9px; align-items: start; }
+.acceptance-details .gate-mark {
+  display: grid;
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--good-soft);
+  color: var(--good);
+  font-size: 11px;
+  font-weight: 800;
+}
+.acceptance-details li[data-state="failed"] .gate-mark { background: var(--warn-soft); color: var(--warn); }
+.acceptance-details li strong { display: block; color: var(--text); font-size: 13px; }
+.acceptance-details li small { display: block; margin-top: 2px; color: var(--muted); font-size: 12px; line-height: 1.45; }
+
 .result-footnote {
   display: flex;
   flex-wrap: wrap;
@@ -652,6 +713,7 @@ h1, h2, h3, p { margin: 0; }
 .live-message > span:last-child { overflow: hidden; color: var(--muted); font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
 .live-dot[data-state="running"] { background: var(--brand); box-shadow: 0 0 0 4px color-mix(in srgb, var(--brand) 14%, transparent); animation: activePulse 1.4s ease-in-out infinite; }
 .live-dot[data-state="error"] { background: var(--danger); box-shadow: 0 0 0 4px color-mix(in srgb, var(--danger) 14%, transparent); }
+.live-dot[data-state="warning"] { background: var(--warn); box-shadow: 0 0 0 4px color-mix(in srgb, var(--warn) 14%, transparent); }
 
 .live-stages { display: flex; align-items: center; gap: 6px; }
 .live-stages span { min-width: 78px; border-radius: 6px; color: var(--quiet); padding: 5px 8px; text-align: center; font-size: 11px; font-weight: 780; }

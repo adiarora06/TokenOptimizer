@@ -1,16 +1,16 @@
-# Publishing Token Optimizer for Gemini
+# Publishing Token Optimizer for Gemini and ChatGPT
 
-This extension is not deployed by Vercel. Vercel hosts the Token Optimizer web app and API. The Gemini wrapper is a Chrome extension package in this folder that must be uploaded to the Chrome Web Store Developer Dashboard.
+This extension is not deployed by Vercel. Vercel hosts the Token Optimizer web app and API. The assistant wrapper is a Chrome extension package in this folder that must be uploaded to the Chrome Web Store Developer Dashboard.
 
 ## Current Wrapper
 
 - Manifest V3 side-panel extension.
-- Runs on `https://gemini.google.com/*`.
+- Runs on Gemini and ChatGPT.
 - Uses the deployed preparation-only Token Optimizer endpoint.
-- Makes zero provider model calls while preparing a Gemini prompt.
+- Makes zero provider model calls while preparing a prompt.
 - Captures or accepts prompt text only after user action.
-- Inserts an optimized prompt into Gemini only after user action.
-- Does not auto-send Gemini messages.
+- Inserts an optimized prompt into the active assistant only after user action.
+- Does not auto-send assistant messages.
 - Does not store provider API keys in the extension.
 - Does not expose local endpoint settings in the store package.
 
@@ -18,19 +18,19 @@ This extension is not deployed by Vercel. Vercel hosts the Token Optimizer web a
 
 The extension is useful as an inspectable wrapper example:
 
-- `manifest.json`: permissions, Gemini host access, side-panel setup, content script registration.
+- `manifest.json`: permissions, supported host access, side-panel setup, content script registration.
 - `sidepanel.html`, `sidepanel.css`, `sidepanel.js`: the extension UI and prepare/insert workflow.
 - `platforms.js`: supported-site metadata for the side panel.
 - `content-bridge.js`: reusable capture/insert message contract.
 - `adapters/gemini.js`: the Gemini DOM adapter.
 - `ADAPTERS.md`: the contract for future AI assistant adapters.
-- `service-worker.js`: side-panel enablement for Gemini tabs.
+- `service-worker.js`: side-panel enablement for supported assistant tabs.
 
 ## Store-Ready Checklist
 
 1. Finalize extension name and avoid Google endorsement wording.
-2. Keep the single purpose narrow: optimize prompts before inserting them into Gemini.
-3. Keep permissions narrow: `sidePanel`, `storage`, `https://gemini.google.com/*`, and the optimizer API origin.
+2. Keep the single purpose narrow: optimize prompts before inserting them into supported assistants.
+3. Keep permissions narrow: `sidePanel`, `storage`, the enabled assistant origins, and the optimizer API origin.
 4. Add a public privacy policy page.
 5. Include a Limited Use disclosure for prompt/user data.
 6. Add screenshots and upload the generated store listing assets from `store-assets/`.
@@ -50,7 +50,7 @@ The privacy policy should plainly say:
 - The extension does not sell user data.
 - The extension does not use prompt data for unrelated advertising or tracking.
 - The extension does not store provider API keys.
-- The extension stores the latest raw prompt and preparation metrics locally to prevent recursive output and show usage.
+- The extension stores preparation metrics locally to show usage history; it does not persist raw prompts.
 
 ## Local Test Notes
 

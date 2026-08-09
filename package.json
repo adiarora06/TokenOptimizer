@@ -10,10 +10,24 @@
   },
   "scripts": {
     "start": "node server.cjs",
-    "test": "npm run test:core && npm run test:api && npm run test:extension",
+    "sync:compiler": "node scripts/sync-prompt-compiler.cjs",
+    "eval": "node evals/run-evals.cjs",
+    "eval:json": "node evals/run-evals.cjs --json",
+    "eval:live": "node evals/run-evals.cjs --live",
+    "telemetry:report": "node scripts/telemetry-report.cjs",
+    "test": "npm run test:compiler && npm run test:acceptance && npm run test:public && npm run test:guard && npm run test:core && npm run test:telemetry && npm run test:eval && npm run test:api && npm run test:hosted && npm run test:frontend && npm run test:extension",
+    "test:compiler": "node tests/prompt-compiler-parity.test.cjs",
+    "test:acceptance": "node tests/acceptance-gates.test.cjs",
+    "test:public": "node tests/public-result.test.cjs",
+    "test:guard": "node tests/request-guard.test.cjs && node tests/shared-request-guard.test.cjs && node tests/redis-lua-smoke.test.cjs",
+    "test:redis-smoke": "node tests/redis-lua-smoke.test.cjs",
     "test:core": "node tests/optimizer-core.test.cjs",
+    "test:telemetry": "node tests/telemetry.test.cjs && node tests/telemetry-analysis.test.cjs",
+    "test:eval": "node tests/eval-harness.test.cjs",
     "test:api": "node tests/api-endpoints.test.cjs",
-    "test:extension": "node extensions/gemini-token-optimizer/tests/sidepanel-logic.test.cjs && node extensions/gemini-token-optimizer/tests/content-gemini.test.cjs && node extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs"
+    "test:hosted": "node tests/hosted-api.test.cjs",
+    "test:frontend": "node tests/frontend-static.test.cjs",
+    "test:extension": "node extensions/gemini-token-optimizer/tests/sidepanel-logic.test.cjs && node extensions/gemini-token-optimizer/tests/service-worker.test.cjs && node extensions/gemini-token-optimizer/tests/content-gemini.test.cjs && node extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs"
   },
   "dependencies": {
     "zod": "^4.4.3"

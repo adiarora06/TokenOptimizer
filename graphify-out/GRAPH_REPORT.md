@@ -1,221 +1,341 @@
-# Graph Report - .  (2026-07-25)
+# Graph Report - .  (2026-08-09)
 
 ## Corpus Check
 - cluster-only mode — file stats not available
 
 ## Summary
-- 411 nodes · 659 edges · 24 communities (21 shown, 3 thin omitted)
-- Extraction: 91% EXTRACTED · 9% INFERRED · 0% AMBIGUOUS · INFERRED: 60 edges (avg confidence: 0.5)
+- 913 nodes · 1520 edges · 50 communities (45 shown, 5 thin omitted)
+- Extraction: 91% EXTRACTED · 9% INFERRED · 0% AMBIGUOUS · INFERRED: 140 edges (avg confidence: 0.53)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `9e30bf7c`
+- Built from commit: `b1f284c9`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
+- telemetry-analysis.cjs
 - workspace.js
+- server.cjs
+- harness.cjs
+- scripts
+- shared-request-guard.cjs
 - request-guard.cjs
-- optimizer-core.cjs
+- telemetry.cjs
+- handoff.cjs
 - manifest.json
+- optimize-stream.js
 - content-chatgpt.test.cjs
 - content-gemini.test.cjs
-- server.cjs
-- handoff.cjs
-- package.json
 - sidepanel.js
-- optimizer-system.cjs
+- workflow.cjs
+- security.cjs
+- acceptance.cjs
+- providers.cjs
+- acceptance-gates.test.cjs
+- FakeRedisRestClient
+- optimizer-core.cjs
+- request-guard.test.cjs
+- MockResponse
+- prompt-compiler-parity.test.cjs
+- Token Optimizer
 - sidepanel-logic.test.cjs
+- redis-lua-smoke.test.cjs
+- public-result.cjs
 - api-endpoints.test.cjs
+- Design QA
+- Publishing Token Optimizer for Gemini and ChatGPT
+- service-worker.test.cjs
+- frontend-static.test.cjs
 - prompts.cjs
-- system-worker.js
-- optimizer-core.test.cjs
+- Chrome Web Store Listing Copy
+- Token Optimizer for Gemini and ChatGPT
+- workflow-run.js
+- text.cjs
+- system-overview.js
 - chatgpt.js
 - gemini.js
+- sync-prompt-compiler.cjs
+- Site Adapter Architecture
 - canonical-graph.cjs
+- provider-status.js
 - vercel.json
 
 ## God Nodes (most connected - your core abstractions)
-1. `run()` - 18 edges
-2. `handleApi()` - 12 edges
-3. `el()` - 11 edges
-4. `preparePrompt()` - 11 edges
-5. `estimateTokens()` - 11 edges
-6. `renderCompleted()` - 11 edges
-7. `FakeElement` - 11 edges
-8. `FakeElement` - 11 edges
-9. `bindEvents()` - 10 edges
-10. `setStatus()` - 9 edges
+1. `scripts` - 20 edges
+2. `FakeRedisRestClient` - 20 edges
+3. `run()` - 18 edges
+4. `recordWorkflowRun()` - 17 edges
+5. `handleApi()` - 16 edges
+6. `repairAcceptanceFailures()` - 15 edges
+7. `runSelfOptimizingWorkflow()` - 15 edges
+8. `createSharedRequestGuardAdapters()` - 15 edges
+9. `run()` - 15 edges
+10. `summarizeTelemetryEvents()` - 14 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `runBlankA2AKit()` --calls--> `estimateTokens()`  [EXTRACTED]
-  core/workflow.cjs → core/usage.cjs
-- `runSelfOptimizingWorkflow()` --calls--> `estimateTokens()`  [EXTRACTED]
-  core/workflow.cjs → core/usage.cjs
-- `analyzeWorkflowShape()` --calls--> `compactLines()`  [EXTRACTED]
-  core/routing.cjs → core/text.cjs
-- `analyzeWorkflowShape()` --calls--> `estimateTokens()`  [EXTRACTED]
-  core/routing.cjs → core/usage.cjs
-- `buildOfflineContract()` --calls--> `compactLines()`  [EXTRACTED]
-  core/routing.cjs → core/text.cjs
+- `run()` --calls--> `resolveProvider()`  [EXTRACTED]
+  tests/optimizer-core.test.cjs → core/providers.cjs
+- `run()` --calls--> `generateWithFallback()`  [EXTRACTED]
+  tests/optimizer-core.test.cjs → core/providers.cjs
+- `run()` --calls--> `projectPublicResult()`  [EXTRACTED]
+  tests/public-result.test.cjs → core/public-result.cjs
+- `startStream()` --calls--> `commonHeaders()`  [EXTRACTED]
+  api/optimize-stream.js → request-guard.cjs
+- `run()` --calls--> `validateIdempotencyKey()`  [EXTRACTED]
+  tests/request-guard.test.cjs → request-guard.cjs
 
 ## Import Cycles
 - None detected.
 
-## Communities (24 total, 3 thin omitted)
+## Communities (50 total, 5 thin omitted)
 
-### Community 0 - "workspace.js"
-Cohesion: 0.11
-Nodes (45): bindEvents(), checkService(), compactNumber(), contextComparisonText(), contextInput(), continueFromResult(), coordinatorActions(), copyText() (+37 more)
-
-### Community 1 - "request-guard.cjs"
-Cohesion: 0.08
-Nodes (36): {
-  abortSignalOnClose,
-  commonHeaders,
-  publicError,
-  takeRateLimit,
-  validateA2APayload
-}, { runBlankA2AKit }, {
-  abortSignalOnClose,
-  commonHeaders,
-  publicError,
-  takeRateLimit,
-  validateGeneratePayload
-}, { callChatCompletion, generateWithFallback }, {
-  abortSignalOnClose,
-  commonHeaders,
-  publicError,
-  takeRateLimit,
-  validateOptimizerPayload
-}, { runSelfOptimizingWorkflow }, {
-  abortSignalOnClose,
-  commonHeaders,
-  publicError,
-  takeRateLimit,
-  validateOptimizerPayload
-}, { createTraceId, runSelfOptimizingWorkflow } (+28 more)
-
-### Community 2 - "optimizer-core.cjs"
-Cohesion: 0.09
-Nodes (33): { providerStatus }, { assertSafeProviderEndpoint }, callChatCompletion(), callModel(), callWorkflowProvider(), createRequestSignal(), { estimateTokens, modelCost, normalizeUsage }, generateWithFallback() (+25 more)
-
-### Community 3 - "manifest.json"
-Cohesion: 0.06
-Nodes (33): action, default_icon, default_title, background, service_worker, type, content_scripts, content_security_policy (+25 more)
-
-### Community 4 - "content-chatgpt.test.cjs"
+### Community 0 - "telemetry-analysis.cjs"
 Cohesion: 0.07
-Nodes (14): adapterCode, assert, baseCode, bridgeCode, composerForm, context, FakeElement, fs (+6 more)
+Nodes (48): alertForMetric(), boundedInteger(), DEFAULT_ALERT_POLICY, evaluateTelemetryHealth(), finiteNumber(), increment(), KNOWN_ACCEPTANCE_STATUSES, KNOWN_ENDPOINTS (+40 more)
 
-### Community 5 - "content-gemini.test.cjs"
-Cohesion: 0.07
-Nodes (14): adapterCode, assert, baseCode, bridgeCode, context, FakeElement, fs, hugeEditor (+6 more)
-
-### Community 6 - "server.cjs"
+### Community 1 - "workspace.js"
 Cohesion: 0.11
-Nodes (24): abortSignalOnClose(), allowedApiMethods(), {
-  callChatCompletion,
-  createTraceId,
-  generateWithFallback,
-  preparePortableHandoff,
-  providerStatus,
+Nodes (46): bindEvents(), checkService(), compactNumber(), contextComparisonText(), contextInput(), continueFromResult(), coordinatorActions(), copyText() (+38 more)
+
+### Community 2 - "server.cjs"
+Cohesion: 0.07
+Nodes (43): applyResultTrace(), baseStages(), compactTitle(), createId(), createOptimizerSystem(), createRun(), {
+  estimateTokens,
   runBlankA2AKit,
   runSelfOptimizingWorkflow
-}, commonHeaders(), { createOptimizerSystem }, fs, graphifyDir, guard (+16 more)
+}, executeSystemRun() (+35 more)
 
-### Community 7 - "handoff.cjs"
-Cohesion: 0.13
-Nodes (21): { analyzeWorkflowShape, buildOfflineContract }, buildPortablePrompt(), cleanDirectRequest(), {
+### Community 3 - "harness.cjs"
+Cohesion: 0.11
+Nodes (37): {
+  callChatCompletion,
+  preparePortableHandoff,
+  runSelfOptimizingWorkflow
+}, evaluateLiveCase(), evaluateOutputCheck(), evaluatePreparedCase(), formatDeterministicReport(), formatLiveReport(), fs, includesValue() (+29 more)
+
+### Community 4 - "scripts"
+Cohesion: 0.05
+Nodes (38): dompurify, marked, dependencies, zod, description, //devDependencies, dompurify, marked (+30 more)
+
+### Community 5 - "shared-request-guard.cjs"
+Cohesion: 0.12
+Nodes (34): boundedInteger(), cancellationError(), createKeySpace(), createRedisConcurrencyGate(), createRedisDailyBudget(), createRedisIdempotencyStore(), createRedisRateLimiter(), createRedisRestClient() (+26 more)
+
+### Community 6 - "request-guard.cjs"
+Cohesion: 0.06
+Nodes (31): a2aPayloadSchema, bearerCredential(), canonicalFingerprintValue(), clientKey(), crypto, DAILY_CALL_LIMIT, DAILY_TOKEN_LIMIT, defaultBillableRequestGuard (+23 more)
+
+### Community 7 - "telemetry.cjs"
+Cohesion: 0.11
+Nodes (34): boundedInteger(), classifyFailure(), configuration, events, KNOWN_ACCEPTANCE_STATUSES, KNOWN_ENDPOINTS, KNOWN_PROVIDERS, KNOWN_QUALITY_STATUSES (+26 more)
+
+### Community 8 - "handoff.cjs"
+Cohesion: 0.11
+Nodes (26): { analyzeWorkflowShape, buildOfflineContract }, buildPortablePrompt(), cleanDirectRequest(), {
   cleanPromptText,
   compactLines,
   dedupeNaturalLanguageLines,
   promptSection,
   stripListPrefix,
   withoutTrailingEllipsis
-}, { estimateTokens }, isLikelyOriginalTask(), isPreparedWrapper(), originalTaskScore() (+13 more)
+}, { estimateTokens }, isLikelyOriginalTask(), isPreparedWrapper(), originalTaskScore() (+18 more)
 
-### Community 8 - "package.json"
-Cohesion: 0.08
-Nodes (24): dompurify, marked, dependencies, zod, description, //devDependencies, dompurify, marked (+16 more)
+### Community 9 - "manifest.json"
+Cohesion: 0.06
+Nodes (33): action, default_icon, default_title, background, service_worker, type, content_scripts, content_security_policy (+25 more)
 
-### Community 9 - "sidepanel.js"
-Cohesion: 0.24
-Nodes (24): bindEvents(), capturePrompt(), checkConnection(), copyPrepared(), currentContext(), el(), estimateTokens(), getRecentRawPrompt() (+16 more)
+### Community 10 - "optimize-stream.js"
+Cohesion: 0.10
+Nodes (26): {
+  abortSignalOnClose,
+  classifyProviderConfigFunding,
+  commonHeaders,
+  publicError,
+  runBillableRequest,
+  validateA2APayload
+}, { projectPublicResult }, { runBlankA2AKit }, {
+  abortSignalOnClose,
+  commonHeaders,
+  publicError,
+  runBillableRequest,
+  validateGeneratePayload
+}, { callChatCompletion, createTraceId, generateWithFallback }, { collectConfiguredSecretValues, redactPublicValue }, {
+  abortSignalOnClose,
+  commonHeaders,
+  publicError,
+  runBillableRequest,
+  validateOptimizerPayload
+}, { projectPublicResult } (+18 more)
 
-### Community 10 - "optimizer-system.cjs"
+### Community 11 - "content-chatgpt.test.cjs"
+Cohesion: 0.07
+Nodes (14): adapterCode, assert, baseCode, bridgeCode, composerForm, context, FakeElement, fs (+6 more)
+
+### Community 12 - "content-gemini.test.cjs"
+Cohesion: 0.07
+Nodes (14): adapterCode, assert, baseCode, bridgeCode, context, FakeElement, fs, hugeEditor (+6 more)
+
+### Community 13 - "sidepanel.js"
+Cohesion: 0.21
+Nodes (22): build(), bindEvents(), capturePrompt(), checkConnection(), copyPrepared(), currentContext(), el(), estimateTokens() (+14 more)
+
+### Community 14 - "workflow.cjs"
+Cohesion: 0.15
+Nodes (21): skippedAcceptanceReport(), skippedRepairReport(), { analyzeWorkflowShape, buildOfflineContract }, {
+  buildA2AContractPrompt,
+  buildA2AExecutorPrompt,
+  buildA2AVerifierPrompt,
+  buildDirectExecutorPrompt,
+  buildExecutorPrompt,
+  buildOptimizerPrompt,
+  buildVerifierPrompt
+}, buildBlankA2AKit(), { callModel, callWorkflowProvider, resolveProvider }, { combineUsage, contextComparison, createTraceId, estimateTokens, generationRecord }, {
+  compileAcceptanceGates,
+  evaluateAcceptanceGates,
+  repairAcceptanceFailures,
+  skippedAcceptanceReport,
+  skippedRepairReport
+} (+13 more)
+
+### Community 15 - "security.cjs"
+Cohesion: 0.15
+Nodes (21): canonicalContract(), compactList(), compactString(), handoffContractSchema, parseJsonObject(), { redactSensitiveText }, validateHandoffContract(), { z } (+13 more)
+
+### Community 16 - "acceptance.cjs"
+Cohesion: 0.18
+Nodes (21): addGate(), compactSource(), compileAcceptanceGates(), containsImplementationCode(), containsMarkdown(), countExecutableTests(), evaluateAcceptanceGates(), evaluateGate() (+13 more)
+
+### Community 17 - "providers.cjs"
+Cohesion: 0.16
+Nodes (20): boundedNumber(), callChatCompletion(), callModel(), callWorkflowProvider(), createRequestSignal(), { estimateTokens, modelCost, normalizeUsage }, executeModelCall(), fallbackAttemptMessage() (+12 more)
+
+### Community 18 - "acceptance-gates.test.cjs"
+Cohesion: 0.09
+Nodes (21): ambiguousInteger, assert, badFormat, {
+  compileAcceptanceGates,
+  evaluateAcceptanceGates,
+  repairAcceptanceFailures
+}, endpointReport, fencedProseOnly, invalidJson, jsonDefinition (+13 more)
+
+### Community 20 - "optimizer-core.cjs"
+Cohesion: 0.12
+Nodes (18): { analyzeWorkflowShape }, { callChatCompletion, generateWithFallback, providerStatus }, { combineUsage, createTraceId, estimateTokens }, {
+  compileAcceptanceGates,
+  evaluateAcceptanceGates,
+  repairAcceptanceFailures
+}, { compilePrompt, COMPILER_VERSION }, { preparePortableHandoff }, { redactSensitiveText }, { runBlankA2AKit, runSelfOptimizingWorkflow } (+10 more)
+
+### Community 21 - "request-guard.test.cjs"
+Cohesion: 0.26
+Nodes (17): authorizeBillableRequest(), boundedInteger(), classifyProviderConfigFunding(), classifyRequestFunding(), constantTimeSecretEqual(), createBillableRequestGuard(), createConcurrencyGate(), createDailyBudget() (+9 more)
+
+### Community 22 - "MockResponse"
+Cohesion: 0.15
+Nodes (8): assert, assertSafePublicResult(), { EventEmitter }, handlers, invoke(), MockResponse, request(), run()
+
+### Community 23 - "prompt-compiler-parity.test.cjs"
+Cohesion: 0.12
+Nodes (16): assert, browserContext, browserPath, canonicalPath, canonicalSource, compiled, extensionPath, formerlyDivergent (+8 more)
+
+### Community 24 - "Token Optimizer"
+Cohesion: 0.14
+Nodes (13): Assistant Extension MVP, Contributing Principle, Execution Flow, Graphify Code Graph, License, Optional Provider Keys, Product Shape, Run Locally (+5 more)
+
+### Community 25 - "sidepanel-logic.test.cjs"
+Cohesion: 0.15
+Nodes (11): assert, compilerCode, context, elements, extensionDir, fs, path, platformsCode (+3 more)
+
+### Community 26 - "redis-lua-smoke.test.cjs"
+Cohesion: 0.23
+Nodes (12): assert, command(), crypto, encodeCommand(), evaluate(), IncompleteReply, lineEnd(), net (+4 more)
+
+### Community 27 - "public-result.cjs"
 Cohesion: 0.29
-Nodes (12): applyResultTrace(), baseStages(), compactTitle(), createId(), createRun(), {
-  estimateTokens,
-  runBlankA2AKit,
-  runSelfOptimizingWorkflow
-}, executeSystemRun(), nowIso() (+4 more)
+Nodes (11): appendSecretValues(), collectConfiguredSecretValues(), contractMetadata(), kitMetadata(), PREPARED_ARTIFACT_FIELDS, projectPublicResult(), PUBLIC_RESULT_FIELDS, redactPublicValue() (+3 more)
 
-### Community 11 - "sidepanel-logic.test.cjs"
-Cohesion: 0.17
-Nodes (10): assert, context, elements, extensionDir, fs, path, platformsCode, preparedResponse (+2 more)
+### Community 28 - "api-endpoints.test.cjs"
+Cohesion: 0.27
+Nodes (11): assert, assertSafePublicResult(), { callModel }, freePort(), http, jsonRequest(), listen(), post() (+3 more)
 
-### Community 12 - "api-endpoints.test.cjs"
+### Community 29 - "Design QA"
+Cohesion: 0.20
+Nodes (9): Comparison History, Comparison Target, Design QA, Findings, Focused Evidence, Follow-up Polish, Implementation Checklist, Interaction And Runtime Checks (+1 more)
+
+### Community 30 - "Publishing Token Optimizer for Gemini and ChatGPT"
+Cohesion: 0.20
+Nodes (9): Current Wrapper, Local Test Notes, Open Source Use, Package Command, Privacy Policy Notes, Publication Types, Publishing Token Optimizer for Gemini and ChatGPT, Store Listing Assets (+1 more)
+
+### Community 31 - "service-worker.test.cjs"
+Cohesion: 0.20
+Nodes (9): assert, context, extensionDir, fs, panelOptions, path, platformsCode, serviceWorkerCode (+1 more)
+
+### Community 32 - "frontend-static.test.cjs"
+Cohesion: 0.20
+Nodes (9): assert, faviconPath, fs, htmlFiles, outputsDir, path, privacySource, retiredGenerator (+1 more)
+
+### Community 34 - "Chrome Web Store Listing Copy"
+Cohesion: 0.22
+Nodes (8): Chrome Web Store Listing Copy, Detailed Description, Extension Name, Permission Justification, Privacy Policy URL, Short Description, Single Purpose Statement, Store Assets
+
+### Community 35 - "Token Optimizer for Gemini and ChatGPT"
+Cohesion: 0.25
+Nodes (7): Backend, Extend The Wrapper, Load Locally, Package For Upload Later, Privacy Shape, Token Optimizer for Gemini and ChatGPT, What It Does
+
+### Community 36 - "workflow-run.js"
+Cohesion: 0.29
+Nodes (6): {
+  abortSignalOnClose,
+  classifyProviderConfigFunding,
+  commonHeaders,
+  publicError,
+  runBillableRequest,
+  validateA2APayload
+}, { projectPublicResult }, { runBlankA2AKit }, validateA2APayload(), validateGeneratePayload(), validateWith()
+
+### Community 37 - "text.cjs"
+Cohesion: 0.38
+Nodes (3): cleanPromptText(), dedupeNaturalLanguageLines(), stripListPrefix()
+
+### Community 38 - "system-overview.js"
 Cohesion: 0.33
-Nodes (9): assert, freePort(), http, jsonRequest(), listen(), post(), run(), { spawn } (+1 more)
+Nodes (5): { commonHeaders, requestGuardBackend }, { SYSTEM_ARCHITECTURE }, { telemetrySummary }, SYSTEM_ARCHITECTURE, requestGuardBackend()
 
-### Community 14 - "system-worker.js"
-Cohesion: 0.52
-Nodes (6): analyzePrompt(), complexityScore(), estimateTokens(), lines(), outputStyle(), uniqueLines()
-
-### Community 15 - "optimizer-core.test.cjs"
-Cohesion: 0.29
-Nodes (5): {
-  analyzeWorkflowShape,
-  combineUsage,
-  preparePortableHandoff,
-  redactSensitiveText,
-  runBlankA2AKit,
-  runSelfOptimizingWorkflow
-}, assert, { assertSafeProviderEndpoint }, { contextComparison }, { takeRateLimit }
-
-### Community 16 - "chatgpt.js"
+### Community 39 - "chatgpt.js"
 Cohesion: 0.67
 Nodes (5): hasPromptLabel(), isCandidate(), isHugeEditable(), isNearPromptArea(), score()
 
-### Community 17 - "gemini.js"
+### Community 40 - "gemini.js"
 Cohesion: 0.67
 Nodes (5): hasPromptLabel(), isCandidate(), isHugeEditable(), isNearPromptArea(), score()
+
+### Community 41 - "sync-prompt-compiler.cjs"
+Cohesion: 0.33
+Nodes (5): fs, path, root, source, targets
+
+### Community 42 - "Site Adapter Architecture"
+Cohesion: 0.40
+Nodes (4): Adapter Contract, Add Another Assistant, Layers, Site Adapter Architecture
 
 ## Knowledge Gaps
-- **146 isolated node(s):** `{ preparePortableHandoff }`, `{
-  commonHeaders,
-  publicError,
-  takeRateLimit,
-  validateOptimizerPayload
-}`, `{ providerStatus }`, `{ SYSTEM_ARCHITECTURE, runSystemRunInline }`, `{
-  commonHeaders,
-  publicError,
-  takeRateLimit,
-  validateOptimizerPayload
-}` (+141 more)
+- **370 isolated node(s):** `assert`, `fs`, `path`, `vm`, `promptBox` (+365 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **3 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **5 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **What connects `{ preparePortableHandoff }`, `{
-  commonHeaders,
-  publicError,
-  takeRateLimit,
-  validateOptimizerPayload
-}`, `{ providerStatus }` to the rest of the system?**
-  _146 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Why does `runSelfOptimizingWorkflow()` connect `workflow.cjs` to `acceptance.cjs`, `providers.cjs`, `optimizer-core.cjs`, `telemetry.cjs`?**
+  _High betweenness centrality (0.010) - this node is a cross-community bridge._
+- **Why does `summarizeTelemetryEvents()` connect `telemetry-analysis.cjs` to `telemetry.cjs`?**
+  _High betweenness centrality (0.008) - this node is a cross-community bridge._
+- **Why does `MockResponse` connect `MockResponse` to `providers.cjs`?**
+  _High betweenness centrality (0.008) - this node is a cross-community bridge._
+- **What connects `assert`, `fs`, `path` to the rest of the system?**
+  _370 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Should `telemetry-analysis.cjs` be split into smaller, more focused modules?**
+  _Cohesion score 0.07137254901960784 - nodes in this community are weakly interconnected._
 - **Should `workspace.js` be split into smaller, more focused modules?**
-  _Cohesion score 0.11193339500462535 - nodes in this community are weakly interconnected._
-- **Should `request-guard.cjs` be split into smaller, more focused modules?**
-  _Cohesion score 0.08181818181818182 - nodes in this community are weakly interconnected._
-- **Should `optimizer-core.cjs` be split into smaller, more focused modules?**
-  _Cohesion score 0.08536585365853659 - nodes in this community are weakly interconnected._
-- **Should `manifest.json` be split into smaller, more focused modules?**
-  _Cohesion score 0.058823529411764705 - nodes in this community are weakly interconnected._
-- **Should `content-chatgpt.test.cjs` be split into smaller, more focused modules?**
-  _Cohesion score 0.07407407407407407 - nodes in this community are weakly interconnected._
-- **Should `content-gemini.test.cjs` be split into smaller, more focused modules?**
-  _Cohesion score 0.07407407407407407 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.1099290780141844 - nodes in this community are weakly interconnected._
+- **Should `server.cjs` be split into smaller, more focused modules?**
+  _Cohesion score 0.07030527289546716 - nodes in this community are weakly interconnected._

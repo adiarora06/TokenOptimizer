@@ -8,7 +8,7 @@ The extension keeps prompt preparation, side-panel UI, and site-specific DOM acc
 - `platforms.js`: side-panel metadata used to recognize supported assistant URLs.
 - `content-bridge.js`: stable Chrome message contract shared by every site.
 - `adapters/gemini.js`: Gemini prompt discovery, capture, and insertion.
-- `adapters/chatgpt.js`: ChatGPT prompt discovery, capture, and insertion (second reference adapter).
+- `adapters/chatgpt.js`: ChatGPT prompt discovery, capture, and insertion.
 - `/api/prepare-handoff`: deterministic prompt preparation with zero model calls.
 
 ## Adapter Contract
@@ -41,4 +41,4 @@ globalThis.TokenOptimizerSiteAdapter = Object.freeze({
 5. Add DOM selection, capture, insertion, and no-auto-submit tests.
 6. Update the privacy policy and Chrome Web Store disclosures before publishing the expanded package.
 
-Keep unreleased assistant permissions out of the production manifest. This preserves the Gemini extension's narrow single purpose and avoids unnecessary Chrome Web Store review scope.
+Keep unreleased assistant permissions out of the production manifest. This preserves the extension's narrow prompt-preparation purpose and avoids unnecessary Chrome Web Store review scope.

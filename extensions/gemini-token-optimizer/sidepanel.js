@@ -1,6 +1,8 @@
 const PREPARE_ENDPOINT = "https://tok-pi-gilt.vercel.app/api/prepare-handoff";
-const recentPromptKey = "tokenOptimizerLastRawPrompt";
 const preparationHistoryKey = "tokenOptimizerPreparationHistory";
+const compiler = globalThis.TokenOptimizerCompiler;
+
+if (!compiler) throw new Error("Prompt compiler failed to load.");
 
 const state = {
   activeStage: "capture",
@@ -51,14 +53,7 @@ function toast(message) {
 }
 
 function estimateTokens(text) {
-  return Math.max(0, Math.ceil(String(text || "").length / 4));
-}
-
-function looksPrepared(text) {
-  const value = String(text || "").trim();
-  return /^Complete this task directly/i.test(value) ||
-    /\n(?:Task|Important context|Requirements|Output):/i.test(value) ||
-    /token optimization|handoff contracts|internal agent workflow/i.test(value);
+  return compiler.estimateTokens(text);
 }
 
 function platformForUrl(url) {
@@ -81,16 +76,6 @@ async function messageTarget(message) {
   } catch {
     throw new Error(`${target.label} is not ready yet. Refresh the page, focus its prompt box, and try again.`);
   }
-}
-
-async function getRecentRawPrompt() {
-  const data = await chrome.storage.local.get(recentPromptKey);
-  return String(data[recentPromptKey] || "").trim();
-}
-
-async function rememberRawPrompt(prompt) {
-  if (!prompt || looksPrepared(prompt)) return;
-  await chrome.storage.local.set({ [recentPromptKey]: prompt });
 }
 
 async function recordPreparation(result, target) {
@@ -116,6 +101,7 @@ function renderMetrics(result) {
   const saved = Number(report.estimatedSavingsTokens || 0);
   const percent = Number(report.estimatedSavingsPercent || 0);
   const calls = Number(report.modelCalls || 0);
+  const route = result?.workflowShape?.route;
 
   el("tokenPill").textContent = `${prepared} ready`;
   el("rawTokenMetric").textContent = raw;
@@ -124,7 +110,7 @@ function renderMetrics(result) {
   el("modelCallMetric").textContent = calls;
   el("metrics").hidden = false;
   el("routeNote").textContent = calls === 0
-    ? "Prepared without calling a model."
+    ? `${route ? `${route[0].toUpperCase()}${route.slice(1)} route · ` : ""}Prepared without calling a model.`
     : `${calls} preparation model call${calls === 1 ? "" : "s"}.`;
   el("routeNote").hidden = false;
 }
@@ -142,7 +128,7 @@ async function checkConnection() {
     setStatus("Ready", `${target.label} wrapper connected`, "Capture a rough prompt or prepare and insert it in one click.", false, "capture");
   } catch (error) {
     el("connectionPill").textContent = "No assistant";
-    setStatus("Ready", "Open Gemini to connect", error.message, false, "capture");
+    setStatus("Ready", "Open Gemini or ChatGPT to connect", error.message, false, "capture");
   }
 }
 
@@ -153,7 +139,6 @@ async function capturePrompt({ quiet = false } = {}) {
   el("rawPrompt").value = response.prompt;
   state.lastResult = null;
   updateDraftTokenPill();
-  await rememberRawPrompt(response.prompt);
   if (!quiet) {
     setStatus("Captured", "Prompt captured", "Prepare it, or prepare and insert it in one click.", false, "capture");
     toast("Prompt captured");
@@ -164,10 +149,8 @@ async function capturePrompt({ quiet = false } = {}) {
 async function rawPromptForPreparation() {
   let prompt = el("rawPrompt").value.trim();
   if (!prompt) prompt = await capturePrompt({ quiet: true });
-  if (looksPrepared(prompt)) prompt = await getRecentRawPrompt() || prompt;
   if (!prompt) throw new Error("Paste a prompt or focus a prompt box first.");
   el("rawPrompt").value = prompt;
-  await rememberRawPrompt(prompt);
   return prompt;
 }
 

@@ -1,0 +1,122 @@
+[
+  {
+    "id": "direct_translation",
+    "category": "general",
+    "prompt": "Translate \"Good morning\" to Spanish. Return only the translation.",
+    "expectedRoutes": ["direct"],
+    "mustRetain": ["Good morning", "Spanish", "only the translation"],
+    "live": true,
+    "outputChecks": [
+      { "type": "regex", "pattern": "\\bBuenos d[ií]as\\b", "flags": "i" },
+      { "type": "maxWords", "value": 4 }
+    ]
+  },
+  {
+    "id": "direct_arithmetic",
+    "category": "general",
+    "prompt": "Calculate 17 multiplied by 23. Return only the integer result.",
+    "expectedRoutes": ["direct"],
+    "mustRetain": ["17", "23", "only the integer result"],
+    "live": true,
+    "outputChecks": [
+      { "type": "regex", "pattern": "^\\s*391\\s*$" }
+    ]
+  },
+  {
+    "id": "structured_incident_json",
+    "category": "structured",
+    "prompt": "Return one JSON object describing this incident.\nRequirements:\n- Use exactly the keys status and owner.\n- Set status to open.\n- Set owner to Maya.\n- Do not add Markdown or explanatory prose.",
+    "expectedRoutes": ["contract"],
+    "mustRetain": ["JSON object", "status", "owner", "open", "Maya", "Do not add Markdown"],
+    "live": true,
+    "outputChecks": [
+      { "type": "jsonKeys", "keys": ["status", "owner"], "exact": true },
+      { "type": "regex", "pattern": "\\\"status\\\"\\s*:\\s*\\\"open\\\"", "flags": "i" },
+      { "type": "regex", "pattern": "\\\"owner\\\"\\s*:\\s*\\\"Maya\\\"", "flags": "i" }
+    ]
+  },
+  {
+    "id": "code_group_by",
+    "category": "code",
+    "prompt": "Build a JavaScript function named groupBy.\nRequirements:\n- Accept an array and a key selector function.\n- Do not mutate the input array.\n- Support missing or undefined keys.\n- Include three Node.js assert tests.\n- Return implementation-ready code with no tutorial prose.",
+    "expectedRoutes": ["contract"],
+    "mustRetain": ["JavaScript", "groupBy", "key selector", "Do not mutate", "undefined keys", "three Node.js assert tests"],
+    "live": true,
+    "outputChecks": [
+      { "type": "regex", "pattern": "(?:function\\s+groupBy|(?:const|let)\\s+groupBy)", "flags": "i" },
+      { "type": "contains", "value": "assert" }
+    ]
+  },
+  {
+    "id": "api_export_contract",
+    "category": "api",
+    "prompt": "Design a REST API contract for export jobs.\nRequirements:\n- Include POST /exports and DELETE /exports/{id}.\n- Define success and validation status codes.\n- Explain idempotency behavior.\n- Include JSON request and response examples.\n- Do not include implementation code.",
+    "expectedRoutes": ["contract"],
+    "mustRetain": ["REST API contract", "POST /exports", "DELETE /exports/{id}", "status codes", "idempotency", "JSON request and response"],
+    "outputChecks": [
+      { "type": "contains", "value": "POST /exports" },
+      { "type": "contains", "value": "DELETE /exports/{id}" },
+      { "type": "contains", "value": "idempot" }
+    ]
+  },
+  {
+    "id": "repeated_support_workflow",
+    "category": "workflow",
+    "prompt": "Create a customer support escalation workflow for a small SaaS team.\nThe workflow must define severity levels, owners, response targets, and customer updates.\nThe workflow must define severity levels, owners, response targets, and customer updates.\nInclude the handoff from frontline support to engineering.\nInclude the handoff from frontline support to engineering.\nReturn a concise numbered workflow followed by an ownership table.",
+    "expectedRoutes": ["contract"],
+    "mustRetain": ["customer support escalation workflow", "severity levels", "owners", "response targets", "customer updates", "frontline support to engineering", "ownership table"],
+    "outputChecks": [
+      { "type": "contains", "value": "severity" },
+      { "type": "contains", "value": "engineering" }
+    ]
+  },
+  {
+    "id": "production_database_migration",
+    "category": "high-impact",
+    "prompt": "Create a production PostgreSQL migration plan for adding a non-null tenant_id column to a 200-million-row orders table.\nRequirements:\n- Keep writes available throughout the migration.\n- Include backfill batching, monitoring, rollback, and validation.\n- Identify lock and replication-lag risks.\n- Return JSON with phases, gates, rollback, and verification keys.\n- Verify that every phase has an explicit stop condition before returning the plan.",
+    "expectedRoutes": ["full"],
+    "mustRetain": ["production PostgreSQL migration", "tenant_id", "200-million-row", "writes available", "backfill batching", "rollback", "replication-lag", "stop condition"],
+    "outputChecks": [
+      { "type": "contains", "value": "rollback" },
+      { "type": "contains", "value": "tenant_id" },
+      { "type": "contains", "value": "backfill" }
+    ]
+  },
+  {
+    "id": "payment_webhook_security",
+    "category": "high-impact",
+    "prompt": "Review a production payment webhook API change for security and reliability.\nRequirements:\n- Verify signature validation and timestamp tolerance.\n- Check replay protection and idempotency.\n- Check secret handling, logging, retries, and duplicate delivery.\n- Return a table with finding, severity, evidence, and remediation columns.\n- Double-check that no credential or payment data is exposed.",
+    "expectedRoutes": ["full"],
+    "mustRetain": ["production payment webhook", "signature validation", "timestamp tolerance", "replay protection", "idempotency", "secret handling", "duplicate delivery", "remediation"],
+    "outputChecks": [
+      { "type": "contains", "value": "signature" },
+      { "type": "contains", "value": "replay" },
+      { "type": "contains", "value": "idempot" }
+    ]
+  },
+  {
+    "id": "credential_redaction",
+    "category": "security",
+    "prompt": "Create an API integration checklist for staging.\nRequirements:\n- Treat API_TOKEN=abcdefghijklmnopqrstuvwxyz123456 as a credential that must never appear in the prepared prompt.\n- Include authentication, retry, logging, and test guidance.\n- Preserve the staging-only constraint.\n- Return a compact checklist.",
+    "expectedRoutes": ["contract"],
+    "mustRetain": ["API integration checklist", "staging", "authentication", "retry", "logging", "test guidance"],
+    "mustRemove": ["API_TOKEN=abcdefghijklmnopqrstuvwxyz123456"],
+    "expectedRedactions": 1,
+    "outputChecks": [
+      { "type": "contains", "value": "authentication" },
+      { "type": "notContains", "value": "abcdefghijklmnopqrstuvwxyz123456" }
+    ]
+  },
+  {
+    "id": "multi_deliverable_launch_plan",
+    "category": "planning",
+    "prompt": "Plan the launch of a browser extension for trusted testers.\nRequirements:\n- Define packaging and versioning.\n- Include privacy review and permission review.\n- Add a fresh-profile installation test.\n- Add rollback and support steps.\n- Provide a one-week timeline and an owner for every task.\n- Return the plan, the test checklist, and the release decision gate.",
+    "expectedRoutes": ["contract"],
+    "mustRetain": ["browser extension", "trusted testers", "packaging", "privacy review", "fresh-profile", "rollback", "one-week timeline", "release decision gate"],
+    "outputChecks": [
+      { "type": "contains", "value": "privacy" },
+      { "type": "contains", "value": "rollback" },
+      { "type": "contains", "value": "owner" }
+    ]
+  }
+]

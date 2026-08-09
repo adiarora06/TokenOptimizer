@@ -1,6 +1,7 @@
 const assert = require("node:assert/strict");
 const http = require("node:http");
 const { spawn } = require("node:child_process");
+const { callModel } = require("../core/providers.cjs");
 
 function listen(server) {
   return new Promise((resolve, reject) => {
@@ -43,20 +44,56 @@ async function jsonRequest(baseUrl, path, options = {}) {
   return { response, data, text };
 }
 
-function post(body) {
+function post(body, headers = {}) {
   return {
     method: "POST",
-    headers: { "content-type": "application/json" },
+    headers: { "content-type": "application/json", ...headers },
     body: JSON.stringify(body)
   };
 }
 
+function assertSafePublicResult(result) {
+  for (const field of ["contractOutput", "executorOutput", "generations", "optimizerOutput"]) {
+    assert.equal(field in result, false, `${field} must not cross the public API boundary`);
+  }
+}
+
 async function run() {
+  const providerRequests = [];
+  const providerEchoSecret = ["gsk", "providererrorabcdefghijklmnopqrstuvwxyz"].join("_");
   const providerStub = http.createServer(async (req, res) => {
     let body = "";
     for await (const chunk of req) body += chunk;
-    const prompt = JSON.parse(body || "{}").messages?.at(-1)?.content || "";
-    const content = prompt.includes("Contract Builder")
+    const payload = JSON.parse(body || "{}");
+    providerRequests.push(payload);
+    const prompt = payload.messages?.at(-1)?.content || "";
+    if (prompt.includes("ERROR_SECRET_FIXTURE")) {
+      res.writeHead(400, { "content-type": "application/json" });
+      res.end(JSON.stringify({ error: { message: `Provider echoed Bearer ${providerEchoSecret}` } }));
+      return;
+    }
+    if (prompt.includes("REDIRECT_FIXTURE")) {
+      res.writeHead(302, { location: "http://127.0.0.1/internal-target" });
+      res.end();
+      return;
+    }
+    if (prompt.includes("OVERSIZED_FIXTURE")) {
+      const oversized = JSON.stringify({
+        choices: [{ message: { content: "x".repeat(20_000) }, finish_reason: "stop" }]
+      });
+      res.writeHead(200, {
+        "content-type": "application/json",
+        "content-length": String(Buffer.byteLength(oversized))
+      });
+      res.end(oversized);
+      return;
+    }
+    const contractCall = prompt.includes("Contract Builder");
+    const invalidContract = contractCall && prompt.includes("INVALID_CONTRACT_FIXTURE");
+    const truncatedContract = contractCall && prompt.includes("TRUNCATED_CONTRACT_FIXTURE");
+    const content = invalidContract
+      ? "not valid JSON"
+      : contractCall
       ? JSON.stringify({
         goal: "Reply with a short confirmation",
         facts: [],
@@ -71,11 +108,18 @@ async function run() {
       : "OK";
     res.writeHead(200, { "content-type": "application/json" });
     res.end(JSON.stringify({
-      choices: [{ message: { content }, finish_reason: "stop" }],
+      choices: [{ message: { content }, finish_reason: truncatedContract || prompt.includes("TRUNCATED_OUTPUT_FIXTURE") ? "length" : "stop" }],
       usage: { prompt_tokens: 20, completion_tokens: 5, total_tokens: 25 }
     }));
   });
   const providerPort = await listen(providerStub);
+  const providerConfig = {
+    provider: "custom",
+    label: "Test provider",
+    baseUrl: `http://127.0.0.1:${providerPort}/v1`,
+    model: "fixture",
+    apiKey: "test-key"
+  };
   const appPort = await freePort();
   const child = spawn(process.execPath, ["server.cjs"], {
     cwd: require("node:path").resolve(__dirname, ".."),
@@ -95,6 +139,26 @@ async function run() {
   try {
     await waitForServer(baseUrl, child);
 
+    await assert.rejects(
+      callModel({ providerConfig, prompt: "REDIRECT_FIXTURE" }),
+      /redirects are disabled/i
+    );
+    await assert.rejects(
+      callModel({ providerConfig, prompt: "TRUNCATED_OUTPUT_FIXTURE" }),
+      /truncated at the output token limit/i
+    );
+    const priorResponseLimit = process.env.TOKEN_OPTIMIZER_MAX_RESPONSE_BYTES;
+    process.env.TOKEN_OPTIMIZER_MAX_RESPONSE_BYTES = "16384";
+    try {
+      await assert.rejects(
+        callModel({ providerConfig, prompt: "OVERSIZED_FIXTURE" }),
+        /exceeded the 16384-byte limit/i
+      );
+    } finally {
+      if (priorResponseLimit === undefined) delete process.env.TOKEN_OPTIMIZER_MAX_RESPONSE_BYTES;
+      else process.env.TOKEN_OPTIMIZER_MAX_RESPONSE_BYTES = priorResponseLimit;
+    }
+
     const pages = [
       "/",
       "/workspace",
@@ -113,6 +177,16 @@ async function run() {
       assert.equal(response.status, 200, path);
       assert.match(response.headers.get("content-type") || "", /text\/html/, path);
     }
+
+    const retiredGeneratorAlias = await fetch(`${baseUrl}/token-optimizer-file-generator.html`);
+    const retiredGeneratorHtml = await retiredGeneratorAlias.text();
+    assert.match(retiredGeneratorHtml, /id="prompt"/);
+    assert.doesNotMatch(retiredGeneratorHtml, /id="apiKey"/);
+
+    const favicon = await fetch(`${baseUrl}/favicon.ico`);
+    assert.equal(favicon.status, 200);
+    assert.match(favicon.headers.get("content-type") || "", /image\/svg\+xml/);
+    assert.match(await favicon.text(), /<svg\b/);
 
     for (const traversalPath of ["/../package.json", "/%2e%2e/package.json", "/..%2fpackage.json"]) {
       const traversal = await new Promise((resolve, reject) => {
@@ -148,6 +222,8 @@ async function run() {
     const overview = await jsonRequest(baseUrl, "/api/system-overview");
     assert.equal(overview.response.status, 200);
     assert.ok(overview.data.architecture.layers.length > 0);
+    assert.equal(overview.data.telemetry.privacy, "metadata-only");
+    assert.ok(overview.data.telemetry.health.status);
 
     const prepared = await jsonRequest(baseUrl, "/api/prepare-handoff", post({
       input: "I want you to reply with OK",
@@ -156,6 +232,7 @@ async function run() {
     assert.equal(prepared.response.status, 200);
     assert.equal(prepared.data.tokenReport.modelCalls, 0);
     assert.match(prepared.data.optimizedPrompt, /reply with OK/i);
+    assert.equal(prepared.response.headers.get("x-ratelimit-scope"), "preparation");
 
     const generated = await jsonRequest(baseUrl, "/api/generate", post({
       prompt: "Reply with OK",
@@ -163,6 +240,8 @@ async function run() {
     }));
     assert.equal(generated.response.status, 200);
     assert.equal(generated.data.usage.source, "provider");
+    assert.match(generated.data.traceId, /^trace_/);
+    assert.equal(generated.response.headers.get("x-ratelimit-scope"), "billable");
 
     const optimized = await jsonRequest(baseUrl, "/api/optimize-run", post({
       input: "Reply with OK",
@@ -170,8 +249,43 @@ async function run() {
     }));
     assert.equal(optimized.response.status, 200);
     assert.equal(optimized.data.executionStatus, "completed");
+    assert.equal(optimized.data.qualityStatus, "passed");
+    assert.equal(optimized.data.acceptanceReport.status, "passed");
+    assert.equal(optimized.data.repairReport.status, "not_needed");
     assert.match(optimized.data.traceId, /^trace_/);
     assert.ok(optimized.data.trace.every((item) => item.agent && item.actionId));
+    assertSafePublicResult(optimized.data);
+
+    const repaired = await jsonRequest(baseUrl, "/api/optimize-run", post({
+      input: "REPAIR_JSON_FIXTURE Return one JSON object. Use exactly the keys status and owner. Set status to open. Set owner to Maya. Do not add Markdown or explanatory prose.",
+      provider: "openai",
+      options: { routePreference: "fast" }
+    }));
+    assert.equal(repaired.response.status, 200);
+    assert.equal(repaired.data.qualityStatus, "repaired");
+    assert.deepEqual(JSON.parse(repaired.data.finalAnswer), { status: "open", owner: "Maya" });
+    assertSafePublicResult(repaired.data);
+    assert.equal(JSON.stringify(repaired.data).includes('"status":"closed"'), false);
+
+    const idempotentBody = {
+      input: "Reply with OK for the server idempotency check",
+      provider: "openai",
+      options: { routePreference: "fast" }
+    };
+    const idempotencyHeaders = { "idempotency-key": "server_idempotency_0001" };
+    const idempotentFirst = await jsonRequest(baseUrl, "/api/optimize-run", post(idempotentBody, idempotencyHeaders));
+    const idempotentReplay = await jsonRequest(baseUrl, "/api/optimize-run", post(idempotentBody, idempotencyHeaders));
+    assert.equal(idempotentFirst.response.status, 200);
+    assert.equal(idempotentReplay.response.status, 200);
+    assert.equal(idempotentFirst.response.headers.get("x-idempotency-status"), "started");
+    assert.equal(idempotentReplay.response.headers.get("x-idempotency-status"), "replayed");
+    assert.deepEqual(idempotentReplay.data, idempotentFirst.data);
+    const idempotencyConflict = await jsonRequest(baseUrl, "/api/optimize-run", post({
+      ...idempotentBody,
+      input: "A different request"
+    }, idempotencyHeaders));
+    assert.equal(idempotencyConflict.response.status, 409);
+    assert.equal(idempotencyConflict.data.code, "idempotency_conflict");
 
     const streamed = await jsonRequest(baseUrl, "/api/optimize-stream", post({
       input: "Reply with OK",
@@ -181,23 +295,55 @@ async function run() {
     assert.match(streamed.response.headers.get("content-type") || "", /text\/event-stream/);
     assert.match(streamed.text, /event: result/);
     assert.match(streamed.text, /"executionStatus":"completed"/);
+    assert.match(streamed.text, /"qualityStatus":"passed"/);
+    assert.match(streamed.text, /"acceptanceReport":\{"version":"1\.0\.0","status":"passed"/);
+    assert.match(streamed.text, /"repairReport":\{"version":"1\.0\.0","status":"not_needed"/);
     assert.match(streamed.text, /"traceId":"trace_/);
     assert.match(streamed.text, /"agent":"Coordinator"/);
+    assert.doesNotMatch(streamed.text, /"executorOutput"|"optimizerOutput"|"contractOutput"|"generations"/);
 
-    const providerConfig = {
-      provider: "custom",
-      label: "Test provider",
-      baseUrl: `http://127.0.0.1:${providerPort}/v1`,
-      model: "fixture",
-      apiKey: "test-key"
-    };
     const workflow = await jsonRequest(baseUrl, "/api/workflow-run", post({
       input: "Reply with OK",
       providerConfig
     }));
     assert.equal(workflow.response.status, 200);
     assert.equal(workflow.data.executionStatus, "completed");
+    assert.equal(workflow.data.qualityStatus, "passed");
     assert.equal(workflow.data.providerUsage.modelCalls, 3);
+    assert.equal(workflow.data.contractValidation.source, "provider");
+    assert.equal(workflow.data.acceptanceReport.status, "passed");
+    assert.equal(workflow.data.repairReport.status, "not_needed");
+    assertSafePublicResult(workflow.data);
+
+    const invalidContractWorkflow = await jsonRequest(baseUrl, "/api/workflow-run", post({
+      input: "INVALID_CONTRACT_FIXTURE: Reply with OK",
+      providerConfig
+    }));
+    assert.equal(invalidContractWorkflow.response.status, 200);
+    assert.equal(invalidContractWorkflow.data.executionStatus, "completed");
+    assert.equal(invalidContractWorkflow.data.contractValidation.source, "local_fallback");
+    assert.equal("contractOutput" in invalidContractWorkflow.data, false);
+    assertSafePublicResult(invalidContractWorkflow.data);
+    assert.ok(invalidContractWorkflow.data.trace.some((item) => /substituted the safe local contract/i.test(item.detail)));
+
+    const truncatedContractWorkflow = await jsonRequest(baseUrl, "/api/a2a-run", post({
+      input: "TRUNCATED_CONTRACT_FIXTURE: Reply with OK",
+      providerConfig,
+      options: { mode: "contract-only" }
+    }));
+    assert.equal(truncatedContractWorkflow.response.status, 200);
+    assert.equal(truncatedContractWorkflow.data.contractValidation.source, "local_fallback");
+    assert.match(truncatedContractWorkflow.data.contractValidation.issues[0], /truncated/i);
+
+    const redactedProviderError = await jsonRequest(baseUrl, "/api/a2a-run", post({
+      input: "ERROR_SECRET_FIXTURE: Reply with OK",
+      providerConfig,
+      options: { mode: "contract-only" }
+    }));
+    assert.equal(redactedProviderError.response.status, 200);
+    assert.equal(redactedProviderError.data.executionStatus, "provider_error");
+    assert.equal(redactedProviderError.data.providerError.includes(providerEchoSecret), false);
+    assert.match(redactedProviderError.data.providerError, /\[REDACTED_SECRET\]/);
 
     const a2a = await jsonRequest(baseUrl, "/api/a2a-run", post({
       input: "Reply with OK",
@@ -206,6 +352,7 @@ async function run() {
     }));
     assert.equal(a2a.response.status, 200);
     assert.equal(a2a.data.providerUsage.modelCalls, 1);
+    assertSafePublicResult(a2a.data);
 
     const created = await jsonRequest(baseUrl, "/api/system-runs", post({
       input: "Reply with OK",
@@ -226,6 +373,8 @@ async function run() {
     assert.ok(completedRun, "system run did not complete");
     assert.equal(completedRun.stages.some((stage) => stage.status === "running"), false);
     assert.equal(completedRun.stages.find((stage) => stage.id === "contract").status, "skipped");
+    assert.equal(completedRun.result.qualityStatus, "passed");
+    assertSafePublicResult(completedRun.result);
 
     const methodCases = [
       ["/api/provider-status", "POST"],
@@ -260,6 +409,12 @@ async function run() {
 
     const missing = await jsonRequest(baseUrl, "/api/not-real");
     assert.equal(missing.response.status, 404);
+    const updatedOverview = await jsonRequest(baseUrl, "/api/system-overview");
+    assert.ok(updatedOverview.data.telemetry.totals.workflowRuns > 0);
+    assert.ok(updatedOverview.data.telemetry.totals.providerAttempts > 0);
+    assert.equal("events" in updatedOverview.data.telemetry, false);
+    assert.ok(providerRequests.length > 0);
+    assert.ok(providerRequests.every((request) => Number.isInteger(request.max_tokens) && request.max_tokens > 0));
     console.log("API endpoint smoke tests passed");
   } catch (error) {
     if (childOutput.trim()) console.error(childOutput.trim());

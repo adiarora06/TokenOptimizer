@@ -1,0 +1,15 @@
+{
+  "suiteVersion": 1,
+  "minimumCasePassRate": 1,
+  "minimumRoutePassRate": 1,
+  "minimumRetentionPassRate": 1,
+  "minimumRedactionPassRate": 1,
+  "minimumIdempotencePassRate": 1,
+  "minimumReducedCases": 2,
+  "minimumAggregateSavingsPercent": 5,
+  "maximumIncreasedCases": 0,
+  "live": {
+    "minimumOptimizedQuality": 0.8,
+    "maximumQualityDrop": 0
+  }
+}

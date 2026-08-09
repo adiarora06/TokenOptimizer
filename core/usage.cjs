@@ -1,6 +1,4 @@
-function estimateTokens(text) {
-  return Math.max(1, Math.ceil(String(text || "").length / 4));
-}
+const { estimateTokens } = require("../shared/prompt-compiler.js");
 
 function createTraceId() {
   return `trace_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 10)}`;

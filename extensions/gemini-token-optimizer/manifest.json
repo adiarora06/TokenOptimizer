@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Token Optimizer for Gemini",
+  "name": "Token Optimizer",
   "version": "0.2.0",
-  "description": "Optimize messy prompts in a side panel before inserting them into Gemini.",
+  "description": "Optimize messy prompts in a side panel before inserting them into Gemini or ChatGPT.",
   "minimum_chrome_version": "114",
   "icons": {
     "16": "icons/icon-16.png",

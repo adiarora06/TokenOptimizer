@@ -3,6 +3,7 @@ const {
   runBlankA2AKit,
   runSelfOptimizingWorkflow
 } = require("./optimizer-core.cjs");
+const { projectPublicResult } = require("./core/public-result.cjs");
 
 const MAX_RUNS = 60;
 
@@ -34,6 +35,11 @@ const SYSTEM_ARCHITECTURE = {
       responsibility: "Hide provider-specific model details behind one contract-ready execution interface."
     },
     {
+      id: "telemetry",
+      name: "Privacy-Safe Telemetry",
+      responsibility: "Aggregate safe run metadata across process or deployment-log windows and evaluate retry, failure, latency, and optional spend alerts."
+    },
+    {
       id: "local-storage",
       name: "Local Usage Store",
       responsibility: "Save history, audit records, session metadata, and usage stats in the user's browser."
@@ -45,6 +51,9 @@ const SYSTEM_ARCHITECTURE = {
     ["system-runner", "optimizer-core"],
     ["optimizer-core", "provider-adapters"],
     ["provider-adapters", "optimizer-core"],
+    ["optimizer-core", "telemetry"],
+    ["provider-adapters", "telemetry"],
+    ["telemetry", "system-runner"],
     ["optimizer-core", "system-runner"],
     ["system-runner", "workspace"],
     ["workspace", "local-storage"]
@@ -135,6 +144,7 @@ function publicRun(run) {
     id: run.id,
     runType: run.runType,
     status: run.status,
+    qualityStatus: run.qualityStatus,
     phase: run.phase,
     title: run.title,
     progress: run.progress,
@@ -169,20 +179,37 @@ async function executeSystemRun(run, payload = {}) {
   updateStage(run, "contract", "running", "Creating contract-shaped state before downstream work.");
 
   try {
-    const result = run.runType === "kit"
-      ? await runBlankA2AKit({
+    const executeWorkflow = ({ signal = payload.signal } = {}) => run.runType === "kit"
+      ? runBlankA2AKit({
         rawInput: payload.rawInput,
         providerConfig: payload.providerConfig || {},
-        options: payload.options || {}
+        options: payload.options || {},
+        signal,
+        telemetryContext: payload.telemetryContext || { endpoint: "/api/system-runs" }
       })
-      : await runSelfOptimizingWorkflow({
+      : runSelfOptimizingWorkflow({
         rawInput: payload.rawInput,
         provider: payload.provider || "groq-openai-fallback",
-        options: payload.options || {}
+        options: payload.options || {},
+        signal,
+        telemetryContext: payload.telemetryContext || { endpoint: "/api/system-runs" }
       });
+    const protectedOutcome = typeof payload.protectExecution === "function"
+      ? await payload.protectExecution(executeWorkflow)
+      : { ok: true, value: await executeWorkflow() };
+    if (!protectedOutcome.ok) {
+      const guardedError = new Error(protectedOutcome.error || "The protected workflow request was rejected.");
+      guardedError.code = protectedOutcome.code;
+      throw guardedError;
+    }
+    const internalResult = protectedOutcome.value;
+    const result = projectPublicResult(internalResult, {
+      secretValues: payload.providerConfig?.apiKey
+    });
 
     const succeeded = result.executionStatus === "completed" || result.executionStatus === "prompt_ready";
     run.result = result;
+    run.qualityStatus = result.qualityStatus || "not_run";
     run.status = succeeded ? "completed" : "failed";
     run.error = succeeded ? null : result.providerError || "The workflow did not complete.";
     run.progress = 100;
@@ -219,6 +246,7 @@ function createRun(payload = {}) {
     id: createId(runType),
     runType,
     status: "queued",
+    qualityStatus: "not_run",
     phase: "queued",
     title: compactTitle(rawInput),
     progress: 4,

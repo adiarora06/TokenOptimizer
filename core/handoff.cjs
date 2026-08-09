@@ -13,9 +13,11 @@ const {
 function isPreparedWrapper(value) {
   const text = String(value || "").trim();
   const lines = compactLines(text, 80).map(stripListPrefix);
+  const hasTask = lines.some((line) => /^Task:$/i.test(line));
+  const hasRequirements = lines.some((line) => /^Requirements(?: and context)?:$/i.test(line));
+  const hasOutput = lines.some((line) => /^(?:Output|Response):$/i.test(line));
   return /^Complete this task directly/i.test(text) ||
-    lines.some((line) => /^(Task|Important context|Requirements|Output):$/i.test(line)) ||
-    /token optimization|handoff contracts|internal agent workflow/i.test(text);
+    (hasTask && (hasRequirements || hasOutput));
 }
 
 function isLikelyOriginalTask(line) {
@@ -42,9 +44,22 @@ function unwrapPreparedPrompt(value) {
   const raw = String(value || "").trim();
   if (!raw || !isPreparedWrapper(raw)) return raw;
 
+  const sectionLabels = ["Important context", "Requirements", "Requirements and context", "Output", "Response"];
+  const task = promptSection(raw, "Task", sectionLabels);
+  if (task && !/^Complete this task directly/i.test(task)) {
+    const context = promptSection(raw, "Important context", ["Requirements", "Requirements and context", "Output", "Response"]);
+    const requirements = promptSection(raw, "Requirements", ["Output", "Response"]) ||
+      promptSection(raw, "Requirements and context", ["Output", "Response"]);
+    const output = promptSection(raw, "Output", []) || promptSection(raw, "Response", []);
+    return [
+      task,
+      context ? `Context:\n${context}` : "",
+      requirements ? `Requirements:\n${requirements}` : "",
+      output ? `Output:\n${output}` : ""
+    ].filter(Boolean).join("\n\n");
+  }
+
   const candidates = [];
-  const task = promptSection(raw, "Task", ["Important context", "Requirements", "Output"]);
-  if (task && !/^Complete this task directly/i.test(task)) candidates.push(task);
   for (const line of compactLines(raw, 100).map(stripListPrefix)) {
     if (isLikelyOriginalTask(line)) candidates.push(line);
   }

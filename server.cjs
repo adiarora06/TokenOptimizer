@@ -17,9 +17,15 @@ const {
   preparePortableHandoff,
   providerStatus,
   runBlankA2AKit,
-  runSelfOptimizingWorkflow
+  runSelfOptimizingWorkflow,
+  telemetrySummary
 } = require("./optimizer-core.cjs");
 const { createOptimizerSystem } = require("./optimizer-system.cjs");
+const {
+  collectConfiguredSecretValues,
+  projectPublicResult,
+  redactPublicValue
+} = require("./core/public-result.cjs");
 // Resolved per call rather than destructured at load: the host bundler can hand
 // back a module whose exports are not populated yet, which captured `undefined`
 // for every guard and crashed the first request with "not a function".
@@ -29,8 +35,12 @@ const { createOptimizerSystem } = require("./optimizer-system.cjs");
 // beside this one, and a non-literal specifier cannot be statically rewritten.
 const guard = require(path.join(__dirname, "request-guard.cjs"));
 const abortSignalOnClose = (...args) => guard.abortSignalOnClose(...args);
+const authorizeBillableRequest = (...args) => guard.authorizeBillableRequest(...args);
+const classifyProviderConfigFunding = (...args) => guard.classifyProviderConfigFunding(...args);
 const commonHeaders = (...args) => guard.commonHeaders(...args);
 const publicError = (...args) => guard.publicError(...args);
+const requestGuardBackend = (...args) => guard.requestGuardBackend(...args);
+const runBillableRequest = (...args) => guard.runBillableRequest(...args);
 const takeRateLimit = (...args) => guard.takeRateLimit(...args);
 const validateA2APayload = (...args) => guard.validateA2APayload(...args);
 const validateGeneratePayload = (...args) => guard.validateGeneratePayload(...args);
@@ -115,21 +125,29 @@ function readJson(req) {
 async function handleApi(req, res) {
   const requestUrl = new URL(req.url, `http://127.0.0.1:${port}`);
   const pathname = requestUrl.pathname;
-  const rateLimitedPaths = new Set([
-    "/api/system-runs",
-    "/api/generate",
-    "/api/prepare-handoff",
-    "/api/optimize-run",
-    "/api/optimize-stream",
-    "/api/workflow-run",
-    "/api/a2a-run"
-  ]);
-  const rate = req.method === "POST" && rateLimitedPaths.has(pathname) ? takeRateLimit(req) : null;
+  let rate = null;
+  if (req.method === "POST" && pathname === "/api/prepare-handoff") {
+    try {
+      rate = await Promise.resolve(takeRateLimit(req, { scope: "preparation" }));
+    } catch (error) {
+      sendJson(
+        res,
+        Number.isInteger(error?.status) ? error.status : 503,
+        { error: publicError(error), code: error?.code || "coordination_unavailable" },
+        error?.retryAfterSeconds ? { "retry-after": String(error.retryAfterSeconds) } : {}
+      );
+      return;
+    }
+  }
   if (rate && !rate.allowed) {
     sendJson(
       res,
       429,
-      { error: "Too many runs. Please wait a moment and try again." },
+      {
+        error: rate.scope === "preparation"
+          ? "Too many preparations. Please wait a moment and try again."
+          : "Too many runs. Please wait a moment and try again."
+      },
       { ...commonHeaders(rate), "retry-after": String(rate.retryAfterSeconds) }
     );
     return;
@@ -143,7 +161,9 @@ async function handleApi(req, res) {
   if (req.method === "GET" && pathname === "/api/system-overview") {
     sendJson(res, 200, {
       architecture: optimizerSystem.architecture,
-      runs: optimizerSystem.list()
+      coordination: requestGuardBackend(),
+      runs: optimizerSystem.list(),
+      telemetry: telemetrySummary()
     });
     return;
   }
@@ -171,62 +191,123 @@ async function handleApi(req, res) {
       const body = await readJson(req);
       const parsed = validateOptimizerPayload(body);
       if (!parsed.ok) {
-        sendJson(res, 400, { error: parsed.error });
+        sendJson(res, 400, { error: parsed.error }, commonHeaders(rate));
+        return;
+      }
+      const runType = parsed.data.runType || "optimizer";
+      const funding = runType === "kit"
+        ? classifyProviderConfigFunding(parsed.data.providerConfig)
+        : parsed.data.provider === "offline" ? "offline" : "server";
+      const authorization = authorizeBillableRequest(req, { payload: parsed.data, funding });
+      if (!authorization.allowed) {
+        sendJson(res, authorization.status, { error: authorization.error, code: authorization.code });
         return;
       }
       const run = optimizerSystem.start({
         rawInput: parsed.data.input,
-        runType: parsed.data.runType || "optimizer",
+        runType,
         provider: parsed.data.provider || "groq-openai-fallback",
         providerConfig: parsed.data.providerConfig || {},
         options: parsed.data.options || {},
         source: parsed.data.source || "workspace",
-        sessionId: parsed.data.sessionId || null
+        sessionId: parsed.data.sessionId || null,
+        telemetryContext: { endpoint: "/api/system-runs" },
+        protectExecution: (execute) => runBillableRequest({
+          req,
+          payload: parsed.data,
+          endpoint: "/api/system-runs",
+          funding,
+          execute
+        })
       });
       sendJson(res, 202, { run }, commonHeaders(rate));
     } catch (error) {
-      sendJson(res, 500, { error: publicError(error) });
+      sendJson(res, 500, { error: publicError(error) }, commonHeaders(rate));
     }
     return;
   }
 
   if (req.method === "POST" && pathname === "/api/optimize-stream") {
     let heartbeat = null;
+    let streamStarted = false;
     try {
       const body = await readJson(req);
       const parsed = validateOptimizerPayload(body);
       if (!parsed.ok) {
-        sendJson(res, 400, { error: parsed.error });
+        sendJson(res, 400, { error: parsed.error }, commonHeaders(rate));
         return;
       }
 
-      res.writeHead(200, {
-        ...commonHeaders(rate),
-        "content-type": "text/event-stream; charset=utf-8",
-        "cache-control": "no-store",
-        connection: "keep-alive",
-        "x-accel-buffering": "no"
-      });
       const traceId = createTraceId();
-      const signal = abortSignalOnClose(res);
-      heartbeat = setInterval(() => {
-        if (!res.writableEnded) res.write(": ping\n\n");
-      }, 15_000);
-      writeSse(res, "run", { type: "run", traceId, agent: "Coordinator", status: "running", detail: "Run accepted." });
-      const result = await runSelfOptimizingWorkflow({
-        rawInput: parsed.data.input,
-        provider: parsed.data.provider || "groq-openai-fallback",
-        options: parsed.data.options || {},
-        traceId,
-        signal,
-        onEvent(event) {
-          writeSse(res, "progress", event);
+      const startStream = (guardRate, idempotencyStatus) => {
+        if (streamStarted) return;
+        res.writeHead(200, {
+          ...commonHeaders(guardRate),
+          ...(idempotencyStatus ? { "x-idempotency-status": idempotencyStatus } : {}),
+          "content-type": "text/event-stream; charset=utf-8",
+          "cache-control": "no-store",
+          connection: "keep-alive",
+          "x-accel-buffering": "no"
+        });
+        streamStarted = true;
+        heartbeat = setInterval(() => {
+          if (!res.writableEnded) res.write(": ping\n\n");
+        }, 15_000);
+      };
+      const disconnectSignal = abortSignalOnClose(res);
+      const guarded = await runBillableRequest({
+        req,
+        signal: disconnectSignal,
+        payload: parsed.data,
+        endpoint: "/api/optimize-stream",
+        funding: parsed.data.provider === "offline" ? "offline" : "server",
+        execute: async ({ rate: guardRate, signal }) => {
+          startStream(guardRate);
+          writeSse(res, "run", { type: "run", traceId, agent: "Coordinator", status: "running", detail: "Run accepted." });
+          const result = await runSelfOptimizingWorkflow({
+            rawInput: parsed.data.input,
+            provider: parsed.data.provider || "groq-openai-fallback",
+            options: parsed.data.options || {},
+            traceId,
+            signal,
+            telemetryContext: { endpoint: "/api/optimize-stream" },
+            onEvent(event) {
+              writeSse(res, "progress", event);
+            }
+          });
+          return projectPublicResult(result, { includePreparedArtifacts: true });
         }
       });
-      writeSse(res, "result", { result });
+
+      if (!guarded.ok) {
+        if (streamStarted) {
+          writeSse(res, "error", { error: guarded.error, code: guarded.code });
+          res.end();
+        }
+        else {
+          sendJson(res, guarded.status, { error: guarded.error, code: guarded.code }, {
+            ...commonHeaders(guarded.rate),
+            ...(guarded.retryAfterSeconds ? { "retry-after": String(guarded.retryAfterSeconds) } : {})
+          });
+        }
+        return;
+      }
+
+      startStream(guarded.rate, guarded.idempotencyStatus);
+      if (guarded.replayed || guarded.coalesced) {
+        writeSse(res, "progress", {
+          type: "stage",
+          traceId: guarded.value.traceId,
+          agent: "Request Guard",
+          stage: "deduplicate",
+          status: "done",
+          detail: guarded.replayed ? "Returned the completed idempotent result." : "Joined the matching in-flight run."
+        });
+      }
+      writeSse(res, "result", { result: guarded.value, idempotencyStatus: guarded.idempotencyStatus });
       res.end();
     } catch (error) {
-      if (!res.headersSent) sendJson(res, 500, { error: publicError(error) });
+      if (!streamStarted) sendJson(res, 500, { error: publicError(error) }, commonHeaders(rate));
       else {
         writeSse(res, "error", { error: publicError(error) });
         res.end();
@@ -242,20 +323,44 @@ async function handleApi(req, res) {
       const body = await readJson(req);
       const parsed = validateGeneratePayload(body);
       if (!parsed.ok) {
-        sendJson(res, 400, { error: parsed.error });
+        sendJson(res, 400, { error: parsed.error }, commonHeaders(rate));
         return;
       }
-      const provider = parsed.data.provider || "groq-openai-fallback";
-      const prompt = parsed.data.prompt;
-      const signal = abortSignalOnClose(res);
-      const result = provider === "openai"
-        ? await callChatCompletion({ provider: "openai", prompt, signal })
-        : provider === "groq"
-          ? await callChatCompletion({ provider: "groq", prompt, signal })
-          : await generateWithFallback(prompt, { signal });
-      sendJson(res, 200, result);
+      const disconnectSignal = abortSignalOnClose(res);
+      const guarded = await runBillableRequest({
+        req,
+        signal: disconnectSignal,
+        payload: parsed.data,
+        endpoint: "/api/generate",
+        funding: "server",
+        execute: async ({ signal }) => {
+          const provider = parsed.data.provider || "groq-openai-fallback";
+          const prompt = parsed.data.prompt;
+          const traceId = createTraceId();
+          const telemetryContext = { endpoint: "/api/generate", traceId, stage: "generate" };
+          const result = provider === "openai"
+            ? await callChatCompletion({ provider: "openai", prompt, signal, telemetryContext })
+            : provider === "groq"
+              ? await callChatCompletion({ provider: "groq", prompt, signal, telemetryContext })
+              : await generateWithFallback(prompt, { signal, telemetryContext });
+          return redactPublicValue({ ...result, traceId }, collectConfiguredSecretValues());
+        }
+      });
+      if (!guarded.ok) {
+        sendJson(res, guarded.status, { error: guarded.error, code: guarded.code }, {
+          ...commonHeaders(guarded.rate),
+          ...(guarded.retryAfterSeconds ? { "retry-after": String(guarded.retryAfterSeconds) } : {})
+        });
+        return;
+      }
+      sendJson(
+        res,
+        200,
+        guarded.value,
+        { ...commonHeaders(guarded.rate), "x-idempotency-status": guarded.idempotencyStatus }
+      );
     } catch (error) {
-      sendJson(res, 500, { error: publicError(error) });
+      sendJson(res, 500, { error: publicError(error) }, commonHeaders(rate));
     }
     return;
   }
@@ -265,7 +370,7 @@ async function handleApi(req, res) {
       const body = await readJson(req);
       const parsed = validateOptimizerPayload(body);
       if (!parsed.ok) {
-        sendJson(res, 400, { error: parsed.error });
+        sendJson(res, 400, { error: parsed.error }, commonHeaders(rate));
         return;
       }
       const result = preparePortableHandoff({
@@ -275,7 +380,7 @@ async function handleApi(req, res) {
       });
       sendJson(res, 200, result, commonHeaders(rate));
     } catch (error) {
-      sendJson(res, 500, { error: publicError(error) });
+      sendJson(res, 500, { error: publicError(error) }, commonHeaders(rate));
     }
     return;
   }
@@ -285,18 +390,40 @@ async function handleApi(req, res) {
       const body = await readJson(req);
       const parsed = validateOptimizerPayload(body);
       if (!parsed.ok) {
-        sendJson(res, 400, { error: parsed.error });
+        sendJson(res, 400, { error: parsed.error }, commonHeaders(rate));
         return;
       }
-      const result = await runSelfOptimizingWorkflow({
-        rawInput: parsed.data.input,
-        provider: parsed.data.provider || "groq-openai-fallback",
-        options: parsed.data.options || {},
-        signal: abortSignalOnClose(res)
+      const disconnectSignal = abortSignalOnClose(res);
+      const guarded = await runBillableRequest({
+        req,
+        signal: disconnectSignal,
+        payload: parsed.data,
+        endpoint: "/api/optimize-run",
+        funding: parsed.data.provider === "offline" ? "offline" : "server",
+        execute: async ({ signal }) => {
+          const result = await runSelfOptimizingWorkflow({
+            rawInput: parsed.data.input,
+            provider: parsed.data.provider || "groq-openai-fallback",
+            options: parsed.data.options || {},
+            signal,
+            telemetryContext: { endpoint: "/api/optimize-run" }
+          });
+          return projectPublicResult(result, { includePreparedArtifacts: true });
+        }
       });
-      sendJson(res, 200, result, commonHeaders(rate));
+      if (!guarded.ok) {
+        sendJson(res, guarded.status, { error: guarded.error, code: guarded.code }, {
+          ...commonHeaders(guarded.rate),
+          ...(guarded.retryAfterSeconds ? { "retry-after": String(guarded.retryAfterSeconds) } : {})
+        });
+        return;
+      }
+      sendJson(res, 200, guarded.value, {
+        ...commonHeaders(guarded.rate),
+        "x-idempotency-status": guarded.idempotencyStatus
+      });
     } catch (error) {
-      sendJson(res, 500, { error: publicError(error) });
+      sendJson(res, 500, { error: publicError(error) }, commonHeaders(rate));
     }
     return;
   }
@@ -306,18 +433,43 @@ async function handleApi(req, res) {
       const body = await readJson(req);
       const parsed = validateA2APayload(body);
       if (!parsed.ok) {
-        sendJson(res, 400, { error: parsed.error });
+        sendJson(res, 400, { error: parsed.error }, commonHeaders(rate));
         return;
       }
-      const result = await runBlankA2AKit({
-        rawInput: parsed.data.input,
-        providerConfig: parsed.data.providerConfig || {},
-        options: parsed.data.options || {},
-        signal: abortSignalOnClose(res)
+      const disconnectSignal = abortSignalOnClose(res);
+      const guarded = await runBillableRequest({
+        req,
+        signal: disconnectSignal,
+        payload: parsed.data,
+        endpoint: pathname,
+        funding: classifyProviderConfigFunding(parsed.data.providerConfig),
+        execute: async ({ signal }) => {
+          const result = await runBlankA2AKit({
+            rawInput: parsed.data.input,
+            providerConfig: parsed.data.providerConfig || {},
+            options: parsed.data.options || {},
+            signal,
+            telemetryContext: { endpoint: pathname }
+          });
+          return projectPublicResult(result, {
+            includePreparedArtifacts: true,
+            secretValues: parsed.data.providerConfig?.apiKey
+          });
+        }
       });
-      sendJson(res, 200, result);
+      if (!guarded.ok) {
+        sendJson(res, guarded.status, { error: guarded.error, code: guarded.code }, {
+          ...commonHeaders(guarded.rate),
+          ...(guarded.retryAfterSeconds ? { "retry-after": String(guarded.retryAfterSeconds) } : {})
+        });
+        return;
+      }
+      sendJson(res, 200, guarded.value, {
+        ...commonHeaders(guarded.rate),
+        "x-idempotency-status": guarded.idempotencyStatus
+      });
     } catch (error) {
-      sendJson(res, 500, { error: publicError(error) });
+      sendJson(res, 500, { error: publicError(error) }, commonHeaders(rate));
     }
     return;
   }
@@ -345,6 +497,7 @@ function serveStatic(req, res) {
   const requestUrl = new URL(req.url, `http://127.0.0.1:${port}`);
   const routeMap = {
     "/": "/home.html",
+    "/favicon.ico": "/favicon.svg",
     "/workspace": "/workspace.html",
     "/token-optimizer-file-generator.html": "/workspace.html",
     "/agent-structure": "/agent-structure.html",
@@ -384,7 +537,8 @@ function serveStatic(req, res) {
       ".css": "text/css; charset=utf-8",
       ".json": "application/json; charset=utf-8",
       ".md": "text/markdown; charset=utf-8",
-      ".png": "image/png"
+      ".png": "image/png",
+      ".svg": "image/svg+xml; charset=utf-8"
     };
     const contentType = contentTypes[ext] || "application/octet-stream";
     res.writeHead(200, {

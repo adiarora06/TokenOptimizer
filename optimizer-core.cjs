@@ -8,17 +8,30 @@ const { callChatCompletion, generateWithFallback, providerStatus } = require("./
 const { analyzeWorkflowShape } = require("./core/routing.cjs");
 const { preparePortableHandoff } = require("./core/handoff.cjs");
 const { runBlankA2AKit, runSelfOptimizingWorkflow } = require("./core/workflow.cjs");
+const { telemetrySummary } = require("./core/telemetry.cjs");
+const { compilePrompt, COMPILER_VERSION } = require("./shared/prompt-compiler.js");
+const {
+  compileAcceptanceGates,
+  evaluateAcceptanceGates,
+  repairAcceptanceFailures
+} = require("./core/acceptance.cjs");
 
 module.exports = {
   analyzeWorkflowShape,
   callChatCompletion,
   combineUsage,
+  compileAcceptanceGates,
+  compilePrompt,
+  COMPILER_VERSION,
   createTraceId,
   estimateTokens,
+  evaluateAcceptanceGates,
   generateWithFallback,
   preparePortableHandoff,
   providerStatus,
   redactSensitiveText,
+  repairAcceptanceFailures,
   runBlankA2AKit,
-  runSelfOptimizingWorkflow
+  runSelfOptimizingWorkflow,
+  telemetrySummary
 };

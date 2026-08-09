@@ -1,7 +1,16 @@
 const { combineUsage, contextComparison, createTraceId, estimateTokens, generationRecord } = require("./usage.cjs");
-const { redactSensitiveText } = require("./security.cjs");
+const { redactSensitiveText, safeErrorMessage } = require("./security.cjs");
 const { callModel, callWorkflowProvider, resolveProvider } = require("./providers.cjs");
 const { analyzeWorkflowShape, buildOfflineContract } = require("./routing.cjs");
+const { validateHandoffContract } = require("./contracts.cjs");
+const {
+  compileAcceptanceGates,
+  evaluateAcceptanceGates,
+  repairAcceptanceFailures,
+  skippedAcceptanceReport,
+  skippedRepairReport
+} = require("./acceptance.cjs");
+const { recordWorkflowRun } = require("./telemetry.cjs");
 const {
   buildA2AContractPrompt,
   buildA2AExecutorPrompt,
@@ -15,6 +24,33 @@ const {
 async function emitWorkflowEvent(onEvent, event) {
   if (typeof onEvent !== "function") return;
   await onEvent({ ...event, at: new Date().toISOString() });
+}
+
+function createWorkflowBudget(timeoutMs) {
+  const requested = Number(timeoutMs);
+  const totalMs = Number.isFinite(requested)
+    ? Math.min(120_000, Math.max(5_000, Math.round(requested)))
+    : 45_000;
+  const deadlineAt = Date.now() + totalMs;
+  return {
+    deadlineAt,
+    totalMs,
+    remaining(stage) {
+      const remainingMs = deadlineAt - Date.now();
+      if (remainingMs < 1_000) {
+        throw new Error(`Workflow time budget was exhausted before the ${stage} stage`);
+      }
+      return remainingMs;
+    }
+  };
+}
+
+function deriveQualityStatus({ executionStatus, acceptanceReport, repairReport } = {}) {
+  if (executionStatus !== "completed") return "not_run";
+  if (acceptanceReport?.status === "failed") return "needs_review";
+  if (acceptanceReport?.status !== "passed") return "not_run";
+  if (repairReport?.status === "repaired") return "repaired";
+  return "passed";
 }
 
 function buildBlankA2AKit(rawInput, options = {}) {
@@ -96,8 +132,16 @@ function buildBlankA2AKit(rawInput, options = {}) {
   };
 }
 
-async function runBlankA2AKit({ rawInput, providerConfig = {}, options = {}, signal }) {
+async function runBlankA2AKit({
+  rawInput,
+  providerConfig = {},
+  options = {},
+  signal,
+  traceId = createTraceId(),
+  telemetryContext = {}
+}) {
   const startedAt = Date.now();
+  const workflowBudget = createWorkflowBudget(options.timeoutMs);
   const rawTokens = estimateTokens(rawInput);
   const security = redactSensitiveText(rawInput);
   const safeInput = security.text;
@@ -128,6 +172,7 @@ async function runBlankA2AKit({ rawInput, providerConfig = {}, options = {}, sig
   let contractOutput = JSON.stringify(kit, null, 2);
   let executorOutput = "";
   let finalAnswer = "";
+  let contractValidation = { source: "local_fallback", issues: [] };
 
   const contractPrompt = buildA2AContractPrompt(safeInput, kit);
   optimizedPrompts.push({
@@ -150,14 +195,25 @@ async function runBlankA2AKit({ rawInput, providerConfig = {}, options = {}, sig
         prompt: contractPrompt,
         system: "You are a Contract Builder. Convert messy user input into compact, safe, token-bounded handoff contracts.",
         signal,
-        timeoutMs: options.timeoutMs
+        timeoutMs: workflowBudget.remaining("contract"),
+        acceptTruncated: true,
+        maxOutputTokens: 2_000,
+        telemetryContext: { ...telemetryContext, traceId, stage: "contract" }
       });
-      contractOutput = contractResult.content;
+      contractValidation = validateHandoffContract(contractResult.content, kit.handoff_contract, {
+        finishReason: contractResult.finishReason
+      });
+      contractOutput = contractValidation.output;
+      kit.handoff_contract = contractValidation.contract;
+      kit.goal = contractValidation.contract.goal;
       generations.push(generationRecord("contract", contractResult));
       providerUsed = contractResult.provider;
       providerLabel = contractResult.providerLabel;
       modelUsed = contractResult.model;
       trace[trace.length - 1].status = "done";
+      trace[trace.length - 1].detail = contractValidation.source === "provider"
+        ? "Validated the provider contract against the typed handoff schema."
+        : "Provider contract validation failed; substituted the safe local contract.";
 
       if (options.mode === "contract-only") {
         trace.push({
@@ -185,7 +241,9 @@ async function runBlankA2AKit({ rawInput, providerConfig = {}, options = {}, sig
           prompt: executorPrompt,
           system: "You are an Executor Agent. Produce the best final work product from the compact handoff contract.",
           signal,
-          timeoutMs: options.timeoutMs
+          timeoutMs: workflowBudget.remaining("execution"),
+          maxOutputTokens: contractValidation.contract.token_budget.executor_target,
+          telemetryContext: { ...telemetryContext, traceId, stage: "execute" }
         });
         generations.push(generationRecord("execute", executorResult));
         executorOutput = executorResult.content;
@@ -210,7 +268,9 @@ async function runBlankA2AKit({ rawInput, providerConfig = {}, options = {}, sig
           prompt: verifierPrompt,
           system: "You are a Verifier Agent. Fix drift, preserve intent, and return a compact final answer.",
           signal,
-          timeoutMs: options.timeoutMs
+          timeoutMs: workflowBudget.remaining("verification"),
+          maxOutputTokens: contractValidation.contract.token_budget.executor_target,
+          telemetryContext: { ...telemetryContext, traceId, stage: "verify" }
         });
         generations.push(generationRecord("verify", verifierResult));
         finalAnswer = verifierResult.content;
@@ -218,7 +278,7 @@ async function runBlankA2AKit({ rawInput, providerConfig = {}, options = {}, sig
         trace[trace.length - 1].status = "done";
       }
     } catch (error) {
-      providerError = signal?.aborted ? "Run cancelled" : error.message;
+      providerError = signal?.aborted ? "Run cancelled" : safeErrorMessage(error, "Model execution stopped");
       executionStatus = signal?.aborted ? "cancelled" : "provider_error";
       trace.push({
         phase: "error",
@@ -236,22 +296,77 @@ async function runBlankA2AKit({ rawInput, providerConfig = {}, options = {}, sig
     });
   }
 
+  let acceptanceReport = skippedAcceptanceReport();
+  let repairReport = skippedRepairReport();
+  if (executionStatus === "completed") {
+    const compiledAcceptance = compileAcceptanceGates(safeInput);
+    acceptanceReport = evaluateAcceptanceGates({
+      rawInput: safeInput,
+      output: finalAnswer,
+      compiled: compiledAcceptance
+    });
+    trace.push({
+      phase: "acceptance",
+      agent: "Acceptance Gates",
+      status: acceptanceReport.passed ? "done" : "error",
+      detail: acceptanceReport.summary
+    });
+    if (!acceptanceReport.passed) {
+      const repair = repairAcceptanceFailures({
+        rawInput: safeInput,
+        output: finalAnswer,
+        compiled: compiledAcceptance,
+        acceptanceReport
+      });
+      finalAnswer = repair.output;
+      acceptanceReport = repair.acceptanceReport;
+      repairReport = repair.repairReport;
+      trace.push({
+        phase: "repair",
+        agent: "Local Repair",
+        status: repairReport.improved ? "done" : "skipped",
+        detail: repairReport.summary
+      });
+      if (repairReport.improved) {
+        trace.push({
+          phase: "acceptance",
+          agent: "Acceptance Gates",
+          status: acceptanceReport.passed ? "done" : "error",
+          detail: `Re-check: ${acceptanceReport.summary}`
+        });
+      }
+    } else {
+      repairReport = repairAcceptanceFailures({
+        rawInput: safeInput,
+        output: finalAnswer,
+        compiled: compiledAcceptance,
+        acceptanceReport
+      }).repairReport;
+    }
+  }
+
   const optimizedPromptTokens = optimizedPrompts.reduce((sum, item) => sum + item.tokens, 0);
   const comparison = contextComparison(rawTokens, optimizedPromptTokens, optimizedPrompts.length);
   const providerUsage = combineUsage(generations);
-  return {
+  const qualityStatus = deriveQualityStatus({ executionStatus, acceptanceReport, repairReport });
+  const result = {
+    traceId,
     mode: "contract-workflow-kit-run",
     provider: providerUsed,
     providerLabel,
     model: modelUsed,
     providerError,
     executionStatus,
+    qualityStatus,
+    acceptanceReport,
+    repairReport,
     securityReport: {
       redactions: security.count,
       types: security.types
     },
     kit,
     contractOutput,
+    contractValidation,
     executorOutput,
     finalAnswer,
     optimizedPrompts,
@@ -277,10 +392,21 @@ async function runBlankA2AKit({ rawInput, providerConfig = {}, options = {}, sig
     },
     elapsedMs: Date.now() - startedAt
   };
+  recordWorkflowRun(result, telemetryContext);
+  return result;
 }
 
-async function runSelfOptimizingWorkflow({ rawInput, provider, options = {}, onEvent, signal, traceId = createTraceId() }) {
+async function runSelfOptimizingWorkflow({
+  rawInput,
+  provider,
+  options = {},
+  onEvent,
+  signal,
+  traceId = createTraceId(),
+  telemetryContext = {}
+}) {
   const startedAt = Date.now();
+  const workflowBudget = createWorkflowBudget(options.timeoutMs);
   const selectedProvider = provider || "groq-openai-fallback";
   const security = redactSensitiveText(rawInput);
   const safeInput = security.text;
@@ -354,6 +480,8 @@ async function runSelfOptimizingWorkflow({ rawInput, provider, options = {}, onE
   let providerUsed = null;
   let modelUsed = null;
   let optimizerOutput = JSON.stringify(offlineContract, null, 2);
+  let handoffContract = offlineContract;
+  let contractValidation = { source: "not_used", issues: [] };
   let executorOutput = "";
   let finalAnswer = "";
   let providerError = null;
@@ -386,7 +514,13 @@ async function runSelfOptimizingWorkflow({ rawInput, provider, options = {}, onE
           selectedProvider,
           directPrompt,
           "Complete the user's task directly. Preserve requested deliverables and avoid internal process commentary.",
-          { signal, timeoutMs: options.timeoutMs }
+          {
+            signal,
+            timeoutMs: workflowBudget.remaining("execution"),
+            deadlineAt: workflowBudget.deadlineAt,
+            maxOutputTokens: offlineContract.token_budget.executor_target,
+            telemetryContext: { ...telemetryContext, traceId, stage: "execute" }
+          }
         );
         generations.push(generationRecord("execute", directResult));
         executorOutput = directResult.content;
@@ -395,22 +529,38 @@ async function runSelfOptimizingWorkflow({ rawInput, provider, options = {}, onE
         modelUsed = directResult.model;
         executionStatus = "completed";
         await finishTrace(executionTrace, "done", "Generated the result in one model call.");
-        await addTrace("verify", "done", "Checked response completeness without another model call.", "Local Validator");
       } else {
         const contractTrace = await addTrace("contract", "running", "Converting the request into compact execution context.", "Contract Builder");
         const optimizerResult = await callWorkflowProvider(
           selectedProvider,
           optimizerPrompt,
           "You are a Contract Builder. Preserve intent, remove repetition, and return compact execution state.",
-          { signal, timeoutMs: options.timeoutMs }
+          {
+            signal,
+            timeoutMs: workflowBudget.remaining("contract"),
+            deadlineAt: workflowBudget.deadlineAt,
+            acceptTruncated: true,
+            maxOutputTokens: 2_000,
+            telemetryContext: { ...telemetryContext, traceId, stage: "contract" }
+          }
         );
         generations.push(generationRecord("contract", optimizerResult));
-        optimizerOutput = optimizerResult.content;
+        contractValidation = validateHandoffContract(optimizerResult.content, offlineContract, {
+          finishReason: optimizerResult.finishReason
+        });
+        handoffContract = contractValidation.contract;
+        optimizerOutput = contractValidation.output;
         providerUsed = optimizerResult.provider;
         modelUsed = optimizerResult.model;
-        await finishTrace(contractTrace, "done", "Compact execution context is ready.");
+        await finishTrace(
+          contractTrace,
+          "done",
+          contractValidation.source === "provider"
+            ? "Validated compact execution context against the typed handoff schema."
+            : "Provider contract validation failed; substituted the safe local contract."
+        );
 
-        const executorPrompt = buildExecutorPrompt(optimizerOutput, offlineContract);
+        const executorPrompt = buildExecutorPrompt(optimizerOutput, handoffContract);
         optimizedPrompts.push({
           agent: "Executor Agent",
           purpose: "Execute the task using only the compact handoff contract.",
@@ -422,7 +572,13 @@ async function runSelfOptimizingWorkflow({ rawInput, provider, options = {}, onE
           selectedProvider,
           executorPrompt,
           "You are an Executor Agent. Produce the best final work product from the compact handoff contract.",
-          { signal, timeoutMs: options.timeoutMs }
+          {
+            signal,
+            timeoutMs: workflowBudget.remaining("execution"),
+            deadlineAt: workflowBudget.deadlineAt,
+            maxOutputTokens: handoffContract.token_budget.executor_target,
+            telemetryContext: { ...telemetryContext, traceId, stage: "execute" }
+          }
         );
         generations.push(generationRecord("execute", executorResult));
         executorOutput = executorResult.content;
@@ -445,19 +601,23 @@ async function runSelfOptimizingWorkflow({ rawInput, provider, options = {}, onE
             selectedProvider,
             verifierPrompt,
             "You are a Verifier Agent. Fix drift, preserve intent, and return a compact final answer without process commentary.",
-            { signal, timeoutMs: options.timeoutMs }
+            {
+              signal,
+              timeoutMs: workflowBudget.remaining("verification"),
+              deadlineAt: workflowBudget.deadlineAt,
+              maxOutputTokens: handoffContract.token_budget.executor_target,
+              telemetryContext: { ...telemetryContext, traceId, stage: "verify" }
+            }
           );
           generations.push(generationRecord("verify", verifierResult));
           finalAnswer = verifierResult.content;
           providerUsed = verifierResult.provider;
           modelUsed = verifierResult.model;
           await finishTrace(verifierTrace, "done", "Validated the result against the request.");
-        } else {
-          await addTrace("verify", "done", "Checked required sections without another model call.", "Local Validator");
         }
       }
     } catch (error) {
-      providerError = signal?.aborted ? "Run cancelled" : error.message;
+      providerError = signal?.aborted ? "Run cancelled" : safeErrorMessage(error, "Model execution stopped");
       executionStatus = signal?.aborted ? "cancelled" : "provider_error";
       finalAnswer = "";
       executorOutput = "";
@@ -469,10 +629,60 @@ async function runSelfOptimizingWorkflow({ rawInput, provider, options = {}, onE
     await addTrace("execute", "skipped", "The optimized prompt is ready, but no model execution route was selected.", "Prompt Builder");
   }
 
+  let acceptanceReport = skippedAcceptanceReport();
+  let repairReport = skippedRepairReport();
+  if (executionStatus === "completed") {
+    const compiledAcceptance = compileAcceptanceGates(safeInput);
+    acceptanceReport = evaluateAcceptanceGates({
+      rawInput: safeInput,
+      output: finalAnswer,
+      compiled: compiledAcceptance
+    });
+    await addTrace(
+      "acceptance",
+      acceptanceReport.passed ? "done" : "error",
+      acceptanceReport.summary,
+      "Acceptance Gates"
+    );
+    if (!acceptanceReport.passed) {
+      const repair = repairAcceptanceFailures({
+        rawInput: safeInput,
+        output: finalAnswer,
+        compiled: compiledAcceptance,
+        acceptanceReport
+      });
+      finalAnswer = repair.output;
+      acceptanceReport = repair.acceptanceReport;
+      repairReport = repair.repairReport;
+      await addTrace(
+        "repair",
+        repairReport.improved ? "done" : "skipped",
+        repairReport.summary,
+        "Local Repair"
+      );
+      if (repairReport.improved) {
+        await addTrace(
+          "acceptance",
+          acceptanceReport.passed ? "done" : "error",
+          `Re-check: ${acceptanceReport.summary}`,
+          "Acceptance Gates"
+        );
+      }
+    } else {
+      repairReport = repairAcceptanceFailures({
+        rawInput: safeInput,
+        output: finalAnswer,
+        compiled: compiledAcceptance,
+        acceptanceReport
+      }).repairReport;
+    }
+  }
+
   const optimizedPromptTokens = optimizedPrompts.reduce((sum, item) => sum + item.tokens, 0);
   const comparison = contextComparison(rawTokens, optimizedPromptTokens, optimizedPrompts.length);
   const providerUsage = combineUsage(generations);
   const optimizedPrompt = optimizedPrompts[optimizedPrompts.length - 1]?.prompt || directPrompt;
+  const qualityStatus = deriveQualityStatus({ executionStatus, acceptanceReport, repairReport });
 
   await emitWorkflowEvent(onEvent, {
     type: "complete",
@@ -480,22 +690,31 @@ async function runSelfOptimizingWorkflow({ rawInput, provider, options = {}, onE
     agent: "Coordinator",
     stage: executionStatus === "completed" ? "complete" : "execute",
     status: executionStatus,
-    detail: executionStatus === "completed" ? "Result ready." : providerError || "Optimized prompt ready."
+    qualityStatus,
+    detail: executionStatus === "completed"
+      ? acceptanceReport.passed
+        ? "Result ready and acceptance gates passed."
+        : "Result generated; acceptance gates need review."
+      : providerError || "Optimized prompt ready."
   });
 
-  return {
+  const result = {
     traceId,
     mode: "adaptive-contract-workflow-run",
     provider: providerUsed,
     model: modelUsed,
     providerError,
     executionStatus,
+    qualityStatus,
+    acceptanceReport,
+    repairReport,
     workflowShape,
     securityReport: {
       redactions: security.count,
       types: security.types
     },
-    handoffContract: offlineContract,
+    handoffContract,
+    contractValidation,
     optimizerOutput,
     executorOutput,
     finalAnswer,
@@ -527,10 +746,14 @@ async function runSelfOptimizingWorkflow({ rawInput, provider, options = {}, onE
     },
     elapsedMs: Date.now() - startedAt
   };
+  recordWorkflowRun(result, telemetryContext);
+  return result;
 }
 
 module.exports = {
   buildBlankA2AKit,
+  createWorkflowBudget,
+  deriveQualityStatus,
   runBlankA2AKit,
   runSelfOptimizingWorkflow
 };

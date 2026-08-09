@@ -6,14 +6,24 @@ process.env.TOKEN_OPTIMIZER_TEST_MODE = "1";
 const {
   analyzeWorkflowShape,
   combineUsage,
+  generateWithFallback,
   preparePortableHandoff,
   redactSensitiveText,
   runBlankA2AKit,
   runSelfOptimizingWorkflow
 } = require("../optimizer-core.cjs");
-const { assertSafeProviderEndpoint } = require("../core/security.cjs");
+const {
+  assertSafeProviderEndpoint,
+  isPublicIpAddress,
+  resolveSafeProviderEndpoint,
+  safeErrorMessage
+} = require("../core/security.cjs");
+const { resolveProvider } = require("../core/providers.cjs");
+const { validateHandoffContract } = require("../core/contracts.cjs");
+const { buildOfflineContract } = require("../core/routing.cjs");
+const { createWorkflowBudget } = require("../core/workflow.cjs");
 const { contextComparison } = require("../core/usage.cjs");
-const { takeRateLimit } = require("../request-guard.cjs");
+const { clientKey, takeRateLimit } = require("../request-guard.cjs");
 
 async function run() {
   const secret = ["gsk", "abcdefghijklmnopqrstuvwxyz123456"].join("_");
@@ -21,6 +31,7 @@ async function run() {
   assert.equal(redacted.count, 2);
   assert.equal(redacted.text.includes(secret), false);
   assert.match(redacted.text, /\[REDACTED_SECRET\]/);
+  assert.equal(safeErrorMessage(new Error(`Provider echoed Bearer ${secret}`)).includes(secret), false);
 
   const modernSecrets = [
     ["AKIA", "ABCDEFGHIJKLMNOP"].join(""),
@@ -37,12 +48,60 @@ async function run() {
     assert.equal(modernRedacted.text.includes(value), false, value.slice(0, 12));
   }
 
+  const fallbackResult = await generateWithFallback(`FALLBACK_SECRET_FIXTURE ${secret}`, { timeoutMs: 5_000 });
+  assert.equal(fallbackResult.attempts.length, 1);
+  assert.equal(fallbackResult.attempts[0].provider, "groq");
+  assert.equal(fallbackResult.attempts[0].error, "Provider request failed");
+  assert.equal(JSON.stringify(fallbackResult.attempts).includes(secret), false);
+
+  const priorProviderEnv = {
+    OPENAI_API_KEY: process.env.OPENAI_API_KEY,
+    OPENAI_MODEL: process.env.OPENAI_MODEL,
+    LITELLM_API_KEY: process.env.LITELLM_API_KEY,
+    LITELLM_BASE_URL: process.env.LITELLM_BASE_URL,
+    LITELLM_MODEL: process.env.LITELLM_MODEL
+  };
+  process.env.OPENAI_API_KEY = "server-openai-key";
+  process.env.OPENAI_MODEL = "server-approved-model";
+  process.env.LITELLM_API_KEY = "server-litellm-key";
+  process.env.LITELLM_BASE_URL = "https://trusted-litellm.example/v1";
+  process.env.LITELLM_MODEL = "server-litellm-model";
+  try {
+    const serverFunded = resolveProvider({ provider: "openai", model: "caller-premium-model" });
+    assert.equal(serverFunded.apiKey, "server-openai-key");
+    assert.equal(serverFunded.model, "server-approved-model");
+
+    const callerFunded = resolveProvider({
+      provider: "openai",
+      apiKey: "caller-openai-key",
+      model: "caller-selected-model"
+    });
+    assert.equal(callerFunded.apiKey, "caller-openai-key");
+    assert.equal(callerFunded.model, "caller-selected-model");
+
+    const protectedLiteLlm = resolveProvider({
+      provider: "litellm",
+      baseUrl: "https://caller-endpoint.example/v1",
+      model: "caller-selected-model"
+    });
+    assert.equal(protectedLiteLlm.apiKey, "server-litellm-key");
+    assert.equal(protectedLiteLlm.baseUrl, "https://trusted-litellm.example/v1/chat/completions");
+    assert.equal(protectedLiteLlm.model, "server-litellm-model");
+  } finally {
+    for (const [name, value] of Object.entries(priorProviderEnv)) {
+      if (value === undefined) delete process.env[name];
+      else process.env[name] = value;
+    }
+  }
+
   assert.throws(() => assertSafeProviderEndpoint("not a url"), /valid URL/);
   assert.throws(() => assertSafeProviderEndpoint("ftp://example.com/v1"), /HTTP or HTTPS/);
   assert.throws(() => assertSafeProviderEndpoint("https://user:pass@example.com/v1"), /URL credentials/);
   assert.equal(assertSafeProviderEndpoint("http://localhost:4000/v1"), "http://localhost:4000/v1");
   const priorEnv = process.env.NODE_ENV;
+  const priorPrivateEndpointFlag = process.env.TOKEN_OPTIMIZER_ALLOW_PRIVATE_ENDPOINTS;
   process.env.NODE_ENV = "production";
+  process.env.TOKEN_OPTIMIZER_ALLOW_PRIVATE_ENDPOINTS = "0";
   try {
     for (const blocked of [
       "http://localhost:4000/v1",
@@ -56,24 +115,111 @@ async function run() {
     }
     assert.throws(() => assertSafeProviderEndpoint("http://api.example.com/v1"), /HTTPS in production/);
     assert.equal(assertSafeProviderEndpoint("https://api.example.com/v1"), "https://api.example.com/v1");
+    for (const address of ["::", "::1", "fc00::1", "fe80::1", "::ffff:127.0.0.1", "2001:db8::1", "203.0.113.5"]) {
+      assert.equal(isPublicIpAddress(address), false, address);
+    }
+    assert.equal(isPublicIpAddress("8.8.8.8"), true);
+    assert.equal(isPublicIpAddress("2606:4700:4700::1111"), true);
+
+    await assert.rejects(
+      resolveSafeProviderEndpoint("https://provider.example/v1", {
+        lookup: async () => [{ address: "10.0.0.8", family: 4 }]
+      }),
+      /private provider endpoints/i
+    );
+    const resolvedEndpoint = await resolveSafeProviderEndpoint("https://provider.example/v1", {
+      lookup: async () => [{ address: "93.184.216.34", family: 4 }]
+    });
+    assert.deepEqual(resolvedEndpoint.addresses, [{ address: "93.184.216.34", family: 4 }]);
   } finally {
     process.env.NODE_ENV = priorEnv;
+    if (priorPrivateEndpointFlag === undefined) delete process.env.TOKEN_OPTIMIZER_ALLOW_PRIVATE_ENDPOINTS;
+    else process.env.TOKEN_OPTIMIZER_ALLOW_PRIVATE_ENDPOINTS = priorPrivateEndpointFlag;
   }
 
-  const rateRequest = (ip, device) => ({
-    headers: device ? { "x-token-optimizer-device": device } : {},
+  const fallbackContract = buildOfflineContract("Create a concise JSON migration plan.");
+  const validContract = validateHandoffContract(`\`\`\`json
+${JSON.stringify({
+    goal: "Create the migration plan",
+    facts: [secret],
+    constraints: ["Return JSON"],
+    decisions: [],
+    required_output: ["migration plan"],
+    sources: ["user_input"],
+    open_questions: [],
+    next_action: "Create the plan",
+    output_style: "JSON only",
+    token_budget: { executor_max: 500 }
+  })}
+\`\`\``, fallbackContract);
+  assert.equal(validContract.source, "provider");
+  assert.equal(validContract.output.includes(secret), false);
+  assert.equal(validContract.contract.token_budget.executor_target, 500);
+
+  const invalidContract = validateHandoffContract("not JSON", fallbackContract);
+  assert.equal(invalidContract.source, "local_fallback");
+  assert.deepEqual(invalidContract.contract, fallbackContract);
+  const truncatedContract = validateHandoffContract("{}", fallbackContract, { finishReason: "length" });
+  assert.equal(truncatedContract.source, "local_fallback");
+  assert.match(truncatedContract.issues[0], /truncated/i);
+
+  const realDateNow = Date.now;
+  let fakeNow = 10_000;
+  Date.now = () => fakeNow;
+  try {
+    const budget = createWorkflowBudget(5_000);
+    assert.equal(budget.remaining("contract"), 5_000);
+    fakeNow += 4_100;
+    assert.throws(() => budget.remaining("execution"), /exhausted before the execution stage/i);
+  } finally {
+    Date.now = realDateNow;
+  }
+
+  const rateRequest = (ip, device, headers = {}) => ({
+    headers: { ...(device ? { "x-token-optimizer-device": device } : {}), ...headers },
     socket: { remoteAddress: ip }
   });
+  const priorVercel = process.env.VERCEL;
+  const priorTrustProxy = process.env.TOKEN_OPTIMIZER_TRUST_PROXY;
+  delete process.env.VERCEL;
+  delete process.env.TOKEN_OPTIMIZER_TRUST_PROXY;
+  assert.equal(
+    clientKey(rateRequest("203.0.113.20", null, { "x-forwarded-for": "8.8.8.8" })),
+    "203.0.113.20",
+    "standalone servers must ignore spoofable forwarding headers"
+  );
+  process.env.VERCEL = "1";
+  assert.equal(
+    clientKey(rateRequest("127.0.0.1", null, { "x-forwarded-for": "8.8.4.4" })),
+    "8.8.4.4",
+    "Vercel-overwritten forwarding headers identify the public client"
+  );
+  if (priorVercel === undefined) delete process.env.VERCEL;
+  else process.env.VERCEL = priorVercel;
+  if (priorTrustProxy === undefined) delete process.env.TOKEN_OPTIMIZER_TRUST_PROXY;
+  else process.env.TOKEN_OPTIMIZER_TRUST_PROXY = priorTrustProxy;
+
   let lastRate = null;
   for (let i = 0; i < 21; i += 1) {
     lastRate = takeRateLimit(rateRequest("203.0.113.9", `device_${i}`));
   }
   assert.equal(lastRate.allowed, false, "rotating device headers must not mint fresh rate buckets");
   assert.equal(takeRateLimit(rateRequest("203.0.113.10")).allowed, true, "a different IP gets its own bucket");
+  const preparationRate = takeRateLimit(rateRequest("203.0.113.9"), { scope: "preparation" });
+  assert.equal(preparationRate.allowed, true, "free prompt preparation must not share the billable model-call bucket");
+  assert.equal(preparationRate.scope, "preparation");
 
   const direct = analyzeWorkflowShape("Summarize this paragraph in three bullets.");
   assert.equal(direct.route, "direct");
   assert.equal(direct.verificationNeeded, false);
+
+  const apiContractRoute = analyzeWorkflowShape(`Design an API contract.
+Requirements:
+- Include POST /exports.
+- Include DELETE /exports/{id}.
+- Return JSON examples.`);
+  assert.equal(apiContractRoute.route, "contract");
+  assert.equal(apiContractRoute.signals.highImpact, false, "documenting a DELETE endpoint is not a destructive action");
 
   const verified = analyzeWorkflowShape(
     "Deploy this database migration to production, verify every constraint, return JSON, and review it for security errors.",
@@ -107,6 +253,32 @@ async function run() {
   assert.equal(compactPortable.tokenReport.modelCalls, 0);
   assert.ok(compactPortable.tokenReport.optimizedPromptTokens < compactPortable.tokenReport.rawInputTokens);
   assert.equal((compactPortable.optimizedPrompt.match(/Keep provider keys/g) || []).length, 1);
+
+  const requirementsPortable = preparePortableHandoff({
+    rawInput: `Build a JavaScript function named groupBy.
+Requirements:
+- Accept an array and a key selector function.
+- Do not mutate the input array.
+- Support missing keys.
+- Include three tests.`,
+    target: "chatgpt"
+  });
+  assert.equal(requirementsPortable.workflowShape.route, "contract");
+  assert.match(requirementsPortable.optimizedPrompt, /key selector function/i);
+  assert.match(requirementsPortable.optimizedPrompt, /Do not mutate/i);
+  assert.match(requirementsPortable.optimizedPrompt, /Include three tests/i);
+
+  const topicalPortable = preparePortableHandoff({
+    rawInput: `Explain token optimization and handoff contracts.
+Requirements:
+- Compare their purposes.
+- Include one practical example.
+- Avoid internal implementation claims.`,
+    target: "chatgpt"
+  });
+  assert.match(topicalPortable.optimizedPrompt, /token optimization and handoff contracts/i);
+  assert.match(topicalPortable.optimizedPrompt, /Compare their purposes/i);
+  assert.match(topicalPortable.optimizedPrompt, /practical example/i);
 
   const wrappedPortable = preparePortableHandoff({
     rawInput: `Complete this task directly and concisely.
@@ -169,12 +341,30 @@ Output:
   assert.ok(result.tokenReport.estimatedContextDeltaTokens <= 0, "direct route adds framing, cannot save context");
   assert.equal(result.tokenReport.estimatedSavingsTokens, 0);
   assert.equal(result.tokenReport.addsFramingOverhead, result.tokenReport.estimatedContextDeltaTokens < 0);
+  assert.equal(result.acceptanceReport.status, "passed");
+  assert.equal(result.acceptanceReport.failedCount, 0);
+  assert.ok(result.trace.some((item) => item.phase === "acceptance" && item.status === "done"));
   assert.ok(events.some((event) => event.stage === "execute"));
   assert.ok(events.some((event) => event.type === "complete"));
   assert.ok(events.every((event) => event.traceId === result.traceId));
   assert.ok(result.trace.every((item) => item.actionId.startsWith(result.traceId)));
   assert.ok(result.trace.every((item) => item.agent && item.at && Number.isFinite(item.durationMs)));
   assert.ok(result.trace.find((item) => item.phase === "execute").finishedAt);
+
+  const repairedResult = await runSelfOptimizingWorkflow({
+    rawInput: "REPAIR_JSON_FIXTURE Return one JSON object. Use exactly the keys status and owner. Set status to open. Set owner to Maya. Do not add Markdown or explanatory prose.",
+    provider: "openai",
+    options: { routePreference: "fast" }
+  });
+  assert.equal(repairedResult.executionStatus, "completed");
+  assert.equal(repairedResult.tokenReport.modelCalls, 1);
+  assert.equal(repairedResult.repairReport.status, "repaired");
+  assert.equal(repairedResult.repairReport.modelCalls, 0);
+  assert.equal(repairedResult.repairReport.actionCount, 3);
+  assert.equal(repairedResult.acceptanceReport.status, "passed");
+  assert.deepEqual(JSON.parse(repairedResult.finalAnswer), { status: "open", owner: "Maya" });
+  assert.ok(repairedResult.trace.some((item) => item.phase === "repair" && item.status === "done"));
+  assert.equal(repairedResult.trace.filter((item) => item.phase === "acceptance").length, 2);
 
   const verifiedResult = await runSelfOptimizingWorkflow({
     rawInput: "Prepare a production database migration, return the exact JSON change plan, verify every constraint, and review it for security errors.",
@@ -185,6 +375,8 @@ Output:
   assert.equal(verifiedResult.workflowShape.route, "full");
   assert.equal(verifiedResult.tokenReport.modelCalls, 3);
   assert.ok(verifiedResult.trace.some((item) => item.phase === "verify"));
+  assert.equal(verifiedResult.acceptanceReport.status, "failed", "the generic fixture is not the requested exact JSON");
+  assert.ok(verifiedResult.trace.some((item) => item.phase === "acceptance" && item.status === "error"));
   // Full route plans three calls, so the repeated-context baseline is 3x raw.
   assert.equal(verifiedResult.tokenReport.comparison.plannedModelCalls, 3);
   assert.equal(
@@ -228,6 +420,17 @@ Output:
     prepared.tokenReport.estimatedNaiveThreeStepTokens,
     prepared.tokenReport.rawInputTokens
   );
+
+  const repairedKit = await runBlankA2AKit({
+    rawInput: "REPAIR_JSON_FIXTURE Return one JSON object. Use exactly the keys status and owner. Set status to open. Set owner to Maya. Do not add Markdown or explanatory prose.",
+    providerConfig: { provider: "openai" }
+  });
+  assert.equal(repairedKit.executionStatus, "completed");
+  assert.equal(repairedKit.providerUsage.modelCalls, 3);
+  assert.equal(repairedKit.repairReport.status, "repaired");
+  assert.equal(repairedKit.acceptanceReport.status, "passed");
+  assert.deepEqual(JSON.parse(repairedKit.finalAnswer), { status: "open", owner: "Maya" });
+  assert.ok(repairedKit.trace.some((item) => item.phase === "repair" && item.status === "done"));
 
   process.env.NODE_ENV = "production";
   process.env.TOKEN_OPTIMIZER_ALLOW_PRIVATE_ENDPOINTS = "0";
