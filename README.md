@@ -1,18 +1,38 @@
 # Token Optimizer
 
-Token Optimizer is a browser-based AI workspace built with Node.js and vanilla HTML/CSS/JavaScript that turns one rough request into a completed result through adaptive routing, compact handoff contracts, live execution events, and inspectable usage.
+Token Optimizer turns a rough request into finished work through adaptive LLM routing, compact handoff contracts, deterministic quality checks, and an inspectable execution trace.
+
+[**Open the live app**](https://tok-pi-gilt.vercel.app) · [Explore the code graph](https://tok-pi-gilt.vercel.app/code-graph)
+
+![Token Optimizer workspace showing the prompt composer, workflow stages, usage metrics, and result area](docs/product-overview.png)
+
+## What It Does
+
+- Chooses the leanest valid path for each request: direct execution, a compact contract, or a verified workflow.
+- Streams understandable progress through the browser and reports provider usage, cost when available, and estimated context saved.
+- Checks explicit output requirements with deterministic acceptance gates and can apply conservative, zero-call repairs.
+- Keeps raw provider output and secrets behind an allowlisted server boundary while preserving a useful local audit trail.
+- Includes a Manifest V3 side-panel extension for preparing prompts beside Gemini and ChatGPT.
+
+## Tech Stack
+
+| Layer | Technologies |
+| --- | --- |
+| Client | Vanilla HTML, CSS, and JavaScript; Chrome Manifest V3 |
+| Server | Node.js 18+, Vercel Functions, Server-Sent Events, Zod |
+| AI workflow | OpenAI/Groq adapters, adaptive routing, typed handoff contracts, deterministic acceptance gates |
+| Operations | Optional Upstash Redis coordination, metadata-only telemetry, GitHub Actions |
 
 ## Run Locally
 
 ```bash
+git clone https://github.com/adiarora06/TokenOptimizer.git
+cd TokenOptimizer
+npm ci
 npm start
 ```
 
-Open:
-
-```text
-http://127.0.0.1:8787
-```
+Open [http://127.0.0.1:8787](http://127.0.0.1:8787). The interface and deterministic prompt preparation work without provider keys; add optional keys as described below to execute hosted model calls.
 
 ## Product Shape
 
