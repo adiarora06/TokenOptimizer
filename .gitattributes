@@ -1,0 +1,5 @@
+# Generated Graphify reports are published with the app but are not authored source.
+graphify-out/** linguist-vendored
+
+# Third-party browser bundles are checked in for the dependency-free runtime.
+outputs/vendor/** linguist-vendored
