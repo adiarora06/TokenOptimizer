@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Token Optimizer promotional artwork</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at 8% 12%, rgba(80, 119, 255, 0.24), transparent 28%),
+        linear-gradient(145deg, #f4f7ff 0%, #dfe9ff 100%);
+      color: #18202f;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .art {
+      display: grid;
+      width: 100%;
+      height: 100%;
+      gap: 20px;
+      align-items: center;
+      padding: 48px 70px;
+    }
+
+    .copy {
+      display: grid;
+      gap: 15px;
+      align-content: center;
+    }
+
+    .brand {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: -0.01em;
+    }
+
+    .logo {
+      display: grid;
+      width: 44px;
+      height: 44px;
+      place-items: center;
+      border-radius: 11px;
+      background: #2557d6;
+      box-shadow: 0 10px 24px rgba(37, 87, 214, 0.25);
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 950;
+    }
+
+    .eyebrow {
+      color: #2557d6;
+      font-size: 13px;
+      font-weight: 950;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 650px;
+      margin: 0;
+      font-size: 54px;
+      line-height: 0.98;
+      letter-spacing: -0.045em;
+    }
+
+    .subhead {
+      max-width: 610px;
+      margin: 0;
+      color: #626e84;
+      font-size: 18px;
+      line-height: 1.5;
+    }
+
+    .steps {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .steps span {
+      border: 1px solid #c8d4ec;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.72);
+      color: #40506c;
+      font-size: 12px;
+      font-weight: 900;
+      padding: 7px 10px;
+    }
+
+    .demo {
+      display: grid;
+      gap: 13px;
+      border: 1px solid #c8d4ec;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: 0 24px 56px rgba(31, 57, 110, 0.16);
+      padding: 22px;
+    }
+
+    .demo-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .ready {
+      border-radius: 999px;
+      background: #eaf0ff;
+      color: #2557d6;
+      font-size: 11px;
+      padding: 5px 8px;
+    }
+
+    .prompt {
+      border: 1px solid #dbe2ef;
+      border-radius: 12px;
+      color: #5f6a80;
+      font-size: 13px;
+      line-height: 1.5;
+      padding: 13px;
+    }
+
+    .result {
+      border-left: 3px solid #2557d6;
+      color: #24324c;
+      font-size: 14px;
+      font-weight: 750;
+      line-height: 1.5;
+      padding: 4px 0 4px 13px;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .metric {
+      border-radius: 10px;
+      background: #f4f7fc;
+      padding: 9px;
+    }
+
+    .metric strong,
+    .metric span {
+      display: block;
+    }
+
+    .metric strong { font-size: 15px; }
+    .metric span { color: #768095; font-size: 10px; }
+
+    @media (min-width: 800px) {
+      .art { grid-template-columns: minmax(0, 1.15fr) minmax(420px, 0.85fr); }
+    }
+
+    @media (max-width: 799px) {
+      .art {
+        display: block;
+        padding: 22px 25px;
+      }
+
+      .copy { gap: 10px; }
+      .brand { font-size: 16px; }
+      .logo { width: 38px; height: 38px; border-radius: 9px; }
+      .eyebrow { font-size: 10px; }
+      h1 { font-size: 36px; line-height: 0.95; }
+      .subhead { font-size: 13px; line-height: 1.35; }
+      .steps { margin-top: 2px; }
+      .steps span { font-size: 10px; padding: 5px 7px; }
+      .demo { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="art">
+    <section class="copy">
+      <div class="brand"><span class="logo">TO</span><span>Token Optimizer</span></div>
+      <span class="eyebrow">Cleaner prompts before sending</span>
+      <h1>Less repetition.<br>More signal.</h1>
+      <p class="subhead">Prepare a clear prompt beside your AI assistant—without another model call and without auto-sending.</p>
+      <div class="steps"><span>Capture</span><span>Prepare</span><span>Review</span><span>Insert</span></div>
+    </section>
+    <section class="demo" aria-label="Token Optimizer example">
+      <div class="demo-head"><span>Prompt ready</span><span class="ready">0 prep calls</span></div>
+      <div class="prompt">Keep provider keys out of the extension. Keep provider keys out of the extension. Insert only after a user action.</div>
+      <div class="result">Keep provider keys out of the extension. Insert only after a user action.</div>
+      <div class="metrics">
+        <div class="metric"><strong>55</strong><span>Original</span></div>
+        <div class="metric"><strong>35</strong><span>Prepared</span></div>
+        <div class="metric"><strong>36%</strong><span>Saved</span></div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

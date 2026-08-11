@@ -53,11 +53,11 @@
 
   globalThis.TokenOptimizerSiteAdapter = build({
     id: "gemini",
-    label: "Gemini",
+    label: "Gemini™",
     selectors,
     isCandidate,
     score,
-    notFoundMessage: "Open Gemini and click inside the prompt box first.",
-    insertedMessage: "Inserted the prepared prompt into Gemini."
+    notFoundMessage: "Open Gemini™ and click inside the prompt box first.",
+    insertedMessage: "Inserted the prepared prompt into Gemini™."
   });
 })();

@@ -1,6 +1,61 @@
 {
   "communities": {
     "0": [
+      "api_system_overview",
+      "api_system_overview_commonheaders_requestguardbackend",
+      "api_system_overview_system_architecture",
+      "api_system_overview_telemetrysummary",
+      "optimizer_system",
+      "optimizer_system_applyresulttrace",
+      "optimizer_system_basestages",
+      "optimizer_system_compacttitle",
+      "optimizer_system_createid",
+      "optimizer_system_createoptimizersystem",
+      "optimizer_system_createrun",
+      "optimizer_system_estimatetokens_runblanka2akit_runselfoptimizingworkflow",
+      "optimizer_system_executesystemrun",
+      "optimizer_system_nowiso",
+      "optimizer_system_projectpublicresult",
+      "optimizer_system_publicrun",
+      "optimizer_system_runsystemruninline",
+      "optimizer_system_stagefromtrace",
+      "optimizer_system_system_architecture",
+      "optimizer_system_updatestage",
+      "request_guard_requestguardbackend",
+      "server",
+      "server_abortsignalonclose",
+      "server_allowedapimethods",
+      "server_authorizebillablerequest",
+      "server_callchatcompletion_createtraceid_generatewithfallback_prepareportablehandoff_providerstatus_runblanka2akit_runselfoptimizingworkflow_telemetrysummary",
+      "server_classifyproviderconfigfunding",
+      "server_collectconfiguredsecretvalues_projectpublicresult_redactpublicvalue",
+      "server_commonheaders",
+      "server_createoptimizersystem",
+      "server_fs",
+      "server_graphifydir",
+      "server_guard",
+      "server_handleapi",
+      "server_http",
+      "server_loadenvfile",
+      "server_optimizersystem",
+      "server_outputdir",
+      "server_path",
+      "server_port",
+      "server_publicerror",
+      "server_readjson",
+      "server_requestguardbackend",
+      "server_runbillablerequest",
+      "server_sendjson",
+      "server_server",
+      "server_servestatic",
+      "server_staticsecurityheaders",
+      "server_takeratelimit",
+      "server_validatea2apayload",
+      "server_validategeneratepayload",
+      "server_validateoptimizerpayload",
+      "server_writesse"
+    ],
+    "1": [
       "core_telemetry_analysis",
       "core_telemetry_analysis_alertformetric",
       "core_telemetry_analysis_boundedinteger",
@@ -53,7 +108,7 @@
       "tests_telemetry_analysis_test_summarizetelemetryevents_telemetryalertpolicy",
       "tests_telemetry_analysis_test_workflowevent"
     ],
-    "1": [
+    "2": [
       "outputs_workspace",
       "outputs_workspace_bindevents",
       "outputs_workspace_checkservice",
@@ -103,56 +158,93 @@
       "outputs_workspace_toggleinlineresult",
       "outputs_workspace_updatetimeline"
     ],
-    "2": [
-      "optimizer_system",
-      "optimizer_system_applyresulttrace",
-      "optimizer_system_basestages",
-      "optimizer_system_compacttitle",
-      "optimizer_system_createid",
-      "optimizer_system_createoptimizersystem",
-      "optimizer_system_createrun",
-      "optimizer_system_estimatetokens_runblanka2akit_runselfoptimizingworkflow",
-      "optimizer_system_executesystemrun",
-      "optimizer_system_nowiso",
-      "optimizer_system_projectpublicresult",
-      "optimizer_system_publicrun",
-      "optimizer_system_runsystemruninline",
-      "optimizer_system_stagefromtrace",
-      "optimizer_system_updatestage",
-      "server",
-      "server_abortsignalonclose",
-      "server_allowedapimethods",
-      "server_authorizebillablerequest",
-      "server_callchatcompletion_createtraceid_generatewithfallback_prepareportablehandoff_providerstatus_runblanka2akit_runselfoptimizingworkflow_telemetrysummary",
-      "server_classifyproviderconfigfunding",
-      "server_collectconfiguredsecretvalues_projectpublicresult_redactpublicvalue",
-      "server_commonheaders",
-      "server_createoptimizersystem",
-      "server_fs",
-      "server_graphifydir",
-      "server_guard",
-      "server_handleapi",
-      "server_http",
-      "server_loadenvfile",
-      "server_optimizersystem",
-      "server_outputdir",
-      "server_path",
-      "server_port",
-      "server_publicerror",
-      "server_readjson",
-      "server_requestguardbackend",
-      "server_runbillablerequest",
-      "server_sendjson",
-      "server_server",
-      "server_servestatic",
-      "server_staticsecurityheaders",
-      "server_takeratelimit",
-      "server_validatea2apayload",
-      "server_validategeneratepayload",
-      "server_validateoptimizerpayload",
-      "server_writesse"
-    ],
     "3": [
+      "core_providers",
+      "core_providers_boundednumber",
+      "core_providers_callchatcompletion",
+      "core_providers_callmodel",
+      "core_providers_callworkflowprovider",
+      "core_providers_createrequestsignal",
+      "core_providers_estimatetokens_modelcost_normalizeusage",
+      "core_providers_executemodelcall",
+      "core_providers_fallbackattemptmessage",
+      "core_providers_generatewithfallback",
+      "core_providers_http",
+      "core_providers_https",
+      "core_providers_normalizechatcompletionurl",
+      "core_providers_pinnedlookup",
+      "core_providers_providerlimits",
+      "core_providers_providerstatus",
+      "core_providers_recordproviderattempt",
+      "core_providers_requestprovider",
+      "core_providers_resolveprovider",
+      "core_providers_resolvesafeproviderendpoint_safeerrormessage",
+      "core_providers_testcompletion",
+      "optimizer_core",
+      "optimizer_core_analyzeworkflowshape",
+      "optimizer_core_callchatcompletion_generatewithfallback_providerstatus",
+      "optimizer_core_combineusage_createtraceid_estimatetokens",
+      "optimizer_core_compileacceptancegates_evaluateacceptancegates_repairacceptancefailures",
+      "optimizer_core_compileprompt_compiler_version",
+      "optimizer_core_prepareportablehandoff",
+      "optimizer_core_redactsensitivetext",
+      "optimizer_core_runblanka2akit_runselfoptimizingworkflow",
+      "optimizer_core_telemetrysummary",
+      "tests_hosted_api_test_mockresponse_status",
+      "tests_optimizer_core_test",
+      "tests_optimizer_core_test_analyzeworkflowshape_combineusage_generatewithfallback_prepareportablehandoff_redactsensitivetext_runblanka2akit_runselfoptimizingworkflow",
+      "tests_optimizer_core_test_assert",
+      "tests_optimizer_core_test_assertsafeproviderendpoint_ispublicipaddress_resolvesafeproviderendpoint_safeerrormessage",
+      "tests_optimizer_core_test_buildofflinecontract",
+      "tests_optimizer_core_test_clientkey_takeratelimit",
+      "tests_optimizer_core_test_contextcomparison",
+      "tests_optimizer_core_test_createworkflowbudget",
+      "tests_optimizer_core_test_resolveprovider",
+      "tests_optimizer_core_test_validatehandoffcontract"
+    ],
+    "4": [
+      "dompurify",
+      "marked",
+      "package",
+      "package_dependencies",
+      "package_dependencies_zod",
+      "package_description",
+      "package_devdependencies",
+      "package_devdependencies_dompurify",
+      "package_devdependencies_marked",
+      "package_devdependencies_tabler_icons_webfont",
+      "package_engines",
+      "package_engines_node",
+      "package_license",
+      "package_main",
+      "package_name",
+      "package_private",
+      "package_scripts",
+      "package_scripts_eval",
+      "package_scripts_eval_json",
+      "package_scripts_eval_live",
+      "package_scripts_package_extension",
+      "package_scripts_start",
+      "package_scripts_sync_compiler",
+      "package_scripts_telemetry_report",
+      "package_scripts_test",
+      "package_scripts_test_acceptance",
+      "package_scripts_test_api",
+      "package_scripts_test_compiler",
+      "package_scripts_test_core",
+      "package_scripts_test_eval",
+      "package_scripts_test_extension",
+      "package_scripts_test_frontend",
+      "package_scripts_test_guard",
+      "package_scripts_test_hosted",
+      "package_scripts_test_public",
+      "package_scripts_test_redis_smoke",
+      "package_scripts_test_telemetry",
+      "package_version",
+      "tabler_icons_webfont",
+      "zod"
+    ],
+    "5": [
       "evals_harness",
       "evals_harness_callchatcompletion_prepareportablehandoff_runselfoptimizingworkflow",
       "evals_harness_evaluatelivecase",
@@ -194,48 +286,7 @@
       "tests_eval_harness_test_loadcases_rundeterministicevaluation_scoreoutput",
       "tests_eval_harness_test_report"
     ],
-    "4": [
-      "dompurify",
-      "marked",
-      "package",
-      "package_dependencies",
-      "package_dependencies_zod",
-      "package_description",
-      "package_devdependencies",
-      "package_devdependencies_dompurify",
-      "package_devdependencies_marked",
-      "package_devdependencies_tabler_icons_webfont",
-      "package_engines",
-      "package_engines_node",
-      "package_license",
-      "package_main",
-      "package_name",
-      "package_private",
-      "package_scripts",
-      "package_scripts_eval",
-      "package_scripts_eval_json",
-      "package_scripts_eval_live",
-      "package_scripts_start",
-      "package_scripts_sync_compiler",
-      "package_scripts_telemetry_report",
-      "package_scripts_test",
-      "package_scripts_test_acceptance",
-      "package_scripts_test_api",
-      "package_scripts_test_compiler",
-      "package_scripts_test_core",
-      "package_scripts_test_eval",
-      "package_scripts_test_extension",
-      "package_scripts_test_frontend",
-      "package_scripts_test_guard",
-      "package_scripts_test_hosted",
-      "package_scripts_test_public",
-      "package_scripts_test_redis_smoke",
-      "package_scripts_test_telemetry",
-      "package_version",
-      "tabler_icons_webfont",
-      "zod"
-    ],
-    "5": [
+    "6": [
       "shared_request_guard",
       "shared_request_guard_boundedinteger",
       "shared_request_guard_cancellationerror",
@@ -275,46 +326,6 @@
       "tests_shared_request_guard_test_request",
       "tests_shared_request_guard_test_run",
       "tests_shared_request_guard_test_waitfor"
-    ],
-    "6": [
-      "request_guard",
-      "request_guard_a2apayloadschema",
-      "request_guard_acquireconcurrencyslot",
-      "request_guard_bearercredential",
-      "request_guard_canonicalfingerprintvalue",
-      "request_guard_clientkey",
-      "request_guard_combineabortsignals",
-      "request_guard_crypto",
-      "request_guard_daily_call_limit",
-      "request_guard_daily_token_limit",
-      "request_guard_defaultbillablerequestguard",
-      "request_guard_enabled",
-      "request_guard_estimatedtokencount",
-      "request_guard_generatepayloadschema",
-      "request_guard_idempotency_max_entries",
-      "request_guard_idempotency_ttl_ms",
-      "request_guard_idempotencyprincipal",
-      "request_guard_max_concurrent_billable",
-      "request_guard_max_input_chars",
-      "request_guard_min_shared_execution_fence_ms_createsharedrequestguardadapters",
-      "request_guard_net",
-      "request_guard_normalizedip",
-      "request_guard_optimizerpayloadschema",
-      "request_guard_providerconfigschema",
-      "request_guard_rate_bucket_cap",
-      "request_guard_rate_profiles",
-      "request_guard_requestguarderror",
-      "request_guard_requestguarderror_constructor",
-      "request_guard_requestidempotencykey",
-      "request_guard_requiredstring",
-      "request_guard_reservedailybudget",
-      "request_guard_safeerrormessage",
-      "request_guard_secretdigest",
-      "request_guard_sharedguardadapters",
-      "request_guard_singleheader",
-      "request_guard_utcday",
-      "request_guard_validateidempotencykey",
-      "request_guard_z"
     ],
     "7": [
       "core_telemetry",
@@ -356,6 +367,44 @@
       "tests_telemetry_test_run"
     ],
     "8": [
+      "request_guard",
+      "request_guard_a2apayloadschema",
+      "request_guard_acquireconcurrencyslot",
+      "request_guard_bearercredential",
+      "request_guard_canonicalfingerprintvalue",
+      "request_guard_clientkey",
+      "request_guard_combineabortsignals",
+      "request_guard_crypto",
+      "request_guard_daily_call_limit",
+      "request_guard_daily_token_limit",
+      "request_guard_defaultbillablerequestguard",
+      "request_guard_enabled",
+      "request_guard_generatepayloadschema",
+      "request_guard_idempotency_max_entries",
+      "request_guard_idempotency_ttl_ms",
+      "request_guard_idempotencyprincipal",
+      "request_guard_max_concurrent_billable",
+      "request_guard_max_input_chars",
+      "request_guard_min_shared_execution_fence_ms_createsharedrequestguardadapters",
+      "request_guard_net",
+      "request_guard_normalizedip",
+      "request_guard_optimizerpayloadschema",
+      "request_guard_providerconfigschema",
+      "request_guard_rate_bucket_cap",
+      "request_guard_rate_profiles",
+      "request_guard_requestguarderror",
+      "request_guard_requestguarderror_constructor",
+      "request_guard_requestidempotencykey",
+      "request_guard_requiredstring",
+      "request_guard_reservedailybudget",
+      "request_guard_safeerrormessage",
+      "request_guard_secretdigest",
+      "request_guard_sharedguardadapters",
+      "request_guard_singleheader",
+      "request_guard_utcday",
+      "request_guard_z"
+    ],
+    "9": [
       "core_handoff",
       "core_handoff_analyzeworkflowshape_buildofflinecontract",
       "core_handoff_buildportableprompt",
@@ -391,7 +440,7 @@
       "shared_prompt_compiler_outputstylefor",
       "shared_prompt_compiler_uniquelines"
     ],
-    "9": [
+    "10": [
       "extensions_gemini_token_optimizer_manifest",
       "extensions_gemini_token_optimizer_manifest_action",
       "extensions_gemini_token_optimizer_manifest_action_default_icon",
@@ -424,18 +473,13 @@
       "ref_https_chatgpt_com",
       "ref_https_gemini_google_com",
       "ref_https_tok_pi_gilt_vercel_app",
-      "ref_sidepanel",
-      "ref_storage"
+      "ref_sidepanel"
     ],
-    "10": [
+    "11": [
       "api_a2a_run",
       "api_a2a_run_abortsignalonclose_classifyproviderconfigfunding_commonheaders_publicerror_runbillablerequest_validatea2apayload",
       "api_a2a_run_projectpublicresult",
       "api_a2a_run_runblanka2akit",
-      "api_generate",
-      "api_generate_abortsignalonclose_commonheaders_publicerror_runbillablerequest_validategeneratepayload",
-      "api_generate_callchatcompletion_createtraceid_generatewithfallback",
-      "api_generate_collectconfiguredsecretvalues_redactpublicvalue",
       "api_optimize_run",
       "api_optimize_run_abortsignalonclose_commonheaders_publicerror_runbillablerequest_validateoptimizerpayload",
       "api_optimize_run_projectpublicresult",
@@ -453,6 +497,10 @@
       "api_system_runs",
       "api_system_runs_abortsignalonclose_classifyproviderconfigfunding_commonheaders_publicerror_runbillablerequest_validateoptimizerpayload",
       "api_system_runs_system_architecture_runsystemruninline",
+      "api_workflow_run",
+      "api_workflow_run_abortsignalonclose_classifyproviderconfigfunding_commonheaders_publicerror_runbillablerequest_validatea2apayload",
+      "api_workflow_run_projectpublicresult",
+      "api_workflow_run_runblanka2akit",
       "request_guard_abortsignalonclose",
       "request_guard_commonheaders",
       "request_guard_guardfailure",
@@ -461,7 +509,37 @@
       "request_guard_takeratelimit",
       "request_guard_validateoptimizerpayload"
     ],
-    "11": [
+    "12": [
+      "extensions_gemini_token_optimizer_adapters_base",
+      "extensions_gemini_token_optimizer_adapters_base_build",
+      "extensions_gemini_token_optimizer_adapters_base_isvisible",
+      "extensions_gemini_token_optimizer_adapters_base_normalizepromptnode",
+      "extensions_gemini_token_optimizer_sidepanel",
+      "extensions_gemini_token_optimizer_sidepanel_bindevents",
+      "extensions_gemini_token_optimizer_sidepanel_captureprompt",
+      "extensions_gemini_token_optimizer_sidepanel_checkconnection",
+      "extensions_gemini_token_optimizer_sidepanel_copyprepared",
+      "extensions_gemini_token_optimizer_sidepanel_currentcontext",
+      "extensions_gemini_token_optimizer_sidepanel_el",
+      "extensions_gemini_token_optimizer_sidepanel_estimatetokens",
+      "extensions_gemini_token_optimizer_sidepanel_handleconsentchange",
+      "extensions_gemini_token_optimizer_sidepanel_haspreparationconsent",
+      "extensions_gemini_token_optimizer_sidepanel_init",
+      "extensions_gemini_token_optimizer_sidepanel_insertpreparedprompt",
+      "extensions_gemini_token_optimizer_sidepanel_messagetarget",
+      "extensions_gemini_token_optimizer_sidepanel_platformforurl",
+      "extensions_gemini_token_optimizer_sidepanel_prepareprompt",
+      "extensions_gemini_token_optimizer_sidepanel_rawpromptforpreparation",
+      "extensions_gemini_token_optimizer_sidepanel_rendermetrics",
+      "extensions_gemini_token_optimizer_sidepanel_requestpreparation",
+      "extensions_gemini_token_optimizer_sidepanel_setstatus",
+      "extensions_gemini_token_optimizer_sidepanel_state",
+      "extensions_gemini_token_optimizer_sidepanel_syncdataconsentcontrols",
+      "extensions_gemini_token_optimizer_sidepanel_syncrail",
+      "extensions_gemini_token_optimizer_sidepanel_toast",
+      "extensions_gemini_token_optimizer_sidepanel_updatedrafttokenpill"
+    ],
+    "13": [
       "extensions_gemini_token_optimizer_tests_content_chatgpt_test",
       "extensions_gemini_token_optimizer_tests_content_chatgpt_test_adaptercode",
       "extensions_gemini_token_optimizer_tests_content_chatgpt_test_addrange",
@@ -490,7 +568,7 @@
       "extensions_gemini_token_optimizer_tests_content_chatgpt_test_removeallranges",
       "extensions_gemini_token_optimizer_tests_content_chatgpt_test_vm"
     ],
-    "12": [
+    "14": [
       "extensions_gemini_token_optimizer_tests_content_gemini_test",
       "extensions_gemini_token_optimizer_tests_content_gemini_test_adaptercode",
       "extensions_gemini_token_optimizer_tests_content_gemini_test_addrange",
@@ -519,35 +597,7 @@
       "extensions_gemini_token_optimizer_tests_content_gemini_test_richtextarea",
       "extensions_gemini_token_optimizer_tests_content_gemini_test_vm"
     ],
-    "13": [
-      "extensions_gemini_token_optimizer_adapters_base",
-      "extensions_gemini_token_optimizer_adapters_base_build",
-      "extensions_gemini_token_optimizer_adapters_base_isvisible",
-      "extensions_gemini_token_optimizer_adapters_base_normalizepromptnode",
-      "extensions_gemini_token_optimizer_sidepanel",
-      "extensions_gemini_token_optimizer_sidepanel_bindevents",
-      "extensions_gemini_token_optimizer_sidepanel_captureprompt",
-      "extensions_gemini_token_optimizer_sidepanel_checkconnection",
-      "extensions_gemini_token_optimizer_sidepanel_copyprepared",
-      "extensions_gemini_token_optimizer_sidepanel_currentcontext",
-      "extensions_gemini_token_optimizer_sidepanel_el",
-      "extensions_gemini_token_optimizer_sidepanel_estimatetokens",
-      "extensions_gemini_token_optimizer_sidepanel_init",
-      "extensions_gemini_token_optimizer_sidepanel_insertpreparedprompt",
-      "extensions_gemini_token_optimizer_sidepanel_messagetarget",
-      "extensions_gemini_token_optimizer_sidepanel_platformforurl",
-      "extensions_gemini_token_optimizer_sidepanel_prepareprompt",
-      "extensions_gemini_token_optimizer_sidepanel_rawpromptforpreparation",
-      "extensions_gemini_token_optimizer_sidepanel_recordpreparation",
-      "extensions_gemini_token_optimizer_sidepanel_rendermetrics",
-      "extensions_gemini_token_optimizer_sidepanel_requestpreparation",
-      "extensions_gemini_token_optimizer_sidepanel_setstatus",
-      "extensions_gemini_token_optimizer_sidepanel_state",
-      "extensions_gemini_token_optimizer_sidepanel_syncrail",
-      "extensions_gemini_token_optimizer_sidepanel_toast",
-      "extensions_gemini_token_optimizer_sidepanel_updatedrafttokenpill"
-    ],
-    "14": [
+    "15": [
       "core_acceptance_skippedacceptancereport",
       "core_acceptance_skippedrepairreport",
       "core_workflow",
@@ -572,7 +622,7 @@
       "tests_public_result_test_projectpublicresult",
       "tests_public_result_test_run"
     ],
-    "15": [
+    "16": [
       "core_contracts",
       "core_contracts_canonicalcontract",
       "core_contracts_compactlist",
@@ -597,7 +647,32 @@
       "core_security_safeerrormessage",
       "core_security_secret_patterns"
     ],
-    "16": [
+    "17": [
+      "extensions_gemini_token_optimizer_tests_package_test",
+      "extensions_gemini_token_optimizer_tests_package_test_assert",
+      "extensions_gemini_token_optimizer_tests_package_test_fs",
+      "extensions_gemini_token_optimizer_tests_package_test_os",
+      "extensions_gemini_token_optimizer_tests_package_test_package_files_archiveentries_buildpackage_extensionroot_validatesourcereferences",
+      "extensions_gemini_token_optimizer_tests_package_test_path",
+      "scripts_package_chrome_extension",
+      "scripts_package_chrome_extension_archiveentries",
+      "scripts_package_chrome_extension_buildpackage",
+      "scripts_package_chrome_extension_crypto",
+      "scripts_package_chrome_extension_extensionroot",
+      "scripts_package_chrome_extension_fail",
+      "scripts_package_chrome_extension_fixedtimestamp",
+      "scripts_package_chrome_extension_fs",
+      "scripts_package_chrome_extension_localreference",
+      "scripts_package_chrome_extension_os",
+      "scripts_package_chrome_extension_outputargument",
+      "scripts_package_chrome_extension_package_files",
+      "scripts_package_chrome_extension_path",
+      "scripts_package_chrome_extension_repositoryroot",
+      "scripts_package_chrome_extension_run",
+      "scripts_package_chrome_extension_spawnsync",
+      "scripts_package_chrome_extension_validatesourcereferences"
+    ],
+    "18": [
       "core_acceptance",
       "core_acceptance_addgate",
       "core_acceptance_compactsource",
@@ -621,31 +696,7 @@
       "core_acceptance_stripmarkdown",
       "core_acceptance_wordcount"
     ],
-    "17": [
-      "core_providers",
-      "core_providers_boundednumber",
-      "core_providers_callchatcompletion",
-      "core_providers_callmodel",
-      "core_providers_callworkflowprovider",
-      "core_providers_createrequestsignal",
-      "core_providers_estimatetokens_modelcost_normalizeusage",
-      "core_providers_executemodelcall",
-      "core_providers_fallbackattemptmessage",
-      "core_providers_generatewithfallback",
-      "core_providers_http",
-      "core_providers_https",
-      "core_providers_normalizechatcompletionurl",
-      "core_providers_pinnedlookup",
-      "core_providers_providerlimits",
-      "core_providers_providerstatus",
-      "core_providers_recordproviderattempt",
-      "core_providers_requestprovider",
-      "core_providers_resolveprovider",
-      "core_providers_resolvesafeproviderendpoint_safeerrormessage",
-      "core_providers_testcompletion",
-      "tests_hosted_api_test_mockresponse_status"
-    ],
-    "18": [
+    "19": [
       "tests_acceptance_gates_test",
       "tests_acceptance_gates_test_ambiguousinteger",
       "tests_acceptance_gates_test_assert",
@@ -669,7 +720,7 @@
       "tests_acceptance_gates_test_unsafetradeoff",
       "tests_acceptance_gates_test_validjson"
     ],
-    "19": [
+    "20": [
       "tests_shared_request_guard_test_fakeredisrestclient",
       "tests_shared_request_guard_test_fakeredisrestclient_acquireconcurrency",
       "tests_shared_request_guard_test_fakeredisrestclient_budgetfor",
@@ -692,28 +743,6 @@
       "tests_shared_request_guard_test_fakeredisrestclient_takerate",
       "tests_shared_request_guard_test_mapfor"
     ],
-    "20": [
-      "optimizer_core",
-      "optimizer_core_analyzeworkflowshape",
-      "optimizer_core_callchatcompletion_generatewithfallback_providerstatus",
-      "optimizer_core_combineusage_createtraceid_estimatetokens",
-      "optimizer_core_compileacceptancegates_evaluateacceptancegates_repairacceptancefailures",
-      "optimizer_core_compileprompt_compiler_version",
-      "optimizer_core_prepareportablehandoff",
-      "optimizer_core_redactsensitivetext",
-      "optimizer_core_runblanka2akit_runselfoptimizingworkflow",
-      "optimizer_core_telemetrysummary",
-      "tests_optimizer_core_test",
-      "tests_optimizer_core_test_analyzeworkflowshape_combineusage_generatewithfallback_prepareportablehandoff_redactsensitivetext_runblanka2akit_runselfoptimizingworkflow",
-      "tests_optimizer_core_test_assert",
-      "tests_optimizer_core_test_assertsafeproviderendpoint_ispublicipaddress_resolvesafeproviderendpoint_safeerrormessage",
-      "tests_optimizer_core_test_buildofflinecontract",
-      "tests_optimizer_core_test_clientkey_takeratelimit",
-      "tests_optimizer_core_test_contextcomparison",
-      "tests_optimizer_core_test_createworkflowbudget",
-      "tests_optimizer_core_test_resolveprovider",
-      "tests_optimizer_core_test_validatehandoffcontract"
-    ],
     "21": [
       "request_guard_authorizebillablerequest",
       "request_guard_boundedinteger",
@@ -726,8 +755,10 @@
       "request_guard_createidempotencystore",
       "request_guard_createratelimiter",
       "request_guard_estimatebillabletokens",
+      "request_guard_estimatedtokencount",
       "request_guard_idempotencyfingerprint",
       "request_guard_tokenusagefromresult",
+      "request_guard_validateidempotencykey",
       "tests_request_guard_test",
       "tests_request_guard_test_assert",
       "tests_request_guard_test_authorizebillablerequest_classifyproviderconfigfunding_constanttimesecretequal_createbillablerequestguard_createconcurrencygate_createdailybudget_createidempotencystore_createratelimiter_estimatebillabletokens_idempotencyfingerprint_tokenusagefromresult_validateidempotencykey",
@@ -927,10 +958,10 @@
       "extensions_gemini_token_optimizer_readme_what_it_does"
     ],
     "36": [
-      "api_workflow_run",
-      "api_workflow_run_abortsignalonclose_classifyproviderconfigfunding_commonheaders_publicerror_runbillablerequest_validatea2apayload",
-      "api_workflow_run_projectpublicresult",
-      "api_workflow_run_runblanka2akit",
+      "api_generate",
+      "api_generate_abortsignalonclose_commonheaders_publicerror_runbillablerequest_validategeneratepayload",
+      "api_generate_callchatcompletion_createtraceid_generatewithfallback",
+      "api_generate_collectconfiguredsecretvalues_redactpublicvalue",
       "request_guard_validatea2apayload",
       "request_guard_validategeneratepayload",
       "request_guard_validatewith"
@@ -945,14 +976,6 @@
       "core_text_withouttrailingellipsis"
     ],
     "38": [
-      "api_system_overview",
-      "api_system_overview_commonheaders_requestguardbackend",
-      "api_system_overview_system_architecture",
-      "api_system_overview_telemetrysummary",
-      "optimizer_system_system_architecture",
-      "request_guard_requestguardbackend"
-    ],
-    "39": [
       "extensions_gemini_token_optimizer_adapters_chatgpt",
       "extensions_gemini_token_optimizer_adapters_chatgpt_haspromptlabel",
       "extensions_gemini_token_optimizer_adapters_chatgpt_iscandidate",
@@ -960,7 +983,7 @@
       "extensions_gemini_token_optimizer_adapters_chatgpt_isnearpromptarea",
       "extensions_gemini_token_optimizer_adapters_chatgpt_score"
     ],
-    "40": [
+    "39": [
       "extensions_gemini_token_optimizer_adapters_gemini",
       "extensions_gemini_token_optimizer_adapters_gemini_haspromptlabel",
       "extensions_gemini_token_optimizer_adapters_gemini_iscandidate",
@@ -968,7 +991,7 @@
       "extensions_gemini_token_optimizer_adapters_gemini_isnearpromptarea",
       "extensions_gemini_token_optimizer_adapters_gemini_score"
     ],
-    "41": [
+    "40": [
       "scripts_sync_prompt_compiler",
       "scripts_sync_prompt_compiler_fs",
       "scripts_sync_prompt_compiler_path",
@@ -976,67 +999,67 @@
       "scripts_sync_prompt_compiler_source",
       "scripts_sync_prompt_compiler_targets"
     ],
-    "42": [
+    "41": [
       "extensions_gemini_token_optimizer_adapters",
       "extensions_gemini_token_optimizer_adapters_adapter_contract",
       "extensions_gemini_token_optimizer_adapters_add_another_assistant",
       "extensions_gemini_token_optimizer_adapters_layers",
       "extensions_gemini_token_optimizer_adapters_site_adapter_architecture"
     ],
-    "43": [
+    "42": [
       "scripts_canonical_graph",
       "scripts_canonical_graph_fs",
       "scripts_canonical_graph_graph",
       "scripts_canonical_graph_sortdeep"
     ],
-    "44": [
+    "43": [
       "api_provider_status",
       "api_provider_status_commonheaders",
       "api_provider_status_providerstatus"
     ],
-    "45": [
+    "44": [
       "vercel",
       "vercel_headers",
       "vercel_rewrites"
     ],
-    "46": [
+    "45": [
       "extensions_gemini_token_optimizer_platforms",
       "extensions_gemini_token_optimizer_platforms_forurl"
     ],
-    "47": [
+    "46": [
       "extensions_gemini_token_optimizer_service_worker",
       "extensions_gemini_token_optimizer_service_worker_setpanelfortab"
     ],
-    "48": [
+    "47": [
       "extensions_gemini_token_optimizer_content_bridge"
     ],
-    "49": [
+    "48": [
       "outputs_system_worker"
     ]
   },
   "cohesion": {
-    "0": 0.07137254901960784,
-    "1": 0.1099290780141844,
-    "2": 0.07030527289546716,
-    "3": 0.10512820512820513,
-    "4": 0.05128205128205128,
-    "5": 0.12280701754385964,
-    "6": 0.06401137980085349,
+    "0": 0.0602322206095791,
+    "1": 0.07137254901960784,
+    "2": 0.1099290780141844,
+    "3": 0.07549361207897794,
+    "4": 0.05,
+    "5": 0.10512820512820513,
+    "6": 0.12280701754385964,
     "7": 0.1111111111111111,
-    "8": 0.11051693404634581,
-    "9": 0.058823529411764705,
-    "10": 0.09879032258064516,
-    "11": 0.07407407407407407,
-    "12": 0.07407407407407407,
-    "13": 0.20923076923076922,
-    "14": 0.15019762845849802,
-    "15": 0.1541501976284585,
-    "16": 0.18181818181818182,
-    "17": 0.16017316017316016,
-    "18": 0.09090909090909091,
-    "19": 0.20952380952380953,
-    "20": 0.11578947368421053,
-    "21": 0.26143790849673204,
+    "8": 0.06666666666666667,
+    "9": 0.11051693404634581,
+    "10": 0.06060606060606061,
+    "11": 0.09879032258064516,
+    "12": 0.21428571428571427,
+    "13": 0.07407407407407407,
+    "14": 0.07407407407407407,
+    "15": 0.15019762845849802,
+    "16": 0.1541501976284585,
+    "17": 0.15019762845849802,
+    "18": 0.18181818181818182,
+    "19": 0.09090909090909091,
+    "20": 0.20952380952380953,
+    "21": 0.22631578947368422,
     "22": 0.15441176470588236,
     "23": 0.11764705882352941,
     "24": 0.14285714285714285,
@@ -1053,24 +1076,23 @@
     "35": 0.25,
     "36": 0.2857142857142857,
     "37": 0.38095238095238093,
-    "38": 0.3333333333333333,
+    "38": 0.6666666666666666,
     "39": 0.6666666666666666,
-    "40": 0.6666666666666666,
-    "41": 0.3333333333333333,
-    "42": 0.4,
-    "43": 0.5,
+    "40": 0.3333333333333333,
+    "41": 0.4,
+    "42": 0.5,
+    "43": 0.6666666666666666,
     "44": 0.6666666666666666,
-    "45": 0.6666666666666666,
+    "45": 1.0,
     "46": 1.0,
     "47": 1.0,
-    "48": 1.0,
-    "49": 1.0
+    "48": 1.0
   },
   "gods": [
     {
       "id": "package_scripts",
       "label": "scripts",
-      "degree": 20
+      "degree": 21
     },
     {
       "id": "tests_shared_request_guard_test_fakeredisrestclient",
@@ -1103,13 +1125,13 @@
       "degree": 15
     },
     {
-      "id": "shared_request_guard_createsharedrequestguardadapters",
-      "label": "createSharedRequestGuardAdapters()",
+      "id": "tests_shared_request_guard_test_run",
+      "label": "run()",
       "degree": 15
     },
     {
-      "id": "tests_shared_request_guard_test_run",
-      "label": "run()",
+      "id": "shared_request_guard_createsharedrequestguardadapters",
+      "label": "createSharedRequestGuardAdapters()",
       "degree": 15
     },
     {
@@ -1165,9 +1187,9 @@
     },
     {
       "source": "run()",
-      "target": "validateIdempotencyKey()",
+      "target": "createBillableRequestGuard()",
       "source_files": [
-        "tests/request-guard.test.cjs",
+        "tests/shared-request-guard.test.cjs",
         "request-guard.cjs"
       ],
       "confidence": "EXTRACTED",
@@ -1178,8 +1200,8 @@
   "questions": [
     {
       "type": "bridge_node",
-      "question": "Why does `runSelfOptimizingWorkflow()` connect `workflow.cjs` to `acceptance.cjs`, `providers.cjs`, `optimizer-core.cjs`, `telemetry.cjs`?",
-      "why": "High betweenness centrality (0.010) - this node is a cross-community bridge."
+      "question": "Why does `runSelfOptimizingWorkflow()` connect `workflow.cjs` to `acceptance.cjs`, `providers.cjs`, `telemetry.cjs`?",
+      "why": "High betweenness centrality (0.009) - this node is a cross-community bridge."
     },
     {
       "type": "bridge_node",
@@ -1194,7 +1216,12 @@
     {
       "type": "isolated_nodes",
       "question": "What connects `assert`, `fs`, `path` to the rest of the system?",
-      "why": "370 weakly-connected nodes found - possible documentation gaps or missing edges."
+      "why": "382 weakly-connected nodes found - possible documentation gaps or missing edges."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `server.cjs` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.0602322206095791 - nodes in this community are weakly interconnected."
     },
     {
       "type": "low_cohesion",
@@ -1205,11 +1232,6 @@
       "type": "low_cohesion",
       "question": "Should `workspace.js` be split into smaller, more focused modules?",
       "why": "Cohesion score 0.1099290780141844 - nodes in this community are weakly interconnected."
-    },
-    {
-      "type": "low_cohesion",
-      "question": "Should `server.cjs` be split into smaller, more focused modules?",
-      "why": "Cohesion score 0.07030527289546716 - nodes in this community are weakly interconnected."
     }
   ]
 }

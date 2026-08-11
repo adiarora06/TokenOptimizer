@@ -2,9 +2,9 @@
   const platforms = Object.freeze([
     Object.freeze({
       id: "gemini",
-      label: "Gemini",
+      label: "Gemini™",
       origins: Object.freeze(["https://gemini.google.com/"]),
-      statusLabel: "Gemini ready"
+      statusLabel: "Gemini™ ready"
     }),
     Object.freeze({
       id: "chatgpt",

@@ -11,6 +11,7 @@
   "scripts": {
     "start": "node server.cjs",
     "sync:compiler": "node scripts/sync-prompt-compiler.cjs",
+    "package:extension": "npm run sync:compiler && node scripts/package-chrome-extension.cjs",
     "eval": "node evals/run-evals.cjs",
     "eval:json": "node evals/run-evals.cjs --json",
     "eval:live": "node evals/run-evals.cjs --live",
@@ -27,7 +28,7 @@
     "test:api": "node tests/api-endpoints.test.cjs",
     "test:hosted": "node tests/hosted-api.test.cjs",
     "test:frontend": "node tests/frontend-static.test.cjs",
-    "test:extension": "node extensions/gemini-token-optimizer/tests/sidepanel-logic.test.cjs && node extensions/gemini-token-optimizer/tests/service-worker.test.cjs && node extensions/gemini-token-optimizer/tests/content-gemini.test.cjs && node extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs"
+    "test:extension": "node extensions/gemini-token-optimizer/tests/sidepanel-logic.test.cjs && node extensions/gemini-token-optimizer/tests/service-worker.test.cjs && node extensions/gemini-token-optimizer/tests/content-gemini.test.cjs && node extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs && node extensions/gemini-token-optimizer/tests/package.test.cjs"
   },
   "dependencies": {
     "zod": "^4.4.3"

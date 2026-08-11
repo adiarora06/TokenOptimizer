@@ -21,8 +21,8 @@
         <span class="dot" id="statusDot"></span>
         <span class="phase" id="statusPhase">Ready</span>
       </div>
-      <strong id="statusTitle">Open Gemini or ChatGPT and paste or capture a prompt.</strong>
-      <span id="statusDetail">The extension will optimize first, then insert only after you click.</span>
+      <strong id="statusTitle">Review the data notice to begin.</strong>
+      <span id="statusDetail">Prompt input and capture stay disabled until you agree.</span>
       <div class="rail" aria-label="Workflow stages">
         <button class="rail-step" type="button" data-stage="capture" aria-current="step">Capture</button>
         <button class="rail-step" type="button" data-stage="prepare">Prepare</button>
@@ -36,16 +36,25 @@
       <div class="panel-head">
         <div>
           <h1>Messy prompt</h1>
-          <p>Paste it here or capture the active assistant prompt.</p>
+          <p>Agree below, then paste or capture the active assistant prompt.</p>
         </div>
         <span class="pill" id="connectionPill">Checking</span>
       </div>
+      <div class="data-disclosure" id="dataDisclosure">
+        <strong>Before you capture, type, or prepare</strong>
+        <p>After you agree, prompt text you type or explicitly capture is handled in this side panel. Clicking Prepare securely sends the prompt to Token Optimizer's Vercel-hosted service for deterministic processing; no AI model receives it during preparation, and raw or prepared prompt text is not stored. Token counts and strategy are shown only in the current side-panel session. The service and its hosts process basic request data such as IP address, time, route, and status for delivery, security, and rate limiting; a pseudonymous rate-limit identifier may be retained briefly. The identity of the supported assistant stays in your browser.</p>
+        <label class="consent-row" for="dataConsent">
+          <input id="dataConsent" type="checkbox">
+          <span>I understand and agree to this prompt, metric, and request-data handling.</span>
+        </label>
+        <a href="https://tok-pi-gilt.vercel.app/privacy" target="_blank" rel="noreferrer">Read the privacy policy</a>
+      </div>
       <label class="sr-only" for="rawPrompt">Messy prompt</label>
-      <textarea id="rawPrompt" placeholder="Paste the rough prompt here, or capture it after focusing the assistant's prompt box."></textarea>
+      <textarea id="rawPrompt" disabled placeholder="Agree to the data notice, then paste or capture a rough prompt."></textarea>
       <div class="actions">
-        <button id="capturePrompt">Capture active prompt</button>
-        <button id="optimizePrompt">Prepare only</button>
-        <button class="primary" id="optimizeInsert">Prepare &amp; insert</button>
+        <button id="capturePrompt" disabled>Capture active prompt</button>
+        <button id="optimizePrompt" disabled>Prepare only</button>
+        <button class="primary" id="optimizeInsert" disabled>Prepare &amp; insert</button>
       </div>
     </section>
 
@@ -74,7 +83,7 @@
 
     <section class="panel compact">
       <strong>No duplicate model call</strong>
-      <p>Preparation uses deterministic processing. Nothing is inserted into the assistant until you choose it, and the wrapper never submits it.</p>
+      <p>Preparation uses deterministic processing. Raw prompt text is not stored. Nothing is captured, typed, or prepared before consent, and the wrapper never submits an assistant message.</p>
     </section>
   </main>
 

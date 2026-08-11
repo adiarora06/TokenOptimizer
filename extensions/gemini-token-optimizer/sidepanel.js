@@ -1,5 +1,4 @@
 const PREPARE_ENDPOINT = "https://tok-pi-gilt.vercel.app/api/prepare-handoff";
-const preparationHistoryKey = "tokenOptimizerPreparationHistory";
 const compiler = globalThis.TokenOptimizerCompiler;
 
 if (!compiler) throw new Error("Prompt compiler failed to load.");
@@ -7,6 +6,7 @@ if (!compiler) throw new Error("Prompt compiler failed to load.");
 const state = {
   activeStage: "capture",
   lastResult: null,
+  preparing: false,
   target: null
 };
 
@@ -78,22 +78,6 @@ async function messageTarget(message) {
   }
 }
 
-async function recordPreparation(result, target) {
-  const data = await chrome.storage.local.get(preparationHistoryKey);
-  const history = Array.isArray(data[preparationHistoryKey]) ? data[preparationHistoryKey] : [];
-  const report = result.tokenReport || {};
-  history.unshift({
-    at: new Date().toISOString(),
-    target: target.id,
-    strategy: result.strategy || "pass-through",
-    rawTokens: Number(report.rawInputTokens || 0),
-    preparedTokens: Number(report.optimizedPromptTokens || 0),
-    savedTokens: Number(report.estimatedSavingsTokens || 0),
-    modelCalls: Number(report.modelCalls || 0)
-  });
-  await chrome.storage.local.set({ [preparationHistoryKey]: history.slice(0, 50) });
-}
-
 function renderMetrics(result) {
   const report = result?.tokenReport || {};
   const raw = Number(report.rawInputTokens || 0);
@@ -121,6 +105,34 @@ function updateDraftTokenPill() {
   el("tokenPill").textContent = raw ? `${raw} raw` : "0 tokens";
 }
 
+function hasPreparationConsent() {
+  return Boolean(el("dataConsent")?.checked);
+}
+
+function syncDataConsentControls() {
+  const consented = hasPreparationConsent();
+  const disabled = state.preparing || !consented;
+  [el("rawPrompt"), el("capturePrompt"), el("optimizePrompt"), el("optimizeInsert")].forEach((button) => {
+    button.disabled = disabled;
+  });
+  el("rawPrompt").placeholder = consented
+    ? "Paste the rough prompt here, or capture it after focusing the assistant's prompt box."
+    : "Agree to the data notice, then paste or capture a rough prompt.";
+}
+
+function handleConsentChange() {
+  if (!hasPreparationConsent()) {
+    el("rawPrompt").value = "";
+    el("optimizedPrompt").value = "";
+    el("metrics").hidden = true;
+    el("routeNote").hidden = true;
+    el("tokenPill").textContent = "0 tokens";
+    state.lastResult = null;
+    setStatus("Ready", "Consent required before prompt handling", "Review the data notice and check the agreement box to continue.", false, "capture");
+  }
+  syncDataConsentControls();
+}
+
 async function checkConnection() {
   try {
     const { response, target } = await messageTarget({ type: "TOKEN_OPTIMIZER_PING" });
@@ -128,11 +140,12 @@ async function checkConnection() {
     setStatus("Ready", `${target.label} wrapper connected`, "Capture a rough prompt or prepare and insert it in one click.", false, "capture");
   } catch (error) {
     el("connectionPill").textContent = "No assistant";
-    setStatus("Ready", "Open Gemini or ChatGPT to connect", error.message, false, "capture");
+    setStatus("Ready", "Open Gemini™ or ChatGPT to connect", error.message, false, "capture");
   }
 }
 
 async function capturePrompt({ quiet = false } = {}) {
+  if (!hasPreparationConsent()) throw new Error("Consent is required before prompt capture.");
   if (!quiet) setStatus("Capture", "Capturing the active prompt", "Reading the selected text or prompt box.", true, "capture");
   const { response, target } = await messageTarget({ type: "TOKEN_OPTIMIZER_CAPTURE" });
   if (!response?.ok) throw new Error(response?.message || `No ${target.label} prompt text found.`);
@@ -154,14 +167,13 @@ async function rawPromptForPreparation() {
   return prompt;
 }
 
-async function requestPreparation(rawPrompt, target) {
+async function requestPreparation(rawPrompt) {
   const response = await fetch(PREPARE_ENDPOINT, {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify({
       input: rawPrompt,
       source: "browser-extension",
-      target: target.id,
       options: { routePreference: "auto" }
     })
   });
@@ -183,24 +195,28 @@ async function insertPreparedPrompt(prompt) {
 }
 
 async function preparePrompt({ insert = false } = {}) {
-  const buttons = [el("optimizePrompt"), el("optimizeInsert")];
-  buttons.forEach((button) => { button.disabled = true; });
+  if (!hasPreparationConsent()) {
+    setStatus("Ready", "Consent required before preparation", "Review the data notice and check the agreement box first.", false, "prepare");
+    return;
+  }
+  state.preparing = true;
+  syncDataConsentControls();
   try {
     const rawPrompt = await rawPromptForPreparation();
     const { target } = await currentContext();
-    setStatus("Prepare", "Preparing a clean handoff", "Removing repeated wrapper text without running another model.", true, "prepare");
-    const result = await requestPreparation(rawPrompt, target);
+    setStatus("Prepare", "Preparing securely", "Using Token Optimizer's deterministic service without running an AI model.", true, "prepare");
+    const result = await requestPreparation(rawPrompt);
     state.lastResult = result;
     el("optimizedPrompt").value = result.optimizedPrompt;
     renderMetrics(result);
-    await recordPreparation(result, target);
     setStatus("Prepared", "Prompt ready", "No preparation model call was used.", false, "handoff");
     toast("Prompt ready");
     if (insert) await insertPreparedPrompt(result.optimizedPrompt);
   } catch (error) {
     setStatus("Error", "Could not prepare the prompt", error.message, false, "review");
   } finally {
-    buttons.forEach((button) => { button.disabled = false; });
+    state.preparing = false;
+    syncDataConsentControls();
   }
 }
 
@@ -230,6 +246,7 @@ function bindEvents() {
     insertPreparedPrompt(prompt).catch((error) => setStatus("Error", "Insert failed", error.message, false, "insert"));
   });
   el("copyPrepared").addEventListener("click", copyPrepared);
+  el("dataConsent").addEventListener("change", handleConsentChange);
   el("rawPrompt").addEventListener("input", () => {
     state.lastResult = null;
     updateDraftTokenPill();
@@ -239,7 +256,7 @@ function bindEvents() {
       const target = state.target?.label || "the assistant";
       const messages = {
         capture: ["Capture", "Capture or paste", "Bring the rough prompt into the wrapper."],
-        prepare: ["Prepare", "Prepare locally", "Remove repetition without calling another model."],
+        prepare: ["Prepare", "Prepare securely", "Send only after consent; no AI model is called."],
         handoff: ["Ready", "Review the prepared prompt", "Copy it or insert it into the active assistant."],
         insert: ["Insert", `Insert into ${target}`, "Place the prompt without submitting it."],
         review: ["Review", "Review before sending", "The wrapper never submits the assistant message for you."]
@@ -252,6 +269,7 @@ function bindEvents() {
 
 async function init() {
   bindEvents();
+  syncDataConsentControls();
   updateDraftTokenPill();
   await checkConnection();
 }

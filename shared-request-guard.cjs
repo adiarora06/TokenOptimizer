@@ -196,6 +196,7 @@ if reset <= now then
   redis.call('HSET', KEYS[1], 'count', count, 'reset', reset)
   redis.call('PEXPIRE', KEYS[1], window + 2000)
   redis.call('ZADD', KEYS[2], reset, KEYS[1])
+  redis.call('PEXPIRE', KEYS[2], window + 2000)
 else
   count = tonumber(redis.call('HINCRBY', KEYS[1], 'count', 1))
 end

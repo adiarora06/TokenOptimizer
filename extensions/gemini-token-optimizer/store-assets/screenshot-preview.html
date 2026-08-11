@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1280, initial-scale=1">
+  <title>Token Optimizer Chrome Web Store Screenshot</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    html,
+    body {
+      width: 1280px;
+      height: 800px;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    body {
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle at 12% 10%, rgba(90, 125, 255, 0.18), transparent 30%),
+        linear-gradient(145deg, #f5f7ff 0%, #e8efff 100%);
+      color: #18202f;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .browser {
+      width: 1180px;
+      height: 710px;
+      overflow: hidden;
+      border: 1px solid #cfd8eb;
+      border-radius: 18px;
+      background: #ffffff;
+      box-shadow: 0 28px 80px rgba(39, 61, 112, 0.2);
+    }
+
+    .browser-bar {
+      display: flex;
+      height: 46px;
+      gap: 14px;
+      align-items: center;
+      padding: 0 15px;
+      border-bottom: 1px solid #dfe4ee;
+      background: #f8f9fc;
+    }
+
+    .browser-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .browser-dots span {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #c6ccda;
+    }
+
+    .address {
+      flex: 1;
+      border: 1px solid #dfe4ee;
+      border-radius: 999px;
+      background: #ffffff;
+      color: #717b90;
+      font-size: 12px;
+      padding: 7px 13px;
+    }
+
+    .workspace {
+      display: grid;
+      height: calc(100% - 46px);
+      grid-template-columns: minmax(0, 1fr) 455px;
+    }
+
+    .assistant {
+      position: relative;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 22px;
+      min-width: 0;
+      padding: 26px 30px 24px;
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.88)),
+        radial-gradient(circle at 50% 0%, #dfe9ff 0%, transparent 65%);
+    }
+
+    .assistant-head {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .assistant-mark {
+      display: grid;
+      width: 36px;
+      height: 36px;
+      place-items: center;
+      border-radius: 10px;
+      background: #18202f;
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .assistant-head strong {
+      display: block;
+      font-size: 14px;
+    }
+
+    .assistant-head span,
+    .eyebrow,
+    .hint {
+      color: #727c90;
+      font-size: 12px;
+    }
+
+    .conversation {
+      display: grid;
+      align-content: center;
+      justify-items: start;
+      gap: 14px;
+      width: min(590px, 100%);
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      color: #2557d6;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 530px;
+      margin: 0;
+      font-size: 40px;
+      line-height: 1.04;
+      letter-spacing: -0.035em;
+    }
+
+    .bubble {
+      max-width: 555px;
+      border: 1px solid #dfe4ee;
+      border-radius: 18px 18px 5px 18px;
+      background: #ffffff;
+      box-shadow: 0 12px 30px rgba(24, 32, 47, 0.07);
+      color: #424c61;
+      font-size: 15px;
+      line-height: 1.55;
+      padding: 18px 20px;
+    }
+
+    .compose {
+      display: flex;
+      width: min(610px, 100%);
+      gap: 12px;
+      align-items: center;
+      margin: 0 auto;
+      border: 1px solid #cfd7e8;
+      border-radius: 18px;
+      background: #ffffff;
+      box-shadow: 0 8px 24px rgba(24, 32, 47, 0.07);
+      padding: 14px 16px;
+    }
+
+    .compose p {
+      flex: 1;
+      margin: 0;
+      color: #9aa2b1;
+      font-size: 14px;
+    }
+
+    .send {
+      display: grid;
+      width: 32px;
+      height: 32px;
+      place-items: center;
+      border-radius: 9px;
+      background: #18202f;
+      color: white;
+      font-weight: 900;
+    }
+
+    .sidepanel-frame {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      border-left: 1px solid #dfe4ee;
+      background: #f7f8fb;
+    }
+  </style>
+</head>
+<body>
+  <section class="browser" aria-label="Token Optimizer running beside a supported AI assistant">
+    <div class="browser-bar">
+      <div class="browser-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+      <div class="address">Supported AI assistant · Token Optimizer side panel open</div>
+    </div>
+    <div class="workspace">
+      <main class="assistant">
+        <header class="assistant-head">
+          <div class="assistant-mark">AI</div>
+          <div><strong>AI assistant</strong><span>Message stays unsent until you choose</span></div>
+        </header>
+        <section class="conversation">
+          <span class="eyebrow">Cleaner prompts, before sending</span>
+          <h1>Turn a repetitive request into a clear handoff.</h1>
+          <div class="bubble">Build an extendable browser wrapper for AI applications. Keep provider keys out of the extension. Keep provider keys out of the extension. Insert prompts only after a user action. Insert prompts only after a user action.</div>
+          <span class="hint">Token Optimizer prepares the prompt without calling another AI model.</span>
+        </section>
+        <div class="compose">
+          <p>The prepared prompt can be inserted here—never auto-sent.</p>
+          <div class="send">↑</div>
+        </div>
+      </main>
+      <iframe class="sidepanel-frame" title="Token Optimizer side panel" src="../sidepanel.html"></iframe>
+    </div>
+  </section>
+  <script>
+    const frame = document.querySelector("iframe");
+    frame.addEventListener("load", () => {
+      const doc = frame.contentDocument;
+      const style = doc.createElement("style");
+      style.textContent = `
+        .shell { gap: 8px; padding: 10px; }
+        .header { padding: 10px; }
+        .status { padding: 9px; }
+        .rail { margin-top: 7px; }
+        .panel { gap: 7px; padding: 9px; }
+        textarea { min-height: 62px; }
+        #optimizedPrompt { min-height: 68px; }
+        .data-disclosure { gap: 5px; padding: 8px; }
+        .actions { gap: 6px; }
+        button { min-height: 31px; padding: 6px 8px; }
+        .compact { display: none; }
+      `;
+      doc.head.appendChild(style);
+
+      const byId = (id) => doc.getElementById(id);
+      byId("connectionPill").textContent = "ChatGPT ready";
+      byId("statusPhase").textContent = "Prepared";
+      byId("statusTitle").textContent = "Prompt ready";
+      byId("statusDetail").textContent = "No preparation model call was used.";
+      byId("rawPrompt").disabled = false;
+      byId("rawPrompt").value = "Build an extendable browser wrapper for AI applications.\nKeep provider keys out of the extension.\nKeep provider keys out of the extension.\nInsert prompts only after a user action.\nInsert prompts only after a user action.";
+      byId("optimizedPrompt").value = "Build an extendable browser wrapper for AI applications.\nKeep provider keys out of the extension.\nInsert prompts only after a user action.";
+      byId("dataConsent").checked = true;
+      byId("capturePrompt").disabled = false;
+      byId("optimizePrompt").disabled = false;
+      byId("optimizeInsert").disabled = false;
+      byId("tokenPill").textContent = "35 ready";
+      byId("rawTokenMetric").textContent = "55";
+      byId("readyTokenMetric").textContent = "35";
+      byId("savedTokenMetric").textContent = "20 (36%)";
+      byId("modelCallMetric").textContent = "0";
+      byId("metrics").hidden = false;
+      byId("routeNote").textContent = "Direct route · Prepared without calling a model.";
+      byId("routeNote").hidden = false;
+      doc.querySelectorAll("[data-stage]").forEach((step) => step.removeAttribute("aria-current"));
+      doc.querySelector('[data-stage="handoff"]').setAttribute("aria-current", "step");
+    });
+  </script>
+</body>
+</html>
