@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Token Optimizer",
   "version": "0.2.0",
-  "description": "Optimize messy prompts in a side panel before inserting them into Gemini or ChatGPT.",
+  "description": "Optimize messy prompts in a side panel before inserting them into Gemini™ or ChatGPT.",
   "minimum_chrome_version": "114",
   "icons": {
     "16": "icons/icon-16.png",
@@ -27,8 +27,7 @@
     "extension_pages": "script-src 'self'; object-src 'self'; connect-src 'self' https://tok-pi-gilt.vercel.app"
   },
   "permissions": [
-    "sidePanel",
-    "storage"
+    "sidePanel"
   ],
   "host_permissions": [
     "https://gemini.google.com/*",

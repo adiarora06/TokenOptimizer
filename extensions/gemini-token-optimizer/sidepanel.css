@@ -210,6 +210,51 @@ textarea {
   justify-content: flex-end;
 }
 
+.data-disclosure {
+  display: grid;
+  gap: 7px;
+  border: 1px solid #b8c8ef;
+  border-radius: 8px;
+  background: var(--brand-soft);
+  padding: 10px;
+}
+
+.data-disclosure strong {
+  font-size: 13px;
+}
+
+.data-disclosure p,
+.data-disclosure span,
+.data-disclosure a {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.data-disclosure a {
+  width: fit-content;
+  color: var(--brand);
+  font-weight: 850;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.consent-row {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  margin: 0;
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.consent-row input {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+  margin: 0;
+  accent-color: var(--brand);
+}
+
 .metrics {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -333,6 +378,10 @@ label {
     border-color: var(--line);
     background: #292d33;
     color: var(--text);
+  }
+
+  .data-disclosure {
+    border-color: #40527d;
   }
 
   button.primary {

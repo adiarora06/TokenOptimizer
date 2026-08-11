@@ -1,14 +1,15 @@
-# Publishing Token Optimizer for Gemini and ChatGPT
+# Publishing Token Optimizer for Gemini™ and ChatGPT
 
 This extension is not deployed by Vercel. Vercel hosts the Token Optimizer web app and API. The assistant wrapper is a Chrome extension package in this folder that must be uploaded to the Chrome Web Store Developer Dashboard.
 
 ## Current Wrapper
 
 - Manifest V3 side-panel extension.
-- Runs on Gemini and ChatGPT.
+- Runs on Gemini™ and ChatGPT.
 - Uses the deployed preparation-only Token Optimizer endpoint.
 - Makes zero provider model calls while preparing a prompt.
 - Captures or accepts prompt text only after user action.
+- Shows the data-use disclosure and requires explicit consent before preparation.
 - Inserts an optimized prompt into the active assistant only after user action.
 - Does not auto-send assistant messages.
 - Does not store provider API keys in the extension.
@@ -22,7 +23,7 @@ The extension is useful as an inspectable wrapper example:
 - `sidepanel.html`, `sidepanel.css`, `sidepanel.js`: the extension UI and prepare/insert workflow.
 - `platforms.js`: supported-site metadata for the side panel.
 - `content-bridge.js`: reusable capture/insert message contract.
-- `adapters/gemini.js`: the Gemini DOM adapter.
+- `adapters/gemini.js`: the Gemini™ DOM adapter.
 - `ADAPTERS.md`: the contract for future AI assistant adapters.
 - `service-worker.js`: side-panel enablement for supported assistant tabs.
 
@@ -30,12 +31,12 @@ The extension is useful as an inspectable wrapper example:
 
 1. Finalize extension name and avoid Google endorsement wording.
 2. Keep the single purpose narrow: optimize prompts before inserting them into supported assistants.
-3. Keep permissions narrow: `sidePanel`, `storage`, the enabled assistant origins, and the optimizer API origin.
+3. Keep permissions narrow: `sidePanel`, the enabled assistant origins, and the optimizer API origin.
 4. Add a public privacy policy page.
 5. Include a Limited Use disclosure for prompt/user data.
-6. Add screenshots and upload the generated store listing assets from `store-assets/`.
+6. Upload the screenshot and generated listing assets from `store-assets/`.
 7. Test local unpacked install on a fresh Chrome profile.
-8. Package the extension zip from this folder.
+8. Run the reproducible package command from the repository root.
 9. Upload the zip in the Chrome Web Store Developer Dashboard.
 10. Fill out Package, Store Listing, Privacy, and Distribution tabs.
 11. Submit for review.
@@ -50,7 +51,7 @@ The privacy policy should plainly say:
 - The extension does not sell user data.
 - The extension does not use prompt data for unrelated advertising or tracking.
 - The extension does not store provider API keys.
-- The extension stores preparation metrics locally to show usage history; it does not persist raw prompts.
+- Token counts and preparation strategy remain only in the current side-panel session; the extension stores no usage history or prompt text.
 
 ## Local Test Notes
 
@@ -72,16 +73,14 @@ Manual testing through `chrome://extensions` still uses the normal **Load unpack
 
 ## Package Command
 
-From this folder:
+From the repository root:
 
 ```bash
-zip -r ../../gemini-token-optimizer-mvp.zip \
-  manifest.json service-worker.js content-bridge.js platforms.js adapters \
-  sidepanel.html sidepanel.css sidepanel.js icons \
-  README.md ADAPTERS.md PUBLISHING.md
+npm run test:extension
+npm run package:extension
 ```
 
-Upload the generated zip through the Chrome Web Store Developer Dashboard.
+Upload `token-optimizer-chrome-v0.2.0.zip` through the Chrome Web Store Developer Dashboard. The builder uses a sorted runtime allowlist, includes `prompt-compiler.js`, normalizes package metadata, checks all local references, validates the ZIP, and prints its SHA-256 checksum.
 
 ## Store Listing Assets
 
@@ -89,8 +88,29 @@ Ready-to-upload listing copy and promo graphics live in `store-assets/`:
 
 - `store-listing.md`
 - `store-icon-128.png`
-- `small-promo-tile-440x280.png`
-- `marquee-promo-tile-1400x560.png`
+- `screenshot-token-optimizer-1280x800.jpg`
+- `small-promo-tile-440x280.jpg`
+- `marquee-promo-tile-1400x560.jpg`
+
+## Dashboard Values
+
+- Primary category: **Workflow & Planning**
+- Language: **English (United States)**
+- Distribution: **Public**, all regions
+- Remote code: **No**. All executable JavaScript is packaged with the extension; the preparation API returns data, not code.
+- User data handled: **Website content** and **Personal communications** (only prompt text the user pastes or explicitly captures), **Personally identifiable information** (network address processed for service delivery/security), and **User activity** (request time, route, and status for security and rate limiting).
+- Privacy policy: `https://tok-pi-gilt.vercel.app/privacy`
+- Limited Use: certify every applicable statement only after confirming it matches the published privacy policy.
+
+## Reviewer Test Instructions
+
+1. Open Gemini™ or ChatGPT in Chrome. The extension itself requires no login.
+2. Open the Token Optimizer side panel.
+3. Review the prominent data-use disclosure and check the consent box.
+4. Paste the repeated-line example from `store-assets/store-listing.md` under **Reviewer Test Instructions**.
+5. Click **Prepare only**. Confirm that a shorter prepared prompt and token metrics appear.
+6. Click **Insert into assistant**. Confirm that the text is inserted but not submitted.
+7. Clear the consent box or reopen the side panel. Confirm the prompt fields clear and all prompt input, capture, and preparation controls stay disabled until consent is given again.
 
 ## Publication Types
 
@@ -98,4 +118,4 @@ Ready-to-upload listing copy and promo graphics live in `store-assets/`:
 - Unlisted: installable by link, not searchable.
 - Private/trusted tester: limited access for testing or organization-only use.
 
-Start with unlisted or trusted testers if the Gemini selector needs more real-world testing.
+Use Public for the initial submission. Chrome review controls when the listing becomes available; the extension can remain unpublished until review succeeds.

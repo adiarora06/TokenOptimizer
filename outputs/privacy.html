@@ -231,9 +231,9 @@
     <section class="hero">
       <span class="eyebrow">Privacy Policy</span>
       <h1>Token Optimizer Privacy Policy</h1>
-      <p class="lede">This policy explains how Token Optimizer and the Token Optimizer for Gemini and ChatGPT Chrome extension handle prompt text and related data.</p>
+      <p class="lede">This policy explains how Token Optimizer and the Token Optimizer for Gemini™ and ChatGPT Chrome extension handle prompt text and related data.</p>
       <div class="meta">
-        <span class="pill">Effective date: August 3, 2026</span>
+        <span class="pill">Effective date: August 10, 2026</span>
         <span class="pill">Single purpose: prompt optimization</span>
         <span class="pill">No auto-send</span>
       </div>
@@ -244,15 +244,17 @@
         <h2>Plain Summary</h2>
         <ul>
           <li>Prompt text is sent to Token Optimizer only when you click a <strong>Prepare</strong> action.</li>
+          <li>Prompt input and capture stay disabled until you agree to the visible data-use notice.</li>
           <li>Extension preparation uses deterministic processing and does not call a provider AI model.</li>
+          <li>Raw and prepared prompt text is processed for the response and is not stored by Token Optimizer.</li>
           <li>Nothing is sent to Token Optimizer when you capture text from or insert text into a supported assistant.</li>
-          <li>The extension does not auto-send Gemini or ChatGPT messages.</li>
+          <li>The extension does not auto-send Gemini™ or ChatGPT messages.</li>
           <li>The extension does not store provider API keys, passwords, or account credentials.</li>
         </ul>
       </article>
       <article class="panel">
         <h2>Single Purpose</h2>
-        <p>Token Optimizer for Gemini and ChatGPT has one purpose: helping users clean up, shorten, and clarify prompt text before inserting the reviewed result into a supported assistant.</p>
+        <p>Token Optimizer for Gemini™ and ChatGPT has one purpose: helping users clean up, shorten, and clarify prompt text before inserting the reviewed result into a supported assistant.</p>
       </article>
     </section>
 
@@ -260,10 +262,10 @@
       <article class="panel">
         <h2>Data We Process</h2>
         <ul>
-          <li><strong>Prompt text:</strong> text you paste into Token Optimizer or ask the extension to capture from Gemini or ChatGPT.</li>
+          <li><strong>Prompt text:</strong> text you paste into Token Optimizer or ask the extension to capture from Gemini™ or ChatGPT.</li>
           <li><strong>Optimized prompt output:</strong> the rewritten prompt returned by Token Optimizer so you can review, copy, or insert it.</li>
-          <li><strong>Local browser data:</strong> the extension stores preparation metrics such as token counts, target assistant, strategy, and time. It does not persist raw or prepared prompt text.</li>
-          <li><strong>Operational request data:</strong> basic technical information may be processed by hosting infrastructure to deliver, secure, and debug the service.</li>
+          <li><strong>Current-session display data:</strong> token counts, preparation strategy, and prepared output are held only in the open side panel. The extension stores no prompt text or usage history.</li>
+          <li><strong>Operational request data:</strong> hosting infrastructure processes network address, time, route, status, and similar technical information to deliver, secure, rate-limit, and debug the service. Token Optimizer may create a short-lived keyed, pseudonymous rate-limit identifier from the network address.</li>
         </ul>
       </article>
 
@@ -279,16 +281,16 @@
 
       <article class="panel">
         <h2>Data Sharing</h2>
-        <p>The extension's preparation endpoint processes prompt text without sending it to a provider AI model. Provider AI model processing occurs only when a user separately chooses to execute a task in the Token Optimizer workspace or sends the prepared prompt in Gemini or ChatGPT. We do not sell user data. We do not use or transfer user data for advertising, creditworthiness, lending, or unrelated purposes.</p>
+        <p>The extension's preparation endpoint processes prompt text without sending it to a provider AI model. The identity of the supported assistant stays in the browser and is not sent to the preparation service. Vercel hosts the Token Optimizer service and necessarily processes prompt text in transit and in memory to return the prepared result. If shared abuse protection is enabled, Upstash processes pseudonymous, keyed rate-limit identifiers; prompt text is not stored in Upstash. Provider AI model processing occurs only when a user separately chooses to execute a task in the Token Optimizer workspace or sends the prepared prompt in Gemini™ or ChatGPT. We do not sell user data. We do not use or transfer user data for advertising, creditworthiness, lending, or unrelated purposes.</p>
       </article>
 
       <article class="panel">
         <h2>What We Do Not Collect</h2>
         <ul>
-          <li>We do not intentionally collect names, addresses, payment information, health information, passwords, or authentication credentials.</li>
+          <li>We do not intentionally collect names, postal addresses, payment information, health information, passwords, or authentication credentials. Network addresses are processed as operational request data as described above.</li>
           <li>We do not collect browsing history.</li>
           <li>We do not perform keystroke logging, mouse tracking, or general user activity monitoring.</li>
-          <li>We do not automatically read Gemini or ChatGPT conversations. Capture happens only when the user requests it.</li>
+          <li>We do not automatically read Gemini™ or ChatGPT conversations. Capture happens only when the user requests it after consent.</li>
         </ul>
       </article>
 
@@ -298,14 +300,24 @@
           <li>You choose when to paste or capture prompt text.</li>
           <li>You choose when to click Prepare only or Prepare &amp; insert.</li>
           <li>You choose whether to copy or insert the optimized prompt.</li>
-          <li>You choose when to send the message in Gemini or ChatGPT. The extension does not send it for you.</li>
-          <li>You can remove locally stored extension data by clearing the extension's site data or removing the extension.</li>
+          <li>You choose when to send the message in Gemini™ or ChatGPT. The extension does not send it for you.</li>
+          <li>You can clear current-session prompt and metric data by unchecking consent or closing the side panel.</li>
         </ul>
       </article>
 
       <article class="panel">
         <h2>Retention</h2>
-        <p>The extension stores preparation metrics locally in your browser but does not persist raw or prepared prompt text. Backend systems process prompt text to provide the preparation response and maintain service reliability. Token Optimizer does not use prompt text for advertising or resale.</p>
+        <p>The extension keeps current prompt text, prepared output, token counts, and strategy only in the open side-panel session; it stores no usage history. Token Optimizer processes prompt text in memory only for the time needed to return the preparation response and does not intentionally write it to application logs or a database. Pseudonymous rate-limit records expire shortly after their configured protection window. Hosting infrastructure may retain limited request metadata, such as time, route, status, and network address, under the host's security and retention controls.</p>
+      </article>
+
+      <article class="panel">
+        <h2>Deletion and User Requests</h2>
+        <p>You can clear current-session prompt and metric data by unchecking consent or closing the side panel. Because Token Optimizer does not retain raw or prepared prompt text or usage history, there is no server-side prompt archive or extension history to delete. For help with a privacy or deletion request, use the developer support contact shown on the Chrome Web Store listing. Do not place sensitive information in a public GitHub issue.</p>
+      </article>
+
+      <article class="panel">
+        <h2>Chrome Web Store Limited Use</h2>
+        <p>Token Optimizer's use and transfer of user data complies with the Chrome Web Store User Data Policy, including the Limited Use requirements. User data is used only to provide or improve the extension's single purpose and security. It is not used for personalized advertising, creditworthiness, lending, or unrelated purposes, and humans do not read prompt text except with the user's specific consent or when required for security or legal compliance.</p>
       </article>
 
       <article class="panel">
@@ -320,12 +332,12 @@
 
       <article class="panel">
         <h2>Contact</h2>
-        <p>For privacy questions, open an issue at <a class="contact" href="https://github.com/adiarora06/TokenOptimizer/issues">github.com/adiarora06/TokenOptimizer/issues</a>.</p>
+        <p>For general questions, open an issue at <a class="contact" href="https://github.com/adiarora06/TokenOptimizer/issues">github.com/adiarora06/TokenOptimizer/issues</a>. For private privacy questions or deletion requests, use the developer support contact shown on the Chrome Web Store listing and do not include sensitive information in a public issue.</p>
       </article>
 
       <article class="panel">
         <h2>Relationship to Assistant Providers</h2>
-        <p>Token Optimizer is not affiliated with, endorsed by, or sponsored by Google or OpenAI. Gemini is a trademark of Google LLC; ChatGPT is a trademark of OpenAI.</p>
+        <p>Token Optimizer is not affiliated with, endorsed by, or sponsored by Google or OpenAI. Gemini is a trademark of Google LLC. Use of this trademark is subject to Google Permissions. ChatGPT is a trademark of OpenAI.</p>
       </article>
     </section>
   </main>

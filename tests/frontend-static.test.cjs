@@ -8,8 +8,8 @@ const privacySource = fs.readFileSync(path.join(outputsDir, "privacy.html"), "ut
 const retiredGenerator = path.join(outputsDir, "token-optimizer-file-generator.html");
 const faviconPath = path.join(outputsDir, "favicon.svg");
 
-assert.match(privacySource, /Token Optimizer for Gemini and ChatGPT/);
-assert.match(privacySource, /does not persist raw or prepared prompt text/i);
+assert.match(privacySource, /Token Optimizer for Gemini™ and ChatGPT/);
+assert.match(privacySource, /raw and prepared prompt text is processed for the response and is not stored/i);
 assert.doesNotMatch(privacySource, /stores the latest raw prompt/i);
 assert.equal(fs.existsSync(retiredGenerator), false, "The retired browser-key generator must not be shipped.");
 assert.match(fs.readFileSync(faviconPath, "utf8"), /<svg\b/);
