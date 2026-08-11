@@ -40,9 +40,9 @@
     "semantic_hash": "e9de37ba0dfd73cdf59d741e9f6354ef"
   },
   "extensions/gemini-token-optimizer/adapters/gemini.js": {
-    "mtime": 1785719692.5883064,
-    "ast_hash": "8f016dffd39539e85f4885b554ac01c7",
-    "semantic_hash": "8f016dffd39539e85f4885b554ac01c7"
+    "mtime": 1786419781.2954535,
+    "ast_hash": "89c69ce5e203c25515219c1dbeea8db6",
+    "semantic_hash": "89c69ce5e203c25515219c1dbeea8db6"
   },
   "extensions/gemini-token-optimizer/content-bridge.js": {
     "mtime": 1785719692.5883725,
@@ -50,14 +50,14 @@
     "semantic_hash": "44c3a4231475cf6cbd665768d19bea13"
   },
   "extensions/gemini-token-optimizer/manifest.json": {
-    "mtime": 1785730229.4642706,
-    "ast_hash": "8e403212843e90d58aaa8b7315109c79",
-    "semantic_hash": "8e403212843e90d58aaa8b7315109c79"
+    "mtime": 1786419742.0423427,
+    "ast_hash": "aaacddfee08861bdc0b03dbbfa38bc99",
+    "semantic_hash": "aaacddfee08861bdc0b03dbbfa38bc99"
   },
   "extensions/gemini-token-optimizer/platforms.js": {
-    "mtime": 1785719692.588781,
-    "ast_hash": "6e15911f1e56a2be02595913e712962a",
-    "semantic_hash": "6e15911f1e56a2be02595913e712962a"
+    "mtime": 1786419781.2945087,
+    "ast_hash": "305291596e76a9b5a5e7beed58dc0ac9",
+    "semantic_hash": "305291596e76a9b5a5e7beed58dc0ac9"
   },
   "extensions/gemini-token-optimizer/service-worker.js": {
     "mtime": 1785730229.0786464,
@@ -65,9 +65,9 @@
     "semantic_hash": "3a05c48a12ae43e7dc2ccd10d103314d"
   },
   "extensions/gemini-token-optimizer/sidepanel.js": {
-    "mtime": 1786055064.5007808,
-    "ast_hash": "2fa7d07a1fc9f73f8088f01b536e6b48",
-    "semantic_hash": "2fa7d07a1fc9f73f8088f01b536e6b48"
+    "mtime": 1786419781.2926273,
+    "ast_hash": "b7017a0f44373310b30e91bb60441f4c",
+    "semantic_hash": "b7017a0f44373310b30e91bb60441f4c"
   },
   "extensions/gemini-token-optimizer/tests/content-gemini.test.cjs": {
     "mtime": 1785719692.5899055,
@@ -75,9 +75,9 @@
     "semantic_hash": "8cb57242eb46e3ae7afabcde20107080"
   },
   "extensions/gemini-token-optimizer/tests/sidepanel-logic.test.cjs": {
-    "mtime": 1786055064.5013065,
-    "ast_hash": "5e52d1b7840fad1919db67eec126227a",
-    "semantic_hash": "5e52d1b7840fad1919db67eec126227a"
+    "mtime": 1786419742.0512285,
+    "ast_hash": "cf74ab08a696c0823dfe69d7a2bfeade",
+    "semantic_hash": "cf74ab08a696c0823dfe69d7a2bfeade"
   },
   "optimizer-core.cjs": {
     "mtime": 1786058558.1303127,
@@ -100,9 +100,9 @@
     "semantic_hash": "651530f303d138ed87075fb2598087b3"
   },
   "package.json": {
-    "mtime": 1786301917.0769887,
-    "ast_hash": "fab3c4472086572af689c91c2da76aee",
-    "semantic_hash": "fab3c4472086572af689c91c2da76aee"
+    "mtime": 1786418891.6943269,
+    "ast_hash": "41b0e764fbc796d6910609772cd7b5e1",
+    "semantic_hash": "41b0e764fbc796d6910609772cd7b5e1"
   },
   "request-guard.cjs": {
     "mtime": 1786303141.197448,
@@ -195,9 +195,9 @@
     "semantic_hash": "e15fe811b78cf35a4c475585bd3decbc"
   },
   "tests/frontend-static.test.cjs": {
-    "mtime": 1785781364.3154325,
-    "ast_hash": "492a0c34e2ae0a2f35e9a75250a806ff",
-    "semantic_hash": "492a0c34e2ae0a2f35e9a75250a806ff"
+    "mtime": 1786420148.318488,
+    "ast_hash": "6edd16cc0cc9f0309979aeb398e652f6",
+    "semantic_hash": "6edd16cc0cc9f0309979aeb398e652f6"
   },
   ".github/workflows/ci.yml": {
     "mtime": 1785719692.5859432,
@@ -307,16 +307,6 @@
   "extensions/gemini-token-optimizer/icons/icon-48.png": {
     "mtime": 1785719692.5886688,
     "ast_hash": "e88b6f4e509b8cf811037f4425e47276",
-    "semantic_hash": ""
-  },
-  "extensions/gemini-token-optimizer/store-assets/marquee-promo-tile-1400x560.png": {
-    "mtime": 1785719692.589289,
-    "ast_hash": "aeadb6eafba4914b48513d63facd9019",
-    "semantic_hash": ""
-  },
-  "extensions/gemini-token-optimizer/store-assets/small-promo-tile-440x280.png": {
-    "mtime": 1785719692.5893703,
-    "ast_hash": "1a4b29d238910f227de78a0b364a5e2b",
     "semantic_hash": ""
   },
   "extensions/gemini-token-optimizer/store-assets/store-icon-128.png": {
@@ -430,9 +420,9 @@
     "semantic_hash": "c5ed65f5ddc3abb56d2029f2f9483717"
   },
   "shared-request-guard.cjs": {
-    "mtime": 1786303172.267384,
-    "ast_hash": "1e8a9f54739b5a12233eade6e17f912f",
-    "semantic_hash": "1e8a9f54739b5a12233eade6e17f912f"
+    "mtime": 1786418891.696517,
+    "ast_hash": "fea8d50ad03853c9ce1cf86048b878af",
+    "semantic_hash": "fea8d50ad03853c9ce1cf86048b878af"
   },
   "tests/redis-lua-smoke.test.cjs": {
     "mtime": 1786302432.919308,
@@ -443,5 +433,15 @@
     "mtime": 1786303159.2299023,
     "ast_hash": "2681e595f16d968b0791be2cf32c8846",
     "semantic_hash": "2681e595f16d968b0791be2cf32c8846"
+  },
+  "extensions/gemini-token-optimizer/tests/package.test.cjs": {
+    "mtime": 1786419755.3466806,
+    "ast_hash": "8f1e2ba57bfe4bc69d81f77d4fa89fe9",
+    "semantic_hash": "8f1e2ba57bfe4bc69d81f77d4fa89fe9"
+  },
+  "scripts/package-chrome-extension.cjs": {
+    "mtime": 1786419353.5069926,
+    "ast_hash": "513e172fa6126e0743cbbe8627ebe76d",
+    "semantic_hash": "513e172fa6126e0743cbbe8627ebe76d"
   }
 }
