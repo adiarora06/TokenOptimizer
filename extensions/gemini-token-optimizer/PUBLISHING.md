@@ -98,7 +98,7 @@ Ready-to-upload listing copy and promo graphics live in `store-assets/`:
 - Language: **English (United States)**
 - Distribution: **Public**, all regions
 - Remote code: **No**. All executable JavaScript is packaged with the extension; the preparation API returns data, not code.
-- User data handled: **Website content** and **Personal communications** (only prompt text the user pastes or explicitly captures), **Personally identifiable information** (network address processed for service delivery/security), and **User activity** (request time, route, and status for security and rate limiting).
+- User data handled: **Website content** and **Personal communications** (only prompt text the user pastes or explicitly captures), **Personally identifiable information** and **Location** (network address processed for service delivery/security; no precise device location requested), and **User activity** (request time, route, and status for security and rate limiting).
 - Privacy policy: `https://tok-pi-gilt.vercel.app/privacy`
 - Limited Use: certify every applicable statement only after confirming it matches the published privacy policy.
 

@@ -49,6 +49,7 @@ Privacy and data use:
 - Token counts and strategy are shown only in the current side-panel session; no prompt text or usage history is stored.
 
 Token Optimizer is not affiliated with, endorsed by, or sponsored by Google or OpenAI.
+Gemini is a trademark of Google LLC. Use of this trademark is subject to Google Permissions.
 
 ## Single Purpose Statement
 
@@ -77,7 +78,7 @@ Token Optimizer prepares user-provided prompt text and inserts the reviewed resu
 - Financial and payment information: No.
 - Health information: No intentional collection; users are told not to submit sensitive information.
 - Personal communications: Yes. Only prompt text the user pastes or explicitly captures from a supported assistant composer is handled; conversations are never read automatically.
-- Location: No.
+- Location: Yes. Hosting infrastructure processes a network address for service delivery, security, and rate limiting; Token Optimizer does not request precise device location.
 - Web history: No. The supported assistant identity stays in the browser and is not sent to the preparation service.
 
 ## Data Use Certifications
