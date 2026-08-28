@@ -10,6 +10,7 @@
   },
   "scripts": {
     "start": "node server.cjs",
+    "clean": "node scripts/clean.cjs",
     "sync:compiler": "node scripts/sync-prompt-compiler.cjs",
     "package:extension": "npm run sync:compiler && node scripts/package-chrome-extension.cjs",
     "eval": "node evals/run-evals.cjs",
