@@ -12,7 +12,7 @@ Clean up messy prompts before inserting them into Gemini™ or ChatGPT.
 
 Token Optimizer is a focused side-panel extension that helps you turn rough, long, or repetitive prompts into cleaner input for Gemini™ or ChatGPT before you send anything.
 
-Instead of pasting a messy prompt directly into an assistant, open Token Optimizer beside Gemini™ or ChatGPT, capture or paste your prompt, and choose Prepare only or Prepare & insert. Preparation does not call another AI model. The extension does not auto-send messages; you stay in control and review the final prompt first.
+Instead of pasting a messy prompt directly into an assistant, open Token Optimizer beside Gemini™ or ChatGPT, capture or paste your prompt, and click Prepare prompt. Preparation does not call another AI model. The extension highlights what changed and never auto-sends a message; you stay in control of the final handoff.
 
 This is designed for people who use AI tools for coding, research, writing, planning, debugging, and multi-step work. It helps reduce prompt clutter, remove repeated instructions, preserve the actual task, and keep the final prompt easier for the assistant to follow.
 
@@ -21,8 +21,10 @@ Key features:
 - Capture prompt text from Gemini™ or ChatGPT, or paste it manually.
 - Optimize long, repetitive, or messy prompts into concise assistant-ready input.
 - Prepare prompts without making a duplicate provider model call.
+- Review removed and added wording in a compact inline diff.
 - Insert the optimized prompt into the active assistant only after you choose to do so.
-- Keep the workflow visible with simple stages: Capture, Prepare, Ready, Insert, Review.
+- Keep the workflow visible with four simple stages: Capture, Prepare, Review, Insert.
+- Refresh the Gemini™ or ChatGPT connection automatically when tabs change.
 - Avoid auto-sending messages so you can inspect the final prompt before submitting.
 - Keep the extension narrow and focused on prompt cleanup for supported assistants.
 
@@ -31,9 +33,9 @@ How it works:
 1. Open Gemini™ or ChatGPT in Chrome.
 2. Open the Token Optimizer side panel.
 3. Paste your rough prompt or capture text from the assistant prompt box.
-4. Click Prepare only, or use Prepare & insert for the one-click path.
-5. Review the cleaned assistant-ready prompt.
-6. Copy it or insert it into the active assistant.
+4. Click Prepare prompt.
+5. Review the highlighted changes and cleaned assistant-ready prompt.
+6. Copy it or insert it into the currently connected assistant.
 7. Send only when you are ready.
 
 Privacy and data use:
@@ -106,8 +108,8 @@ Select **No, I am not using remote code**. All JavaScript runs from files in the
    Insert prompts only after a user action.
    ```
 
-4. Click **Prepare only**.
-5. Confirm the duplicates are removed and the metrics report 55 original tokens, 35 prepared tokens, 20 saved tokens, and zero preparation model calls.
+4. Click **Prepare prompt**.
+5. Confirm the inline change review marks both duplicate lines as removed and the metrics report 55 original tokens, 35 prepared tokens, 20 saved tokens, and zero preparation model calls.
 6. Click **Insert into assistant** and confirm that the extension inserts but does not submit the prompt.
 7. Uncheck consent and confirm the prompt fields clear and prompt input/capture become disabled.
 8. No extension-specific account or test credentials are required.

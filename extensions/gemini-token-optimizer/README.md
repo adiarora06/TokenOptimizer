@@ -10,8 +10,10 @@ This is a local unpacked Chrome extension for preparing prompts beside Gemini™
 - Requires explicit in-product consent before a prompt can be sent for preparation.
 - Uses deterministic preparation with zero provider model calls.
 - Removes repeated wrapper text and preserves a reusable portable handoff.
+- Highlights removed and added wording before handoff.
 - Inserts the optimized prompt into the active assistant only when you click **Insert into assistant**.
-- Supports a one-click **Prepare & insert** action that never auto-submits the message.
+- Uses one clear preparation action, followed by an explicit Copy or Insert choice.
+- Refreshes the connected assistant automatically when you switch or reload tabs.
 - Does not auto-send assistant messages.
 - Shows token counts and preparation strategy for the current side-panel session without storing usage history or provider keys.
 
@@ -46,13 +48,13 @@ npm run test:extension
 npm run package:extension
 ```
 
-This builds `token-optimizer-chrome-v0.2.0.zip` from a fixed runtime allowlist, verifies every manifest and side-panel reference, checks the archive, and prints its SHA-256 checksum. Documentation, tests, and store artwork are intentionally kept out of the executable package.
+This builds `token-optimizer-chrome-v0.3.0.zip` from a fixed runtime allowlist, verifies every manifest and side-panel reference, checks the archive, and prints its SHA-256 checksum. Documentation, tests, and store artwork are intentionally kept out of the executable package.
 
 See `PUBLISHING.md` for the Chrome Web Store readiness checklist.
 
 ## Privacy Shape
 
-The extension does not store provider API keys. Prompt text is sent over HTTPS to the deterministic Token Optimizer preparation endpoint only after the user checks the visible consent box and clicks **Prepare only** or **Prepare & insert**. Raw and prepared prompt text is not retained by Token Optimizer. Token metrics remain only in the current side-panel session; no usage history is stored.
+The extension does not store provider API keys. Prompt text is sent over HTTPS to the deterministic Token Optimizer preparation endpoint only after the user checks the visible consent box and clicks **Prepare prompt**. Raw and prepared prompt text is not retained by Token Optimizer. Token metrics remain only in the current side-panel session; no usage history is stored.
 
 ## Extend The Wrapper
 

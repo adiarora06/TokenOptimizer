@@ -17,6 +17,7 @@ const {
   try {
     const manifest = validateSourceReferences();
     assert.deepEqual(manifest.permissions, ["sidePanel"]);
+    assert.equal(manifest.version, "0.3.0");
     assert(PACKAGE_FILES.includes("prompt-compiler.js"));
 
     const firstPath = path.join(temporaryRoot, "first.zip");
@@ -36,6 +37,10 @@ const {
     assert.match(sidepanel, /I understand and agree to this prompt, metric, and request-data handling/);
     assert.match(sidepanel, /<textarea id="rawPrompt" disabled/);
     assert.match(sidepanel, /<button id="capturePrompt" disabled/);
+    assert.match(sidepanel, /id="preparePrompt"/);
+    assert.match(sidepanel, /id="promptDiff"/);
+    assert.match(sidepanel, /Review changes/);
+    assert.doesNotMatch(sidepanel, /id="optimize(?:Prompt|Insert)"/);
     assert.match(sidepanel, /tok-pi-gilt\.vercel\.app\/privacy/);
 
     console.log(`extension package tests passed (${first.size} bytes, ${first.sha256.slice(0, 12)}…)`);

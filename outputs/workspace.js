@@ -17,6 +17,7 @@
     continuationContext: null,
     events: [],
     lastResult: null,
+    lastInput: "",
     lastPrompt: "",
     controller: null,
     startedAt: null,
@@ -140,9 +141,11 @@
 
   function refreshPreflight() {
     const input = contextInput();
+    const visiblePrompt = el("prompt").value.trim();
     const analysis = routeAnalysis(input, el("routePreference").value);
     el("tokenEstimate").textContent = `About ${compactNumber(analysis.tokens)} input tokens`;
-    if (!state.lastResult && !state.running) {
+    const draftChanged = input !== state.lastInput;
+    if ((!state.lastResult || draftChanged) && !state.running) {
       el("routeReason").textContent = input
         ? analysis.reason
         : "Automatic mode chooses the least expensive route that can still cover the request.";
@@ -155,6 +158,17 @@
         <div><dt>Output reserve</dt><dd>${compactNumber(analysis.tokenBudget.executorTarget)} tokens</dd></div>
         <div><dt>Policy</dt><dd>${analysis.policyVersion}</dd></div>
       `;
+      const hasRunnablePrompt = Boolean(visiblePrompt);
+      el("timelineSummary").dataset.state = "ready";
+      el("timelineSummary").querySelector(".summary-state").innerHTML = '<i class="ti ti-point-filled" aria-hidden="true"></i> Ready';
+      el("timelineSummary").querySelector("strong").textContent = hasRunnablePrompt ? "Prompt ready to run" : "Waiting for a prompt";
+      setLiveStatus(
+        hasRunnablePrompt ? "Ready to run" : "Ready",
+        hasRunnablePrompt
+          ? `${compactNumber(analysis.tokens)} estimated input tokens · ${routeLabel(analysis.route)} route planned.`
+          : "Paste a prompt to begin.",
+        "ready"
+      );
     }
   }
 
@@ -550,6 +564,7 @@
     }
 
     state.lastPrompt = visiblePrompt;
+    state.lastInput = input;
     state.lastResult = null;
     state.activeTraceId = makeId("trace");
     state.controller = new AbortController();

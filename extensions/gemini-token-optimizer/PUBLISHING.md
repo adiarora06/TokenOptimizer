@@ -11,6 +11,8 @@ This extension is not deployed by Vercel. Vercel hosts the Token Optimizer web a
 - Captures or accepts prompt text only after user action.
 - Shows the data-use disclosure and requires explicit consent before preparation.
 - Inserts an optimized prompt into the active assistant only after user action.
+- Shows an inline removed/added wording review before copy or insert.
+- Refreshes the supported-assistant connection when the user switches or reloads tabs.
 - Does not auto-send assistant messages.
 - Does not store provider API keys in the extension.
 - Does not expose local endpoint settings in the store package.
@@ -46,7 +48,7 @@ The extension is useful as an inspectable wrapper example:
 The privacy policy should plainly say:
 
 - Prompt text is user data.
-- Prompt text is sent to Token Optimizer only when the user clicks Prepare or Prepare & insert.
+- Prompt text is sent to Token Optimizer only when the user clicks **Prepare prompt**.
 - Prompt preparation is deterministic and does not call a provider model.
 - The extension does not sell user data.
 - The extension does not use prompt data for unrelated advertising or tracking.
@@ -80,7 +82,7 @@ npm run test:extension
 npm run package:extension
 ```
 
-Upload `token-optimizer-chrome-v0.2.0.zip` through the Chrome Web Store Developer Dashboard. The builder uses a sorted runtime allowlist, includes `prompt-compiler.js`, normalizes package metadata, checks all local references, validates the ZIP, and prints its SHA-256 checksum.
+Upload `token-optimizer-chrome-v0.3.0.zip` through the Chrome Web Store Developer Dashboard. The builder uses a sorted runtime allowlist, includes `prompt-compiler.js`, normalizes package metadata, checks all local references, validates the ZIP, and prints its SHA-256 checksum.
 
 ## Store Listing Assets
 
@@ -108,9 +110,10 @@ Ready-to-upload listing copy and promo graphics live in `store-assets/`:
 2. Open the Token Optimizer side panel.
 3. Review the prominent data-use disclosure and check the consent box.
 4. Paste the repeated-line example from `store-assets/store-listing.md` under **Reviewer Test Instructions**.
-5. Click **Prepare only**. Confirm that a shorter prepared prompt and token metrics appear.
+5. Click **Prepare prompt**. Confirm that the change review, shorter prepared prompt, and token metrics appear.
 6. Click **Insert into assistant**. Confirm that the text is inserted but not submitted.
-7. Clear the consent box or reopen the side panel. Confirm the prompt fields clear and all prompt input, capture, and preparation controls stay disabled until consent is given again.
+7. Switch to an unsupported tab and back. Confirm the connection label and Capture/Insert availability refresh without reopening the panel.
+8. Clear the consent box or reopen the side panel. Confirm the prompt fields clear and all prompt input, capture, and preparation controls stay disabled until consent is given again.
 
 ## Publication Types
 

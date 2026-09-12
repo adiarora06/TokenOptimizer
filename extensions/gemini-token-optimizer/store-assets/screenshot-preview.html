@@ -230,6 +230,7 @@
         .panel { gap: 7px; padding: 9px; }
         textarea { min-height: 62px; }
         #optimizedPrompt { min-height: 68px; }
+        .prompt-diff { max-height: 82px; }
         .data-disclosure { gap: 5px; padding: 8px; }
         .actions { gap: 6px; }
         button { min-height: 31px; padding: 6px 8px; }
@@ -239,16 +240,21 @@
 
       const byId = (id) => doc.getElementById(id);
       byId("connectionPill").textContent = "ChatGPT ready";
-      byId("statusPhase").textContent = "Prepared";
-      byId("statusTitle").textContent = "Prompt ready";
-      byId("statusDetail").textContent = "No preparation model call was used.";
+      byId("statusPhase").textContent = "Review";
+      byId("statusTitle").textContent = "Review what changed";
+      byId("statusDetail").textContent = "Copy the prepared prompt or insert it into ChatGPT.";
       byId("rawPrompt").disabled = false;
       byId("rawPrompt").value = "Build an extendable browser wrapper for AI applications.\nKeep provider keys out of the extension.\nKeep provider keys out of the extension.\nInsert prompts only after a user action.\nInsert prompts only after a user action.";
       byId("optimizedPrompt").value = "Build an extendable browser wrapper for AI applications.\nKeep provider keys out of the extension.\nInsert prompts only after a user action.";
       byId("dataConsent").checked = true;
+      byId("dataDisclosure").classList.add("accepted");
+      byId("dataDisclosureTitle").textContent = "Data notice accepted";
       byId("capturePrompt").disabled = false;
-      byId("optimizePrompt").disabled = false;
-      byId("optimizeInsert").disabled = false;
+      byId("capturePrompt").textContent = "Capture from ChatGPT";
+      byId("preparePrompt").disabled = false;
+      byId("copyPrepared").disabled = false;
+      byId("insertTarget").disabled = false;
+      byId("insertTarget").textContent = "Insert into ChatGPT";
       byId("tokenPill").textContent = "35 ready";
       byId("rawTokenMetric").textContent = "55";
       byId("readyTokenMetric").textContent = "35";
@@ -257,8 +263,19 @@
       byId("metrics").hidden = false;
       byId("routeNote").textContent = "Direct route · Prepared without calling a model.";
       byId("routeNote").hidden = false;
+      byId("diffSummary").textContent = "20 tokens removed · 0 added";
+      byId("diffView").hidden = false;
+      const diff = byId("promptDiff");
+      diff.replaceChildren();
+      diff.append("Build an extendable browser wrapper for AI applications.\nKeep provider keys out of the extension.\n");
+      const removed = doc.createElement("del");
+      removed.textContent = "Keep provider keys out of the extension.\n";
+      diff.append(removed, "Insert prompts only after a user action.\n");
+      const removedAgain = doc.createElement("del");
+      removedAgain.textContent = "Insert prompts only after a user action.";
+      diff.append(removedAgain);
       doc.querySelectorAll("[data-stage]").forEach((step) => step.removeAttribute("aria-current"));
-      doc.querySelector('[data-stage="handoff"]').setAttribute("aria-current", "step");
+      doc.querySelector('[data-stage="review"]').setAttribute("aria-current", "step");
     });
   </script>
 </body>

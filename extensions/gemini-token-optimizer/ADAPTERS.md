@@ -4,7 +4,7 @@ The extension keeps prompt preparation, side-panel UI, and site-specific DOM acc
 
 ## Layers
 
-- `sidepanel.js`: provider-neutral prepare, copy, insert, metrics, and local history flow.
+- `sidepanel.js`: provider-neutral capture, prepare, change review, copy, insert, and connection-refresh flow.
 - `platforms.js`: side-panel metadata used to recognize supported assistant URLs.
 - `content-bridge.js`: stable Chrome message contract shared by every site.
 - `adapters/gemini.js`: Gemini™ prompt discovery, capture, and insertion.

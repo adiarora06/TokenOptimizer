@@ -5,6 +5,8 @@ if (!compiler) throw new Error("Prompt compiler failed to load.");
 
 const state = {
   activeStage: "capture",
+  connectionCheckId: 0,
+  connectionRefreshTimer: null,
   lastResult: null,
   preparing: false,
   target: null
@@ -28,19 +30,19 @@ function syncRail(stage) {
     analyze: "prepare",
     prepare: "prepare",
     preparing: "prepare",
-    handoff: "handoff",
-    prepared: "handoff",
-    insert: "insert",
-    inserted: "insert",
+    handoff: "review",
+    prepared: "review",
     review: "review",
     done: "review",
-    error: "review"
+    error: "review",
+    insert: "insert",
+    inserted: "insert"
   }[String(stage || "").toLowerCase()] || "capture";
 
   state.activeStage = normalized;
-  document.querySelectorAll("[data-stage]").forEach((button) => {
-    if (button.dataset.stage === normalized) button.setAttribute("aria-current", "step");
-    else button.removeAttribute("aria-current");
+  document.querySelectorAll("[data-stage]").forEach((step) => {
+    if (step.dataset.stage === normalized) step.setAttribute("aria-current", "step");
+    else step.removeAttribute("aria-current");
   });
 }
 
@@ -58,6 +60,94 @@ function estimateTokens(text) {
 
 function platformForUrl(url) {
   return globalThis.TokenOptimizerPlatformRegistry?.forUrl(url) || null;
+}
+
+function tokenizeForDiff(text) {
+  return String(text || "").match(/\s+|[^\s]+/g) || [];
+}
+
+function mergeDiffParts(parts) {
+  return parts.reduce((merged, part) => {
+    const previous = merged.at(-1);
+    if (previous?.type === part.type) previous.text += part.text;
+    else merged.push({ ...part });
+    return merged;
+  }, []);
+}
+
+function diffPromptTokens(before, after) {
+  const original = tokenizeForDiff(before);
+  const prepared = tokenizeForDiff(after);
+  let prefix = 0;
+  while (prefix < original.length && prefix < prepared.length && original[prefix] === prepared[prefix]) prefix += 1;
+
+  let suffix = 0;
+  while (
+    suffix < original.length - prefix
+    && suffix < prepared.length - prefix
+    && original[original.length - 1 - suffix] === prepared[prepared.length - 1 - suffix]
+  ) suffix += 1;
+
+  const beforeMiddle = original.slice(prefix, original.length - suffix);
+  const afterMiddle = prepared.slice(prefix, prepared.length - suffix);
+  const parts = [];
+  if (prefix) parts.push({ type: "same", text: original.slice(0, prefix).join("") });
+
+  if (beforeMiddle.length + afterMiddle.length > 2000 || beforeMiddle.length * afterMiddle.length > 60000) {
+    if (beforeMiddle.length) parts.push({ type: "removed", text: beforeMiddle.join("") });
+    if (afterMiddle.length) parts.push({ type: "added", text: afterMiddle.join("") });
+  } else {
+    const table = Array.from(
+      { length: beforeMiddle.length + 1 },
+      () => new Uint16Array(afterMiddle.length + 1)
+    );
+    for (let i = beforeMiddle.length - 1; i >= 0; i -= 1) {
+      for (let j = afterMiddle.length - 1; j >= 0; j -= 1) {
+        table[i][j] = beforeMiddle[i] === afterMiddle[j]
+          ? table[i + 1][j + 1] + 1
+          : Math.max(table[i + 1][j], table[i][j + 1]);
+      }
+    }
+
+    let i = 0;
+    let j = 0;
+    while (i < beforeMiddle.length && j < afterMiddle.length) {
+      if (beforeMiddle[i] === afterMiddle[j]) {
+        parts.push({ type: "same", text: beforeMiddle[i] });
+        i += 1;
+        j += 1;
+      } else if (table[i + 1][j] >= table[i][j + 1]) {
+        parts.push({ type: "removed", text: beforeMiddle[i] });
+        i += 1;
+      } else {
+        parts.push({ type: "added", text: afterMiddle[j] });
+        j += 1;
+      }
+    }
+    while (i < beforeMiddle.length) parts.push({ type: "removed", text: beforeMiddle[i++] });
+    while (j < afterMiddle.length) parts.push({ type: "added", text: afterMiddle[j++] });
+  }
+
+  if (suffix) parts.push({ type: "same", text: original.slice(original.length - suffix).join("") });
+  return mergeDiffParts(parts);
+}
+
+function renderPromptDiff(before, after) {
+  const parts = diffPromptTokens(before, after);
+  const fragment = document.createDocumentFragment();
+  for (const part of parts) {
+    const node = document.createElement(part.type === "added" ? "ins" : part.type === "removed" ? "del" : "span");
+    node.textContent = part.text;
+    fragment.appendChild(node);
+  }
+  el("promptDiff").replaceChildren(fragment);
+
+  const added = estimateTokens(parts.filter((part) => part.type === "added").map((part) => part.text).join(""));
+  const removed = estimateTokens(parts.filter((part) => part.type === "removed").map((part) => part.text).join(""));
+  el("diffSummary").textContent = added || removed
+    ? `${removed} token${removed === 1 ? "" : "s"} removed · ${added} added`
+    : "No wording changes were needed.";
+  el("diffView").hidden = false;
 }
 
 async function currentContext() {
@@ -109,39 +199,88 @@ function hasPreparationConsent() {
   return Boolean(el("dataConsent")?.checked);
 }
 
-function syncDataConsentControls() {
+function syncActionControls() {
   const consented = hasPreparationConsent();
-  const disabled = state.preparing || !consented;
-  [el("rawPrompt"), el("capturePrompt"), el("optimizePrompt"), el("optimizeInsert")].forEach((button) => {
-    button.disabled = disabled;
-  });
+  const busyOrBlocked = state.preparing || !consented;
+  el("dataDisclosure").classList.toggle("accepted", consented);
+  el("dataDisclosureTitle").textContent = consented ? "Data notice accepted" : "Before you capture, type, or prepare";
+  el("rawPrompt").disabled = busyOrBlocked;
+  el("capturePrompt").disabled = busyOrBlocked || !state.target;
+  el("preparePrompt").disabled = busyOrBlocked;
+  el("copyPrepared").disabled = state.preparing || !state.lastResult;
+  el("insertTarget").disabled = state.preparing || !state.lastResult || !state.target;
+  el("capturePrompt").textContent = state.target ? `Capture from ${state.target.label}` : "Capture from assistant";
+  el("insertTarget").textContent = state.target ? `Insert into ${state.target.label}` : "Insert into assistant";
   el("rawPrompt").placeholder = consented
     ? "Paste the rough prompt here, or capture it after focusing the assistant's prompt box."
     : "Agree to the data notice, then paste or capture a rough prompt.";
 }
 
+function clearPreparedResult() {
+  state.lastResult = null;
+  el("optimizedPrompt").value = "";
+  el("metrics").hidden = true;
+  el("routeNote").hidden = true;
+  el("diffView").hidden = true;
+  el("promptDiff").replaceChildren();
+}
+
 function handleConsentChange() {
   if (!hasPreparationConsent()) {
     el("rawPrompt").value = "";
-    el("optimizedPrompt").value = "";
-    el("metrics").hidden = true;
-    el("routeNote").hidden = true;
+    clearPreparedResult();
     el("tokenPill").textContent = "0 tokens";
-    state.lastResult = null;
     setStatus("Ready", "Consent required before prompt handling", "Review the data notice and check the agreement box to continue.", false, "capture");
+  } else {
+    setStatus("Capture", "Paste a prompt or capture from the assistant", "Connection status refreshes automatically when you switch tabs.", false, "capture");
+    scheduleConnectionRefresh();
   }
-  syncDataConsentControls();
+  syncActionControls();
 }
 
 async function checkConnection() {
+  const checkId = ++state.connectionCheckId;
   try {
-    const { response, target } = await messageTarget({ type: "TOKEN_OPTIMIZER_PING" });
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    const target = platformForUrl(tab?.url);
+    if (!tab?.id || !target) throw new Error("Open a supported AI assistant tab first.");
+
+    let response;
+    try {
+      response = await chrome.tabs.sendMessage(tab.id, { type: "TOKEN_OPTIMIZER_PING" });
+    } catch {
+      throw new Error(`${target.label} is not ready yet. Refresh the page, focus its prompt box, and try again.`);
+    }
+    if (checkId !== state.connectionCheckId) return;
+
+    state.target = target;
     el("connectionPill").textContent = response?.hasInput ? target.statusLabel : `Open ${target.label} prompt`;
-    setStatus("Ready", `${target.label} wrapper connected`, "Capture a rough prompt or prepare and insert it in one click.", false, "capture");
+    if (!state.preparing && !state.lastResult) {
+      setStatus(
+        hasPreparationConsent() ? "Capture" : "Ready",
+        hasPreparationConsent() ? `${target.label} connected` : `${target.label} connected · consent needed`,
+        hasPreparationConsent()
+          ? "Capture the active prompt or paste one below."
+          : "Review the data notice and agree before handling prompt text.",
+        false,
+        "capture"
+      );
+    }
   } catch (error) {
+    if (checkId !== state.connectionCheckId) return;
+    state.target = null;
     el("connectionPill").textContent = "No assistant";
-    setStatus("Ready", "Open Gemini™ or ChatGPT to connect", error.message, false, "capture");
+    if (!state.preparing && !state.lastResult) {
+      setStatus("Ready", "Open Gemini™ or ChatGPT to connect", error.message, false, "capture");
+    }
+  } finally {
+    if (checkId === state.connectionCheckId) syncActionControls();
   }
+}
+
+function scheduleConnectionRefresh() {
+  clearTimeout(state.connectionRefreshTimer);
+  state.connectionRefreshTimer = setTimeout(() => checkConnection(), 120);
 }
 
 async function capturePrompt({ quiet = false } = {}) {
@@ -149,11 +288,12 @@ async function capturePrompt({ quiet = false } = {}) {
   if (!quiet) setStatus("Capture", "Capturing the active prompt", "Reading the selected text or prompt box.", true, "capture");
   const { response, target } = await messageTarget({ type: "TOKEN_OPTIMIZER_CAPTURE" });
   if (!response?.ok) throw new Error(response?.message || `No ${target.label} prompt text found.`);
+  clearPreparedResult();
   el("rawPrompt").value = response.prompt;
-  state.lastResult = null;
   updateDraftTokenPill();
+  syncActionControls();
   if (!quiet) {
-    setStatus("Captured", "Prompt captured", "Prepare it, or prepare and insert it in one click.", false, "capture");
+    setStatus("Prepare", "Prompt captured", "Review the draft, then prepare it.", false, "prepare");
     toast("Prompt captured");
   }
   return response.prompt;
@@ -190,44 +330,43 @@ async function insertPreparedPrompt(prompt) {
   setStatus("Insert", "Inserting the prepared prompt", "Placing it in the active prompt box without sending it.", true, "insert");
   const { response, target } = await messageTarget({ type: "TOKEN_OPTIMIZER_INSERT", prompt });
   if (!response?.ok) throw new Error(response?.message || "Insert failed.");
-  setStatus("Review", `Inserted into ${target.label}`, "Review it, then send when ready.", false, "review");
+  setStatus("Inserted", `Inserted into ${target.label}`, "Review it in the assistant, then send when ready.", false, "insert");
   toast(`Inserted into ${target.label}`);
 }
 
-async function preparePrompt({ insert = false } = {}) {
+async function preparePrompt() {
   if (!hasPreparationConsent()) {
     setStatus("Ready", "Consent required before preparation", "Review the data notice and check the agreement box first.", false, "prepare");
     return;
   }
   state.preparing = true;
-  syncDataConsentControls();
+  syncActionControls();
   try {
     const rawPrompt = await rawPromptForPreparation();
-    const { target } = await currentContext();
     setStatus("Prepare", "Preparing securely", "Using Token Optimizer's deterministic service without running an AI model.", true, "prepare");
     const result = await requestPreparation(rawPrompt);
     state.lastResult = result;
     el("optimizedPrompt").value = result.optimizedPrompt;
+    renderPromptDiff(rawPrompt, result.optimizedPrompt);
     renderMetrics(result);
-    setStatus("Prepared", "Prompt ready", "No preparation model call was used.", false, "handoff");
-    toast("Prompt ready");
-    if (insert) await insertPreparedPrompt(result.optimizedPrompt);
+    setStatus("Review", "Review what changed", "Copy the prepared prompt or insert it into the connected assistant.", false, "review");
+    toast("Prompt ready to review");
   } catch (error) {
     setStatus("Error", "Could not prepare the prompt", error.message, false, "review");
   } finally {
     state.preparing = false;
-    syncDataConsentControls();
+    syncActionControls();
   }
 }
 
 async function copyPrepared() {
   const prompt = el("optimizedPrompt").value.trim();
   if (!prompt) {
-    setStatus("Ready", "Nothing to copy yet", "Prepare a prompt first.", false, "handoff");
+    setStatus("Ready", "Nothing to copy yet", "Prepare a prompt first.", false, "review");
     return;
   }
   await navigator.clipboard.writeText(prompt);
-  setStatus("Ready", "Prepared prompt copied", "Paste it into any supported assistant.", false, "handoff");
+  setStatus("Review", "Prepared prompt copied", "Paste it anywhere, or insert it into the connected assistant.", false, "review");
   toast("Copied");
 }
 
@@ -235,12 +374,11 @@ function bindEvents() {
   el("capturePrompt").addEventListener("click", () => capturePrompt().catch((error) => {
     setStatus("Error", "Capture failed", error.message, false, "capture");
   }));
-  el("optimizePrompt").addEventListener("click", () => preparePrompt({ insert: false }));
-  el("optimizeInsert").addEventListener("click", () => preparePrompt({ insert: true }));
+  el("preparePrompt").addEventListener("click", preparePrompt);
   el("insertTarget").addEventListener("click", () => {
     const prompt = el("optimizedPrompt").value.trim();
     if (!prompt) {
-      setStatus("Ready", "Prepare first", "There is no prepared prompt to insert yet.", false, "handoff");
+      setStatus("Ready", "Prepare first", "There is no prepared prompt to insert yet.", false, "review");
       return;
     }
     insertPreparedPrompt(prompt).catch((error) => setStatus("Error", "Insert failed", error.message, false, "insert"));
@@ -248,28 +386,32 @@ function bindEvents() {
   el("copyPrepared").addEventListener("click", copyPrepared);
   el("dataConsent").addEventListener("change", handleConsentChange);
   el("rawPrompt").addEventListener("input", () => {
-    state.lastResult = null;
+    clearPreparedResult();
     updateDraftTokenPill();
+    syncActionControls();
+    const hasDraft = Boolean(el("rawPrompt").value.trim());
+    setStatus(
+      hasDraft ? "Prepare" : "Capture",
+      hasDraft ? "Prompt ready to prepare" : "Paste a prompt or capture from the assistant",
+      hasDraft ? "One action prepares it; review follows before copy or insert." : "Connection status refreshes automatically when you switch tabs.",
+      false,
+      hasDraft ? "prepare" : "capture"
+    );
   });
-  document.querySelectorAll("[data-stage]").forEach((button) => {
-    button.addEventListener("click", () => {
-      const target = state.target?.label || "the assistant";
-      const messages = {
-        capture: ["Capture", "Capture or paste", "Bring the rough prompt into the wrapper."],
-        prepare: ["Prepare", "Prepare securely", "Send only after consent; no AI model is called."],
-        handoff: ["Ready", "Review the prepared prompt", "Copy it or insert it into the active assistant."],
-        insert: ["Insert", `Insert into ${target}`, "Place the prompt without submitting it."],
-        review: ["Review", "Review before sending", "The wrapper never submits the assistant message for you."]
-      };
-      const [phase, title, detail] = messages[button.dataset.stage];
-      setStatus(phase, title, detail, false, button.dataset.stage);
-    });
+
+  globalThis.chrome?.tabs?.onActivated?.addListener(scheduleConnectionRefresh);
+  globalThis.chrome?.tabs?.onUpdated?.addListener((_tabId, changeInfo) => {
+    if (changeInfo.status === "complete" || changeInfo.url) scheduleConnectionRefresh();
+  });
+  globalThis.window?.addEventListener("focus", scheduleConnectionRefresh);
+  document.addEventListener?.("visibilitychange", () => {
+    if (!document.hidden) scheduleConnectionRefresh();
   });
 }
 
 async function init() {
   bindEvents();
-  syncDataConsentControls();
+  syncActionControls();
   updateDraftTokenPill();
   await checkConnection();
 }
