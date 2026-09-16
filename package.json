@@ -31,7 +31,7 @@
     "test:extension": "node extensions/gemini-token-optimizer/tests/sidepanel-logic.test.cjs && node extensions/gemini-token-optimizer/tests/service-worker.test.cjs && node extensions/gemini-token-optimizer/tests/content-gemini.test.cjs && node extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs && node extensions/gemini-token-optimizer/tests/package.test.cjs"
   },
   "dependencies": {
-    "zod": "^4.4.3"
+    "zod": "^4.6.4"
   },
   "//devDependencies": "Browser libraries only. Their shipped files are vendored into outputs/vendor/ and served statically, so the serverless runtime must not install them.",
   "devDependencies": {
