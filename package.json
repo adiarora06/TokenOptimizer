@@ -35,8 +35,8 @@
   },
   "//devDependencies": "Browser libraries only. Their shipped files are vendored into outputs/vendor/ and served statically, so the serverless runtime must not install them.",
   "devDependencies": {
-    "@tabler/icons-webfont": "^3.45.0",
-    "dompurify": "^3.4.12",
-    "marked": "^18.0.6"
+    "@tabler/icons-webfont": "^3.46.0",
+    "dompurify": "^3.4.15",
+    "marked": "^18.0.13"
   }
 }
