@@ -11,12 +11,14 @@
   "scripts": {
     "start": "node server.cjs",
     "sync:compiler": "node scripts/sync-prompt-compiler.cjs",
+    "sync:vendor": "node scripts/sync-vendor.cjs",
+    "check:vendor": "node scripts/sync-vendor.cjs --check",
     "package:extension": "npm run sync:compiler && node scripts/package-chrome-extension.cjs",
     "eval": "node evals/run-evals.cjs",
     "eval:json": "node evals/run-evals.cjs --json",
     "eval:live": "node evals/run-evals.cjs --live",
     "telemetry:report": "node scripts/telemetry-report.cjs",
-    "test": "npm run test:compiler && npm run test:acceptance && npm run test:public && npm run test:guard && npm run test:core && npm run test:telemetry && npm run test:eval && npm run test:api && npm run test:hosted && npm run test:frontend && npm run test:extension",
+    "test": "npm run check:vendor && npm run test:compiler && npm run test:acceptance && npm run test:public && npm run test:guard && npm run test:core && npm run test:telemetry && npm run test:eval && npm run test:api && npm run test:hosted && npm run test:frontend && npm run test:extension",
     "test:compiler": "node tests/prompt-compiler-parity.test.cjs",
     "test:acceptance": "node tests/acceptance-gates.test.cjs",
     "test:public": "node tests/public-result.test.cjs",
@@ -31,12 +33,12 @@
     "test:extension": "node extensions/gemini-token-optimizer/tests/sidepanel-logic.test.cjs && node extensions/gemini-token-optimizer/tests/service-worker.test.cjs && node extensions/gemini-token-optimizer/tests/content-gemini.test.cjs && node extensions/gemini-token-optimizer/tests/content-chatgpt.test.cjs && node extensions/gemini-token-optimizer/tests/package.test.cjs"
   },
   "dependencies": {
-    "zod": "^4.4.3"
+    "zod": "^4.6.7"
   },
   "//devDependencies": "Browser libraries only. Their shipped files are vendored into outputs/vendor/ and served statically, so the serverless runtime must not install them.",
   "devDependencies": {
-    "@tabler/icons-webfont": "^3.45.0",
-    "dompurify": "^3.4.12",
-    "marked": "^18.0.6"
+    "@tabler/icons-webfont": "^3.49.0",
+    "dompurify": "^3.4.17",
+    "marked": "^18.1.1"
   }
 }
