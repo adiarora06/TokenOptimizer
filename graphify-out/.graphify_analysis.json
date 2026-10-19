@@ -1,61 +1,6 @@
 {
   "communities": {
     "0": [
-      "api_system_overview",
-      "api_system_overview_commonheaders_requestguardbackend",
-      "api_system_overview_system_architecture",
-      "api_system_overview_telemetrysummary",
-      "optimizer_system",
-      "optimizer_system_applyresulttrace",
-      "optimizer_system_basestages",
-      "optimizer_system_compacttitle",
-      "optimizer_system_createid",
-      "optimizer_system_createoptimizersystem",
-      "optimizer_system_createrun",
-      "optimizer_system_estimatetokens_runblanka2akit_runselfoptimizingworkflow",
-      "optimizer_system_executesystemrun",
-      "optimizer_system_nowiso",
-      "optimizer_system_projectpublicresult",
-      "optimizer_system_publicrun",
-      "optimizer_system_runsystemruninline",
-      "optimizer_system_stagefromtrace",
-      "optimizer_system_system_architecture",
-      "optimizer_system_updatestage",
-      "request_guard_requestguardbackend",
-      "server",
-      "server_abortsignalonclose",
-      "server_allowedapimethods",
-      "server_authorizebillablerequest",
-      "server_callchatcompletion_createtraceid_generatewithfallback_prepareportablehandoff_providerstatus_runblanka2akit_runselfoptimizingworkflow_telemetrysummary",
-      "server_classifyproviderconfigfunding",
-      "server_collectconfiguredsecretvalues_projectpublicresult_redactpublicvalue",
-      "server_commonheaders",
-      "server_createoptimizersystem",
-      "server_fs",
-      "server_graphifydir",
-      "server_guard",
-      "server_handleapi",
-      "server_http",
-      "server_loadenvfile",
-      "server_optimizersystem",
-      "server_outputdir",
-      "server_path",
-      "server_port",
-      "server_publicerror",
-      "server_readjson",
-      "server_requestguardbackend",
-      "server_runbillablerequest",
-      "server_sendjson",
-      "server_server",
-      "server_servestatic",
-      "server_staticsecurityheaders",
-      "server_takeratelimit",
-      "server_validatea2apayload",
-      "server_validategeneratepayload",
-      "server_validateoptimizerpayload",
-      "server_writesse"
-    ],
-    "1": [
       "core_telemetry_analysis",
       "core_telemetry_analysis_alertformetric",
       "core_telemetry_analysis_boundedinteger",
@@ -108,7 +53,7 @@
       "tests_telemetry_analysis_test_summarizetelemetryevents_telemetryalertpolicy",
       "tests_telemetry_analysis_test_workflowevent"
     ],
-    "2": [
+    "1": [
       "outputs_workspace",
       "outputs_workspace_bindevents",
       "outputs_workspace_checkservice",
@@ -157,6 +102,55 @@
       "outputs_workspace_toast",
       "outputs_workspace_toggleinlineresult",
       "outputs_workspace_updatetimeline"
+    ],
+    "2": [
+      "optimizer_system",
+      "optimizer_system_applyresulttrace",
+      "optimizer_system_basestages",
+      "optimizer_system_compacttitle",
+      "optimizer_system_createid",
+      "optimizer_system_createoptimizersystem",
+      "optimizer_system_createrun",
+      "optimizer_system_estimatetokens_runblanka2akit_runselfoptimizingworkflow",
+      "optimizer_system_executesystemrun",
+      "optimizer_system_nowiso",
+      "optimizer_system_projectpublicresult",
+      "optimizer_system_publicrun",
+      "optimizer_system_runsystemruninline",
+      "optimizer_system_stagefromtrace",
+      "optimizer_system_updatestage",
+      "server",
+      "server_abortsignalonclose",
+      "server_allowedapimethods",
+      "server_authorizebillablerequest",
+      "server_callchatcompletion_createtraceid_generatewithfallback_prepareportablehandoff_providerstatus_runblanka2akit_runselfoptimizingworkflow_telemetrysummary",
+      "server_classifyproviderconfigfunding",
+      "server_collectconfiguredsecretvalues_projectpublicresult_redactpublicvalue",
+      "server_commonheaders",
+      "server_createoptimizersystem",
+      "server_fs",
+      "server_graphifydir",
+      "server_guard",
+      "server_handleapi",
+      "server_http",
+      "server_loadenvfile",
+      "server_optimizersystem",
+      "server_outputdir",
+      "server_path",
+      "server_port",
+      "server_publicerror",
+      "server_readjson",
+      "server_requestguardbackend",
+      "server_runbillablerequest",
+      "server_sendjson",
+      "server_server",
+      "server_servestatic",
+      "server_staticsecurityheaders",
+      "server_takeratelimit",
+      "server_validatea2apayload",
+      "server_validategeneratepayload",
+      "server_validateoptimizerpayload",
+      "server_writesse"
     ],
     "3": [
       "core_providers",
@@ -220,12 +214,14 @@
       "package_name",
       "package_private",
       "package_scripts",
+      "package_scripts_check_vendor",
       "package_scripts_eval",
       "package_scripts_eval_json",
       "package_scripts_eval_live",
       "package_scripts_package_extension",
       "package_scripts_start",
       "package_scripts_sync_compiler",
+      "package_scripts_sync_vendor",
       "package_scripts_telemetry_report",
       "package_scripts_test",
       "package_scripts_test_acceptance",
@@ -379,6 +375,7 @@
       "request_guard_daily_token_limit",
       "request_guard_defaultbillablerequestguard",
       "request_guard_enabled",
+      "request_guard_estimatedtokencount",
       "request_guard_generatepayloadschema",
       "request_guard_idempotency_max_entries",
       "request_guard_idempotency_ttl_ms",
@@ -480,6 +477,10 @@
       "api_a2a_run_abortsignalonclose_classifyproviderconfigfunding_commonheaders_publicerror_runbillablerequest_validatea2apayload",
       "api_a2a_run_projectpublicresult",
       "api_a2a_run_runblanka2akit",
+      "api_generate",
+      "api_generate_abortsignalonclose_commonheaders_publicerror_runbillablerequest_validategeneratepayload",
+      "api_generate_callchatcompletion_createtraceid_generatewithfallback",
+      "api_generate_collectconfiguredsecretvalues_redactpublicvalue",
       "api_optimize_run",
       "api_optimize_run_abortsignalonclose_commonheaders_publicerror_runbillablerequest_validateoptimizerpayload",
       "api_optimize_run_projectpublicresult",
@@ -497,10 +498,6 @@
       "api_system_runs",
       "api_system_runs_abortsignalonclose_classifyproviderconfigfunding_commonheaders_publicerror_runbillablerequest_validateoptimizerpayload",
       "api_system_runs_system_architecture_runsystemruninline",
-      "api_workflow_run",
-      "api_workflow_run_abortsignalonclose_classifyproviderconfigfunding_commonheaders_publicerror_runbillablerequest_validatea2apayload",
-      "api_workflow_run_projectpublicresult",
-      "api_workflow_run_runblanka2akit",
       "request_guard_abortsignalonclose",
       "request_guard_commonheaders",
       "request_guard_guardfailure",
@@ -755,7 +752,6 @@
       "request_guard_createidempotencystore",
       "request_guard_createratelimiter",
       "request_guard_estimatebillabletokens",
-      "request_guard_estimatedtokencount",
       "request_guard_idempotencyfingerprint",
       "request_guard_tokenusagefromresult",
       "request_guard_validateidempotencykey",
@@ -958,10 +954,10 @@
       "extensions_gemini_token_optimizer_readme_what_it_does"
     ],
     "36": [
-      "api_generate",
-      "api_generate_abortsignalonclose_commonheaders_publicerror_runbillablerequest_validategeneratepayload",
-      "api_generate_callchatcompletion_createtraceid_generatewithfallback",
-      "api_generate_collectconfiguredsecretvalues_redactpublicvalue",
+      "api_workflow_run",
+      "api_workflow_run_abortsignalonclose_classifyproviderconfigfunding_commonheaders_publicerror_runbillablerequest_validatea2apayload",
+      "api_workflow_run_projectpublicresult",
+      "api_workflow_run_runblanka2akit",
       "request_guard_validatea2apayload",
       "request_guard_validategeneratepayload",
       "request_guard_validatewith"
@@ -976,6 +972,23 @@
       "core_text_withouttrailingellipsis"
     ],
     "38": [
+      "scripts_sync_vendor",
+      "scripts_sync_vendor_checkonly",
+      "scripts_sync_vendor_fs",
+      "scripts_sync_vendor_path",
+      "scripts_sync_vendor_repositoryroot",
+      "scripts_sync_vendor_stalefiles",
+      "scripts_sync_vendor_vendorfiles"
+    ],
+    "39": [
+      "api_system_overview",
+      "api_system_overview_commonheaders_requestguardbackend",
+      "api_system_overview_system_architecture",
+      "api_system_overview_telemetrysummary",
+      "optimizer_system_system_architecture",
+      "request_guard_requestguardbackend"
+    ],
+    "40": [
       "extensions_gemini_token_optimizer_adapters_chatgpt",
       "extensions_gemini_token_optimizer_adapters_chatgpt_haspromptlabel",
       "extensions_gemini_token_optimizer_adapters_chatgpt_iscandidate",
@@ -983,7 +996,7 @@
       "extensions_gemini_token_optimizer_adapters_chatgpt_isnearpromptarea",
       "extensions_gemini_token_optimizer_adapters_chatgpt_score"
     ],
-    "39": [
+    "41": [
       "extensions_gemini_token_optimizer_adapters_gemini",
       "extensions_gemini_token_optimizer_adapters_gemini_haspromptlabel",
       "extensions_gemini_token_optimizer_adapters_gemini_iscandidate",
@@ -991,7 +1004,7 @@
       "extensions_gemini_token_optimizer_adapters_gemini_isnearpromptarea",
       "extensions_gemini_token_optimizer_adapters_gemini_score"
     ],
-    "40": [
+    "42": [
       "scripts_sync_prompt_compiler",
       "scripts_sync_prompt_compiler_fs",
       "scripts_sync_prompt_compiler_path",
@@ -999,54 +1012,54 @@
       "scripts_sync_prompt_compiler_source",
       "scripts_sync_prompt_compiler_targets"
     ],
-    "41": [
+    "43": [
       "extensions_gemini_token_optimizer_adapters",
       "extensions_gemini_token_optimizer_adapters_adapter_contract",
       "extensions_gemini_token_optimizer_adapters_add_another_assistant",
       "extensions_gemini_token_optimizer_adapters_layers",
       "extensions_gemini_token_optimizer_adapters_site_adapter_architecture"
     ],
-    "42": [
+    "44": [
       "scripts_canonical_graph",
       "scripts_canonical_graph_fs",
       "scripts_canonical_graph_graph",
       "scripts_canonical_graph_sortdeep"
     ],
-    "43": [
+    "45": [
       "api_provider_status",
       "api_provider_status_commonheaders",
       "api_provider_status_providerstatus"
     ],
-    "44": [
+    "46": [
       "vercel",
       "vercel_headers",
       "vercel_rewrites"
     ],
-    "45": [
+    "47": [
       "extensions_gemini_token_optimizer_platforms",
       "extensions_gemini_token_optimizer_platforms_forurl"
     ],
-    "46": [
+    "48": [
       "extensions_gemini_token_optimizer_service_worker",
       "extensions_gemini_token_optimizer_service_worker_setpanelfortab"
     ],
-    "47": [
+    "49": [
       "extensions_gemini_token_optimizer_content_bridge"
     ],
-    "48": [
+    "50": [
       "outputs_system_worker"
     ]
   },
   "cohesion": {
-    "0": 0.0602322206095791,
-    "1": 0.07137254901960784,
-    "2": 0.1099290780141844,
+    "0": 0.07137254901960784,
+    "1": 0.1099290780141844,
+    "2": 0.07030527289546716,
     "3": 0.07549361207897794,
-    "4": 0.05,
+    "4": 0.047619047619047616,
     "5": 0.10512820512820513,
     "6": 0.12280701754385964,
     "7": 0.1111111111111111,
-    "8": 0.06666666666666667,
+    "8": 0.06456456456456457,
     "9": 0.11051693404634581,
     "10": 0.06060606060606061,
     "11": 0.09879032258064516,
@@ -1059,7 +1072,7 @@
     "18": 0.18181818181818182,
     "19": 0.09090909090909091,
     "20": 0.20952380952380953,
-    "21": 0.22631578947368422,
+    "21": 0.24561403508771928,
     "22": 0.15441176470588236,
     "23": 0.11764705882352941,
     "24": 0.14285714285714285,
@@ -1076,23 +1089,25 @@
     "35": 0.25,
     "36": 0.2857142857142857,
     "37": 0.38095238095238093,
-    "38": 0.6666666666666666,
-    "39": 0.6666666666666666,
-    "40": 0.3333333333333333,
-    "41": 0.4,
-    "42": 0.5,
-    "43": 0.6666666666666666,
-    "44": 0.6666666666666666,
-    "45": 1.0,
-    "46": 1.0,
+    "38": 0.2857142857142857,
+    "39": 0.3333333333333333,
+    "40": 0.6666666666666666,
+    "41": 0.6666666666666666,
+    "42": 0.3333333333333333,
+    "43": 0.4,
+    "44": 0.5,
+    "45": 0.6666666666666666,
+    "46": 0.6666666666666666,
     "47": 1.0,
-    "48": 1.0
+    "48": 1.0,
+    "49": 1.0,
+    "50": 1.0
   },
   "gods": [
     {
       "id": "package_scripts",
       "label": "scripts",
-      "degree": 21
+      "degree": 23
     },
     {
       "id": "tests_shared_request_guard_test_fakeredisrestclient",
@@ -1216,12 +1231,7 @@
     {
       "type": "isolated_nodes",
       "question": "What connects `assert`, `fs`, `path` to the rest of the system?",
-      "why": "382 weakly-connected nodes found - possible documentation gaps or missing edges."
-    },
-    {
-      "type": "low_cohesion",
-      "question": "Should `server.cjs` be split into smaller, more focused modules?",
-      "why": "Cohesion score 0.0602322206095791 - nodes in this community are weakly interconnected."
+      "why": "390 weakly-connected nodes found - possible documentation gaps or missing edges."
     },
     {
       "type": "low_cohesion",
@@ -1232,6 +1242,11 @@
       "type": "low_cohesion",
       "question": "Should `workspace.js` be split into smaller, more focused modules?",
       "why": "Cohesion score 0.1099290780141844 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `server.cjs` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.07030527289546716 - nodes in this community are weakly interconnected."
     }
   ]
 }
