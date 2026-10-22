@@ -100,7 +100,7 @@
     "semantic_hash": "651530f303d138ed87075fb2598087b3"
   },
   "package.json": {
-    "mtime": 1792385600.9181027,
+    "mtime": 1792386567.4906847,
     "ast_hash": "6f2ea102dd72b2c81d521975ee1fc754",
     "semantic_hash": "6f2ea102dd72b2c81d521975ee1fc754"
   },
@@ -115,9 +115,9 @@
     "semantic_hash": "55607efda153046cf0a2bbf2162affa0"
   },
   "tests/api-endpoints.test.cjs": {
-    "mtime": 1786341289.098117,
-    "ast_hash": "b5b0bc98ce6c7091549c1780c935a968",
-    "semantic_hash": "b5b0bc98ce6c7091549c1780c935a968"
+    "mtime": 1792646394.580507,
+    "ast_hash": "7ffc307ad6db1c422b8876eb5afc2bf3",
+    "semantic_hash": "7ffc307ad6db1c422b8876eb5afc2bf3"
   },
   "tests/optimizer-core.test.cjs": {
     "mtime": 1786341289.0987191,
@@ -125,9 +125,9 @@
     "semantic_hash": "f4d836b8846ca8ce10e963ba4966ef36"
   },
   "vercel.json": {
-    "mtime": 1786341289.0995977,
-    "ast_hash": "75c9ee25b712fa447ee37b9abff75c37",
-    "semantic_hash": "75c9ee25b712fa447ee37b9abff75c37"
+    "mtime": 1792646347.0084076,
+    "ast_hash": "badbcefdf57027152f0e36df16048ce7",
+    "semantic_hash": "badbcefdf57027152f0e36df16048ce7"
   },
   "scripts/canonical-graph.cjs": {
     "mtime": 1786341289.0974212,
@@ -195,9 +195,9 @@
     "semantic_hash": "e15fe811b78cf35a4c475585bd3decbc"
   },
   "tests/frontend-static.test.cjs": {
-    "mtime": 1791831313.15096,
-    "ast_hash": "6edd16cc0cc9f0309979aeb398e652f6",
-    "semantic_hash": "6edd16cc0cc9f0309979aeb398e652f6"
+    "mtime": 1792646394.580048,
+    "ast_hash": "8c6d1a118341e44a42781cbedab2ae2a",
+    "semantic_hash": "8c6d1a118341e44a42781cbedab2ae2a"
   },
   ".github/workflows/ci.yml": {
     "mtime": 1785719692.5859432,
@@ -445,7 +445,7 @@
     "semantic_hash": "513e172fa6126e0743cbbe8627ebe76d"
   },
   "scripts/sync-vendor.cjs": {
-    "mtime": 1792385600.9185374,
+    "mtime": 1792386567.4907906,
     "ast_hash": "52ed82b153155bbb3b71a94d60d8d4c8",
     "semantic_hash": "52ed82b153155bbb3b71a94d60d8d4c8"
   }
