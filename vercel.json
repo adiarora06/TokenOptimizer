@@ -1,4 +1,10 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "server.cjs": {
+      "includeFiles": "{outputs/**,graphify-out/**}"
+    }
+  },
   "headers": [
     {
       "source": "/(.*)",
@@ -10,92 +16,6 @@
         { "key": "Strict-Transport-Security", "value": "max-age=63072000; includeSubDomains" },
         { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" }
       ]
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/",
-      "destination": "/outputs/home.html"
-    },
-    {
-      "source": "/workspace",
-      "destination": "/outputs/workspace.html"
-    },
-    {
-      "source": "/workspace.css",
-      "destination": "/outputs/workspace.css"
-    },
-    {
-      "source": "/workspace.js",
-      "destination": "/outputs/workspace.js"
-    },
-    {
-      "source": "/prompt-compiler.js",
-      "destination": "/outputs/prompt-compiler.js"
-    },
-    {
-      "source": "/app-nav.css",
-      "destination": "/outputs/app-nav.css"
-    },
-    {
-      "source": "/vendor/:path*",
-      "destination": "/outputs/vendor/:path*"
-    },
-    {
-      "source": "/system-worker.js",
-      "destination": "/outputs/system-worker.js"
-    },
-    {
-      "source": "/token-optimizer-file-generator.html",
-      "destination": "/outputs/workspace.html"
-    },
-    {
-      "source": "/agent-structure",
-      "destination": "/outputs/agent-structure.html"
-    },
-    {
-      "source": "/code-graph",
-      "destination": "/graphify-out/graph.html"
-    },
-    {
-      "source": "/code-graph.json",
-      "destination": "/graphify-out/graph.json"
-    },
-    {
-      "source": "/code-graph-report",
-      "destination": "/graphify-out/GRAPH_REPORT.md"
-    },
-    {
-      "source": "/optimized-ide",
-      "destination": "/outputs/a2a-kit.html"
-    },
-    {
-      "source": "/a2a-kit",
-      "destination": "/outputs/a2a-kit.html"
-    },
-    {
-      "source": "/open-source",
-      "destination": "/outputs/open-source.html"
-    },
-    {
-      "source": "/stats",
-      "destination": "/outputs/stats.html"
-    },
-    {
-      "source": "/audit-log",
-      "destination": "/outputs/prompt-history.html"
-    },
-    {
-      "source": "/prompt-history",
-      "destination": "/outputs/prompt-history.html"
-    },
-    {
-      "source": "/settings",
-      "destination": "/outputs/settings.html"
-    },
-    {
-      "source": "/privacy",
-      "destination": "/outputs/privacy.html"
     }
   ]
 }

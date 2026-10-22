@@ -153,50 +153,6 @@
       "server_writesse"
     ],
     "3": [
-      "core_providers",
-      "core_providers_boundednumber",
-      "core_providers_callchatcompletion",
-      "core_providers_callmodel",
-      "core_providers_callworkflowprovider",
-      "core_providers_createrequestsignal",
-      "core_providers_estimatetokens_modelcost_normalizeusage",
-      "core_providers_executemodelcall",
-      "core_providers_fallbackattemptmessage",
-      "core_providers_generatewithfallback",
-      "core_providers_http",
-      "core_providers_https",
-      "core_providers_normalizechatcompletionurl",
-      "core_providers_pinnedlookup",
-      "core_providers_providerlimits",
-      "core_providers_providerstatus",
-      "core_providers_recordproviderattempt",
-      "core_providers_requestprovider",
-      "core_providers_resolveprovider",
-      "core_providers_resolvesafeproviderendpoint_safeerrormessage",
-      "core_providers_testcompletion",
-      "optimizer_core",
-      "optimizer_core_analyzeworkflowshape",
-      "optimizer_core_callchatcompletion_generatewithfallback_providerstatus",
-      "optimizer_core_combineusage_createtraceid_estimatetokens",
-      "optimizer_core_compileacceptancegates_evaluateacceptancegates_repairacceptancefailures",
-      "optimizer_core_compileprompt_compiler_version",
-      "optimizer_core_prepareportablehandoff",
-      "optimizer_core_redactsensitivetext",
-      "optimizer_core_runblanka2akit_runselfoptimizingworkflow",
-      "optimizer_core_telemetrysummary",
-      "tests_hosted_api_test_mockresponse_status",
-      "tests_optimizer_core_test",
-      "tests_optimizer_core_test_analyzeworkflowshape_combineusage_generatewithfallback_prepareportablehandoff_redactsensitivetext_runblanka2akit_runselfoptimizingworkflow",
-      "tests_optimizer_core_test_assert",
-      "tests_optimizer_core_test_assertsafeproviderendpoint_ispublicipaddress_resolvesafeproviderendpoint_safeerrormessage",
-      "tests_optimizer_core_test_buildofflinecontract",
-      "tests_optimizer_core_test_clientkey_takeratelimit",
-      "tests_optimizer_core_test_contextcomparison",
-      "tests_optimizer_core_test_createworkflowbudget",
-      "tests_optimizer_core_test_resolveprovider",
-      "tests_optimizer_core_test_validatehandoffcontract"
-    ],
-    "4": [
       "dompurify",
       "marked",
       "package",
@@ -240,7 +196,7 @@
       "tabler_icons_webfont",
       "zod"
     ],
-    "5": [
+    "4": [
       "evals_harness",
       "evals_harness_callchatcompletion_prepareportablehandoff_runselfoptimizingworkflow",
       "evals_harness_evaluatelivecase",
@@ -282,7 +238,7 @@
       "tests_eval_harness_test_loadcases_rundeterministicevaluation_scoreoutput",
       "tests_eval_harness_test_report"
     ],
-    "6": [
+    "5": [
       "shared_request_guard",
       "shared_request_guard_boundedinteger",
       "shared_request_guard_cancellationerror",
@@ -323,7 +279,7 @@
       "tests_shared_request_guard_test_run",
       "tests_shared_request_guard_test_waitfor"
     ],
-    "7": [
+    "6": [
       "core_telemetry",
       "core_telemetry_boundedinteger",
       "core_telemetry_classifyfailure",
@@ -362,7 +318,7 @@
       "tests_telemetry_test_generatewithfallback_runselfoptimizingworkflow",
       "tests_telemetry_test_run"
     ],
-    "8": [
+    "7": [
       "request_guard",
       "request_guard_a2apayloadschema",
       "request_guard_acquireconcurrencyslot",
@@ -401,7 +357,7 @@
       "request_guard_utcday",
       "request_guard_z"
     ],
-    "9": [
+    "8": [
       "core_handoff",
       "core_handoff_analyzeworkflowshape_buildofflinecontract",
       "core_handoff_buildportableprompt",
@@ -437,7 +393,7 @@
       "shared_prompt_compiler_outputstylefor",
       "shared_prompt_compiler_uniquelines"
     ],
-    "10": [
+    "9": [
       "extensions_gemini_token_optimizer_manifest",
       "extensions_gemini_token_optimizer_manifest_action",
       "extensions_gemini_token_optimizer_manifest_action_default_icon",
@@ -472,7 +428,7 @@
       "ref_https_tok_pi_gilt_vercel_app",
       "ref_sidepanel"
     ],
-    "11": [
+    "10": [
       "api_a2a_run",
       "api_a2a_run_abortsignalonclose_classifyproviderconfigfunding_commonheaders_publicerror_runbillablerequest_validatea2apayload",
       "api_a2a_run_projectpublicresult",
@@ -506,7 +462,7 @@
       "request_guard_takeratelimit",
       "request_guard_validateoptimizerpayload"
     ],
-    "12": [
+    "11": [
       "extensions_gemini_token_optimizer_adapters_base",
       "extensions_gemini_token_optimizer_adapters_base_build",
       "extensions_gemini_token_optimizer_adapters_base_isvisible",
@@ -536,7 +492,7 @@
       "extensions_gemini_token_optimizer_sidepanel_toast",
       "extensions_gemini_token_optimizer_sidepanel_updatedrafttokenpill"
     ],
-    "13": [
+    "12": [
       "extensions_gemini_token_optimizer_tests_content_chatgpt_test",
       "extensions_gemini_token_optimizer_tests_content_chatgpt_test_adaptercode",
       "extensions_gemini_token_optimizer_tests_content_chatgpt_test_addrange",
@@ -565,7 +521,7 @@
       "extensions_gemini_token_optimizer_tests_content_chatgpt_test_removeallranges",
       "extensions_gemini_token_optimizer_tests_content_chatgpt_test_vm"
     ],
-    "14": [
+    "13": [
       "extensions_gemini_token_optimizer_tests_content_gemini_test",
       "extensions_gemini_token_optimizer_tests_content_gemini_test_adaptercode",
       "extensions_gemini_token_optimizer_tests_content_gemini_test_addrange",
@@ -594,7 +550,7 @@
       "extensions_gemini_token_optimizer_tests_content_gemini_test_richtextarea",
       "extensions_gemini_token_optimizer_tests_content_gemini_test_vm"
     ],
-    "15": [
+    "14": [
       "core_acceptance_skippedacceptancereport",
       "core_acceptance_skippedrepairreport",
       "core_workflow",
@@ -619,7 +575,7 @@
       "tests_public_result_test_projectpublicresult",
       "tests_public_result_test_run"
     ],
-    "16": [
+    "15": [
       "core_contracts",
       "core_contracts_canonicalcontract",
       "core_contracts_compactlist",
@@ -644,7 +600,7 @@
       "core_security_safeerrormessage",
       "core_security_secret_patterns"
     ],
-    "17": [
+    "16": [
       "extensions_gemini_token_optimizer_tests_package_test",
       "extensions_gemini_token_optimizer_tests_package_test_assert",
       "extensions_gemini_token_optimizer_tests_package_test_fs",
@@ -669,7 +625,7 @@
       "scripts_package_chrome_extension_spawnsync",
       "scripts_package_chrome_extension_validatesourcereferences"
     ],
-    "18": [
+    "17": [
       "core_acceptance",
       "core_acceptance_addgate",
       "core_acceptance_compactsource",
@@ -692,6 +648,30 @@
       "core_acceptance_repairaction",
       "core_acceptance_stripmarkdown",
       "core_acceptance_wordcount"
+    ],
+    "18": [
+      "core_providers",
+      "core_providers_boundednumber",
+      "core_providers_callchatcompletion",
+      "core_providers_callmodel",
+      "core_providers_callworkflowprovider",
+      "core_providers_createrequestsignal",
+      "core_providers_estimatetokens_modelcost_normalizeusage",
+      "core_providers_executemodelcall",
+      "core_providers_fallbackattemptmessage",
+      "core_providers_generatewithfallback",
+      "core_providers_http",
+      "core_providers_https",
+      "core_providers_normalizechatcompletionurl",
+      "core_providers_pinnedlookup",
+      "core_providers_providerlimits",
+      "core_providers_providerstatus",
+      "core_providers_recordproviderattempt",
+      "core_providers_requestprovider",
+      "core_providers_resolveprovider",
+      "core_providers_resolvesafeproviderendpoint_safeerrormessage",
+      "core_providers_testcompletion",
+      "tests_hosted_api_test_mockresponse_status"
     ],
     "19": [
       "tests_acceptance_gates_test",
@@ -741,6 +721,28 @@
       "tests_shared_request_guard_test_mapfor"
     ],
     "21": [
+      "optimizer_core",
+      "optimizer_core_analyzeworkflowshape",
+      "optimizer_core_callchatcompletion_generatewithfallback_providerstatus",
+      "optimizer_core_combineusage_createtraceid_estimatetokens",
+      "optimizer_core_compileacceptancegates_evaluateacceptancegates_repairacceptancefailures",
+      "optimizer_core_compileprompt_compiler_version",
+      "optimizer_core_prepareportablehandoff",
+      "optimizer_core_redactsensitivetext",
+      "optimizer_core_runblanka2akit_runselfoptimizingworkflow",
+      "optimizer_core_telemetrysummary",
+      "tests_optimizer_core_test",
+      "tests_optimizer_core_test_analyzeworkflowshape_combineusage_generatewithfallback_prepareportablehandoff_redactsensitivetext_runblanka2akit_runselfoptimizingworkflow",
+      "tests_optimizer_core_test_assert",
+      "tests_optimizer_core_test_assertsafeproviderendpoint_ispublicipaddress_resolvesafeproviderendpoint_safeerrormessage",
+      "tests_optimizer_core_test_buildofflinecontract",
+      "tests_optimizer_core_test_clientkey_takeratelimit",
+      "tests_optimizer_core_test_contextcomparison",
+      "tests_optimizer_core_test_createworkflowbudget",
+      "tests_optimizer_core_test_resolveprovider",
+      "tests_optimizer_core_test_validatehandoffcontract"
+    ],
+    "22": [
       "request_guard_authorizebillablerequest",
       "request_guard_boundedinteger",
       "request_guard_classifyproviderconfigfunding",
@@ -761,7 +763,7 @@
       "tests_request_guard_test_request",
       "tests_request_guard_test_run"
     ],
-    "22": [
+    "23": [
       "tests_hosted_api_test",
       "tests_hosted_api_test_assert",
       "tests_hosted_api_test_assertsafepublicresult",
@@ -780,7 +782,7 @@
       "tests_hosted_api_test_request",
       "tests_hosted_api_test_run"
     ],
-    "23": [
+    "24": [
       "tests_prompt_compiler_parity_test",
       "tests_prompt_compiler_parity_test_assert",
       "tests_prompt_compiler_parity_test_browsercontext",
@@ -799,7 +801,7 @@
       "tests_prompt_compiler_parity_test_workercontext",
       "tests_prompt_compiler_parity_test_workersource"
     ],
-    "24": [
+    "25": [
       "readme",
       "readme_assistant_extension_mvp",
       "readme_contributing_principle",
@@ -815,7 +817,7 @@
       "readme_typed_contract_workflow",
       "readme_usage_semantics"
     ],
-    "25": [
+    "26": [
       "extensions_gemini_token_optimizer_tests_sidepanel_logic_test",
       "extensions_gemini_token_optimizer_tests_sidepanel_logic_test_assert",
       "extensions_gemini_token_optimizer_tests_sidepanel_logic_test_compilercode",
@@ -830,7 +832,7 @@
       "extensions_gemini_token_optimizer_tests_sidepanel_logic_test_sidepanelcode",
       "extensions_gemini_token_optimizer_tests_sidepanel_logic_test_vm"
     ],
-    "26": [
+    "27": [
       "tests_redis_lua_smoke_test",
       "tests_redis_lua_smoke_test_assert",
       "tests_redis_lua_smoke_test_command",
@@ -845,7 +847,7 @@
       "tests_redis_lua_smoke_test_run",
       "tests_redis_lua_smoke_test_url"
     ],
-    "27": [
+    "28": [
       "core_public_result",
       "core_public_result_appendsecretvalues",
       "core_public_result_collectconfiguredsecretvalues",
@@ -859,7 +861,7 @@
       "core_public_result_redactstring",
       "core_public_result_validationmetadata"
     ],
-    "28": [
+    "29": [
       "tests_api_endpoints_test",
       "tests_api_endpoints_test_assert",
       "tests_api_endpoints_test_assertsafepublicresult",
@@ -873,7 +875,20 @@
       "tests_api_endpoints_test_spawn",
       "tests_api_endpoints_test_waitforserver"
     ],
-    "29": [
+    "30": [
+      "tests_frontend_static_test",
+      "tests_frontend_static_test_assert",
+      "tests_frontend_static_test_faviconpath",
+      "tests_frontend_static_test_fs",
+      "tests_frontend_static_test_htmlfiles",
+      "tests_frontend_static_test_outputsdir",
+      "tests_frontend_static_test_path",
+      "tests_frontend_static_test_privacysource",
+      "tests_frontend_static_test_retiredgenerator",
+      "tests_frontend_static_test_vercelconfig",
+      "tests_frontend_static_test_vm"
+    ],
+    "31": [
       "design_qa",
       "design_qa_comparison_history",
       "design_qa_comparison_target",
@@ -885,7 +900,7 @@
       "design_qa_interaction_and_runtime_checks",
       "design_qa_iteration_1"
     ],
-    "30": [
+    "32": [
       "extensions_gemini_token_optimizer_publishing",
       "extensions_gemini_token_optimizer_publishing_current_wrapper",
       "extensions_gemini_token_optimizer_publishing_local_test_notes",
@@ -897,7 +912,7 @@
       "extensions_gemini_token_optimizer_publishing_store_listing_assets",
       "extensions_gemini_token_optimizer_publishing_store_ready_checklist"
     ],
-    "31": [
+    "33": [
       "extensions_gemini_token_optimizer_tests_service_worker_test",
       "extensions_gemini_token_optimizer_tests_service_worker_test_assert",
       "extensions_gemini_token_optimizer_tests_service_worker_test_context",
@@ -909,19 +924,7 @@
       "extensions_gemini_token_optimizer_tests_service_worker_test_serviceworkercode",
       "extensions_gemini_token_optimizer_tests_service_worker_test_vm"
     ],
-    "32": [
-      "tests_frontend_static_test",
-      "tests_frontend_static_test_assert",
-      "tests_frontend_static_test_faviconpath",
-      "tests_frontend_static_test_fs",
-      "tests_frontend_static_test_htmlfiles",
-      "tests_frontend_static_test_outputsdir",
-      "tests_frontend_static_test_path",
-      "tests_frontend_static_test_privacysource",
-      "tests_frontend_static_test_retiredgenerator",
-      "tests_frontend_static_test_vm"
-    ],
-    "33": [
+    "34": [
       "core_prompts",
       "core_prompts_builda2acontractprompt",
       "core_prompts_builda2aexecutorprompt",
@@ -932,7 +935,7 @@
       "core_prompts_buildverifierprompt",
       "core_prompts_scaffoldhints"
     ],
-    "34": [
+    "35": [
       "extensions_gemini_token_optimizer_store_assets_store_listing",
       "extensions_gemini_token_optimizer_store_assets_store_listing_chrome_web_store_listing_copy",
       "extensions_gemini_token_optimizer_store_assets_store_listing_detailed_description",
@@ -943,7 +946,7 @@
       "extensions_gemini_token_optimizer_store_assets_store_listing_single_purpose_statement",
       "extensions_gemini_token_optimizer_store_assets_store_listing_store_assets"
     ],
-    "35": [
+    "36": [
       "extensions_gemini_token_optimizer_readme",
       "extensions_gemini_token_optimizer_readme_backend",
       "extensions_gemini_token_optimizer_readme_extend_the_wrapper",
@@ -953,7 +956,7 @@
       "extensions_gemini_token_optimizer_readme_token_optimizer_for_gemini_and_chatgpt",
       "extensions_gemini_token_optimizer_readme_what_it_does"
     ],
-    "36": [
+    "37": [
       "api_workflow_run",
       "api_workflow_run_abortsignalonclose_classifyproviderconfigfunding_commonheaders_publicerror_runbillablerequest_validatea2apayload",
       "api_workflow_run_projectpublicresult",
@@ -962,7 +965,7 @@
       "request_guard_validategeneratepayload",
       "request_guard_validatewith"
     ],
-    "37": [
+    "38": [
       "core_text",
       "core_text_cleanprompttext",
       "core_text_compactlines",
@@ -971,7 +974,7 @@
       "core_text_striplistprefix",
       "core_text_withouttrailingellipsis"
     ],
-    "38": [
+    "39": [
       "scripts_sync_vendor",
       "scripts_sync_vendor_checkonly",
       "scripts_sync_vendor_fs",
@@ -980,7 +983,7 @@
       "scripts_sync_vendor_stalefiles",
       "scripts_sync_vendor_vendorfiles"
     ],
-    "39": [
+    "40": [
       "api_system_overview",
       "api_system_overview_commonheaders_requestguardbackend",
       "api_system_overview_system_architecture",
@@ -988,7 +991,7 @@
       "optimizer_system_system_architecture",
       "request_guard_requestguardbackend"
     ],
-    "40": [
+    "41": [
       "extensions_gemini_token_optimizer_adapters_chatgpt",
       "extensions_gemini_token_optimizer_adapters_chatgpt_haspromptlabel",
       "extensions_gemini_token_optimizer_adapters_chatgpt_iscandidate",
@@ -996,7 +999,7 @@
       "extensions_gemini_token_optimizer_adapters_chatgpt_isnearpromptarea",
       "extensions_gemini_token_optimizer_adapters_chatgpt_score"
     ],
-    "41": [
+    "42": [
       "extensions_gemini_token_optimizer_adapters_gemini",
       "extensions_gemini_token_optimizer_adapters_gemini_haspromptlabel",
       "extensions_gemini_token_optimizer_adapters_gemini_iscandidate",
@@ -1004,7 +1007,7 @@
       "extensions_gemini_token_optimizer_adapters_gemini_isnearpromptarea",
       "extensions_gemini_token_optimizer_adapters_gemini_score"
     ],
-    "42": [
+    "43": [
       "scripts_sync_prompt_compiler",
       "scripts_sync_prompt_compiler_fs",
       "scripts_sync_prompt_compiler_path",
@@ -1012,41 +1015,44 @@
       "scripts_sync_prompt_compiler_source",
       "scripts_sync_prompt_compiler_targets"
     ],
-    "43": [
+    "44": [
+      "vercel",
+      "vercel_functions",
+      "vercel_functions_server_cjs",
+      "vercel_headers",
+      "vercel_schema",
+      "vercel_server_cjs_includefiles"
+    ],
+    "45": [
       "extensions_gemini_token_optimizer_adapters",
       "extensions_gemini_token_optimizer_adapters_adapter_contract",
       "extensions_gemini_token_optimizer_adapters_add_another_assistant",
       "extensions_gemini_token_optimizer_adapters_layers",
       "extensions_gemini_token_optimizer_adapters_site_adapter_architecture"
     ],
-    "44": [
+    "46": [
       "scripts_canonical_graph",
       "scripts_canonical_graph_fs",
       "scripts_canonical_graph_graph",
       "scripts_canonical_graph_sortdeep"
     ],
-    "45": [
+    "47": [
       "api_provider_status",
       "api_provider_status_commonheaders",
       "api_provider_status_providerstatus"
     ],
-    "46": [
-      "vercel",
-      "vercel_headers",
-      "vercel_rewrites"
-    ],
-    "47": [
+    "48": [
       "extensions_gemini_token_optimizer_platforms",
       "extensions_gemini_token_optimizer_platforms_forurl"
     ],
-    "48": [
+    "49": [
       "extensions_gemini_token_optimizer_service_worker",
       "extensions_gemini_token_optimizer_service_worker_setpanelfortab"
     ],
-    "49": [
+    "50": [
       "extensions_gemini_token_optimizer_content_bridge"
     ],
-    "50": [
+    "51": [
       "outputs_system_worker"
     ]
   },
@@ -1054,54 +1060,55 @@
     "0": 0.07137254901960784,
     "1": 0.1099290780141844,
     "2": 0.07030527289546716,
-    "3": 0.07549361207897794,
-    "4": 0.047619047619047616,
-    "5": 0.10512820512820513,
-    "6": 0.12280701754385964,
-    "7": 0.1111111111111111,
-    "8": 0.06456456456456457,
-    "9": 0.11051693404634581,
-    "10": 0.06060606060606061,
-    "11": 0.09879032258064516,
-    "12": 0.21428571428571427,
+    "3": 0.047619047619047616,
+    "4": 0.10512820512820513,
+    "5": 0.12280701754385964,
+    "6": 0.1111111111111111,
+    "7": 0.06456456456456457,
+    "8": 0.11051693404634581,
+    "9": 0.06060606060606061,
+    "10": 0.09879032258064516,
+    "11": 0.21428571428571427,
+    "12": 0.07407407407407407,
     "13": 0.07407407407407407,
-    "14": 0.07407407407407407,
-    "15": 0.15019762845849802,
-    "16": 0.1541501976284585,
-    "17": 0.15019762845849802,
-    "18": 0.18181818181818182,
+    "14": 0.15019762845849802,
+    "15": 0.1541501976284585,
+    "16": 0.15019762845849802,
+    "17": 0.18181818181818182,
+    "18": 0.16017316017316016,
     "19": 0.09090909090909091,
     "20": 0.20952380952380953,
-    "21": 0.24561403508771928,
-    "22": 0.15441176470588236,
-    "23": 0.11764705882352941,
-    "24": 0.14285714285714285,
-    "25": 0.15384615384615385,
-    "26": 0.23076923076923078,
-    "27": 0.2878787878787879,
-    "28": 0.2727272727272727,
-    "29": 0.2,
-    "30": 0.2,
+    "21": 0.11578947368421053,
+    "22": 0.24561403508771928,
+    "23": 0.15441176470588236,
+    "24": 0.11764705882352941,
+    "25": 0.14285714285714285,
+    "26": 0.15384615384615385,
+    "27": 0.23076923076923078,
+    "28": 0.2878787878787879,
+    "29": 0.2727272727272727,
+    "30": 0.18181818181818182,
     "31": 0.2,
     "32": 0.2,
-    "33": 0.25,
-    "34": 0.2222222222222222,
-    "35": 0.25,
-    "36": 0.2857142857142857,
-    "37": 0.38095238095238093,
-    "38": 0.2857142857142857,
-    "39": 0.3333333333333333,
-    "40": 0.6666666666666666,
+    "33": 0.2,
+    "34": 0.25,
+    "35": 0.2222222222222222,
+    "36": 0.25,
+    "37": 0.2857142857142857,
+    "38": 0.38095238095238093,
+    "39": 0.2857142857142857,
+    "40": 0.3333333333333333,
     "41": 0.6666666666666666,
-    "42": 0.3333333333333333,
-    "43": 0.4,
-    "44": 0.5,
-    "45": 0.6666666666666666,
-    "46": 0.6666666666666666,
-    "47": 1.0,
+    "42": 0.6666666666666666,
+    "43": 0.3333333333333333,
+    "44": 0.3333333333333333,
+    "45": 0.4,
+    "46": 0.5,
+    "47": 0.6666666666666666,
     "48": 1.0,
     "49": 1.0,
-    "50": 1.0
+    "50": 1.0,
+    "51": 1.0
   },
   "gods": [
     {
@@ -1215,7 +1222,7 @@
   "questions": [
     {
       "type": "bridge_node",
-      "question": "Why does `runSelfOptimizingWorkflow()` connect `workflow.cjs` to `acceptance.cjs`, `providers.cjs`, `telemetry.cjs`?",
+      "question": "Why does `runSelfOptimizingWorkflow()` connect `workflow.cjs` to `acceptance.cjs`, `providers.cjs`, `optimizer-core.cjs`, `telemetry.cjs`?",
       "why": "High betweenness centrality (0.009) - this node is a cross-community bridge."
     },
     {
@@ -1231,7 +1238,7 @@
     {
       "type": "isolated_nodes",
       "question": "What connects `assert`, `fs`, `path` to the rest of the system?",
-      "why": "390 weakly-connected nodes found - possible documentation gaps or missing edges."
+      "why": "392 weakly-connected nodes found - possible documentation gaps or missing edges."
     },
     {
       "type": "low_cohesion",

@@ -7,12 +7,23 @@ const outputsDir = path.resolve(__dirname, "../outputs");
 const privacySource = fs.readFileSync(path.join(outputsDir, "privacy.html"), "utf8");
 const retiredGenerator = path.join(outputsDir, "token-optimizer-file-generator.html");
 const faviconPath = path.join(outputsDir, "favicon.svg");
+const vercelConfig = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../vercel.json"), "utf8"));
 
 assert.match(privacySource, /Token Optimizer for Gemini™ and ChatGPT/);
 assert.match(privacySource, /raw and prepared prompt text is processed for the response and is not stored/i);
 assert.doesNotMatch(privacySource, /stores the latest raw prompt/i);
 assert.equal(fs.existsSync(retiredGenerator), false, "The retired browser-key generator must not be shipped.");
 assert.match(fs.readFileSync(faviconPath, "utf8"), /<svg\b/);
+assert.equal(
+  Object.hasOwn(vercelConfig, "rewrites"),
+  false,
+  "The deployed Node entrypoint must receive clean routes directly; output-directory rewrites break deep links."
+);
+assert.equal(
+  vercelConfig.functions?.["server.cjs"]?.includeFiles,
+  "{outputs/**,graphify-out/**}",
+  "The deployed Node function must bundle every page, asset, and code-graph file it serves."
+);
 
 const htmlFiles = fs.readdirSync(outputsDir)
   .filter((file) => file.endsWith(".html"))

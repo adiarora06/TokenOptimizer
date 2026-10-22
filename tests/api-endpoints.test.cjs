@@ -170,6 +170,8 @@ async function run() {
       "/settings",
       "/privacy",
       "/optimized-ide",
+      "/a2a-kit",
+      "/audit-log",
       "/token-optimizer-file-generator.html"
     ];
     for (const path of pages) {
@@ -177,6 +179,24 @@ async function run() {
       assert.equal(response.status, 200, path);
       assert.match(response.headers.get("content-type") || "", /text\/html/, path);
     }
+
+    const assets = [
+      ["/workspace.css", /text\/css/],
+      ["/app-nav.css", /text\/css/],
+      ["/workspace.js", /text\/javascript/],
+      ["/prompt-compiler.js", /text\/javascript/],
+      ["/system-worker.js", /text\/javascript/],
+      ["/vendor/marked/marked.umd.js", /text\/javascript/]
+    ];
+    for (const [path, contentType] of assets) {
+      const response = await fetch(`${baseUrl}${path}`);
+      assert.equal(response.status, 200, path);
+      assert.match(response.headers.get("content-type") || "", contentType, path);
+      assert.ok((await response.arrayBuffer()).byteLength > 0, `${path} must not be empty`);
+    }
+
+    const unknownRoute = await fetch(`${baseUrl}/not-a-token-optimizer-route`);
+    assert.equal(unknownRoute.status, 404, "Unknown paths must not fall back to an unrelated page");
 
     const retiredGeneratorAlias = await fetch(`${baseUrl}/token-optimizer-file-generator.html`);
     const retiredGeneratorHtml = await retiredGeneratorAlias.text();
