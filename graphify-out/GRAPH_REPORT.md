@@ -1,15 +1,15 @@
-# Graph Report - .  (2026-10-22)
+# Graph Report - .  (2026-11-03)
 
 ## Corpus Check
 - cluster-only mode — file stats not available
 
 ## Summary
-- 951 nodes · 1583 edges · 52 communities (48 shown, 4 thin omitted)
+- 953 nodes · 1585 edges · 52 communities (48 shown, 4 thin omitted)
 - Extraction: 91% EXTRACTED · 9% INFERRED · 0% AMBIGUOUS · INFERRED: 145 edges (avg confidence: 0.52)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `55911ba8`
+- Built from commit: `6d76e39d`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -50,10 +50,10 @@
 - service-worker.test.cjs
 - prompts.cjs
 - Chrome Web Store Listing Copy
+- sync-vendor.cjs
 - Token Optimizer for Gemini and ChatGPT
 - workflow-run.js
 - text.cjs
-- sync-vendor.cjs
 - system-overview.js
 - chatgpt.js
 - gemini.js
@@ -290,11 +290,15 @@ Nodes (9): assert, context, extensionDir, fs, panelOptions, path, platformsCode,
 Cohesion: 0.22
 Nodes (8): Chrome Web Store Listing Copy, Detailed Description, Extension Name, Permission Justification, Privacy Policy URL, Short Description, Single Purpose Statement, Store Assets
 
-### Community 36 - "Token Optimizer for Gemini and ChatGPT"
+### Community 36 - "sync-vendor.cjs"
+Cohesion: 0.22
+Nodes (7): checkOnly, fs, path, repositoryRoot, staleFiles, vendorFiles, vendorMapping
+
+### Community 37 - "Token Optimizer for Gemini and ChatGPT"
 Cohesion: 0.25
 Nodes (7): Backend, Extend The Wrapper, Load Locally, Package For Upload Later, Privacy Shape, Token Optimizer for Gemini and ChatGPT, What It Does
 
-### Community 37 - "workflow-run.js"
+### Community 38 - "workflow-run.js"
 Cohesion: 0.29
 Nodes (6): {
   abortSignalOnClose,
@@ -305,13 +309,9 @@ Nodes (6): {
   validateA2APayload
 }, { projectPublicResult }, { runBlankA2AKit }, validateA2APayload(), validateGeneratePayload(), validateWith()
 
-### Community 38 - "text.cjs"
+### Community 39 - "text.cjs"
 Cohesion: 0.38
 Nodes (3): cleanPromptText(), dedupeNaturalLanguageLines(), stripListPrefix()
-
-### Community 39 - "sync-vendor.cjs"
-Cohesion: 0.29
-Nodes (6): checkOnly, fs, path, repositoryRoot, staleFiles, vendorFiles
 
 ### Community 40 - "system-overview.js"
 Cohesion: 0.33
@@ -338,7 +338,7 @@ Cohesion: 0.40
 Nodes (4): Adapter Contract, Add Another Assistant, Layers, Site Adapter Architecture
 
 ## Knowledge Gaps
-- **392 isolated node(s):** `assert`, `fs`, `path`, `vm`, `promptBox` (+387 more)
+- **393 isolated node(s):** `assert`, `fs`, `path`, `vm`, `promptBox` (+388 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **4 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -352,7 +352,7 @@ _Questions this graph is uniquely positioned to answer:_
 - **Why does `MockResponse` connect `MockResponse` to `providers.cjs`?**
   _High betweenness centrality (0.008) - this node is a cross-community bridge._
 - **What connects `assert`, `fs`, `path` to the rest of the system?**
-  _392 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _393 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `telemetry-analysis.cjs` be split into smaller, more focused modules?**
   _Cohesion score 0.07137254901960784 - nodes in this community are weakly interconnected._
 - **Should `workspace.js` be split into smaller, more focused modules?**
