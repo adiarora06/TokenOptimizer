@@ -9,8 +9,9 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `6d76e39d`
-- Run `git rev-parse HEAD` and compare to check if the graph is stale.
+- Built from source commit: `6d76e39d` (before the generated Graphify artifact commit).
+- Check for source changes after that commit; a newer `HEAD` containing only
+  `graphify-out/` refreshes does not make this graph stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
