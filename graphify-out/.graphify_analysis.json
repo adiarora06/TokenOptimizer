@@ -947,6 +947,17 @@
       "extensions_gemini_token_optimizer_store_assets_store_listing_store_assets"
     ],
     "36": [
+      "scripts_sync_vendor",
+      "scripts_sync_vendor_checkonly",
+      "scripts_sync_vendor_fs",
+      "scripts_sync_vendor_localcssurls",
+      "scripts_sync_vendor_path",
+      "scripts_sync_vendor_repositoryroot",
+      "scripts_sync_vendor_stalefiles",
+      "scripts_sync_vendor_vendorfiles",
+      "scripts_sync_vendor_vendormapping"
+    ],
+    "37": [
       "extensions_gemini_token_optimizer_readme",
       "extensions_gemini_token_optimizer_readme_backend",
       "extensions_gemini_token_optimizer_readme_extend_the_wrapper",
@@ -956,7 +967,7 @@
       "extensions_gemini_token_optimizer_readme_token_optimizer_for_gemini_and_chatgpt",
       "extensions_gemini_token_optimizer_readme_what_it_does"
     ],
-    "37": [
+    "38": [
       "api_workflow_run",
       "api_workflow_run_abortsignalonclose_classifyproviderconfigfunding_commonheaders_publicerror_runbillablerequest_validatea2apayload",
       "api_workflow_run_projectpublicresult",
@@ -965,7 +976,7 @@
       "request_guard_validategeneratepayload",
       "request_guard_validatewith"
     ],
-    "38": [
+    "39": [
       "core_text",
       "core_text_cleanprompttext",
       "core_text_compactlines",
@@ -973,15 +984,6 @@
       "core_text_promptsection",
       "core_text_striplistprefix",
       "core_text_withouttrailingellipsis"
-    ],
-    "39": [
-      "scripts_sync_vendor",
-      "scripts_sync_vendor_checkonly",
-      "scripts_sync_vendor_fs",
-      "scripts_sync_vendor_path",
-      "scripts_sync_vendor_repositoryroot",
-      "scripts_sync_vendor_stalefiles",
-      "scripts_sync_vendor_vendorfiles"
     ],
     "40": [
       "api_system_overview",
@@ -1093,10 +1095,10 @@
     "33": 0.2,
     "34": 0.25,
     "35": 0.2222222222222222,
-    "36": 0.25,
-    "37": 0.2857142857142857,
-    "38": 0.38095238095238093,
-    "39": 0.2857142857142857,
+    "36": 0.2222222222222222,
+    "37": 0.25,
+    "38": 0.2857142857142857,
+    "39": 0.38095238095238093,
     "40": 0.3333333333333333,
     "41": 0.6666666666666666,
     "42": 0.6666666666666666,
@@ -1238,7 +1240,7 @@
     {
       "type": "isolated_nodes",
       "question": "What connects `assert`, `fs`, `path` to the rest of the system?",
-      "why": "392 weakly-connected nodes found - possible documentation gaps or missing edges."
+      "why": "393 weakly-connected nodes found - possible documentation gaps or missing edges."
     },
     {
       "type": "low_cohesion",

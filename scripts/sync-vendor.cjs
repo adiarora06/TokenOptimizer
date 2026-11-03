@@ -12,8 +12,46 @@ const vendorFiles = Object.freeze([
   ["node_modules/marked/LICENSE", "outputs/vendor/marked/LICENSE"],
   ["node_modules/@tabler/icons-webfont/dist/tabler-icons.min.css", "outputs/vendor/tabler/tabler-icons.min.css"],
   ["node_modules/@tabler/icons-webfont/dist/fonts/tabler-icons.woff2", "outputs/vendor/tabler/fonts/tabler-icons.woff2"],
+  ["node_modules/@tabler/icons-webfont/dist/fonts/tabler-icons.woff", "outputs/vendor/tabler/fonts/tabler-icons.woff"],
+  ["node_modules/@tabler/icons-webfont/dist/fonts/tabler-icons.ttf", "outputs/vendor/tabler/fonts/tabler-icons.ttf"],
   ["node_modules/@tabler/icons-webfont/LICENSE", "outputs/vendor/tabler/LICENSE"]
 ]);
+
+const vendorMapping = new Map(vendorFiles.map(([source, destination]) => [
+  path.normalize(source),
+  path.normalize(destination)
+]));
+
+function localCssUrls(sourceRelative) {
+  const source = fs.readFileSync(path.join(repositoryRoot, sourceRelative), "utf8");
+  const urls = [];
+  const urlPattern = /url\(\s*["']?([^"')]+)["']?\s*\)/g;
+  let match;
+
+  while ((match = urlPattern.exec(source))) {
+    const reference = match[1].trim();
+    if (/^(?:data:|https?:|#)/i.test(reference)) continue;
+    urls.push(reference.split(/[?#]/, 1)[0]);
+  }
+
+  return urls;
+}
+
+for (const [sourceRelative, destinationRelative] of vendorFiles) {
+  if (!sourceRelative.endsWith(".css")) continue;
+
+  for (const reference of localCssUrls(sourceRelative)) {
+    const referencedSource = path.normalize(path.join(path.dirname(sourceRelative), reference));
+    const referencedDestination = path.normalize(path.join(path.dirname(destinationRelative), reference));
+
+    if (vendorMapping.get(referencedSource) !== referencedDestination) {
+      throw new Error(
+        `Vendored CSS asset is not mapped: ${sourceRelative} references ${reference}. `
+        + "Add its source and destination to vendorFiles."
+      );
+    }
+  }
+}
 
 const staleFiles = [];
 

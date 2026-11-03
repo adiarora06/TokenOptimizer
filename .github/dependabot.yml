@@ -10,6 +10,12 @@ updates:
         dependency-type: production
       development-dependencies:
         dependency-type: development
+    ignore:
+      - dependency-name: "@tabler/icons-webfont"
+        # 3.50+ splits the icon font into many CSS-referenced files. Keep the
+        # working 3.49 bundle until the vendoring pipeline supports that layout.
+        versions:
+          - ">=3.50.0"
     open-pull-requests-limit: 5
 
   - package-ecosystem: github-actions
