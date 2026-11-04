@@ -245,6 +245,43 @@ async function run() {
     assert.equal(overview.data.telemetry.privacy, "metadata-only");
     assert.ok(overview.data.telemetry.health.status);
 
+    const malformedJson = await jsonRequest(baseUrl, "/api/system-runs", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: '{"input":'
+    });
+    assert.equal(malformedJson.response.status, 400);
+    assert.equal(malformedJson.data.code, "invalid_json");
+    assert.equal(malformedJson.data.error, "Request body must contain valid JSON");
+
+    const oversizedAscii = await jsonRequest(baseUrl, "/api/system-runs", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ input: "x".repeat(1_000_000) })
+    });
+    assert.equal(oversizedAscii.response.status, 413);
+    assert.equal(oversizedAscii.data.code, "payload_too_large");
+
+    const oversizedMultibyte = await jsonRequest(baseUrl, "/api/system-runs", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ input: "é".repeat(500_000) })
+    });
+    assert.equal(oversizedMultibyte.response.status, 413);
+    assert.equal(oversizedMultibyte.data.code, "payload_too_large");
+
+    const unexpectedFailure = await jsonRequest(baseUrl, "/api/system-runs/%");
+    assert.equal(unexpectedFailure.response.status, 500);
+    assert.deepEqual(unexpectedFailure.data, {
+      error: "Internal server error",
+      code: "internal_error"
+    });
+    assert.doesNotMatch(unexpectedFailure.text, /URI malformed/);
+
+    const healthAfterRejectedBodies = await jsonRequest(baseUrl, "/api/provider-status");
+    assert.equal(healthAfterRejectedBodies.response.status, 200);
+    assert.equal(healthAfterRejectedBodies.data.openaiConfigured, true);
+
     const prepared = await jsonRequest(baseUrl, "/api/prepare-handoff", post({
       input: "I want you to reply with OK",
       target: "gemini"
