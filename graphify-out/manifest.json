@@ -195,9 +195,9 @@
     "semantic_hash": "e15fe811b78cf35a4c475585bd3decbc"
   },
   "tests/frontend-static.test.cjs": {
-    "mtime": 1793833862.9308562,
-    "ast_hash": "3b3972cad83e423891cef50571c541c0",
-    "semantic_hash": "3b3972cad83e423891cef50571c541c0"
+    "mtime": 1793834103.6533592,
+    "ast_hash": "3a4ff8cc4322bbf7bacf11adc51621fd",
+    "semantic_hash": "3a4ff8cc4322bbf7bacf11adc51621fd"
   },
   ".github/workflows/ci.yml": {
     "mtime": 1785719692.5859432,

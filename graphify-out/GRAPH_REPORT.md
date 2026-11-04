@@ -9,7 +9,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from source commit: `db575a72` (before the generated Graphify artifact commit).
+- Built from source commit: `97132e73` (before the generated Graphify artifact commit).
 - Check for source changes after that commit; a newer `HEAD` containing only
   `graphify-out/` refreshes does not make this graph stale.
 - Run `graphify update .` after code changes (no API cost).

@@ -8844,8 +8844,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "workspace.js",
-      "id": "outputs_workspace",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace"
     },
     {
       "label": "makeId()",
@@ -8855,8 +8855,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "makeid()",
-      "id": "outputs_workspace_makeid",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_makeid"
     },
     {
       "label": "ensureSession()",
@@ -8866,8 +8866,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "ensuresession()",
-      "id": "outputs_workspace_ensuresession",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_ensuresession"
     },
     {
       "label": "ensureDeviceId()",
@@ -8877,8 +8877,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "ensuredeviceid()",
-      "id": "outputs_workspace_ensuredeviceid",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_ensuredeviceid"
     },
     {
       "label": "estimateTokens()",
@@ -8888,8 +8888,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "estimatetokens()",
-      "id": "outputs_workspace_estimatetokens",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_estimatetokens"
     },
     {
       "label": "compactNumber()",
@@ -8899,8 +8899,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "compactnumber()",
-      "id": "outputs_workspace_compactnumber",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_compactnumber"
     },
     {
       "label": "formatDuration()",
@@ -8910,8 +8910,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "formatduration()",
-      "id": "outputs_workspace_formatduration",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_formatduration"
     },
     {
       "label": "formatCost()",
@@ -8921,8 +8921,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "formatcost()",
-      "id": "outputs_workspace_formatcost",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_formatcost"
     },
     {
       "label": "toast()",
@@ -8932,8 +8932,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "toast()",
-      "id": "outputs_workspace_toast",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_toast"
     },
     {
       "label": "setServiceState()",
@@ -8943,8 +8943,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "setservicestate()",
-      "id": "outputs_workspace_setservicestate",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_setservicestate"
     },
     {
       "label": "setLiveStatus()",
@@ -8954,8 +8954,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "setlivestatus()",
-      "id": "outputs_workspace_setlivestatus",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_setlivestatus"
     },
     {
       "label": "routeAnalysis()",
@@ -8965,8 +8965,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "routeanalysis()",
-      "id": "outputs_workspace_routeanalysis",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_routeanalysis"
     },
     {
       "label": "contextInput()",
@@ -8976,8 +8976,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "contextinput()",
-      "id": "outputs_workspace_contextinput",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_contextinput"
     },
     {
       "label": "refreshContextChip()",
@@ -8987,8 +8987,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "refreshcontextchip()",
-      "id": "outputs_workspace_refreshcontextchip",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_refreshcontextchip"
     },
     {
       "label": "refreshPreflight()",
@@ -8998,8 +8998,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "refreshpreflight()",
-      "id": "outputs_workspace_refreshpreflight",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_refreshpreflight"
     },
     {
       "label": "routeLabel()",
@@ -9009,8 +9009,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "routelabel()",
-      "id": "outputs_workspace_routelabel",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_routelabel"
     },
     {
       "label": "timelineStepFor()",
@@ -9020,8 +9020,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "timelinestepfor()",
-      "id": "outputs_workspace_timelinestepfor",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_timelinestepfor"
     },
     {
       "label": "resetTimeline()",
@@ -9031,8 +9031,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "resettimeline()",
-      "id": "outputs_workspace_resettimeline",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_resettimeline"
     },
     {
       "label": "updateTimeline()",
@@ -9042,8 +9042,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "updatetimeline()",
-      "id": "outputs_workspace_updatetimeline",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_updatetimeline"
     },
     {
       "label": "setRunView()",
@@ -9053,8 +9053,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "setrunview()",
-      "id": "outputs_workspace_setrunview",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_setrunview"
     },
     {
       "label": "setRunning()",
@@ -9064,8 +9064,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "setrunning()",
-      "id": "outputs_workspace_setrunning",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_setrunning"
     },
     {
       "label": "resetMetrics()",
@@ -9075,8 +9075,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "resetmetrics()",
-      "id": "outputs_workspace_resetmetrics",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_resetmetrics"
     },
     {
       "label": "renderMarkdown()",
@@ -9086,8 +9086,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "rendermarkdown()",
-      "id": "outputs_workspace_rendermarkdown",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_rendermarkdown"
     },
     {
       "label": "resultTitle()",
@@ -9097,8 +9097,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "resulttitle()",
-      "id": "outputs_workspace_resulttitle",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_resulttitle"
     },
     {
       "label": "contextComparisonText()",
@@ -9108,8 +9108,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "contextcomparisontext()",
-      "id": "outputs_workspace_contextcomparisontext",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_contextcomparisontext"
     },
     {
       "label": "renderMetrics()",
@@ -9119,8 +9119,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "rendermetrics()",
-      "id": "outputs_workspace_rendermetrics",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_rendermetrics"
     },
     {
       "label": "renderAcceptance()",
@@ -9130,8 +9130,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "renderacceptance()",
-      "id": "outputs_workspace_renderacceptance",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_renderacceptance"
     },
     {
       "label": "renderRouteDetails()",
@@ -9141,8 +9141,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "renderroutedetails()",
-      "id": "outputs_workspace_renderroutedetails",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_renderroutedetails"
     },
     {
       "label": "renderCompleted()",
@@ -9152,8 +9152,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "rendercompleted()",
-      "id": "outputs_workspace_rendercompleted",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_rendercompleted"
     },
     {
       "label": "renderError()",
@@ -9163,8 +9163,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "rendererror()",
-      "id": "outputs_workspace_rendererror",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_rendererror"
     },
     {
       "label": "escapeHtml()",
@@ -9174,8 +9174,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "escapehtml()",
-      "id": "outputs_workspace_escapehtml",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_escapehtml"
     },
     {
       "label": "loadArray()",
@@ -9185,8 +9185,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "loadarray()",
-      "id": "outputs_workspace_loadarray",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_loadarray"
     },
     {
       "label": "runOutcome()",
@@ -9196,8 +9196,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "runoutcome()",
-      "id": "outputs_workspace_runoutcome",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_runoutcome"
     },
     {
       "label": "coordinatorActions()",
@@ -9207,8 +9207,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "coordinatoractions()",
-      "id": "outputs_workspace_coordinatoractions",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_coordinatoractions"
     },
     {
       "label": "saveRun()",
@@ -9218,8 +9218,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "saverun()",
-      "id": "outputs_workspace_saverun",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_saverun"
     },
     {
       "label": "parseEventStream()",
@@ -9229,8 +9229,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "parseeventstream()",
-      "id": "outputs_workspace_parseeventstream",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_parseeventstream"
     },
     {
       "label": "run()",
@@ -9240,8 +9240,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "run()",
-      "id": "outputs_workspace_run",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_run"
     },
     {
       "label": "copyText()",
@@ -9251,8 +9251,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "copytext()",
-      "id": "outputs_workspace_copytext",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_copytext"
     },
     {
       "label": "suggestedFilename()",
@@ -9262,8 +9262,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "suggestedfilename()",
-      "id": "outputs_workspace_suggestedfilename",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_suggestedfilename"
     },
     {
       "label": "downloadResult()",
@@ -9273,8 +9273,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "downloadresult()",
-      "id": "outputs_workspace_downloadresult",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_downloadresult"
     },
     {
       "label": "continueFromResult()",
@@ -9284,8 +9284,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "continuefromresult()",
-      "id": "outputs_workspace_continuefromresult",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_continuefromresult"
     },
     {
       "label": "toggleInlineResult()",
@@ -9295,8 +9295,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "toggleinlineresult()",
-      "id": "outputs_workspace_toggleinlineresult",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_toggleinlineresult"
     },
     {
       "label": "handleAttachment()",
@@ -9306,8 +9306,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "handleattachment()",
-      "id": "outputs_workspace_handleattachment",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_handleattachment"
     },
     {
       "label": "removeContext()",
@@ -9317,8 +9317,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "removecontext()",
-      "id": "outputs_workspace_removecontext",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_removecontext"
     },
     {
       "label": "checkService()",
@@ -9328,8 +9328,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "checkservice()",
-      "id": "outputs_workspace_checkservice",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_checkservice"
     },
     {
       "label": "restoreInput()",
@@ -9339,8 +9339,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "restoreinput()",
-      "id": "outputs_workspace_restoreinput",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_restoreinput"
     },
     {
       "label": "bindEvents()",
@@ -9350,8 +9350,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "bindevents()",
-      "id": "outputs_workspace_bindevents",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_bindevents"
     },
     {
       "label": "startClock()",
@@ -9361,8 +9361,8 @@
       "_origin": "ast",
       "community": 1,
       "norm_label": "startclock()",
-      "id": "outputs_workspace_startclock",
-      "community_name": "workspace.js"
+      "community_name": "workspace.js",
+      "id": "outputs_workspace_startclock"
     },
     {
       "label": "request-guard.cjs",
@@ -9372,8 +9372,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "request-guard.cjs",
-      "id": "request_guard",
-      "community_name": "request-guard.cjs"
+      "community_name": "request-guard.cjs",
+      "id": "request_guard"
     },
     {
       "label": "{ z }",
@@ -9383,8 +9383,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "{ z }",
-      "id": "request_guard_z",
-      "community_name": "request-guard.cjs"
+      "community_name": "request-guard.cjs",
+      "id": "request_guard_z"
     },
     {
       "label": "net",
@@ -9394,8 +9394,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "net",
-      "id": "request_guard_net",
-      "community_name": "request-guard.cjs"
+      "community_name": "request-guard.cjs",
+      "id": "request_guard_net"
     },
     {
       "label": "crypto",
@@ -9405,8 +9405,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "crypto",
-      "id": "request_guard_crypto",
-      "community_name": "request-guard.cjs"
+      "community_name": "request-guard.cjs",
+      "id": "request_guard_crypto"
     },
     {
       "label": "{ INTERNAL_API_ERROR }",
@@ -9416,8 +9416,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "{ internal_api_error }",
-      "id": "request_guard_internal_api_error",
-      "community_name": "request-guard.cjs"
+      "community_name": "request-guard.cjs",
+      "id": "request_guard_internal_api_error"
     },
     {
       "label": "{ safeErrorMessage }",
@@ -9427,8 +9427,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "{ safeerrormessage }",
-      "id": "request_guard_safeerrormessage",
-      "community_name": "request-guard.cjs"
+      "community_name": "request-guard.cjs",
+      "id": "request_guard_safeerrormessage"
     },
     {
       "label": "{\n  MIN_SHARED_EXECUTION_FENCE_MS,\n  createSharedRequestGuardAdapters\n}",
@@ -9438,8 +9438,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "{\n  min_shared_execution_fence_ms,\n  createsharedrequestguardadapters\n}",
-      "id": "request_guard_min_shared_execution_fence_ms_createsharedrequestguardadapters",
-      "community_name": "request-guard.cjs"
+      "community_name": "request-guard.cjs",
+      "id": "request_guard_min_shared_execution_fence_ms_createsharedrequestguardadapters"
     },
     {
       "label": "boundedInteger()",
@@ -9449,8 +9449,8 @@
       "_origin": "ast",
       "community": 24,
       "norm_label": "boundedinteger()",
-      "id": "request_guard_boundedinteger",
-      "community_name": "request-guard.test.cjs"
+      "community_name": "request-guard.test.cjs",
+      "id": "request_guard_boundedinteger"
     },
     {
       "label": "MAX_INPUT_CHARS",
@@ -9460,8 +9460,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "max_input_chars",
-      "id": "request_guard_max_input_chars",
-      "community_name": "request-guard.cjs"
+      "community_name": "request-guard.cjs",
+      "id": "request_guard_max_input_chars"
     },
     {
       "label": "RATE_PROFILES",
@@ -9471,8 +9471,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "rate_profiles",
-      "id": "request_guard_rate_profiles",
-      "community_name": "request-guard.cjs"
+      "community_name": "request-guard.cjs",
+      "id": "request_guard_rate_profiles"
     },
     {
       "label": "RATE_BUCKET_CAP",
@@ -9482,8 +9482,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "rate_bucket_cap",
-      "id": "request_guard_rate_bucket_cap",
-      "community_name": "request-guard.cjs"
+      "community_name": "request-guard.cjs",
+      "id": "request_guard_rate_bucket_cap"
     },
     {
       "label": "MAX_CONCURRENT_BILLABLE",
@@ -9493,8 +9493,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "max_concurrent_billable",
-      "id": "request_guard_max_concurrent_billable",
-      "community_name": "request-guard.cjs"
+      "community_name": "request-guard.cjs",
+      "id": "request_guard_max_concurrent_billable"
     },
     {
       "label": "DAILY_CALL_LIMIT",
@@ -9504,8 +9504,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "daily_call_limit",
-      "id": "request_guard_daily_call_limit",
-      "community_name": "request-guard.cjs"
+      "community_name": "request-guard.cjs",
+      "id": "request_guard_daily_call_limit"
     },
     {
       "label": "DAILY_TOKEN_LIMIT",
@@ -9515,8 +9515,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "daily_token_limit",
-      "id": "request_guard_daily_token_limit",
-      "community_name": "request-guard.cjs"
+      "community_name": "request-guard.cjs",
+      "id": "request_guard_daily_token_limit"
     },
     {
       "label": "IDEMPOTENCY_MAX_ENTRIES",
@@ -9526,8 +9526,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "idempotency_max_entries",
-      "id": "request_guard_idempotency_max_entries",
-      "community_name": "request-guard.cjs"
+      "community_name": "request-guard.cjs",
+      "id": "request_guard_idempotency_max_entries"
     },
     {
       "label": "IDEMPOTENCY_TTL_MS",
@@ -9537,8 +9537,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "idempotency_ttl_ms",
-      "id": "request_guard_idempotency_ttl_ms",
-      "community_name": "request-guard.cjs"
+      "community_name": "request-guard.cjs",
+      "id": "request_guard_idempotency_ttl_ms"
     },
     {
       "label": "configuredCredentialTagKey",
@@ -9548,8 +9548,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "configuredcredentialtagkey",
-      "id": "request_guard_configuredcredentialtagkey",
-      "community_name": "request-guard.cjs"
+      "community_name": "request-guard.cjs",
+      "id": "request_guard_configuredcredentialtagkey"
     },
     {
       "label": "requiredString()",
@@ -9559,8 +9559,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "requiredstring()",
-      "id": "request_guard_requiredstring",
-      "community_name": "request-guard.cjs"
+      "community_name": "request-guard.cjs",
+      "id": "request_guard_requiredstring"
     },
     {
       "label": "providerConfigSchema",
@@ -9570,8 +9570,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "providerconfigschema",
-      "id": "request_guard_providerconfigschema",
-      "community_name": "request-guard.cjs"
+      "community_name": "request-guard.cjs",
+      "id": "request_guard_providerconfigschema"
     },
     {
       "label": "optimizerPayloadSchema",
@@ -9581,8 +9581,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "optimizerpayloadschema",
-      "id": "request_guard_optimizerpayloadschema",
-      "community_name": "request-guard.cjs"
+      "community_name": "request-guard.cjs",
+      "id": "request_guard_optimizerpayloadschema"
     },
     {
       "label": "a2aPayloadSchema",
@@ -9592,8 +9592,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "a2apayloadschema",
-      "id": "request_guard_a2apayloadschema",
-      "community_name": "request-guard.cjs"
+      "community_name": "request-guard.cjs",
+      "id": "request_guard_a2apayloadschema"
     },
     {
       "label": "generatePayloadSchema",
@@ -9603,8 +9603,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "generatepayloadschema",
-      "id": "request_guard_generatepayloadschema",
-      "community_name": "request-guard.cjs"
+      "community_name": "request-guard.cjs",
+      "id": "request_guard_generatepayloadschema"
     },
     {
       "label": "normalizedIp()",
@@ -9614,8 +9614,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "normalizedip()",
-      "id": "request_guard_normalizedip",
-      "community_name": "request-guard.cjs"
+      "community_name": "request-guard.cjs",
+      "id": "request_guard_normalizedip"
     },
     {
       "label": "clientKey()",
@@ -9625,8 +9625,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "clientkey()",
-      "id": "request_guard_clientkey",
-      "community_name": "request-guard.cjs"
+      "community_name": "request-guard.cjs",
+      "id": "request_guard_clientkey"
     },
     {
       "label": "createRateLimiter()",
@@ -9636,8 +9636,8 @@
       "_origin": "ast",
       "community": 24,
       "norm_label": "createratelimiter()",
-      "id": "request_guard_createratelimiter",
-      "community_name": "request-guard.test.cjs"
+      "community_name": "request-guard.test.cjs",
+      "id": "request_guard_createratelimiter"
     },
     {
       "label": "sharedGuardAdapters",
@@ -9647,8 +9647,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "sharedguardadapters",
-      "id": "request_guard_sharedguardadapters",
-      "community_name": "request-guard.cjs"
+      "community_name": "request-guard.cjs",
+      "id": "request_guard_sharedguardadapters"
     },
     {
       "label": "takeRateLimit()",
@@ -9658,8 +9658,8 @@
       "_origin": "ast",
       "community": 10,
       "norm_label": "takeratelimit()",
-      "id": "request_guard_takeratelimit",
-      "community_name": "a2a-run.js"
+      "community_name": "a2a-run.js",
+      "id": "request_guard_takeratelimit"
     },
     {
       "label": "RequestGuardError",
@@ -9669,8 +9669,8 @@
       "_origin": "ast",
       "community": 52,
       "norm_label": "requestguarderror",
-      "id": "request_guard_requestguarderror",
-      "community_name": "RequestGuardError"
+      "community_name": "RequestGuardError",
+      "id": "request_guard_requestguarderror"
     },
     {
       "label": ".constructor()",
@@ -9680,8 +9680,8 @@
       "_origin": "ast",
       "community": 52,
       "norm_label": ".constructor()",
-      "id": "request_guard_requestguarderror_constructor",
-      "community_name": "RequestGuardError"
+      "community_name": "RequestGuardError",
+      "id": "request_guard_requestguarderror_constructor"
     },
     {
       "label": "singleHeader()",
@@ -9691,8 +9691,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "singleheader()",
-      "id": "request_guard_singleheader",
-      "community_name": "request-guard.cjs"
+      "community_name": "request-guard.cjs",
+      "id": "request_guard_singleheader"
     },
     {
       "label": "credentialTag()",
@@ -9702,8 +9702,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "credentialtag()",
-      "id": "request_guard_credentialtag",
-      "community_name": "request-guard.cjs"
+      "community_name": "request-guard.cjs",
+      "id": "request_guard_credentialtag"
     },
     {
       "label": "constantTimeSecretEqual()",
@@ -9713,8 +9713,8 @@
       "_origin": "ast",
       "community": 24,
       "norm_label": "constanttimesecretequal()",
-      "id": "request_guard_constanttimesecretequal",
-      "community_name": "request-guard.test.cjs"
+      "community_name": "request-guard.test.cjs",
+      "id": "request_guard_constanttimesecretequal"
     },
     {
       "label": "bearerCredential()",
@@ -9724,8 +9724,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "bearercredential()",
-      "id": "request_guard_bearercredential",
-      "community_name": "request-guard.cjs"
+      "community_name": "request-guard.cjs",
+      "id": "request_guard_bearercredential"
     },
     {
       "label": "idempotencyPrincipal()",
@@ -9735,8 +9735,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "idempotencyprincipal()",
-      "id": "request_guard_idempotencyprincipal",
-      "community_name": "request-guard.cjs"
+      "community_name": "request-guard.cjs",
+      "id": "request_guard_idempotencyprincipal"
     },
     {
       "label": "enabled()",
@@ -9746,8 +9746,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "enabled()",
-      "id": "request_guard_enabled",
-      "community_name": "request-guard.cjs"
+      "community_name": "request-guard.cjs",
+      "id": "request_guard_enabled"
     },
     {
       "label": "combineAbortSignals()",
@@ -9757,8 +9757,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "combineabortsignals()",
-      "id": "request_guard_combineabortsignals",
-      "community_name": "request-guard.cjs"
+      "community_name": "request-guard.cjs",
+      "id": "request_guard_combineabortsignals"
     },
     {
       "label": "classifyProviderConfigFunding()",
@@ -9768,8 +9768,8 @@
       "_origin": "ast",
       "community": 24,
       "norm_label": "classifyproviderconfigfunding()",
-      "id": "request_guard_classifyproviderconfigfunding",
-      "community_name": "request-guard.test.cjs"
+      "community_name": "request-guard.test.cjs",
+      "id": "request_guard_classifyproviderconfigfunding"
     },
     {
       "label": "classifyRequestFunding()",
@@ -9779,8 +9779,8 @@
       "_origin": "ast",
       "community": 24,
       "norm_label": "classifyrequestfunding()",
-      "id": "request_guard_classifyrequestfunding",
-      "community_name": "request-guard.test.cjs"
+      "community_name": "request-guard.test.cjs",
+      "id": "request_guard_classifyrequestfunding"
     },
     {
       "label": "authorizeBillableRequest()",
@@ -9790,8 +9790,8 @@
       "_origin": "ast",
       "community": 24,
       "norm_label": "authorizebillablerequest()",
-      "id": "request_guard_authorizebillablerequest",
-      "community_name": "request-guard.test.cjs"
+      "community_name": "request-guard.test.cjs",
+      "id": "request_guard_authorizebillablerequest"
     },
     {
       "label": "validateIdempotencyKey()",
@@ -9801,8 +9801,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "validateidempotencykey()",
-      "id": "request_guard_validateidempotencykey",
-      "community_name": "request-guard.cjs"
+      "community_name": "request-guard.cjs",
+      "id": "request_guard_validateidempotencykey"
     },
     {
       "label": "requestIdempotencyKey()",
@@ -9812,8 +9812,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "requestidempotencykey()",
-      "id": "request_guard_requestidempotencykey",
-      "community_name": "request-guard.cjs"
+      "community_name": "request-guard.cjs",
+      "id": "request_guard_requestidempotencykey"
     },
     {
       "label": "canonicalFingerprintValue()",
@@ -9823,8 +9823,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "canonicalfingerprintvalue()",
-      "id": "request_guard_canonicalfingerprintvalue",
-      "community_name": "request-guard.cjs"
+      "community_name": "request-guard.cjs",
+      "id": "request_guard_canonicalfingerprintvalue"
     },
     {
       "label": "idempotencyFingerprint()",
@@ -9834,8 +9834,8 @@
       "_origin": "ast",
       "community": 24,
       "norm_label": "idempotencyfingerprint()",
-      "id": "request_guard_idempotencyfingerprint",
-      "community_name": "request-guard.test.cjs"
+      "community_name": "request-guard.test.cjs",
+      "id": "request_guard_idempotencyfingerprint"
     },
     {
       "label": "createConcurrencyGate()",
@@ -9845,8 +9845,8 @@
       "_origin": "ast",
       "community": 24,
       "norm_label": "createconcurrencygate()",
-      "id": "request_guard_createconcurrencygate",
-      "community_name": "request-guard.test.cjs"
+      "community_name": "request-guard.test.cjs",
+      "id": "request_guard_createconcurrencygate"
     },
     {
       "label": "utcDay()",
@@ -9856,8 +9856,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "utcday()",
-      "id": "request_guard_utcday",
-      "community_name": "request-guard.cjs"
+      "community_name": "request-guard.cjs",
+      "id": "request_guard_utcday"
     },
     {
       "label": "createDailyBudget()",
@@ -9867,8 +9867,8 @@
       "_origin": "ast",
       "community": 24,
       "norm_label": "createdailybudget()",
-      "id": "request_guard_createdailybudget",
-      "community_name": "request-guard.test.cjs"
+      "community_name": "request-guard.test.cjs",
+      "id": "request_guard_createdailybudget"
     },
     {
       "label": "createIdempotencyStore()",
@@ -9878,8 +9878,8 @@
       "_origin": "ast",
       "community": 24,
       "norm_label": "createidempotencystore()",
-      "id": "request_guard_createidempotencystore",
-      "community_name": "request-guard.test.cjs"
+      "community_name": "request-guard.test.cjs",
+      "id": "request_guard_createidempotencystore"
     },
     {
       "label": "tokenUsageFromResult()",
@@ -9889,8 +9889,8 @@
       "_origin": "ast",
       "community": 24,
       "norm_label": "tokenusagefromresult()",
-      "id": "request_guard_tokenusagefromresult",
-      "community_name": "request-guard.test.cjs"
+      "community_name": "request-guard.test.cjs",
+      "id": "request_guard_tokenusagefromresult"
     },
     {
       "label": "estimateBillableTokens()",
@@ -9900,8 +9900,8 @@
       "_origin": "ast",
       "community": 24,
       "norm_label": "estimatebillabletokens()",
-      "id": "request_guard_estimatebillabletokens",
-      "community_name": "request-guard.test.cjs"
+      "community_name": "request-guard.test.cjs",
+      "id": "request_guard_estimatebillabletokens"
     },
     {
       "label": "estimatedTokenCount()",
@@ -9911,8 +9911,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "estimatedtokencount()",
-      "id": "request_guard_estimatedtokencount",
-      "community_name": "request-guard.cjs"
+      "community_name": "request-guard.cjs",
+      "id": "request_guard_estimatedtokencount"
     },
     {
       "label": "guardFailure()",
@@ -9922,8 +9922,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "guardfailure()",
-      "id": "request_guard_guardfailure",
-      "community_name": "request-guard.cjs"
+      "community_name": "request-guard.cjs",
+      "id": "request_guard_guardfailure"
     },
     {
       "label": "createBillableRequestGuard()",
@@ -9933,8 +9933,8 @@
       "_origin": "ast",
       "community": 24,
       "norm_label": "createbillablerequestguard()",
-      "id": "request_guard_createbillablerequestguard",
-      "community_name": "request-guard.test.cjs"
+      "community_name": "request-guard.test.cjs",
+      "id": "request_guard_createbillablerequestguard"
     },
     {
       "label": "defaultBillableRequestGuard",
@@ -9944,8 +9944,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "defaultbillablerequestguard",
-      "id": "request_guard_defaultbillablerequestguard",
-      "community_name": "request-guard.cjs"
+      "community_name": "request-guard.cjs",
+      "id": "request_guard_defaultbillablerequestguard"
     },
     {
       "label": "runBillableRequest()",
@@ -9955,8 +9955,8 @@
       "_origin": "ast",
       "community": 10,
       "norm_label": "runbillablerequest()",
-      "id": "request_guard_runbillablerequest",
-      "community_name": "a2a-run.js"
+      "community_name": "a2a-run.js",
+      "id": "request_guard_runbillablerequest"
     },
     {
       "label": "acquireConcurrencySlot()",
@@ -9966,8 +9966,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "acquireconcurrencyslot()",
-      "id": "request_guard_acquireconcurrencyslot",
-      "community_name": "request-guard.cjs"
+      "community_name": "request-guard.cjs",
+      "id": "request_guard_acquireconcurrencyslot"
     },
     {
       "label": "reserveDailyBudget()",
@@ -9977,8 +9977,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "reservedailybudget()",
-      "id": "request_guard_reservedailybudget",
-      "community_name": "request-guard.cjs"
+      "community_name": "request-guard.cjs",
+      "id": "request_guard_reservedailybudget"
     },
     {
       "label": "requestGuardBackend()",
@@ -9988,8 +9988,8 @@
       "_origin": "ast",
       "community": 20,
       "norm_label": "requestguardbackend()",
-      "id": "request_guard_requestguardbackend",
-      "community_name": "optimizer-system.cjs"
+      "community_name": "optimizer-system.cjs",
+      "id": "request_guard_requestguardbackend"
     },
     {
       "label": "validateOptimizerPayload()",
@@ -9999,8 +9999,8 @@
       "_origin": "ast",
       "community": 10,
       "norm_label": "validateoptimizerpayload()",
-      "id": "request_guard_validateoptimizerpayload",
-      "community_name": "a2a-run.js"
+      "community_name": "a2a-run.js",
+      "id": "request_guard_validateoptimizerpayload"
     },
     {
       "label": "validateWith()",
@@ -10010,8 +10010,8 @@
       "_origin": "ast",
       "community": 39,
       "norm_label": "validatewith()",
-      "id": "request_guard_validatewith",
-      "community_name": "workflow-run.js"
+      "community_name": "workflow-run.js",
+      "id": "request_guard_validatewith"
     },
     {
       "label": "validateA2APayload()",
@@ -10021,8 +10021,8 @@
       "_origin": "ast",
       "community": 39,
       "norm_label": "validatea2apayload()",
-      "id": "request_guard_validatea2apayload",
-      "community_name": "workflow-run.js"
+      "community_name": "workflow-run.js",
+      "id": "request_guard_validatea2apayload"
     },
     {
       "label": "validateGeneratePayload()",
@@ -10032,8 +10032,8 @@
       "_origin": "ast",
       "community": 39,
       "norm_label": "validategeneratepayload()",
-      "id": "request_guard_validategeneratepayload",
-      "community_name": "workflow-run.js"
+      "community_name": "workflow-run.js",
+      "id": "request_guard_validategeneratepayload"
     },
     {
       "label": "publicError()",
@@ -10043,8 +10043,8 @@
       "_origin": "ast",
       "community": 4,
       "norm_label": "publicerror()",
-      "id": "request_guard_publicerror",
-      "community_name": "request-guard.cjs"
+      "community_name": "request-guard.cjs",
+      "id": "request_guard_publicerror"
     },
     {
       "label": "abortSignalOnClose()",
@@ -10054,8 +10054,8 @@
       "_origin": "ast",
       "community": 10,
       "norm_label": "abortsignalonclose()",
-      "id": "request_guard_abortsignalonclose",
-      "community_name": "a2a-run.js"
+      "community_name": "a2a-run.js",
+      "id": "request_guard_abortsignalonclose"
     },
     {
       "label": "commonHeaders()",
@@ -10065,8 +10065,8 @@
       "_origin": "ast",
       "community": 10,
       "norm_label": "commonheaders()",
-      "id": "request_guard_commonheaders",
-      "community_name": "a2a-run.js"
+      "community_name": "a2a-run.js",
+      "id": "request_guard_commonheaders"
     },
     {
       "label": "server.cjs",
@@ -10076,8 +10076,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "server.cjs",
-      "id": "server",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server"
     },
     {
       "label": "http",
@@ -10087,8 +10087,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "http",
-      "id": "server_http",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_http"
     },
     {
       "label": "fs",
@@ -10098,8 +10098,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "fs",
-      "id": "server_fs",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_fs"
     },
     {
       "label": "path",
@@ -10109,8 +10109,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "path",
-      "id": "server_path",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_path"
     },
     {
       "label": "{ TextDecoder }",
@@ -10120,8 +10120,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "{ textdecoder }",
-      "id": "server_textdecoder",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_textdecoder"
     },
     {
       "label": "outputDir",
@@ -10131,8 +10131,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "outputdir",
-      "id": "server_outputdir",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_outputdir"
     },
     {
       "label": "graphifyDir",
@@ -10142,8 +10142,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "graphifydir",
-      "id": "server_graphifydir",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_graphifydir"
     },
     {
       "label": "port",
@@ -10153,8 +10153,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "port",
-      "id": "server_port",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_port"
     },
     {
       "label": "{\n  callChatCompletion,\n  createTraceId,\n  generateWithFallback,\n  preparePortableHandoff,\n  providerStatus,\n  runBlankA2AKit,\n  runSelfOptimizingWorkflow,\n  telemetrySummary\n}",
@@ -10164,8 +10164,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "{\n  callchatcompletion,\n  createtraceid,\n  generatewithfallback,\n  prepareportablehandoff,\n  providerstatus,\n  runblanka2akit,\n  runselfoptimizingworkflow,\n  telemetrysummary\n}",
-      "id": "server_callchatcompletion_createtraceid_generatewithfallback_prepareportablehandoff_providerstatus_runblanka2akit_runselfoptimizingworkflow_telemetrysummary",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_callchatcompletion_createtraceid_generatewithfallback_prepareportablehandoff_providerstatus_runblanka2akit_runselfoptimizingworkflow_telemetrysummary"
     },
     {
       "label": "{ createOptimizerSystem }",
@@ -10175,8 +10175,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "{ createoptimizersystem }",
-      "id": "server_createoptimizersystem",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_createoptimizersystem"
     },
     {
       "label": "{\n  collectConfiguredSecretValues,\n  projectPublicResult,\n  redactPublicValue\n}",
@@ -10186,8 +10186,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "{\n  collectconfiguredsecretvalues,\n  projectpublicresult,\n  redactpublicvalue\n}",
-      "id": "server_collectconfiguredsecretvalues_projectpublicresult_redactpublicvalue",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_collectconfiguredsecretvalues_projectpublicresult_redactpublicvalue"
     },
     {
       "label": "{ INTERNAL_API_ERROR }",
@@ -10197,8 +10197,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "{ internal_api_error }",
-      "id": "server_internal_api_error",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_internal_api_error"
     },
     {
       "label": "guard",
@@ -10208,8 +10208,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "guard",
-      "id": "server_guard",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_guard"
     },
     {
       "label": "abortSignalOnClose()",
@@ -10219,8 +10219,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "abortsignalonclose()",
-      "id": "server_abortsignalonclose",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_abortsignalonclose"
     },
     {
       "label": "authorizeBillableRequest()",
@@ -10230,8 +10230,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "authorizebillablerequest()",
-      "id": "server_authorizebillablerequest",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_authorizebillablerequest"
     },
     {
       "label": "classifyProviderConfigFunding()",
@@ -10241,8 +10241,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "classifyproviderconfigfunding()",
-      "id": "server_classifyproviderconfigfunding",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_classifyproviderconfigfunding"
     },
     {
       "label": "commonHeaders()",
@@ -10252,8 +10252,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "commonheaders()",
-      "id": "server_commonheaders",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_commonheaders"
     },
     {
       "label": "requestGuardBackend()",
@@ -10263,8 +10263,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "requestguardbackend()",
-      "id": "server_requestguardbackend",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_requestguardbackend"
     },
     {
       "label": "runBillableRequest()",
@@ -10274,8 +10274,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "runbillablerequest()",
-      "id": "server_runbillablerequest",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_runbillablerequest"
     },
     {
       "label": "takeRateLimit()",
@@ -10285,8 +10285,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "takeratelimit()",
-      "id": "server_takeratelimit",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_takeratelimit"
     },
     {
       "label": "validateA2APayload()",
@@ -10296,8 +10296,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "validatea2apayload()",
-      "id": "server_validatea2apayload",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_validatea2apayload"
     },
     {
       "label": "validateGeneratePayload()",
@@ -10307,8 +10307,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "validategeneratepayload()",
-      "id": "server_validategeneratepayload",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_validategeneratepayload"
     },
     {
       "label": "validateOptimizerPayload()",
@@ -10318,8 +10318,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "validateoptimizerpayload()",
-      "id": "server_validateoptimizerpayload",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_validateoptimizerpayload"
     },
     {
       "label": "optimizerSystem",
@@ -10329,8 +10329,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "optimizersystem",
-      "id": "server_optimizersystem",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_optimizersystem"
     },
     {
       "label": "RequestBodyError",
@@ -10340,8 +10340,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "requestbodyerror",
-      "id": "server_requestbodyerror",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_requestbodyerror"
     },
     {
       "label": ".constructor()",
@@ -10351,8 +10351,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": ".constructor()",
-      "id": "server_requestbodyerror_constructor",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_requestbodyerror_constructor"
     },
     {
       "label": "loadEnvFile()",
@@ -10362,8 +10362,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "loadenvfile()",
-      "id": "server_loadenvfile",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_loadenvfile"
     },
     {
       "label": "sendJson()",
@@ -10373,8 +10373,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "sendjson()",
-      "id": "server_sendjson",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_sendjson"
     },
     {
       "label": "writeSse()",
@@ -10384,8 +10384,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "writesse()",
-      "id": "server_writesse",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_writesse"
     },
     {
       "label": "sendApiError()",
@@ -10395,8 +10395,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "sendapierror()",
-      "id": "server_sendapierror",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_sendapierror"
     },
     {
       "label": "allowedApiMethods()",
@@ -10406,8 +10406,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "allowedapimethods()",
-      "id": "server_allowedapimethods",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_allowedapimethods"
     },
     {
       "label": "readJson()",
@@ -10417,8 +10417,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "readjson()",
-      "id": "server_readjson",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_readjson"
     },
     {
       "label": "handleApi()",
@@ -10428,8 +10428,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "handleapi()",
-      "id": "server_handleapi",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_handleapi"
     },
     {
       "label": "staticSecurityHeaders",
@@ -10439,8 +10439,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "staticsecurityheaders",
-      "id": "server_staticsecurityheaders",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_staticsecurityheaders"
     },
     {
       "label": "serveStatic()",
@@ -10450,8 +10450,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "servestatic()",
-      "id": "server_servestatic",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_servestatic"
     },
     {
       "label": "server",
@@ -10461,8 +10461,8 @@
       "_origin": "ast",
       "community": 7,
       "norm_label": "server",
-      "id": "server_server",
-      "community_name": "server.cjs"
+      "community_name": "server.cjs",
+      "id": "server_server"
     },
     {
       "label": "api-endpoints.test.cjs",
@@ -10472,8 +10472,8 @@
       "_origin": "ast",
       "community": 28,
       "norm_label": "api-endpoints.test.cjs",
-      "id": "tests_api_endpoints_test",
-      "community_name": "api-endpoints.test.cjs"
+      "community_name": "api-endpoints.test.cjs",
+      "id": "tests_api_endpoints_test"
     },
     {
       "label": "assert",
@@ -10483,8 +10483,8 @@
       "_origin": "ast",
       "community": 28,
       "norm_label": "assert",
-      "id": "tests_api_endpoints_test_assert",
-      "community_name": "api-endpoints.test.cjs"
+      "community_name": "api-endpoints.test.cjs",
+      "id": "tests_api_endpoints_test_assert"
     },
     {
       "label": "http",
@@ -10494,8 +10494,8 @@
       "_origin": "ast",
       "community": 28,
       "norm_label": "http",
-      "id": "tests_api_endpoints_test_http",
-      "community_name": "api-endpoints.test.cjs"
+      "community_name": "api-endpoints.test.cjs",
+      "id": "tests_api_endpoints_test_http"
     },
     {
       "label": "{ spawn }",
@@ -10505,8 +10505,8 @@
       "_origin": "ast",
       "community": 28,
       "norm_label": "{ spawn }",
-      "id": "tests_api_endpoints_test_spawn",
-      "community_name": "api-endpoints.test.cjs"
+      "community_name": "api-endpoints.test.cjs",
+      "id": "tests_api_endpoints_test_spawn"
     },
     {
       "label": "{ callModel }",
@@ -10516,8 +10516,8 @@
       "_origin": "ast",
       "community": 28,
       "norm_label": "{ callmodel }",
-      "id": "tests_api_endpoints_test_callmodel",
-      "community_name": "api-endpoints.test.cjs"
+      "community_name": "api-endpoints.test.cjs",
+      "id": "tests_api_endpoints_test_callmodel"
     },
     {
       "label": "listen()",
@@ -10527,8 +10527,8 @@
       "_origin": "ast",
       "community": 28,
       "norm_label": "listen()",
-      "id": "tests_api_endpoints_test_listen",
-      "community_name": "api-endpoints.test.cjs"
+      "community_name": "api-endpoints.test.cjs",
+      "id": "tests_api_endpoints_test_listen"
     },
     {
       "label": "freePort()",
@@ -10538,8 +10538,8 @@
       "_origin": "ast",
       "community": 28,
       "norm_label": "freeport()",
-      "id": "tests_api_endpoints_test_freeport",
-      "community_name": "api-endpoints.test.cjs"
+      "community_name": "api-endpoints.test.cjs",
+      "id": "tests_api_endpoints_test_freeport"
     },
     {
       "label": "waitForServer()",
@@ -10549,8 +10549,8 @@
       "_origin": "ast",
       "community": 28,
       "norm_label": "waitforserver()",
-      "id": "tests_api_endpoints_test_waitforserver",
-      "community_name": "api-endpoints.test.cjs"
+      "community_name": "api-endpoints.test.cjs",
+      "id": "tests_api_endpoints_test_waitforserver"
     },
     {
       "label": "jsonRequest()",
@@ -10560,8 +10560,8 @@
       "_origin": "ast",
       "community": 28,
       "norm_label": "jsonrequest()",
-      "id": "tests_api_endpoints_test_jsonrequest",
-      "community_name": "api-endpoints.test.cjs"
+      "community_name": "api-endpoints.test.cjs",
+      "id": "tests_api_endpoints_test_jsonrequest"
     },
     {
       "label": "persistentJsonRequest()",
@@ -10571,8 +10571,8 @@
       "_origin": "ast",
       "community": 28,
       "norm_label": "persistentjsonrequest()",
-      "id": "tests_api_endpoints_test_persistentjsonrequest",
-      "community_name": "api-endpoints.test.cjs"
+      "community_name": "api-endpoints.test.cjs",
+      "id": "tests_api_endpoints_test_persistentjsonrequest"
     },
     {
       "label": "post()",
@@ -10582,8 +10582,8 @@
       "_origin": "ast",
       "community": 28,
       "norm_label": "post()",
-      "id": "tests_api_endpoints_test_post",
-      "community_name": "api-endpoints.test.cjs"
+      "community_name": "api-endpoints.test.cjs",
+      "id": "tests_api_endpoints_test_post"
     },
     {
       "label": "assertSafePublicResult()",
@@ -10593,8 +10593,8 @@
       "_origin": "ast",
       "community": 28,
       "norm_label": "assertsafepublicresult()",
-      "id": "tests_api_endpoints_test_assertsafepublicresult",
-      "community_name": "api-endpoints.test.cjs"
+      "community_name": "api-endpoints.test.cjs",
+      "id": "tests_api_endpoints_test_assertsafepublicresult"
     },
     {
       "label": "run()",
@@ -10604,8 +10604,63 @@
       "_origin": "ast",
       "community": 28,
       "norm_label": "run()",
-      "id": "tests_api_endpoints_test_run",
-      "community_name": "api-endpoints.test.cjs"
+      "community_name": "api-endpoints.test.cjs",
+      "id": "tests_api_endpoints_test_run"
+    },
+    {
+      "label": "request-guard.test.cjs",
+      "file_type": "code",
+      "source_file": "tests/request-guard.test.cjs",
+      "source_location": "L1",
+      "_origin": "ast",
+      "community": 24,
+      "norm_label": "request-guard.test.cjs",
+      "community_name": "request-guard.test.cjs",
+      "id": "tests_request_guard_test"
+    },
+    {
+      "label": "assert",
+      "file_type": "code",
+      "source_file": "tests/request-guard.test.cjs",
+      "source_location": "L1",
+      "_origin": "ast",
+      "community": 24,
+      "norm_label": "assert",
+      "community_name": "request-guard.test.cjs",
+      "id": "tests_request_guard_test_assert"
+    },
+    {
+      "label": "{\n  authorizeBillableRequest,\n  classifyProviderConfigFunding,\n  constantTimeSecretEqual,\n  createBillableRequestGuard,\n  createConcurrencyGate,\n  createDailyBudget,\n  createIdempotencyStore,\n  createRateLimiter,\n  estimateBillableTokens,\n  idempotencyFingerprint,\n  tokenUsageFromResult,\n  validateIdempotencyKey\n}",
+      "file_type": "code",
+      "source_file": "tests/request-guard.test.cjs",
+      "source_location": "L5",
+      "_origin": "ast",
+      "community": 24,
+      "norm_label": "{\n  authorizebillablerequest,\n  classifyproviderconfigfunding,\n  constanttimesecretequal,\n  createbillablerequestguard,\n  createconcurrencygate,\n  createdailybudget,\n  createidempotencystore,\n  createratelimiter,\n  estimatebillabletokens,\n  idempotencyfingerprint,\n  tokenusagefromresult,\n  validateidempotencykey\n}",
+      "community_name": "request-guard.test.cjs",
+      "id": "tests_request_guard_test_authorizebillablerequest_classifyproviderconfigfunding_constanttimesecretequal_createbillablerequestguard_createconcurrencygate_createdailybudget_createidempotencystore_createratelimiter_estimatebillabletokens_idempotencyfingerprint_tokenusagefromresult_validateidempotencykey"
+    },
+    {
+      "label": "request()",
+      "file_type": "code",
+      "source_file": "tests/request-guard.test.cjs",
+      "source_location": "L20",
+      "_origin": "ast",
+      "community": 24,
+      "norm_label": "request()",
+      "community_name": "request-guard.test.cjs",
+      "id": "tests_request_guard_test_request"
+    },
+    {
+      "label": "run()",
+      "file_type": "code",
+      "source_file": "tests/request-guard.test.cjs",
+      "source_location": "L24",
+      "_origin": "ast",
+      "community": 24,
+      "norm_label": "run()",
+      "community_name": "request-guard.test.cjs",
+      "id": "tests_request_guard_test_run"
     },
     {
       "label": "frontend-static.test.cjs",
@@ -10743,67 +10798,12 @@
       "label": "htmlFiles",
       "file_type": "code",
       "source_file": "tests/frontend-static.test.cjs",
-      "source_location": "L40",
+      "source_location": "L43",
       "_origin": "ast",
       "community": 29,
       "norm_label": "htmlfiles",
       "id": "tests_frontend_static_test_htmlfiles",
       "community_name": "frontend-static.test.cjs"
-    },
-    {
-      "label": "request-guard.test.cjs",
-      "file_type": "code",
-      "source_file": "tests/request-guard.test.cjs",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 24,
-      "norm_label": "request-guard.test.cjs",
-      "id": "tests_request_guard_test",
-      "community_name": "request-guard.test.cjs"
-    },
-    {
-      "label": "assert",
-      "file_type": "code",
-      "source_file": "tests/request-guard.test.cjs",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 24,
-      "norm_label": "assert",
-      "id": "tests_request_guard_test_assert",
-      "community_name": "request-guard.test.cjs"
-    },
-    {
-      "label": "{\n  authorizeBillableRequest,\n  classifyProviderConfigFunding,\n  constantTimeSecretEqual,\n  createBillableRequestGuard,\n  createConcurrencyGate,\n  createDailyBudget,\n  createIdempotencyStore,\n  createRateLimiter,\n  estimateBillableTokens,\n  idempotencyFingerprint,\n  tokenUsageFromResult,\n  validateIdempotencyKey\n}",
-      "file_type": "code",
-      "source_file": "tests/request-guard.test.cjs",
-      "source_location": "L5",
-      "_origin": "ast",
-      "community": 24,
-      "norm_label": "{\n  authorizebillablerequest,\n  classifyproviderconfigfunding,\n  constanttimesecretequal,\n  createbillablerequestguard,\n  createconcurrencygate,\n  createdailybudget,\n  createidempotencystore,\n  createratelimiter,\n  estimatebillabletokens,\n  idempotencyfingerprint,\n  tokenusagefromresult,\n  validateidempotencykey\n}",
-      "id": "tests_request_guard_test_authorizebillablerequest_classifyproviderconfigfunding_constanttimesecretequal_createbillablerequestguard_createconcurrencygate_createdailybudget_createidempotencystore_createratelimiter_estimatebillabletokens_idempotencyfingerprint_tokenusagefromresult_validateidempotencykey",
-      "community_name": "request-guard.test.cjs"
-    },
-    {
-      "label": "request()",
-      "file_type": "code",
-      "source_file": "tests/request-guard.test.cjs",
-      "source_location": "L20",
-      "_origin": "ast",
-      "community": 24,
-      "norm_label": "request()",
-      "id": "tests_request_guard_test_request",
-      "community_name": "request-guard.test.cjs"
-    },
-    {
-      "label": "run()",
-      "file_type": "code",
-      "source_file": "tests/request-guard.test.cjs",
-      "source_location": "L24",
-      "_origin": "ast",
-      "community": 24,
-      "norm_label": "run()",
-      "id": "tests_request_guard_test_run",
-      "community_name": "request-guard.test.cjs"
     }
   ],
   "links": [
@@ -29128,6 +29128,62 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "tests/request-guard.test.cjs",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "tests_request_guard_test",
+      "target": "tests_request_guard_test_assert"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/request-guard.test.cjs",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "tests_request_guard_test",
+      "target": "tests_request_guard_test_authorizebillablerequest_classifyproviderconfigfunding_constanttimesecretequal_createbillablerequestguard_createconcurrencygate_createdailybudget_createidempotencystore_createratelimiter_estimatebillabletokens_idempotencyfingerprint_tokenusagefromresult_validateidempotencykey"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/request-guard.test.cjs",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "tests_request_guard_test",
+      "target": "tests_request_guard_test_request"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/request-guard.test.cjs",
+      "source_location": "L24",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "tests_request_guard_test",
+      "target": "tests_request_guard_test_run"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/request-guard.test.cjs",
+      "source_location": "L34",
+      "weight": 1.0,
+      "_origin": "ast",
+      "confidence_score": 1.0,
+      "source": "tests_request_guard_test_run",
+      "target": "tests_request_guard_test_request"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "tests/frontend-static.test.cjs",
       "source_location": "L1",
       "weight": 1.0,
@@ -29162,7 +29218,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "tests/frontend-static.test.cjs",
-      "source_location": "L40",
+      "source_location": "L43",
       "weight": 1.0,
       "_origin": "ast",
       "confidence_score": 1.0,
@@ -29256,64 +29312,8 @@
       "confidence_score": 1.0,
       "source": "tests_frontend_static_test",
       "target": "tests_frontend_static_test_workspacesource"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "tests/request-guard.test.cjs",
-      "source_location": "L1",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "tests_request_guard_test",
-      "target": "tests_request_guard_test_assert"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "tests/request-guard.test.cjs",
-      "source_location": "L5",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "tests_request_guard_test",
-      "target": "tests_request_guard_test_authorizebillablerequest_classifyproviderconfigfunding_constanttimesecretequal_createbillablerequestguard_createconcurrencygate_createdailybudget_createidempotencystore_createratelimiter_estimatebillabletokens_idempotencyfingerprint_tokenusagefromresult_validateidempotencykey"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "tests/request-guard.test.cjs",
-      "source_location": "L20",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "tests_request_guard_test",
-      "target": "tests_request_guard_test_request"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "tests/request-guard.test.cjs",
-      "source_location": "L24",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "tests_request_guard_test",
-      "target": "tests_request_guard_test_run"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "tests/request-guard.test.cjs",
-      "source_location": "L34",
-      "weight": 1.0,
-      "_origin": "ast",
-      "confidence_score": 1.0,
-      "source": "tests_request_guard_test_run",
-      "target": "tests_request_guard_test_request"
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "db575a72581f1bc9ef8441e2bb08ac767bd022cb"
+  "built_at_commit": "97132e73f92f9521f0a2fe4c332c69bdab0f3f6c"
 }
