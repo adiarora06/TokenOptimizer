@@ -100,9 +100,9 @@
     "semantic_hash": "651530f303d138ed87075fb2598087b3"
   },
   "package.json": {
-    "mtime": 1793731841.431206,
-    "ast_hash": "c15456a98474f0af65d7c9b060be96af",
-    "semantic_hash": "c15456a98474f0af65d7c9b060be96af"
+    "mtime": 1793832063.3208444,
+    "ast_hash": "2296e455d16cfa9d6dfa053759f3aeb6",
+    "semantic_hash": "2296e455d16cfa9d6dfa053759f3aeb6"
   },
   "request-guard.cjs": {
     "mtime": 1786341289.0973177,
@@ -110,14 +110,14 @@
     "semantic_hash": "9416414f1f0563192f97b98ccc02b38f"
   },
   "server.cjs": {
-    "mtime": 1786341289.097622,
-    "ast_hash": "55607efda153046cf0a2bbf2162affa0",
-    "semantic_hash": "55607efda153046cf0a2bbf2162affa0"
+    "mtime": 1793832016.5189712,
+    "ast_hash": "8503b0108d47467e63e79c8a92a8a7e0",
+    "semantic_hash": "8503b0108d47467e63e79c8a92a8a7e0"
   },
   "tests/api-endpoints.test.cjs": {
-    "mtime": 1792647224.343693,
-    "ast_hash": "7ffc307ad6db1c422b8876eb5afc2bf3",
-    "semantic_hash": "7ffc307ad6db1c422b8876eb5afc2bf3"
+    "mtime": 1793832016.5192962,
+    "ast_hash": "a2875f822febab0c70b22ee24e1988da",
+    "semantic_hash": "a2875f822febab0c70b22ee24e1988da"
   },
   "tests/optimizer-core.test.cjs": {
     "mtime": 1786341289.0987191,
@@ -445,8 +445,13 @@
     "semantic_hash": "513e172fa6126e0743cbbe8627ebe76d"
   },
   "scripts/sync-vendor.cjs": {
-    "mtime": 1793731855.7497513,
+    "mtime": 1793732432.8847332,
     "ast_hash": "4a9bc2d88fb5a9e7e33f3bdcdc64566a",
     "semantic_hash": "4a9bc2d88fb5a9e7e33f3bdcdc64566a"
+  },
+  "tests/workflow-security.test.cjs": {
+    "mtime": 1793832063.321132,
+    "ast_hash": "fc630baa11c81004599df3ac648b1f7a",
+    "semantic_hash": "fc630baa11c81004599df3ac648b1f7a"
   }
 }
