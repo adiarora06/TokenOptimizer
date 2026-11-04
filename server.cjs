@@ -598,7 +598,7 @@ const server = http.createServer((req, res) => {
     // A rejected handler must never leave the request hanging until the host
     // kills it: always answer, and make the reason visible in the logs.
     handleApi(req, res).catch((error) => {
-      console.error(`API handler failed for ${req.url}:`, error);
+      console.error("API handler failed for request URL:", req.url, error);
       // Raw write: sendJson itself depends on the guard module, so a guard
       // failure must not be reported through it.
       if (res.writableEnded) return;

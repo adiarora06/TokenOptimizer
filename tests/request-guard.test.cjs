@@ -42,6 +42,8 @@ async function run() {
 
   assert.equal(constantTimeSecretEqual("same-secret", "same-secret"), true);
   assert.equal(constantTimeSecretEqual("short", "different-length-secret"), false);
+  assert.equal(constantTimeSecretEqual("", ""), false);
+  assert.equal(constantTimeSecretEqual("unicode-🔐", "unicode-🔐"), true);
   const productionAuth = { environment: "production", accessToken: "deployment-secret", allowPublicFunded: false };
   assert.equal(authorizeBillableRequest(request("203.0.113.4"), productionAuth).status, 401);
   assert.equal(authorizeBillableRequest(request("203.0.113.4", { authorization: "Bearer wrong" }), productionAuth).status, 401);
@@ -115,6 +117,11 @@ async function run() {
   );
   const secretFingerprint = idempotencyFingerprint("/api/run", { providerConfig: { apiKey: "secret-one" }, input: "hello" });
   assert.equal(secretFingerprint.includes("secret-one"), false);
+  assert.equal(
+    secretFingerprint,
+    idempotencyFingerprint("/api/run", { providerConfig: { apiKey: "secret-one" }, input: "hello" }),
+    "keyed credential tags remain deterministic within a coordination process"
+  );
   assert.notEqual(
     secretFingerprint,
     idempotencyFingerprint("/api/run", { providerConfig: { apiKey: "secret-two" }, input: "hello" })

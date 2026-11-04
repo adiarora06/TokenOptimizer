@@ -28,7 +28,10 @@
   };
 
   function makeId(prefix) {
-    return `${prefix}_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
+    const entropy = new Uint8Array(16);
+    globalThis.crypto.getRandomValues(entropy);
+    const randomHex = Array.from(entropy, (byte) => byte.toString(16).padStart(2, "0")).join("");
+    return `${prefix}_${randomHex}`;
   }
 
   function ensureSession() {
