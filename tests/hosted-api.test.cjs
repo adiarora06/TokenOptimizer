@@ -106,6 +106,35 @@ async function run() {
     assert.match(source, /INTERNAL_API_ERROR/, `${file} must use the generic hosted error contract`);
   }
 
+  const originalConsoleError = console.error;
+  console.error = () => {};
+  try {
+    for (const handler of [
+      handlers.a2a,
+      handlers.generate,
+      handlers.optimize,
+      handlers.stream,
+      handlers.prepare,
+      handlers.systemRuns,
+      handlers.workflow
+    ]) {
+      const hostileRequest = request("POST");
+      Object.defineProperty(hostileRequest, "body", {
+        get() {
+          throw new Error("internal path /srv/private/config.json");
+        }
+      });
+      const response = new MockResponse();
+      await handler(hostileRequest, response);
+      assert.equal(response.statusCode, 500);
+      const data = response.data || JSON.parse(response.text());
+      assert.deepEqual(data, { error: "Internal server error", code: "internal_error" });
+      assert.doesNotMatch(JSON.stringify(data), /srv\/private|config\.json/);
+    }
+  } finally {
+    console.error = originalConsoleError;
+  }
+
   const methodCases = [
     [handlers.a2a, "GET", "POST"],
     [handlers.generate, "GET", "POST"],

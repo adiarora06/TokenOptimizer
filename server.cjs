@@ -40,7 +40,6 @@ const abortSignalOnClose = (...args) => guard.abortSignalOnClose(...args);
 const authorizeBillableRequest = (...args) => guard.authorizeBillableRequest(...args);
 const classifyProviderConfigFunding = (...args) => guard.classifyProviderConfigFunding(...args);
 const commonHeaders = (...args) => guard.commonHeaders(...args);
-const publicError = (...args) => guard.publicError(...args);
 const requestGuardBackend = (...args) => guard.requestGuardBackend(...args);
 const runBillableRequest = (...args) => guard.runBillableRequest(...args);
 const takeRateLimit = (...args) => guard.takeRateLimit(...args);
@@ -172,10 +171,11 @@ async function handleApi(req, res) {
     try {
       rate = await Promise.resolve(takeRateLimit(req, { scope: "preparation" }));
     } catch (error) {
+      console.error("Preparation coordination failed:", error);
       sendJson(
         res,
         Number.isInteger(error?.status) ? error.status : 503,
-        { error: publicError(error), code: error?.code || "coordination_unavailable" },
+        { error: INTERNAL_API_ERROR.error, code: error?.code || "coordination_unavailable" },
         error?.retryAfterSeconds ? { "retry-after": String(error.retryAfterSeconds) } : {}
       );
       return;
