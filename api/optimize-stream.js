@@ -1,9 +1,9 @@
 const { createTraceId, runSelfOptimizingWorkflow } = require("../optimizer-core.cjs");
+const { INTERNAL_API_ERROR } = require("../core/api-errors.cjs");
 const { projectPublicResult } = require("../core/public-result.cjs");
 const {
   abortSignalOnClose,
   commonHeaders,
-  publicError,
   runBillableRequest,
   validateOptimizerPayload
 } = require("../request-guard.cjs");
@@ -14,23 +14,6 @@ function writeEvent(res, event, data) {
 }
 
 module.exports = async function handler(req, res) {
-  if (req.method !== "POST") {
-    res.writeHead(405, {
-      ...commonHeaders(),
-      allow: "POST",
-      "content-type": "application/json; charset=utf-8"
-    });
-    res.end(JSON.stringify({ error: "Method not allowed" }));
-    return;
-  }
-  const parsed = validateOptimizerPayload(req.body);
-  if (!parsed.ok) {
-    res.writeHead(400, { ...commonHeaders(), "content-type": "application/json; charset=utf-8" });
-    res.end(JSON.stringify({ error: parsed.error }));
-    return;
-  }
-
-  const traceId = createTraceId();
   let heartbeat = null;
   let streamStarted = false;
 
@@ -52,6 +35,23 @@ module.exports = async function handler(req, res) {
   }
 
   try {
+    if (req.method !== "POST") {
+      res.writeHead(405, {
+        ...commonHeaders(),
+        allow: "POST",
+        "content-type": "application/json; charset=utf-8"
+      });
+      res.end(JSON.stringify({ error: "Method not allowed" }));
+      return;
+    }
+    const parsed = validateOptimizerPayload(req.body);
+    if (!parsed.ok) {
+      res.writeHead(400, { ...commonHeaders(), "content-type": "application/json; charset=utf-8" });
+      res.end(JSON.stringify({ error: parsed.error }));
+      return;
+    }
+
+    const traceId = createTraceId();
     const disconnectSignal = abortSignalOnClose(res);
     const guarded = await runBillableRequest({
       req,
@@ -104,10 +104,11 @@ module.exports = async function handler(req, res) {
     }
     writeEvent(res, "result", { result: guarded.value, idempotencyStatus: guarded.idempotencyStatus });
   } catch (error) {
-    if (streamStarted) writeEvent(res, "error", { error: publicError(error) });
+    console.error("Unhandled /api/optimize-stream error:", error);
+    if (streamStarted) writeEvent(res, "error", INTERNAL_API_ERROR);
     else {
       res.writeHead(500, { ...commonHeaders(), "content-type": "application/json; charset=utf-8" });
-      res.end(JSON.stringify({ error: publicError(error) }));
+      res.end(JSON.stringify(INTERNAL_API_ERROR));
     }
   } finally {
     if (heartbeat) clearInterval(heartbeat);

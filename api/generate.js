@@ -1,9 +1,9 @@
 const { callChatCompletion, createTraceId, generateWithFallback } = require("../optimizer-core.cjs");
+const { INTERNAL_API_ERROR } = require("../core/api-errors.cjs");
 const { collectConfiguredSecretValues, redactPublicValue } = require("../core/public-result.cjs");
 const {
   abortSignalOnClose,
   commonHeaders,
-  publicError,
   runBillableRequest,
   validateGeneratePayload
 } = require("../request-guard.cjs");
@@ -53,6 +53,7 @@ module.exports = async function handler(req, res) {
     res.setHeader("x-idempotency-status", guarded.idempotencyStatus);
     res.status(200).json(guarded.value);
   } catch (error) {
-    res.status(500).json({ error: publicError(error) });
+    console.error("Unhandled /api/generate error:", error);
+    res.status(500).json(INTERNAL_API_ERROR);
   }
 };

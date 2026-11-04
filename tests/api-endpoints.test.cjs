@@ -44,6 +44,35 @@ async function jsonRequest(baseUrl, path, options = {}) {
   return { response, data, text };
 }
 
+function persistentJsonRequest(baseUrl, path, options, agent) {
+  return new Promise((resolve, reject) => {
+    const target = new URL(path, baseUrl);
+    let socket;
+    const clientRequest = http.request(target, {
+      method: options.method || "GET",
+      headers: options.headers || {},
+      agent
+    }, (response) => {
+      const chunks = [];
+      response.on("data", (chunk) => chunks.push(chunk));
+      response.on("end", () => {
+        const text = Buffer.concat(chunks).toString("utf8");
+        let data;
+        try {
+          data = JSON.parse(text);
+        } catch {
+          data = text;
+        }
+        resolve({ response, data, text, socket });
+      });
+    });
+    clientRequest.once("socket", (value) => { socket = value; });
+    clientRequest.once("error", reject);
+    if (options.body !== undefined) clientRequest.write(options.body);
+    clientRequest.end();
+  });
+}
+
 function post(body, headers = {}) {
   return {
     method: "POST",
@@ -244,6 +273,65 @@ async function run() {
     assert.ok(overview.data.architecture.layers.length > 0);
     assert.equal(overview.data.telemetry.privacy, "metadata-only");
     assert.ok(overview.data.telemetry.health.status);
+
+    const malformedJson = await jsonRequest(baseUrl, "/api/system-runs", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: '{"input":'
+    });
+    assert.equal(malformedJson.response.status, 400);
+    assert.equal(malformedJson.data.code, "invalid_json");
+    assert.equal(malformedJson.data.error, "Request body must contain valid JSON");
+
+    const oversizedAscii = await jsonRequest(baseUrl, "/api/system-runs", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ input: "x".repeat(1_000_000) })
+    });
+    assert.equal(oversizedAscii.response.status, 413);
+    assert.equal(oversizedAscii.data.code, "payload_too_large");
+
+    const oversizedMultibyte = await jsonRequest(baseUrl, "/api/system-runs", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ input: "é".repeat(500_000) })
+    });
+    assert.equal(oversizedMultibyte.response.status, 413);
+    assert.equal(oversizedMultibyte.data.code, "payload_too_large");
+
+    const unexpectedFailure = await jsonRequest(baseUrl, "/api/system-runs/%");
+    assert.equal(unexpectedFailure.response.status, 500);
+    assert.deepEqual(unexpectedFailure.data, {
+      error: "Internal server error",
+      code: "internal_error"
+    });
+    assert.doesNotMatch(unexpectedFailure.text, /URI malformed/);
+
+    const keepAliveAgent = new http.Agent({ keepAlive: true, maxSockets: 1 });
+    try {
+      const rejectedOnPersistentSocket = await persistentJsonRequest(baseUrl, "/api/system-runs", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ input: "x".repeat(1_000_000) })
+      }, keepAliveAgent);
+      assert.equal(rejectedOnPersistentSocket.response.statusCode, 413);
+
+      const healthAfterRejectedBodies = await persistentJsonRequest(
+        baseUrl,
+        "/api/provider-status",
+        {},
+        keepAliveAgent
+      );
+      assert.equal(healthAfterRejectedBodies.response.statusCode, 200);
+      assert.equal(healthAfterRejectedBodies.data.openaiConfigured, true);
+      assert.strictEqual(
+        healthAfterRejectedBodies.socket,
+        rejectedOnPersistentSocket.socket,
+        "an oversized body must not destroy the reusable TCP connection"
+      );
+    } finally {
+      keepAliveAgent.destroy();
+    }
 
     const prepared = await jsonRequest(baseUrl, "/api/prepare-handoff", post({
       input: "I want you to reply with OK",

@@ -1,6 +1,7 @@
 const { z } = require("zod");
 const net = require("node:net");
 const crypto = require("node:crypto");
+const { INTERNAL_API_ERROR } = require("./core/api-errors.cjs");
 const { safeErrorMessage } = require("./core/security.cjs");
 const {
   MIN_SHARED_EXECUTION_FENCE_MS,
@@ -635,11 +636,14 @@ function estimatedTokenCount(payload, supplied, endpoint) {
 
 function guardFailure(error, context) {
   const status = Number.isInteger(error?.status) ? error.status : 500;
+  const serverFailure = status >= 500;
   const result = {
     ok: false,
     status,
-    error: error instanceof RequestGuardError ? error.message : publicError(error),
-    code: error?.code || "request_failed",
+    error: serverFailure
+      ? INTERNAL_API_ERROR.error
+      : error instanceof RequestGuardError ? error.message : publicError(error),
+    code: status === 500 ? INTERNAL_API_ERROR.code : error?.code || "request_failed",
     rate: context.rate,
     funding: context.funding,
     budget: error?.budget || null
@@ -802,7 +806,7 @@ function createBillableRequestGuard(options = {}) {
               if (!error.budget) error.budget = budget;
               throw error;
             }
-            throw new RequestGuardError(500, "execution_failed", publicError(error), { budget });
+            throw new RequestGuardError(500, INTERNAL_API_ERROR.code, INTERNAL_API_ERROR.error, { budget });
           }
         } finally {
           await Promise.resolve(slot.release());

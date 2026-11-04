@@ -1,6 +1,7 @@
 const http = require("node:http");
 const fs = require("node:fs");
 const path = require("node:path");
+const { TextDecoder } = require("node:util");
 
 const rootDir = __dirname;
 const outputDir = path.join(rootDir, "outputs");
@@ -26,6 +27,7 @@ const {
   projectPublicResult,
   redactPublicValue
 } = require("./core/public-result.cjs");
+const { INTERNAL_API_ERROR } = require("./core/api-errors.cjs");
 // Resolved per call rather than destructured at load: the host bundler can hand
 // back a module whose exports are not populated yet, which captured `undefined`
 // for every guard and crashed the first request with "not a function".
@@ -38,7 +40,6 @@ const abortSignalOnClose = (...args) => guard.abortSignalOnClose(...args);
 const authorizeBillableRequest = (...args) => guard.authorizeBillableRequest(...args);
 const classifyProviderConfigFunding = (...args) => guard.classifyProviderConfigFunding(...args);
 const commonHeaders = (...args) => guard.commonHeaders(...args);
-const publicError = (...args) => guard.publicError(...args);
 const requestGuardBackend = (...args) => guard.requestGuardBackend(...args);
 const runBillableRequest = (...args) => guard.runBillableRequest(...args);
 const takeRateLimit = (...args) => guard.takeRateLimit(...args);
@@ -47,6 +48,16 @@ const validateGeneratePayload = (...args) => guard.validateGeneratePayload(...ar
 const validateOptimizerPayload = (...args) => guard.validateOptimizerPayload(...args);
 
 const optimizerSystem = createOptimizerSystem();
+const MAX_REQUEST_BODY_BYTES = 1_000_000;
+
+class RequestBodyError extends Error {
+  constructor(status, code, message) {
+    super(message);
+    this.name = "RequestBodyError";
+    this.status = status;
+    this.code = code;
+  }
+}
 
 function loadEnvFile(filePath) {
   if (!fs.existsSync(filePath)) return;
@@ -85,6 +96,15 @@ function writeSse(res, event, data) {
   res.write(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`);
 }
 
+function sendApiError(res, error, headers = {}) {
+  if (error instanceof RequestBodyError) {
+    sendJson(res, error.status, { error: error.message, code: error.code }, headers);
+    return;
+  }
+  console.error("API request failed:", error);
+  sendJson(res, 500, INTERNAL_API_ERROR, headers);
+}
+
 function allowedApiMethods(pathname) {
   const methods = {
     "/api/provider-status": ["GET"],
@@ -103,22 +123,43 @@ function allowedApiMethods(pathname) {
 
 function readJson(req) {
   return new Promise((resolve, reject) => {
-    let body = "";
+    const chunks = [];
+    let byteLength = 0;
+    let settled = false;
+
+    const fail = (error) => {
+      if (settled) return;
+      settled = true;
+      chunks.length = 0;
+      reject(error);
+    };
+
     req.on("data", (chunk) => {
-      body += chunk;
-      if (body.length > 1_000_000) {
-        reject(new Error("Request body too large"));
-        req.destroy();
+      if (settled) return;
+      const buffer = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
+      byteLength += buffer.length;
+      if (byteLength > MAX_REQUEST_BODY_BYTES) {
+        fail(new RequestBodyError(
+          413,
+          "payload_too_large",
+          `Request body exceeds the ${MAX_REQUEST_BODY_BYTES}-byte limit`
+        ));
+        return;
       }
+      chunks.push(buffer);
     });
     req.on("end", () => {
+      if (settled) return;
+      settled = true;
       try {
+        const body = new TextDecoder("utf-8", { fatal: true })
+          .decode(Buffer.concat(chunks, byteLength));
         resolve(body ? JSON.parse(body) : {});
       } catch (error) {
-        reject(new Error("Invalid JSON body"));
+        reject(new RequestBodyError(400, "invalid_json", "Request body must contain valid JSON"));
       }
     });
-    req.on("error", reject);
+    req.on("error", fail);
   });
 }
 
@@ -130,10 +171,11 @@ async function handleApi(req, res) {
     try {
       rate = await Promise.resolve(takeRateLimit(req, { scope: "preparation" }));
     } catch (error) {
+      console.error("Preparation coordination failed:", error);
       sendJson(
         res,
         Number.isInteger(error?.status) ? error.status : 503,
-        { error: publicError(error), code: error?.code || "coordination_unavailable" },
+        { error: INTERNAL_API_ERROR.error, code: error?.code || "coordination_unavailable" },
         error?.retryAfterSeconds ? { "retry-after": String(error.retryAfterSeconds) } : {}
       );
       return;
@@ -222,7 +264,7 @@ async function handleApi(req, res) {
       });
       sendJson(res, 202, { run }, commonHeaders(rate));
     } catch (error) {
-      sendJson(res, 500, { error: publicError(error) }, commonHeaders(rate));
+      sendApiError(res, error, commonHeaders(rate));
     }
     return;
   }
@@ -307,9 +349,10 @@ async function handleApi(req, res) {
       writeSse(res, "result", { result: guarded.value, idempotencyStatus: guarded.idempotencyStatus });
       res.end();
     } catch (error) {
-      if (!streamStarted) sendJson(res, 500, { error: publicError(error) }, commonHeaders(rate));
+      if (!streamStarted) sendApiError(res, error, commonHeaders(rate));
       else {
-        writeSse(res, "error", { error: publicError(error) });
+        console.error("API stream failed:", error);
+        writeSse(res, "error", INTERNAL_API_ERROR);
         res.end();
       }
     } finally {
@@ -360,7 +403,7 @@ async function handleApi(req, res) {
         { ...commonHeaders(guarded.rate), "x-idempotency-status": guarded.idempotencyStatus }
       );
     } catch (error) {
-      sendJson(res, 500, { error: publicError(error) }, commonHeaders(rate));
+      sendApiError(res, error, commonHeaders(rate));
     }
     return;
   }
@@ -380,7 +423,7 @@ async function handleApi(req, res) {
       });
       sendJson(res, 200, result, commonHeaders(rate));
     } catch (error) {
-      sendJson(res, 500, { error: publicError(error) }, commonHeaders(rate));
+      sendApiError(res, error, commonHeaders(rate));
     }
     return;
   }
@@ -423,7 +466,7 @@ async function handleApi(req, res) {
         "x-idempotency-status": guarded.idempotencyStatus
       });
     } catch (error) {
-      sendJson(res, 500, { error: publicError(error) }, commonHeaders(rate));
+      sendApiError(res, error, commonHeaders(rate));
     }
     return;
   }
@@ -469,7 +512,7 @@ async function handleApi(req, res) {
         "x-idempotency-status": guarded.idempotencyStatus
       });
     } catch (error) {
-      sendJson(res, 500, { error: publicError(error) }, commonHeaders(rate));
+      sendApiError(res, error, commonHeaders(rate));
     }
     return;
   }
@@ -559,8 +602,14 @@ const server = http.createServer((req, res) => {
       // Raw write: sendJson itself depends on the guard module, so a guard
       // failure must not be reported through it.
       if (res.writableEnded) return;
-      res.writeHead(500, { "content-type": "application/json" });
-      res.end(JSON.stringify({ error: String(error && error.message) }));
+      const body = JSON.stringify(INTERNAL_API_ERROR);
+      res.writeHead(500, {
+        "cache-control": "no-store",
+        "content-type": "application/json",
+        "content-length": Buffer.byteLength(body),
+        "x-content-type-options": "nosniff"
+      });
+      res.end(body);
     });
     return;
   }
