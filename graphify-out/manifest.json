@@ -15,9 +15,9 @@
     "semantic_hash": "37e7bf492f6449e6f6d1eaf0acc6fc4c"
   },
   "api/optimize-stream.js": {
-    "mtime": 1793833069.5759127,
-    "ast_hash": "a550ce6f20146666ead31e9ba125ca13",
-    "semantic_hash": "a550ce6f20146666ead31e9ba125ca13"
+    "mtime": 1793833359.0086632,
+    "ast_hash": "6ba5b272b58a4ee1157b39271206b184",
+    "semantic_hash": "6ba5b272b58a4ee1157b39271206b184"
   },
   "api/prepare-handoff.js": {
     "mtime": 1793833069.5757942,
@@ -110,9 +110,9 @@
     "semantic_hash": "b19ced605f03217bb25800d96a43ecac"
   },
   "server.cjs": {
-    "mtime": 1793833069.5745177,
-    "ast_hash": "335ac674aa9cac67469c1d61f6c14677",
-    "semantic_hash": "335ac674aa9cac67469c1d61f6c14677"
+    "mtime": 1793833375.1012099,
+    "ast_hash": "566b84088feaad08c38cd33562f9d3ae",
+    "semantic_hash": "566b84088feaad08c38cd33562f9d3ae"
   },
   "tests/api-endpoints.test.cjs": {
     "mtime": 1793833103.6439304,
@@ -325,9 +325,9 @@
     "semantic_hash": "40fa0a6822a499d669aaf11ef5c90890"
   },
   "tests/hosted-api.test.cjs": {
-    "mtime": 1793833069.576519,
-    "ast_hash": "85401a30665b47d6796aae6ab5c605ac",
-    "semantic_hash": "85401a30665b47d6796aae6ab5c605ac"
+    "mtime": 1793833359.0091321,
+    "ast_hash": "326c9942685dbcc466119fad5a40d849",
+    "semantic_hash": "326c9942685dbcc466119fad5a40d849"
   },
   "evals/cases.json": {
     "mtime": 1786341289.0880735,
