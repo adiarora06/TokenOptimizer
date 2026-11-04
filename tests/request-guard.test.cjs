@@ -320,6 +320,9 @@ async function run() {
   });
   assert.equal(failed.ok, false);
   assert.equal(failed.status, 500);
+  assert.equal(failed.error, "Internal server error");
+  assert.equal(failed.code, "internal_error");
+  assert.doesNotMatch(JSON.stringify(failed), /provider unavailable/);
   assert.equal(failed.rate.allowed, true);
   assert.equal(guard.inspect().concurrency.active, 0, "errors release concurrency in finally");
 

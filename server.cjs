@@ -27,6 +27,7 @@ const {
   projectPublicResult,
   redactPublicValue
 } = require("./core/public-result.cjs");
+const { INTERNAL_API_ERROR } = require("./core/api-errors.cjs");
 // Resolved per call rather than destructured at load: the host bundler can hand
 // back a module whose exports are not populated yet, which captured `undefined`
 // for every guard and crashed the first request with "not a function".
@@ -49,10 +50,6 @@ const validateOptimizerPayload = (...args) => guard.validateOptimizerPayload(...
 
 const optimizerSystem = createOptimizerSystem();
 const MAX_REQUEST_BODY_BYTES = 1_000_000;
-const INTERNAL_API_ERROR = Object.freeze({
-  error: "Internal server error",
-  code: "internal_error"
-});
 
 class RequestBodyError extends Error {
   constructor(status, code, message) {

@@ -1,5 +1,7 @@
 const assert = require("node:assert/strict");
 const { EventEmitter } = require("node:events");
+const fs = require("node:fs");
+const path = require("node:path");
 
 process.env.NODE_ENV = "test";
 process.env.TOKEN_OPTIMIZER_TEST_MODE = "1";
@@ -90,6 +92,20 @@ function assertSafePublicResult(result) {
 }
 
 async function run() {
+  for (const file of [
+    "a2a-run.js",
+    "generate.js",
+    "optimize-run.js",
+    "optimize-stream.js",
+    "prepare-handoff.js",
+    "system-runs.js",
+    "workflow-run.js"
+  ]) {
+    const source = fs.readFileSync(path.resolve(__dirname, "..", "api", file), "utf8");
+    assert.doesNotMatch(source, /\bpublicError\b/, `${file} must not expose exception messages`);
+    assert.match(source, /INTERNAL_API_ERROR/, `${file} must use the generic hosted error contract`);
+  }
+
   const methodCases = [
     [handlers.a2a, "GET", "POST"],
     [handlers.generate, "GET", "POST"],

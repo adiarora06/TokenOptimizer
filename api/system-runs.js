@@ -1,9 +1,9 @@
 const { SYSTEM_ARCHITECTURE, runSystemRunInline } = require("../optimizer-system.cjs");
+const { INTERNAL_API_ERROR } = require("../core/api-errors.cjs");
 const {
   abortSignalOnClose,
   classifyProviderConfigFunding,
   commonHeaders,
-  publicError,
   runBillableRequest,
   validateOptimizerPayload
 } = require("../request-guard.cjs");
@@ -63,6 +63,7 @@ module.exports = async function handler(req, res) {
     res.setHeader("x-idempotency-status", guarded.idempotencyStatus);
     res.status(200).json({ run: guarded.value });
   } catch (error) {
-    res.status(500).json({ error: publicError(error) });
+    console.error("Unhandled /api/system-runs error:", error);
+    res.status(500).json(INTERNAL_API_ERROR);
   }
 };

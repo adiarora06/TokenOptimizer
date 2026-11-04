@@ -44,6 +44,35 @@ async function jsonRequest(baseUrl, path, options = {}) {
   return { response, data, text };
 }
 
+function persistentJsonRequest(baseUrl, path, options, agent) {
+  return new Promise((resolve, reject) => {
+    const target = new URL(path, baseUrl);
+    let socket;
+    const clientRequest = http.request(target, {
+      method: options.method || "GET",
+      headers: options.headers || {},
+      agent
+    }, (response) => {
+      const chunks = [];
+      response.on("data", (chunk) => chunks.push(chunk));
+      response.on("end", () => {
+        const text = Buffer.concat(chunks).toString("utf8");
+        let data;
+        try {
+          data = JSON.parse(text);
+        } catch {
+          data = text;
+        }
+        resolve({ response, data, text, socket });
+      });
+    });
+    clientRequest.once("socket", (value) => { socket = value; });
+    clientRequest.once("error", reject);
+    if (options.body !== undefined) clientRequest.write(options.body);
+    clientRequest.end();
+  });
+}
+
 function post(body, headers = {}) {
   return {
     method: "POST",
@@ -278,9 +307,31 @@ async function run() {
     });
     assert.doesNotMatch(unexpectedFailure.text, /URI malformed/);
 
-    const healthAfterRejectedBodies = await jsonRequest(baseUrl, "/api/provider-status");
-    assert.equal(healthAfterRejectedBodies.response.status, 200);
-    assert.equal(healthAfterRejectedBodies.data.openaiConfigured, true);
+    const keepAliveAgent = new http.Agent({ keepAlive: true, maxSockets: 1 });
+    try {
+      const rejectedOnPersistentSocket = await persistentJsonRequest(baseUrl, "/api/system-runs", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ input: "x".repeat(1_000_000) })
+      }, keepAliveAgent);
+      assert.equal(rejectedOnPersistentSocket.response.statusCode, 413);
+
+      const healthAfterRejectedBodies = await persistentJsonRequest(
+        baseUrl,
+        "/api/provider-status",
+        {},
+        keepAliveAgent
+      );
+      assert.equal(healthAfterRejectedBodies.response.statusCode, 200);
+      assert.equal(healthAfterRejectedBodies.data.openaiConfigured, true);
+      assert.strictEqual(
+        healthAfterRejectedBodies.socket,
+        rejectedOnPersistentSocket.socket,
+        "an oversized body must not destroy the reusable TCP connection"
+      );
+    } finally {
+      keepAliveAgent.destroy();
+    }
 
     const prepared = await jsonRequest(baseUrl, "/api/prepare-handoff", post({
       input: "I want you to reply with OK",

@@ -1,7 +1,7 @@
 const { preparePortableHandoff } = require("../optimizer-core.cjs");
+const { INTERNAL_API_ERROR } = require("../core/api-errors.cjs");
 const {
   commonHeaders,
-  publicError,
   takeRateLimit,
   validateOptimizerPayload
 } = require("../request-guard.cjs");
@@ -18,8 +18,9 @@ module.exports = async function handler(req, res) {
     rate = await Promise.resolve(takeRateLimit(req, { scope: "preparation" }));
   } catch (error) {
     if (error?.retryAfterSeconds) res.setHeader("retry-after", String(error.retryAfterSeconds));
+    console.error("Preparation coordination failed:", error);
     res.status(Number.isInteger(error?.status) ? error.status : 503).json({
-      error: publicError(error),
+      error: INTERNAL_API_ERROR.error,
       code: error?.code || "coordination_unavailable"
     });
     return;
@@ -43,6 +44,7 @@ module.exports = async function handler(req, res) {
     });
     res.status(200).json(result);
   } catch (error) {
-    res.status(500).json({ error: publicError(error) });
+    console.error("Unhandled /api/prepare-handoff error:", error);
+    res.status(500).json(INTERNAL_API_ERROR);
   }
 };

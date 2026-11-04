@@ -1,9 +1,9 @@
 const { createTraceId, runSelfOptimizingWorkflow } = require("../optimizer-core.cjs");
+const { INTERNAL_API_ERROR } = require("../core/api-errors.cjs");
 const { projectPublicResult } = require("../core/public-result.cjs");
 const {
   abortSignalOnClose,
   commonHeaders,
-  publicError,
   runBillableRequest,
   validateOptimizerPayload
 } = require("../request-guard.cjs");
@@ -104,10 +104,11 @@ module.exports = async function handler(req, res) {
     }
     writeEvent(res, "result", { result: guarded.value, idempotencyStatus: guarded.idempotencyStatus });
   } catch (error) {
-    if (streamStarted) writeEvent(res, "error", { error: publicError(error) });
+    console.error("Unhandled /api/optimize-stream error:", error);
+    if (streamStarted) writeEvent(res, "error", INTERNAL_API_ERROR);
     else {
       res.writeHead(500, { ...commonHeaders(), "content-type": "application/json; charset=utf-8" });
-      res.end(JSON.stringify({ error: publicError(error) }));
+      res.end(JSON.stringify(INTERNAL_API_ERROR));
     }
   } finally {
     if (heartbeat) clearInterval(heartbeat);
