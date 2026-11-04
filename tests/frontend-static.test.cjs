@@ -11,7 +11,7 @@ const vercelConfig = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../verc
 const workspaceSource = fs.readFileSync(path.join(outputsDir, "workspace.js"), "utf8");
 
 function scriptElements(source) {
-  return source.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script\s*>/gi);
+  return source.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script\b[^>]*>/gi);
 }
 
 assert.match(privacySource, /Token Optimizer for Gemini™ and ChatGPT/);
@@ -22,9 +22,12 @@ assert.match(fs.readFileSync(faviconPath, "utf8"), /<svg\b/);
 assert.doesNotMatch(workspaceSource, /Math\.random\s*\(/, "Workspace identifiers must not use predictable randomness.");
 assert.match(workspaceSource, /crypto\.getRandomValues\s*\(/, "Workspace identifiers must use browser CSPRNG entropy.");
 assert.equal(
-  [...scriptElements("<script>globalThis.valid = true;</script >")].length,
-  1,
-  "Inline-script discovery must accept whitespace before a closing tag bracket."
+  [...scriptElements([
+    "<script>globalThis.spaced = true;</script >",
+    "<script>globalThis.forgiving = true;</script foo=\"bar\">"
+  ].join("\n"))].length,
+  2,
+  "Inline-script discovery must cover browser-tolerated closing-tag syntax."
 );
 assert.equal(
   Object.hasOwn(vercelConfig, "rewrites"),
