@@ -299,13 +299,19 @@ async function run() {
     assert.equal(oversizedMultibyte.response.status, 413);
     assert.equal(oversizedMultibyte.data.code, "payload_too_large");
 
-    const unexpectedFailure = await jsonRequest(baseUrl, "/api/system-runs/%");
+    const unexpectedFailure = await jsonRequest(baseUrl, "/api/system-runs/%s");
     assert.equal(unexpectedFailure.response.status, 500);
     assert.deepEqual(unexpectedFailure.data, {
       error: "Internal server error",
       code: "internal_error"
     });
     assert.doesNotMatch(unexpectedFailure.text, /URI malformed/);
+    await new Promise((resolve) => setImmediate(resolve));
+    assert.match(
+      childOutput,
+      /API handler failed for request URL: \/api\/system-runs\/%s/,
+      "request URLs must be logged as data, never as format strings"
+    );
 
     const keepAliveAgent = new http.Agent({ keepAlive: true, maxSockets: 1 });
     try {

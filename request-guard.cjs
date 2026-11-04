@@ -39,6 +39,13 @@ const IDEMPOTENCY_TTL_MS = boundedInteger(
   86_400_000
 );
 
+// Credential tags must be deterministic across shared-guard instances but do
+// not need cross-process stability when coordination is process-local.
+const configuredCredentialTagKey = String(process.env.TOKEN_OPTIMIZER_SHARED_GUARD_SECRET || "");
+const CREDENTIAL_TAG_KEY = Buffer.byteLength(configuredCredentialTagKey) >= 32
+  ? Buffer.from(configuredCredentialTagKey, "utf8")
+  : crypto.randomBytes(32);
+
 function requiredString(missingMessage) {
   return z.string({ error: (issue) => (issue.input === undefined ? missingMessage : undefined) });
 }
@@ -210,14 +217,17 @@ function singleHeader(req, name) {
   return { present: true, valid: true, value: raw.trim() };
 }
 
-function secretDigest(value) {
-  return crypto.createHash("sha256").update(String(value ?? ""), "utf8").digest();
+function credentialTag(value) {
+  return crypto.createHmac("sha256", CREDENTIAL_TAG_KEY)
+    .update("token-optimizer:credential-tag:v1\0", "utf8")
+    .update(String(value ?? ""), "utf8")
+    .digest();
 }
 
 function constantTimeSecretEqual(left, right) {
   const leftText = typeof left === "string" ? left : "";
   const rightText = typeof right === "string" ? right : "";
-  const equal = crypto.timingSafeEqual(secretDigest(leftText), secretDigest(rightText));
+  const equal = crypto.timingSafeEqual(credentialTag(leftText), credentialTag(rightText));
   return leftText.length > 0 && rightText.length > 0 && equal;
 }
 
@@ -231,10 +241,10 @@ function bearerCredential(req) {
 
 function idempotencyPrincipal(req, payload, funding, authorization) {
   if (authorization?.authenticated) {
-    return `access:${secretDigest(bearerCredential(req).token).toString("hex")}`;
+    return `access:${credentialTag(bearerCredential(req).token).toString("hex")}`;
   }
   if (funding === "byok") {
-    return `byok:${secretDigest(payload?.providerConfig?.apiKey).toString("hex")}`;
+    return `byok:${credentialTag(payload?.providerConfig?.apiKey).toString("hex")}`;
   }
   return `client:${clientKey(req)}`;
 }
@@ -344,7 +354,7 @@ const SENSITIVE_FINGERPRINT_FIELD = /(api.?key|token|authorization|secret|passwo
 function canonicalFingerprintValue(value, fieldName = "", seen = new WeakSet()) {
   if (value === null || typeof value === "boolean" || typeof value === "string") {
     if (SENSITIVE_FINGERPRINT_FIELD.test(fieldName)) {
-      return `[secret-sha256:${secretDigest(value).toString("hex")}]`;
+      return `[secret-hmac-sha256:${credentialTag(value).toString("hex")}]`;
     }
     return value;
   }
@@ -363,14 +373,18 @@ function canonicalFingerprintValue(value, fieldName = "", seen = new WeakSet()) 
   return normalized;
 }
 
-// Only a digest is retained. Sensitive field values are separately digested
-// first, so changing a BYOK credential causes a conflict without storing it.
+// Only a digest is retained. Sensitive field values are separately tagged with
+// a keyed HMAC, so changing a BYOK credential causes a conflict without storing
+// it or exposing a reusable offline password-hash target.
 function idempotencyFingerprint(endpoint, payload) {
   const canonical = JSON.stringify({
     endpoint: String(endpoint || ""),
     payload: canonicalFingerprintValue(payload || {})
   });
-  return crypto.createHash("sha256").update(canonical, "utf8").digest("hex");
+  return crypto.createHmac("sha256", CREDENTIAL_TAG_KEY)
+    .update("token-optimizer:idempotency-fingerprint:v1\0", "utf8")
+    .update(canonical, "utf8")
+    .digest("hex");
 }
 
 function createConcurrencyGate(options = {}) {

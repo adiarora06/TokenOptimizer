@@ -8,12 +8,27 @@ const privacySource = fs.readFileSync(path.join(outputsDir, "privacy.html"), "ut
 const retiredGenerator = path.join(outputsDir, "token-optimizer-file-generator.html");
 const faviconPath = path.join(outputsDir, "favicon.svg");
 const vercelConfig = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../vercel.json"), "utf8"));
+const workspaceSource = fs.readFileSync(path.join(outputsDir, "workspace.js"), "utf8");
+
+function scriptElements(source) {
+  return source.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script\b[^>]*>/gi);
+}
 
 assert.match(privacySource, /Token Optimizer for Gemini™ and ChatGPT/);
 assert.match(privacySource, /raw and prepared prompt text is processed for the response and is not stored/i);
 assert.doesNotMatch(privacySource, /stores the latest raw prompt/i);
 assert.equal(fs.existsSync(retiredGenerator), false, "The retired browser-key generator must not be shipped.");
 assert.match(fs.readFileSync(faviconPath, "utf8"), /<svg\b/);
+assert.doesNotMatch(workspaceSource, /Math\.random\s*\(/, "Workspace identifiers must not use predictable randomness.");
+assert.match(workspaceSource, /crypto\.getRandomValues\s*\(/, "Workspace identifiers must use browser CSPRNG entropy.");
+assert.equal(
+  [...scriptElements([
+    "<script>globalThis.spaced = true;</script >",
+    "<script>globalThis.forgiving = true;</script foo=\"bar\">"
+  ].join("\n"))].length,
+  2,
+  "Inline-script discovery must cover browser-tolerated closing-tag syntax."
+);
 assert.equal(
   Object.hasOwn(vercelConfig, "rewrites"),
   false,
@@ -33,11 +48,9 @@ let checkedScripts = 0;
 
 for (const file of htmlFiles) {
   const source = fs.readFileSync(path.join(outputsDir, file), "utf8");
-  const scriptPattern = /<script\b([^>]*)>([\s\S]*?)<\/script>/gi;
-  let match;
   let inlineIndex = 0;
 
-  while ((match = scriptPattern.exec(source))) {
+  for (const match of scriptElements(source)) {
     const attributes = match[1];
     const script = match[2];
     if (/\bsrc\s*=/i.test(attributes)) continue;
