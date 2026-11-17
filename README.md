@@ -19,7 +19,7 @@ Token Optimizer turns a rough request into finished work through adaptive LLM ro
 | Layer | Technologies |
 | --- | --- |
 | Client | Vanilla HTML, CSS, and JavaScript; Chrome Manifest V3 |
-| Server | Node.js 18+, Vercel Functions, Server-Sent Events, Zod |
+| Server | Node.js 22+, Vercel Functions, Server-Sent Events, Zod |
 | AI workflow | OpenAI/Groq adapters, adaptive routing, typed handoff contracts, deterministic acceptance gates |
 | Operations | Optional Upstash Redis coordination, metadata-only telemetry, GitHub Actions |
 
