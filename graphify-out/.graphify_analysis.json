@@ -204,8 +204,6 @@
       "request_guard_daily_call_limit",
       "request_guard_daily_token_limit",
       "request_guard_defaultbillablerequestguard",
-      "request_guard_enabled",
-      "request_guard_estimatedtokencount",
       "request_guard_generatepayloadschema",
       "request_guard_guardfailure",
       "request_guard_idempotency_max_entries",
@@ -222,6 +220,8 @@
       "request_guard_publicerror",
       "request_guard_rate_bucket_cap",
       "request_guard_rate_profiles",
+      "request_guard_requestguarderror",
+      "request_guard_requestguarderror_constructor",
       "request_guard_requestidempotencykey",
       "request_guard_requiredstring",
       "request_guard_reservedailybudget",
@@ -229,7 +229,6 @@
       "request_guard_sharedguardadapters",
       "request_guard_singleheader",
       "request_guard_utcday",
-      "request_guard_validateidempotencykey",
       "request_guard_z"
     ],
     "5": [
@@ -448,7 +447,6 @@
       "core_api_errors",
       "core_api_errors_internal_api_error",
       "request_guard_abortsignalonclose",
-      "request_guard_commonheaders",
       "request_guard_runbillablerequest",
       "request_guard_takeratelimit",
       "request_guard_validateoptimizerpayload"
@@ -689,27 +687,27 @@
       "tests_acceptance_gates_test_validjson"
     ],
     "20": [
-      "api_system_overview",
-      "api_system_overview_commonheaders_requestguardbackend",
-      "api_system_overview_system_architecture",
-      "api_system_overview_telemetrysummary",
-      "optimizer_system",
-      "optimizer_system_applyresulttrace",
-      "optimizer_system_basestages",
-      "optimizer_system_compacttitle",
-      "optimizer_system_createid",
-      "optimizer_system_createoptimizersystem",
-      "optimizer_system_createrun",
-      "optimizer_system_estimatetokens_runblanka2akit_runselfoptimizingworkflow",
-      "optimizer_system_executesystemrun",
-      "optimizer_system_nowiso",
-      "optimizer_system_projectpublicresult",
-      "optimizer_system_publicrun",
-      "optimizer_system_runsystemruninline",
-      "optimizer_system_stagefromtrace",
-      "optimizer_system_system_architecture",
-      "optimizer_system_updatestage",
-      "request_guard_requestguardbackend"
+      "request_guard_authorizebillablerequest",
+      "request_guard_boundedinteger",
+      "request_guard_classifyproviderconfigfunding",
+      "request_guard_classifyrequestfunding",
+      "request_guard_constanttimesecretequal",
+      "request_guard_createbillablerequestguard",
+      "request_guard_createconcurrencygate",
+      "request_guard_createdailybudget",
+      "request_guard_createidempotencystore",
+      "request_guard_createratelimiter",
+      "request_guard_enabled",
+      "request_guard_estimatebillabletokens",
+      "request_guard_estimatedtokencount",
+      "request_guard_idempotencyfingerprint",
+      "request_guard_tokenusagefromresult",
+      "request_guard_validateidempotencykey",
+      "tests_request_guard_test",
+      "tests_request_guard_test_assert",
+      "tests_request_guard_test_authorizebillablerequest_classifyproviderconfigfunding_constanttimesecretequal_createbillablerequestguard_createconcurrencygate_createdailybudget_createidempotencystore_createratelimiter_estimatebillabletokens_idempotencyfingerprint_tokenusagefromresult_validateidempotencykey",
+      "tests_request_guard_test_request",
+      "tests_request_guard_test_run"
     ],
     "21": [
       "tests_shared_request_guard_test_fakeredisrestclient",
@@ -778,26 +776,6 @@
       "tests_hosted_api_test_run"
     ],
     "24": [
-      "request_guard_authorizebillablerequest",
-      "request_guard_boundedinteger",
-      "request_guard_classifyproviderconfigfunding",
-      "request_guard_classifyrequestfunding",
-      "request_guard_constanttimesecretequal",
-      "request_guard_createbillablerequestguard",
-      "request_guard_createconcurrencygate",
-      "request_guard_createdailybudget",
-      "request_guard_createidempotencystore",
-      "request_guard_createratelimiter",
-      "request_guard_estimatebillabletokens",
-      "request_guard_idempotencyfingerprint",
-      "request_guard_tokenusagefromresult",
-      "tests_request_guard_test",
-      "tests_request_guard_test_assert",
-      "tests_request_guard_test_authorizebillablerequest_classifyproviderconfigfunding_constanttimesecretequal_createbillablerequestguard_createconcurrencygate_createdailybudget_createidempotencystore_createratelimiter_estimatebillabletokens_idempotencyfingerprint_tokenusagefromresult_validateidempotencykey",
-      "tests_request_guard_test_request",
-      "tests_request_guard_test_run"
-    ],
-    "25": [
       "tests_prompt_compiler_parity_test",
       "tests_prompt_compiler_parity_test_assert",
       "tests_prompt_compiler_parity_test_browsercontext",
@@ -815,6 +793,23 @@
       "tests_prompt_compiler_parity_test_vm",
       "tests_prompt_compiler_parity_test_workercontext",
       "tests_prompt_compiler_parity_test_workersource"
+    ],
+    "25": [
+      "optimizer_system",
+      "optimizer_system_applyresulttrace",
+      "optimizer_system_basestages",
+      "optimizer_system_compacttitle",
+      "optimizer_system_createid",
+      "optimizer_system_createoptimizersystem",
+      "optimizer_system_createrun",
+      "optimizer_system_estimatetokens_runblanka2akit_runselfoptimizingworkflow",
+      "optimizer_system_executesystemrun",
+      "optimizer_system_nowiso",
+      "optimizer_system_projectpublicresult",
+      "optimizer_system_publicrun",
+      "optimizer_system_runsystemruninline",
+      "optimizer_system_stagefromtrace",
+      "optimizer_system_updatestage"
     ],
     "26": [
       "readme",
@@ -907,6 +902,19 @@
       "core_public_result_validationmetadata"
     ],
     "32": [
+      "tests_workflow_security_test",
+      "tests_workflow_security_test_assert",
+      "tests_workflow_security_test_ciworkflow",
+      "tests_workflow_security_test_fs",
+      "tests_workflow_security_test_packagejson",
+      "tests_workflow_security_test_path",
+      "tests_workflow_security_test_references",
+      "tests_workflow_security_test_repositoryroot",
+      "tests_workflow_security_test_violations",
+      "tests_workflow_security_test_workflowdirectory",
+      "tests_workflow_security_test_workflowfiles"
+    ],
+    "33": [
       "design_qa",
       "design_qa_comparison_history",
       "design_qa_comparison_target",
@@ -918,7 +926,7 @@
       "design_qa_interaction_and_runtime_checks",
       "design_qa_iteration_1"
     ],
-    "33": [
+    "34": [
       "extensions_gemini_token_optimizer_publishing",
       "extensions_gemini_token_optimizer_publishing_current_wrapper",
       "extensions_gemini_token_optimizer_publishing_local_test_notes",
@@ -930,7 +938,7 @@
       "extensions_gemini_token_optimizer_publishing_store_listing_assets",
       "extensions_gemini_token_optimizer_publishing_store_ready_checklist"
     ],
-    "34": [
+    "35": [
       "extensions_gemini_token_optimizer_tests_service_worker_test",
       "extensions_gemini_token_optimizer_tests_service_worker_test_assert",
       "extensions_gemini_token_optimizer_tests_service_worker_test_context",
@@ -942,7 +950,7 @@
       "extensions_gemini_token_optimizer_tests_service_worker_test_serviceworkercode",
       "extensions_gemini_token_optimizer_tests_service_worker_test_vm"
     ],
-    "35": [
+    "36": [
       "core_prompts",
       "core_prompts_builda2acontractprompt",
       "core_prompts_builda2aexecutorprompt",
@@ -953,7 +961,7 @@
       "core_prompts_buildverifierprompt",
       "core_prompts_scaffoldhints"
     ],
-    "36": [
+    "37": [
       "extensions_gemini_token_optimizer_store_assets_store_listing",
       "extensions_gemini_token_optimizer_store_assets_store_listing_chrome_web_store_listing_copy",
       "extensions_gemini_token_optimizer_store_assets_store_listing_detailed_description",
@@ -964,7 +972,7 @@
       "extensions_gemini_token_optimizer_store_assets_store_listing_single_purpose_statement",
       "extensions_gemini_token_optimizer_store_assets_store_listing_store_assets"
     ],
-    "37": [
+    "38": [
       "scripts_sync_vendor",
       "scripts_sync_vendor_checkonly",
       "scripts_sync_vendor_fs",
@@ -975,7 +983,7 @@
       "scripts_sync_vendor_vendorfiles",
       "scripts_sync_vendor_vendormapping"
     ],
-    "38": [
+    "39": [
       "api_optimize_stream",
       "api_optimize_stream_abortsignalonclose_commonheaders_runbillablerequest_validateoptimizerpayload",
       "api_optimize_stream_createtraceid_runselfoptimizingworkflow",
@@ -985,7 +993,7 @@
       "api_optimize_stream_startstream",
       "api_optimize_stream_writeevent"
     ],
-    "39": [
+    "40": [
       "api_workflow_run",
       "api_workflow_run_abortsignalonclose_classifyproviderconfigfunding_commonheaders_runbillablerequest_validatea2apayload",
       "api_workflow_run_internal_api_error",
@@ -995,7 +1003,7 @@
       "request_guard_validategeneratepayload",
       "request_guard_validatewith"
     ],
-    "40": [
+    "41": [
       "extensions_gemini_token_optimizer_readme",
       "extensions_gemini_token_optimizer_readme_backend",
       "extensions_gemini_token_optimizer_readme_extend_the_wrapper",
@@ -1005,17 +1013,16 @@
       "extensions_gemini_token_optimizer_readme_token_optimizer_for_gemini_and_chatgpt",
       "extensions_gemini_token_optimizer_readme_what_it_does"
     ],
-    "41": [
-      "tests_workflow_security_test",
-      "tests_workflow_security_test_assert",
-      "tests_workflow_security_test_fs",
-      "tests_workflow_security_test_path",
-      "tests_workflow_security_test_references",
-      "tests_workflow_security_test_violations",
-      "tests_workflow_security_test_workflowdirectory",
-      "tests_workflow_security_test_workflowfiles"
-    ],
     "42": [
+      "api_system_overview",
+      "api_system_overview_commonheaders_requestguardbackend",
+      "api_system_overview_system_architecture",
+      "api_system_overview_telemetrysummary",
+      "optimizer_system_system_architecture",
+      "request_guard_commonheaders",
+      "request_guard_requestguardbackend"
+    ],
+    "43": [
       "core_text",
       "core_text_cleanprompttext",
       "core_text_compactlines",
@@ -1024,7 +1031,7 @@
       "core_text_striplistprefix",
       "core_text_withouttrailingellipsis"
     ],
-    "43": [
+    "44": [
       "extensions_gemini_token_optimizer_adapters_chatgpt",
       "extensions_gemini_token_optimizer_adapters_chatgpt_haspromptlabel",
       "extensions_gemini_token_optimizer_adapters_chatgpt_iscandidate",
@@ -1032,7 +1039,7 @@
       "extensions_gemini_token_optimizer_adapters_chatgpt_isnearpromptarea",
       "extensions_gemini_token_optimizer_adapters_chatgpt_score"
     ],
-    "44": [
+    "45": [
       "extensions_gemini_token_optimizer_adapters_gemini",
       "extensions_gemini_token_optimizer_adapters_gemini_haspromptlabel",
       "extensions_gemini_token_optimizer_adapters_gemini_iscandidate",
@@ -1040,7 +1047,7 @@
       "extensions_gemini_token_optimizer_adapters_gemini_isnearpromptarea",
       "extensions_gemini_token_optimizer_adapters_gemini_score"
     ],
-    "45": [
+    "46": [
       "scripts_sync_prompt_compiler",
       "scripts_sync_prompt_compiler_fs",
       "scripts_sync_prompt_compiler_path",
@@ -1048,7 +1055,7 @@
       "scripts_sync_prompt_compiler_source",
       "scripts_sync_prompt_compiler_targets"
     ],
-    "46": [
+    "47": [
       "vercel",
       "vercel_functions",
       "vercel_functions_server_cjs",
@@ -1056,35 +1063,31 @@
       "vercel_schema",
       "vercel_server_cjs_includefiles"
     ],
-    "47": [
+    "48": [
       "extensions_gemini_token_optimizer_adapters",
       "extensions_gemini_token_optimizer_adapters_adapter_contract",
       "extensions_gemini_token_optimizer_adapters_add_another_assistant",
       "extensions_gemini_token_optimizer_adapters_layers",
       "extensions_gemini_token_optimizer_adapters_site_adapter_architecture"
     ],
-    "48": [
+    "49": [
       "scripts_canonical_graph",
       "scripts_canonical_graph_fs",
       "scripts_canonical_graph_graph",
       "scripts_canonical_graph_sortdeep"
     ],
-    "49": [
+    "50": [
       "api_provider_status",
       "api_provider_status_commonheaders",
       "api_provider_status_providerstatus"
     ],
-    "50": [
+    "51": [
       "extensions_gemini_token_optimizer_platforms",
       "extensions_gemini_token_optimizer_platforms_forurl"
     ],
-    "51": [
+    "52": [
       "extensions_gemini_token_optimizer_service_worker",
       "extensions_gemini_token_optimizer_service_worker_setpanelfortab"
-    ],
-    "52": [
-      "request_guard_requestguarderror",
-      "request_guard_requestguarderror_constructor"
     ],
     "53": [
       "extensions_gemini_token_optimizer_content_bridge"
@@ -1098,13 +1101,13 @@
     "1": 0.1099290780141844,
     "2": 0.046511627906976744,
     "3": 0.10512820512820513,
-    "4": 0.06153846153846154,
+    "4": 0.0620782726045884,
     "5": 0.12280701754385964,
     "6": 0.1111111111111111,
     "7": 0.08253968253968254,
     "8": 0.11051693404634581,
     "9": 0.06060606060606061,
-    "10": 0.10574712643678161,
+    "10": 0.10098522167487685,
     "11": 0.21428571428571427,
     "12": 0.07407407407407407,
     "13": 0.07407407407407407,
@@ -1114,37 +1117,37 @@
     "17": 0.18181818181818182,
     "18": 0.16017316017316016,
     "19": 0.09090909090909091,
-    "20": 0.1619047619047619,
+    "20": 0.20952380952380953,
     "21": 0.20952380952380953,
     "22": 0.11578947368421053,
     "23": 0.14035087719298245,
-    "24": 0.26143790849673204,
-    "25": 0.11764705882352941,
+    "24": 0.11764705882352941,
+    "25": 0.2571428571428571,
     "26": 0.14285714285714285,
     "27": 0.15384615384615385,
     "28": 0.2564102564102564,
     "29": 0.15384615384615385,
     "30": 0.23076923076923078,
     "31": 0.2878787878787879,
-    "32": 0.2,
+    "32": 0.18181818181818182,
     "33": 0.2,
     "34": 0.2,
-    "35": 0.25,
-    "36": 0.2222222222222222,
+    "35": 0.2,
+    "36": 0.25,
     "37": 0.2222222222222222,
-    "38": 0.2857142857142857,
-    "39": 0.25,
+    "38": 0.2222222222222222,
+    "39": 0.2857142857142857,
     "40": 0.25,
     "41": 0.25,
-    "42": 0.38095238095238093,
-    "43": 0.6666666666666666,
+    "42": 0.2857142857142857,
+    "43": 0.38095238095238093,
     "44": 0.6666666666666666,
-    "45": 0.3333333333333333,
+    "45": 0.6666666666666666,
     "46": 0.3333333333333333,
-    "47": 0.4,
-    "48": 0.5,
-    "49": 0.6666666666666666,
-    "50": 1.0,
+    "47": 0.3333333333333333,
+    "48": 0.4,
+    "49": 0.5,
+    "50": 0.6666666666666666,
     "51": 1.0,
     "52": 1.0,
     "53": 1.0,
@@ -1283,7 +1286,7 @@
     {
       "type": "isolated_nodes",
       "question": "What connects `assert`, `fs`, `path` to the rest of the system?",
-      "why": "415 weakly-connected nodes found - possible documentation gaps or missing edges."
+      "why": "418 weakly-connected nodes found - possible documentation gaps or missing edges."
     },
     {
       "type": "low_cohesion",

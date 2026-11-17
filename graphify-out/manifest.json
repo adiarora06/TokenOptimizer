@@ -95,27 +95,27 @@
     "semantic_hash": "e5d3185019da467cbf9920d95847e577"
   },
   "outputs/workspace.js": {
-    "mtime": 1793833844.2251215,
+    "mtime": 1793834563.4898453,
     "ast_hash": "8dfe964b7a7865a45a013e16116cd5d9",
     "semantic_hash": "8dfe964b7a7865a45a013e16116cd5d9"
   },
   "package.json": {
-    "mtime": 1793833576.2456205,
-    "ast_hash": "2296e455d16cfa9d6dfa053759f3aeb6",
-    "semantic_hash": "2296e455d16cfa9d6dfa053759f3aeb6"
+    "mtime": 1794942367.7126737,
+    "ast_hash": "ff72e4f7de627ba9236051d9e47ff7cc",
+    "semantic_hash": "ff72e4f7de627ba9236051d9e47ff7cc"
   },
   "request-guard.cjs": {
-    "mtime": 1793833893.5933635,
+    "mtime": 1793834563.4899883,
     "ast_hash": "72f32211eb096259951c74ef799a88fd",
     "semantic_hash": "72f32211eb096259951c74ef799a88fd"
   },
   "server.cjs": {
-    "mtime": 1793833844.2267432,
+    "mtime": 1793834563.490108,
     "ast_hash": "07d7196ec82b3a56679d37899a6c0676",
     "semantic_hash": "07d7196ec82b3a56679d37899a6c0676"
   },
   "tests/api-endpoints.test.cjs": {
-    "mtime": 1793833862.9320648,
+    "mtime": 1793834563.4903479,
     "ast_hash": "ed13d2761ff7ec07dde5ffb9219c5f15",
     "semantic_hash": "ed13d2761ff7ec07dde5ffb9219c5f15"
   },
@@ -195,7 +195,7 @@
     "semantic_hash": "e15fe811b78cf35a4c475585bd3decbc"
   },
   "tests/frontend-static.test.cjs": {
-    "mtime": 1793834103.6533592,
+    "mtime": 1793834563.490719,
     "ast_hash": "3a4ff8cc4322bbf7bacf11adc51621fd",
     "semantic_hash": "3a4ff8cc4322bbf7bacf11adc51621fd"
   },
@@ -415,7 +415,7 @@
     "semantic_hash": "675f13c4dd8d55bea97709d55ff82658"
   },
   "tests/request-guard.test.cjs": {
-    "mtime": 1793833862.9313538,
+    "mtime": 1793834563.4908555,
     "ast_hash": "1c178f2306d37267e5ce7fd64649548a",
     "semantic_hash": "1c178f2306d37267e5ce7fd64649548a"
   },
@@ -445,14 +445,14 @@
     "semantic_hash": "513e172fa6126e0743cbbe8627ebe76d"
   },
   "scripts/sync-vendor.cjs": {
-    "mtime": 1793732432.8847332,
-    "ast_hash": "4a9bc2d88fb5a9e7e33f3bdcdc64566a",
-    "semantic_hash": "4a9bc2d88fb5a9e7e33f3bdcdc64566a"
+    "mtime": 1794942374.3259075,
+    "ast_hash": "129cecf566570b3747fa115b56f738bc",
+    "semantic_hash": "129cecf566570b3747fa115b56f738bc"
   },
   "tests/workflow-security.test.cjs": {
-    "mtime": 1793833576.246906,
-    "ast_hash": "fc630baa11c81004599df3ac648b1f7a",
-    "semantic_hash": "fc630baa11c81004599df3ac648b1f7a"
+    "mtime": 1794942412.361459,
+    "ast_hash": "05d0f6ba0fd0d0e410c1b14949d088a1",
+    "semantic_hash": "05d0f6ba0fd0d0e410c1b14949d088a1"
   },
   "core/api-errors.cjs": {
     "mtime": 1793833576.2410657,
