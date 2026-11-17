@@ -4,6 +4,9 @@ const path = require("node:path");
 const repositoryRoot = path.resolve(__dirname, "..");
 const checkOnly = process.argv.includes("--check");
 
+// Tabler 3.50+ splits this stylesheet across dozens of unicode-range font files.
+// Keep the package pinned to 3.49.0 until the browser bundle has an explicit
+// subset strategy instead of silently omitting font assets.
 const vendorFiles = Object.freeze([
   ["node_modules/dompurify/dist/purify.min.js", "outputs/vendor/dompurify/purify.min.js"],
   ["node_modules/dompurify/LICENSE", "outputs/vendor/dompurify/LICENSE"],
